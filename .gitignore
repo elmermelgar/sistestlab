@@ -1,0 +1,13 @@
+vendor/
+storage/
+public/storage/
+bootstrap/
+node_modules/
+
+.idea/
+.env
+composer.lock
+
+Homestead.yaml
+Homestead.json
+auth.json
