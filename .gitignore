@@ -1,7 +1,5 @@
 vendor/
-storage/
 public/storage/
-bootstrap/
 node_modules/
 
 .idea/
