@@ -13,18 +13,20 @@
     <link href="{{url('gentallela/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{url('gentallela/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <!-- jQuery custom content scroller -->
+    <link href="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')}}" rel="stylesheet"/>
 
     <!-- Custom Theme Style -->
-    <link href="{{url('gentallela/build/css/custom.min.css')}}" rel="stylesheet">
+    <link href="{{url('gentallela/build/css/custom.css')}}" rel="stylesheet">
 </head>
 
 <body class="nav-md">
 <div class="container body">
     <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col menu_fixed">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a>
+                    <a href="index.html" class="site_title"><i class="fa fa-heartbeat"></i> <span>{{ config('app.name', 'TestLab') }}</span></a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -36,12 +38,12 @@
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
-                        <h2>John Doe</h2>
+                        <h2>{{Auth::user()->name.' '.Auth::user()->surname}}</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
 
-                <br />
+                <br>
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -177,7 +179,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ url('gentallela/images/img.jpg') }}" alt="">John Doe
+                                <img src="{{ url('gentallela/images/img.jpg') }}" alt=""> {{Auth::user()->name.' '.Auth::user()->surname}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -189,11 +191,15 @@
                                     </a>
                                 </li>
                                 <li><a href="javascript:;">Help</a></li>
-                                <li><a href="{{ url('/logout') }}"  onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
+                                <li>
+                                    <a href="{{ url('/logout') }}"  onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        <i class="fa fa-sign-out pull-right"></i> Log Out
+                                    </a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </li>
                             </ul>
                         </li>
 
@@ -205,7 +211,7 @@
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
                                     <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span class="image"><img src="gentallela/images/img.jpg" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -217,7 +223,7 @@
                                 </li>
                                 <li>
                                     <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span class="image"><img src="gentallela/images/img.jpg" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -229,7 +235,7 @@
                                 </li>
                                 <li>
                                     <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span class="image"><img src="gentallela/images/img.jpg" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -241,7 +247,7 @@
                                 </li>
                                 <li>
                                     <a>
-                                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                                        <span class="image"><img src="gentallela/images/img.jpg" alt="Profile Image" /></span>
                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -340,8 +346,10 @@
 <script src="{{url('gentallela/vendors/fastclick/lib/fastclick.js')}}"></script>
 <!-- NProgress -->
 <script src="{{url('gentallela/vendors/nprogress/nprogress.js')}}"></script>
+<!-- jQuery custom content scroller -->
+<script src="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
 
 <!-- Custom Theme Scripts -->
-<script src="{{url('gentallela/build/js/custom.min.js')}}"></script>
+<script src="{{url('gentallela/build/js/custom.js')}}"></script>
 </body>
 </html>

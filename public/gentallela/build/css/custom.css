@@ -123,8 +123,9 @@
 
 .profile_info {
   padding: 25px 10px 10px;
-  width: 65%;
-  float: left; }
+  /*width: 65%;*/
+  /*float: left; */
+}
 
 .profile_info span {
   font-size: 13px;
@@ -136,6 +137,10 @@
   color: #ECF0F1;
   margin: 0;
   font-weight: 300; }
+
+.profile{
+  margin-bottom: 15px;
+}
 
 .profile.img_2 {
   text-align: center; }

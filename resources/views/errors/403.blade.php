@@ -1,12 +1,11 @@
 @extends('layouts.error')
 
 @section('error-number')
-    503
+    403
 @endsection
 @section('error-title')
-    Servicio no disponible
+    Acceso denegado
 @endsection
 @section('error-description')
-    El sistema se encuentra en mantenimiento
-    <br>Volveremos pronto!
+    Full authentication is required to access this resource. <a href="#">Report this?
 @endsection

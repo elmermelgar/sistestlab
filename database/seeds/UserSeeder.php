@@ -1,9 +1,10 @@
 <?php
 
+use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
 
-class UsersSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,6 +26,12 @@ class UsersSeeder extends Seeder
         $elmer->email='elmermelgar999@gmail.com';
         $elmer->password=bcrypt('123456');
         $elmer->save();
+
+
+        $admin=Role::where('name','admin')->first();
+
+        $nelson->attachRole($admin);
+        $elmer->attachRole($admin);
 
     }
 }
