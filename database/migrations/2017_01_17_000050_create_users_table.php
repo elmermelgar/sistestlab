@@ -20,9 +20,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('photo')->nullable();
+            $table->integer('sucursal_id');
             $table->boolean('enabled')->default(true);
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('sucursal_id')->references('id')->on('sucursales')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

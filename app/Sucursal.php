@@ -4,16 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class Sucursal extends Model
 {
     /**
      * @var string
      */
-    public $table='clientes';
+    public $table='sucursales';
 
     /**
      * @var boolean
      */
-//    public $timestamps=false;
+    public $timestamps=false;
+
 
 }

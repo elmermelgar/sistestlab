@@ -5,6 +5,10 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Session\TokenMismatchException;
+use PDOException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -40,10 +44,37 @@ class Handler extends ExceptionHandler
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
+
+        /* if ($exception instanceof ForeignKeyConstraintViolationException) {
+            return redirect()->back()
+                ->withErrors(['LlaveForanea' => Lang::get('exceptions.ErrorLlave')]);
+        }
+
+        if ($exception instanceof UniqueConstraintViolationException) {
+            return redirect()->back()
+                ->withErrors(['LlavePrimaria' => Lang::get('exceptions.ErrorLlavePrimaria')]);
+        }*/
+
+        if ($exception instanceof TokenMismatchException) {
+            return redirect()->back()
+                ->withErrors(['tokenmiss' => Lang::get('exceptions.tokenmiss')]);
+        }
+
+        if ($exception instanceof PDOException) {
+            if($exception->getCode()==7){
+                return redirect()->back()
+                    ->withErrors(['couldntdb' => Lang::get('exceptions.couldntdb')]);
+            };
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->view('errors.404', [], 404);
+        }
+
         return parent::render($request, $exception);
     }
 

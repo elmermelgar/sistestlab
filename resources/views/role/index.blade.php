@@ -10,7 +10,7 @@
             <li><a href="{{ url('/inicio')}}">
                     <span class="fa fa-home"></span>
                 </a></li>
-            <li>Usuarios</li>
+            <li>Roles</li>
         </ol>
     </div>
 
@@ -27,14 +27,13 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h1>Usuarios
-                <a href="{{ url('usuarios/create') }}" title="Crear Nuevo Usuario" style="float: right">
+            <h1>Roles
+                <a href="{{ url('roles/create') }}" title="Crear Nuevo Rol" style="float: right">
                     <div class="btn btn-primary">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo Usuario
+                        <i class="fa fa-plus" aria-hidden="true"></i> Nuevo Rol
                     </div>
                 </a>
             </h1>
-
             <div class="clearfix"></div>
         </div>
 
@@ -45,39 +44,32 @@
                     <tr>
                         <th data-field="id" data-sortable="true">Id</th>
                         <th data-field="name" data-sortable="true">Nombre</th>
-                        <th data-field="surname" data-sortable="true">Apellido</th>
-                        <th data-field="email" data-sortable="true">Email</th>
-                        <th data-field="sucursal" data-sortable="true">Sucursal</th>
-                        <th data-field="lastaccess" data-sortable="true">Ultimo Acceso</th>
+                        <th data-field="display_name" data-sortable="true">Nombre para Mostrar</th>
+                        <th data-field="description" data-sortable="true">Descripción</th>
+                        <th data-field="created_at" data-sortable="true">Creado en</th>
+                        <th data-field="updated_at" data-sortable="false">Actualizado en</th>
                         <th data-field="actions" data-sortable="false">Acciones</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @foreach($users as $user)
+                    @foreach($roles as $role)
                         <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->surname}}</td>
-                            <td>{{$user->email}}</td>
-                            {{--<td>--}}
-                            {{--<ul>--}}
-                            {{--@forelse ($user->getAttribute('roles') as $rol)--}}
-                            {{--<li>{{ $rol->getAttribute('display_name') }}</li>--}}
-                            {{--@empty--}}
-                            {{--<p>Sin roles</p>--}}
-                            {{--@endforelse--}}
-                            {{--</ul>--}}
-                            {{--</td>--}}
-                            <td>{{$user->sucursal->display_name}}</td>
-                            <td>{{$user->getAttribute('updated_at')}}</td>
+                            <td>{{$role->getAttribute('id')}}</td>
+                            <td>{{$role->getAttribute('name')}}</td>
+                            <td>{{$role->getAttribute('display_name')}}</td>
+                            <td>{{$role->getAttribute('description')}}</td>
+                            <td>{{$role->getAttribute('created_at')}}</td>
+                            <td>{{$role->getAttribute('updated_at')}}</td>
                             <td>
-                                <a href="{{ url('usuarios/show/'.$user->id )}}"
-                                   class="btn btn-success btn-sm" title="Ver Usuario"><span
-                                            class="fa fa-eye"></span></a>
-                                <a href="{{ url('usuarios/edit/' . $user->id )  }}"
-                                   class="btn btn-primary btn-sm" title="Editar Usuario"><span
-                                            class="fa fa-edit"></span></a>
+                                <a class="btn btn-success btn-sm" title="Mostrar Rol"
+                                   href="{{ url('roles/show/' . $role->getAttribute('id')) }}">
+                                    <i class="fa fa-eye"></i> Ver
+                                </a>
+                                <a class="btn btn-primary btn-sm" title="Editar Rol"
+                                   href="{{ url('roles/edit/' . $role->getAttribute('id')) }}">
+                                    <i class="fa fa-eye"></i> Editar
+                                </a>
                             </td>
                         </tr>
                     @endforeach

@@ -1,6 +1,7 @@
 vendor/
+storage/
 public/storage/
-node_modules/
+bootstrap/
 
 .idea/
 .env

@@ -29,4 +29,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getFullName()
+    {
+        return $this->name.' '.$this->surname;
+    }
+
+    public function sucursal()
+    {
+        return $this->belongsTo('App\Sucursal','sucursal_id');
+    }
 }

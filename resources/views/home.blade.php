@@ -1,10 +1,9 @@
-@extends('Templates.template3')
+@extends('layouts.app')
 
 @section('content')
-    <div class=" form-element-padding">
 
-        <div class="panel-body" style="padding-bottom: 10px; padding-left: 7%; margin-right: 5%; margin-top: -15px">
-            <div class="row col-md-12 panel" style="margin: 8px 55px auto; float: none">
+        <div class="panel-body">
+            <div class="row col-md-12 panel">
                 <div class="panel-heading">Bienvenido</div>
 
                 <div class="panel-body">
@@ -12,6 +11,5 @@
                 </div>
             </div>
         </div>
-    </div>
 
 @endsection

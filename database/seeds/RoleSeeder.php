@@ -19,6 +19,11 @@ class RoleSeeder extends Seeder
         $admin->description='Administrador del Sistema';
         $admin->save();
 
+        $laboratorista=new Role();
+        $laboratorista->name='laboratorista';
+        $laboratorista->display_name='Laboratorista';
+        $laboratorista->description='Laboratorista';
+        $laboratorista->save();
 
 
         $administrar_permisos=Permission::where('name','admin_permissions')->first();
