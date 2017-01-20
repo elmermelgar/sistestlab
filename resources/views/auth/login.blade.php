@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +13,8 @@
     <link href=" {{asset('gentallela/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{asset('gentallela/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
-    <!-- Animate.css -->
-{{--<link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">--}}
 
-<!-- Custom Theme Style -->
+    <!-- Custom Theme Style -->
     <link href="{{asset('gentallela/build/css/custom.min.css')}}" rel="stylesheet">
 </head>
 
@@ -35,7 +32,8 @@
 
 
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                        <input  class="form-control" placeholder="Correo Electrónico" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus />
+                        <input class="form-control" placeholder="Correo Electrónico" id="email" type="email"
+                               name="email" value="{{ old('email') }}" required autofocus/>
                         @if ($errors->has('email'))
                             <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -44,7 +42,8 @@
                     </div>
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                        <input type="password" class="form-control" placeholder="Password" id="password"  name="password" required/>
+                        <input type="password" class="form-control" placeholder="Password" id="password" name="password"
+                               required/>
                         @if ($errors->has('password'))
                             <span class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
@@ -53,16 +52,17 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <input type="submit" class="btn btn-default submit" style="width: 75%" value="Login" />
+                        <input type="submit" class="btn btn-default submit" style="width: 75%" value="Iniciar Sesión"/>
                     </div>
 
+                    <a class="reset_pass" href="{{url('password/reset')}}">¿Olvido su contraseña?</a>
                     <div class="clearfix"></div>
 
                     <div class="separator">
 
 
                         <div class="clearfix"></div>
-                        <br />
+                        <br/>
 
                         <div>
                             <h1><i class="fa fa-flask"></i> TESTLAB</h1>

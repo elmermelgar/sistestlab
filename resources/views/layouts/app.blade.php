@@ -45,7 +45,12 @@
                 <!-- menu profile quick info -->
                 <div class="profile">
                     <div class="profile_pic">
-                        <img src="{{ url('gentallela/images/img.jpg') }}" alt="avatar" class="img-circle profile_img">
+                        <img src="
+                        @if(Auth::user()->photo)
+                        {{url('/storage/photos/'.Auth::user()->photo)}}
+                        @else
+                        {{url('/storage/photos/'. 'user.png')}}
+                        @endif " alt="avatar" class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Welcome,</span>
@@ -68,7 +73,8 @@
                                     <li><a href="index3.html">Dashboard3</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-institution"></i> Sucursal <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-institution"></i> Sucursal <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="form.html">General Form</a></li>
                                     <li><a href="form_advanced.html">Advanced Components</a></li>
@@ -135,7 +141,12 @@
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
-                                <img src="{{ url('gentallela/images/img.jpg') }}"
+                                <img src="
+                                @if(Auth::user()->photo)
+                                {{url('/storage/photos/'.Auth::user()->photo)}}
+                                @else
+                                {{url('/storage/photos/'. 'user.png')}}
+                                @endif "
                                      alt=""> {{Auth::user()->name.' '.Auth::user()->surname}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>

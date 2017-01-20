@@ -9,7 +9,10 @@
     Route::group(['prefix' => 'usuarios', 'middleware' => ['permission:admin_users']], function () {
 
         Route::get('/', 'UserController@index');
+        Route::get('create', 'UserController@create');
         Route::get('show/{id}', 'UserController@show');
+        Route::get('edit/{id}', 'UserController@edit');
+        Route::post('store', 'UserController@store');
     });
 
     Route::group(['prefix' => 'roles', 'middleware' => ['permission:admin_roles']], function () {
@@ -29,4 +32,5 @@
         Route::post('store', 'PermissionController@store');
     });
 
-Route::get('/usuario/perfil','Admin\UserController@show');
+Route::get('/usuario/perfil','UserController@show');
+Route::get('/usuario/editar','UserController@edit');

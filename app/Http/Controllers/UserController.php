@@ -2,12 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
+use App\Services\UserService;
+use App\Sucursal;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Ramsey\Uuid\Uuid;
 
 class UserController extends Controller
 {
+
+    /**
+     * @var UserService
+     */
+    private $userService;
+
+    /**
+     * UserController constructor.
+     * @param $userService
+     */
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
 
     /**
      * Lista de usuarios del sistema
@@ -24,14 +43,27 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show($id=null)
+    public function show($id = null)
     {
-        if ($id&&$user = User::find($id)) {
+        if ($id && $user = User::find($id)) {
             return view('user.show', ['user' => $user]);
-        }else if(!$id){
+        } else if (!$id) {
             return view('user.show', ['user' => Auth::user()]);
         }
         return response()->view('errors.404', [], 404);
+    }
+
+    /**
+     * Muestra el formulario para crear un nuevo usuario
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('user.edit', [
+            'user' => null,
+            'sucursales' => Sucursal::all(),
+            'roles' => Role::all(),
+        ]);
     }
 
     /**
@@ -39,12 +71,17 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit($id = null)
     {
-        if($user=User::find($id)){
-            return view('user.edit',['user'=>$user]);
+        $id ? null : $id = Auth::id();
+        if ($user = User::find($id)) {
+            return view('user.edit', [
+                'user' => $user,
+                'sucursales' => Sucursal::all(),
+                'roles' => Role::all(),
+            ]);
         }
-        return response()->view('errors.404',[],404);
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -54,6 +91,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->id && $user = User::find($request->id)) {
+            $user->update($request->except(['id', '_token']));
+        } else {
+            $aleat=Uuid::uuid4();
+            $request->merge(['password'=>$aleat,'password_confirmation'=>$aleat]);
+            $this->userService->validator($request->all())->validate();
+            $user = User::create($request->except(['id', '_token']));
+            $this->userService->sendResetLink($user);
+        }
+        if ($roles = $request->input('roles')) {
+            $this->userService->assignRoles($roles, $user);
+        }
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+            $this->userService->storageAvatar($request->file('avatar'), $user);
+        }
         return redirect('usuarios');
     }
 

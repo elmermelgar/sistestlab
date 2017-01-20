@@ -10,8 +10,15 @@
             <div class="profile_img">
                 <div id="crop-avatar">
                     <!-- Current avatar -->
-                    <img class="img-responsive avatar-view" src="{{url('gentallela/images/picture.jpg')}}"
-                         alt="Avatar" title="Change the avatar">
+                    <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
+                         style="max-height: 200px"
+                         src="
+                            @if($user->photo)
+                         {{url('/storage/photos/'.$user->photo)}}
+                         @else
+                         {{url('/storage/photos/'. 'user.png')}}
+                            @endif
+                                 ">
                 </div>
             </div>
         </div>
@@ -38,7 +45,12 @@
                 </li>
             </ul>
 
-            <a class="btn btn-success" href="{{url('usuarios/edit/'.$user->id)}}"><i
+            <a class="btn btn-success" href="
+            @if(Auth::user()->can('admin_users'))
+            {{url('usuarios/edit/'.$user->id)}}
+            @else
+            {{url('usuario/editar/')}}
+            @endif "><i
                         class="fa fa-edit m-right-xs"></i>Editar Perfil</a>
             <br/>
         </div>
