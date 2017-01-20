@@ -20,13 +20,13 @@
     <!-- jQuery custom content scroller -->
     <link href="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')}}"
           rel="stylesheet"/>
-
+    @yield('styles')
     <!-- Custom Theme Style -->
     <link href="{{url('gentallela/build/css/custom.css')}}" rel="stylesheet">
 
     @yield('imports')
 
-    @yield('styles')
+
 
 </head>
 <body class="nav-md">
@@ -49,11 +49,11 @@
                         @if(Auth::user()->photo)
                         {{url('/storage/photos/'.Auth::user()->photo)}}
                         @else
-                        {{url('/storage/photos/'. 'user.png')}}
+                        {{url('gentallela/images/'. 'user.png')}}
                         @endif " alt="avatar" class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
-                        <span>Welcome,</span>
+                        <span>Bienvenido,</span>
                         <h2>{{Auth::user()->name.' '.Auth::user()->surname}}</h2>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                                 @if(Auth::user()->photo)
                                 {{url('/storage/photos/'.Auth::user()->photo)}}
                                 @else
-                                {{url('/storage/photos/'. 'user.png')}}
+                                {{url('gentallela/images/'. 'user.png')}}
                                 @endif "
                                      alt=""> {{Auth::user()->name.' '.Auth::user()->surname}}
                                 <span class=" fa fa-angle-down"></span>
@@ -287,11 +287,11 @@
 <script src="{{url('gentallela/vendors/nprogress/nprogress.js')}}"></script>
 <!-- jQuery custom content scroller -->
 <script src="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-
+@yield('scripts')
 <!-- Custom Theme Scripts -->
 <script src="{{url('gentallela/build/js/custom.js')}}"></script>
 
-@yield('scripts')
+@yield('script-codigo')
 
 </body>
 </html>

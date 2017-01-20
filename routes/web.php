@@ -18,3 +18,16 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::group(['namespace'=>'Inventario','prefix' => 'inventario','middleware' => 'auth'], function () {
+
+//    Route::get('/proveedores', 'InventarioController@index');
+    Route::resource('proveedores','ProveedoresController');
+    Route::get('proveedores/{id}/destroy',['uses'=>'ProveedoresController@destroy', 'as'=>'proveedores.destroy']);
+    Route::post('proveedores/{id}/update',['uses'=>'ProveedoresController@update', 'as'=>'proveedores.update']);
+
+    Route::resource('activo','ActivoController');
+    Route::get('activo/{id}/destroy',['uses'=>'ActivoController@destroy', 'as'=>'activo.destroy']);
+    Route::post('activo/{id}/update',['uses'=>'ActivoController@update', 'as'=>'activo.update']);
+});
+
