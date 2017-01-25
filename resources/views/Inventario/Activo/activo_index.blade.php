@@ -3,8 +3,8 @@
 @section('styles')
     <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
-    @endsection
-@section('title')
+@endsection
+
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
@@ -73,7 +73,7 @@
                                     <tr>
                                         <td>{{$activo->nombre_activo}}</td>
                                         <td>{{$activo->fecha_adq}}</td>
-                                        <td>$ {{$activo->precio}}</td>
+                                        <td>${{$activo->precio}}</td>
                                         <td>{{$activo->num_lote}}</td>
                                         <td>{{$activo->ubicacion}}</td>
                                         <td>{{$activo->marca}}</td>
@@ -82,7 +82,7 @@
                                         <td>{{$activo->unidades}}</td>
                                         <td style="text-align: center">
                                             <a href="{{route('activo.edit',$activo->id)}}" class="btn btn-warning" title="Editar Activo">
-                                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                             <a href="{{route('activo.show',$activo->id)}}" class="btn btn-dark" title="Ver Activo">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>

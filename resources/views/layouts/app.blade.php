@@ -49,7 +49,7 @@
                         @if(Auth::user()->photo)
                         {{url('/storage/photos/'.Auth::user()->photo)}}
                         @else
-                        {{url('gentallela/images/'. 'user.png')}}
+                        {{url('/storage/photos/'. 'user.png')}}
                         @endif " alt="avatar" class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
@@ -145,7 +145,7 @@
                                 @if(Auth::user()->photo)
                                 {{url('/storage/photos/'.Auth::user()->photo)}}
                                 @else
-                                {{url('gentallela/images/'. 'user.png')}}
+                                {{url('/storage/photos/'. 'user.png')}}
                                 @endif "
                                      alt=""> {{Auth::user()->name.' '.Auth::user()->surname}}
                                 <span class=" fa fa-angle-down"></span>

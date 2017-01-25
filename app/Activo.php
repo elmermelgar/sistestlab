@@ -15,7 +15,7 @@ class Activo extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre_activo', 'fecha_adq', 'precio', 'num_lote', 'ubicacion','tipo','marca','modelo','serie','unidades','proveedor_id'];
+    protected $fillable = ['nombre_activo', 'fecha_adq', 'precio', 'num_lote', 'ubicacion','tipo','marca','modelo','serie','unidades','proveedor_id','sucursal_id','estado_id'];
 
     /**
      * @var boolean
@@ -25,6 +25,14 @@ class Activo extends Model
 
     public function proveedor(){
         return $this->belongsTo('App\Proveedor');
+    }
+
+    public function estado(){
+        return $this->belongsTo('App\Estado');
+    }
+
+    public function sucursal(){
+        return $this->belongsTo('App\Sucursal');
     }
 
     public function inventario(){

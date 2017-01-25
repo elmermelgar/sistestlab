@@ -7,6 +7,8 @@ use App\Proveedor;
 use App\Http\Controllers\Controller;
 use App\Activo;
 use App\Inventario;
+use App\Estado;
+use App\Sucursal;
 use \DateTime;
 use Carbon\Carbon;
 
@@ -31,7 +33,9 @@ class ActivoController extends Controller
     public function create()
     {
         $proveedores = Proveedor::all();
-        return view('Inventario.Activo.activo_create')->with('proveedores',$proveedores);
+        $estado = Estado::all();
+        $sucursal = Sucursal::all();
+        return view('Inventario.Activo.activo_create', array('proveedores'=>$proveedores, 'estados'=>$estado,'sucursales'=>$sucursal));
     }
 
     /**
@@ -56,7 +60,11 @@ class ActivoController extends Controller
         $inventario->existencia = $request->existencia;
         $inventario->cantidad_minima = $request->cantidad_minima;
         $inventario->cantidad_maxima = $request->cantidad_maxima;
-        $inventario->fecha_vencimiento = DateTime::createFromFormat('d/m/Y', $request->fecha_vencimiento);
+        if($request->fecha_vencimiento==''){
+
+        }else{
+            $inventario->fecha_vencimiento = DateTime::createFromFormat('d/m/Y', $request->fecha_vencimiento);
+        }
         $inventario->fecha_cargado = $today = Carbon::today();
         $inventario->save();
         flash('Activo '.$activo->nombre_activo.'Creado Correctamente', 'success');
@@ -86,7 +94,9 @@ class ActivoController extends Controller
     {
         $activo = Activo::find($id);
         $proveedores = Proveedor::all();
-        return view('Inventario.Activo.activo_edit', array('activo'=>$activo, 'proveedores'=>$proveedores));
+        $sucursales = Sucursal::all();
+        $estados = Estado::all();
+        return view('Inventario.Activo.activo_edit', array('activo'=>$activo, 'proveedores'=>$proveedores, 'sucursales'=>$sucursales, 'estados'=>$estados));
     }
 
     /**

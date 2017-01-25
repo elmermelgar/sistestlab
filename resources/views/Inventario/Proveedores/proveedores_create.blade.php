@@ -1,4 +1,4 @@
-@extends('Templates.template3')
+@extends('layouts.app')
 
 @section('styles')
     <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
@@ -7,7 +7,7 @@
 
 @section('content')
 
-    <div class="right_col" role="main">
+    <div>
         <div class="">
             <div class="page-title">
                 <div class="title_left">

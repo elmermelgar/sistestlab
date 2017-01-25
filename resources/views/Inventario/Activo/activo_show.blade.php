@@ -6,14 +6,25 @@
     @endsection
 
 @section('content')
-    <div class="row">
-        <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
-            <li><a href="{{route('activo.index')}}"> Activos</a></li>
-            <li>Detalles</li>
-        </ol>
+    <div class="page-title">
+        <div class="title_left">
+            <ol class="breadcrumb">
+                <li><a href="{{ url('/inicio')}}">
+                        <span class="fa fa-home"></span>
+                    </a></li>
+                <li><a href="{{ route('activo.index')}}">Activo
+                    </a></li>
+                <li>Detalle de activo</li>
+            </ol>
+        </div>
+
+        <div class="title_right">
+            <div class="form-group pull-right">
+                <div class="input-group" style="">
+                    <a href="{{route('activo.index')}}" style="float: right;" class="btn btn-danger"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
+                </div>
+            </div>
+        </div>
     </div>
 
     @if ($errors->any())
@@ -24,7 +35,8 @@
             @endforeach
         </ul>
     @endif
-    <div class=" toppad" >
+    <div class="clearfix"></div>
+    <div  class="row">
 
 
         <div class="panel panel-success">
@@ -48,7 +60,7 @@
                       </dl>
                     </div>-->
                     <div class=" col-md-8 col-lg-8 ">
-                        <table class="table table-user-information">
+                        <table class="table table-user-information" style="font-size: 16px; font-family: Source Serif Pro, PT Sans, Trebuchet MS, Helvetica, Arial">
                             <tbody>
                             <tr>
                                 <td><b>Nombre:</b></td>
@@ -121,11 +133,13 @@
                             </tbody>
                         </table>
 
-                        <a href="#" class="btn btn-round btn-success"><i class="fa fa-upload" aria-hidden="true"></i> Cargar Inventario</a>
-                        <a href="#" style="float: right" class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
+                        <a href="#" style="width: 30%;" class="btn btn-round btn-success"><i class="fa fa-upload" aria-hidden="true"> </i> Cargar Inventario</a>
+                        <a href="#" style="float: right; width: 30%;" class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>

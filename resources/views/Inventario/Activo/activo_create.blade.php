@@ -90,7 +90,7 @@
                                         <label class="control-label col-md-4 col-sm-3 col-xs-12">Ubicacion:<span class="required">*</span> </label>
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input class="form-control col-md-7 col-xs-12" type="text" placeholder="Dirección"
+                                            <input class="form-control col-md-7 col-xs-12" type="text" placeholder="¿Donde se encuentra?"
                                                    name="ubicacion" required>
                                         </div>
                                     </div>
@@ -160,7 +160,23 @@
                                         </label>
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
+                                            <select class="select2_sucursal form-control" name="sucursal_id" tabindex="-1">
+                                                @foreach($sucursales as $sucursal)
+                                                    <option value="{{$sucursal->id}}">{{$sucursal->display_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" >Estado:
+                                        </label>
 
+                                        <div class="col-md-8 col-sm-6 col-xs-12">
+                                            <select class="select2_estado form-control" name="estado_id" tabindex="-1">
+                                                @foreach($estados as $estado)
+                                                    <option value="{{$estado->id}}">{{$estado->display_name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
 
@@ -175,7 +191,7 @@
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
                                                 <input type="number" name="existencia" placeholder="0"
-                                                       class="form-control col-md-7 col-xs-12" min="0">
+                                                       class="form-control col-md-7 col-xs-12" min="1" value="1" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -183,7 +199,7 @@
                                             </label>
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
-                                                <input type="text" required id="vencimiento" name="fecha_vencimiento" class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000">
+                                                <input type="text" id="vencimiento" name="fecha_vencimiento" class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000">
                                             </div>
                                         </div>
                                     </div>
@@ -195,7 +211,7 @@
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
                                                 <input type="number" name="cantidad_minima" placeholder="0"
-                                                       class="form-control col-md-7 col-xs-12" min="0">
+                                                       class="form-control col-md-7 col-xs-12" value="0" min="0">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -204,14 +220,14 @@
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
                                                 <input type="number" name="cantidad_maxima" placeholder="0"
-                                                       class="form-control col-md-7 col-xs-12" min="0">
+                                                       class="form-control col-md-7 col-xs-12" value="0" min="0">
                                             </div>
                                         </div>
                                     </div>
                                 </fieldset>
                                 {{--<div class="ln_solid"></div>--}}
                                 <br><br>
-                                <div class="form-group col-md-12" style="margin-top: 40px">
+                                <div class="form-group col-md-12" style="margin-top: 30px">
                                     <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
                                         <button type="reset" class="btn btn-dark">Limpiar</button>
                                         <button type="submit" class="btn btn-success">Guardar</button>
@@ -273,10 +289,12 @@
             placeholder: "Seleccione un proveedor...",
             allowClear: true
         });
-        $(".select2_group").select2({});
-        $(".select2_multiple").select2({
-            maximumSelectionLength: 4,
-            placeholder: "With Max Selection limit 4",
+        $(".select2_sucursal").select2({
+            placeholder: "Seleccione una sucursal...",
+            allowClear: true
+        });
+        $(".select2_estado").select2({
+            placeholder: "Seleccione un estado...",
             allowClear: true
         });
     });

@@ -20,7 +20,7 @@ class Inventario extends Model
     /**
      * @var boolean
      */
-     public $timestamps=false;
+     public $timestamps=true;
 
     public function activo(){
         return $this->belongsTo('App\Activo');

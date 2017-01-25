@@ -52,9 +52,10 @@
                                 {{--Parte 1--}}
                                 <fieldset>
                                     <legend>Activo:</legend>
+
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" for="first-name">Nombre del Activo: <span class="required">*</span>
+                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" >Nombre del Activo: <span class="required">*</span>
                                         </label>
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
@@ -99,80 +100,104 @@
                                         <label class="control-label col-md-4 col-sm-3 col-xs-12">Proveedor:<span class="required">*</span> </label>
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <select class="select2_single form-control" name="proveedor_id" tabindex="-1">
+                                            <select class="select2_single form-control" style="width: 100%" required name="proveedor_id" tabindex="-1">
                                                 @foreach($proveedores as $proveedor)
-                                                <option>Seleccione un proveedor...</option>
                                                 <option value="{{$proveedor->id}}" @if($proveedor->id=$activo->proveedor_id) selected @endif>{{$proveedor->nombre}}</option>
                                                     @endforeach
                                             </select>
                                         </div>
                                     </div>
-
                                 </div>
                                 {{--Parte 2--}}
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="middle-name" class="control-label col-md-4 col-sm-3 col-xs-12">Número de lote:
-                                        </label>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Número de lote:
+                                                <span class="required">*</span> </label>
 
-                                        <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input class="form-control col-md-7 col-xs-12" type="text" placeholder="######"
-                                                   name="num_lote" value="{{$activo->num_lote}}">
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <input class="form-control col-md-7 col-xs-12" type="text"
+                                                       placeholder="######"
+                                                       name="num_lote" value="{{$activo->num_lote}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Marca: <span
+                                                        class="required">*</span>
+                                            </label>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <input class="date-picker form-control col-md-7 col-xs-12"
+                                                       placeholder=""
+                                                       required="required" name="marca" type="text"
+                                                       value="{{$activo->marca}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Modelo:
+                                            </label>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <input type="text" name="modelo" placeholder="Modelo"
+                                                       class="form-control col-md-7 col-xs-12"
+                                                       value="{{$activo->modelo}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Serie:
+                                            </label>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <input type="text" name="serie" placeholder="Serie"
+                                                       class="form-control col-md-7 col-xs-12"
+                                                       value="{{$activo->serie}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Unidades:
+                                            </label>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <input type="text" name="unidades" placeholder="mm/ml/m/gal"
+                                                       class="form-control col-md-7 col-xs-12"
+                                                       value="{{$activo->unidades}}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Sucursal:
+                                            </label>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <select class="select2_sucursal form-control" style="width: 100%"
+                                                        name="sucursal_id" tabindex="-1">
+                                                    @foreach($sucursales as $sucursal)
+                                                        <option value="{{$sucursal->id}}"
+                                                                @if($sucursal->id=$activo->sucursal_id) selected @endif>{{$sucursal->display_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-4 col-sm-3 col-xs-12">Estado:
+                                            </label>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <select class="select2_estado form-control" style="width: 100%"
+                                                        name="estado_id" tabindex="-1">
+                                                    @foreach($estados as $estado)
+                                                        <option value="{{$estado->id}}"
+                                                                @if($estado->id=$activo->estado_id) selected @endif>{{$estado->display_name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-3 col-xs-12">Marca: <span
-                                                    class="required">*</span>
-                                        </label>
-
-                                        <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input class="date-picker form-control col-md-7 col-xs-12" placeholder=""
-                                                   required="required" name="marca" type="text" value="{{$activo->marca}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" >Modelo:
-                                        </label>
-
-                                        <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input type="text" name="modelo" placeholder="Modelo"
-                                                   class="form-control col-md-7 col-xs-12" value="{{$activo->modelo}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" >Serie:
-                                        </label>
-
-                                        <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input type="text" name="serie" placeholder="Serie"
-                                                   class="form-control col-md-7 col-xs-12" value="{{$activo->serie}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" >Unidades:
-                                        </label>
-
-                                        <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input type="text" name="unidades" placeholder="mm/ml/m/gal"
-                                                   class="form-control col-md-7 col-xs-12" value="{{$activo->unidades}}">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-md-4 col-sm-3 col-xs-12" >Sucursal:
-                                        </label>
-
-                                        <div class="col-md-8 col-sm-6 col-xs-12">
-
-                                        </div>
-                                    </div>
-                                </div>
                                 </fieldset>
                                 {{--<div class="ln_solid"></div>--}}
                                 <br><br>
-                                <div class="form-group col-md-12" style="margin-top: 40px">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
-                                        <button type="reset" class="btn btn-dark">Limpiar</button>
-                                        <button type="submit" class="btn btn-success">Guardar</button>
+                                <div class="form-group col-md-12" style="margin-top: 20px">
+                                    <div class="col-md-12" style="text-align: center">
+                                        <button type="reset" class="btn btn-dark">Reestablecer</button>
+                                        <button style="width: 120px" type="submit" class="btn btn-success">Actualizar</button>
                                     </div>
                                 </div>
 
@@ -222,13 +247,15 @@
 <script>
     $(document).ready(function() {
         $(".select2_single").select2({
-            placeholder: "Select a state",
+            placeholder: "Seleccione un proveedor...",
             allowClear: true
         });
-        $(".select2_group").select2({});
-        $(".select2_multiple").select2({
-            maximumSelectionLength: 4,
-            placeholder: "With Max Selection limit 4",
+        $(".select2_sucursal").select2({
+            placeholder: "Seleccione una sucursal...",
+            allowClear: true
+        });
+        $(".select2_estado").select2({
+            placeholder: "Seleccione un estado...",
             allowClear: true
         });
     });

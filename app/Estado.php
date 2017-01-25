@@ -4,20 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sucursal extends Model
+class Estado extends Model
 {
     /**
      * @var string
      */
-    public $table='sucursales';
+    protected $table='estados';
 
     /**
-     * @var boolean
+     *
+     * @var array
      */
-    public $timestamps=false;
+    protected $fillable = ['name', 'display_name', 'tipo'];
+
 
     public function activos(){
         return $this->hasMany('App\Activo');
     }
-
 }
