@@ -84,7 +84,7 @@
                                             <a href="{{route('activo.edit',$activo->id)}}" class="btn btn-warning" title="Editar Activo">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{{route('activo.show',$activo->id)}}" class="btn btn-dark" title="Ver Activo">
+                                            <a href="{{route('activo.show',$activo->id)}}" style="background: #20b426" class="btn btn-dark" title="Ver Activo">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
                                             {{--<a href="{{route('activo.destroy',$activo->id)}}" onclick="return confirm('Seguro')" class="btn btn-danger" title="Eliminar Activo">--}}

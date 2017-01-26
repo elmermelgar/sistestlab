@@ -15,7 +15,7 @@ use Carbon\Carbon;
 class ActivoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista de activos registrados.
      *
      * @return \Illuminate\Http\Response
      */
@@ -26,7 +26,7 @@ class ActivoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Muestra el formulario de creacion de un nuevo recurso.
      *
      * @return \Illuminate\Http\Response
      */
@@ -39,7 +39,7 @@ class ActivoController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Metodo de guardado de activo he inventario.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -50,10 +50,10 @@ class ActivoController extends Controller
         $fechaadq = DateTime::createFromFormat('d/m/Y', $request->fecha_adq);
         $activo->fecha_adq = $fechaadq;
         $activo->cod_inventario = $activo->id.$request->fecha_adq;
-//        $activo->fecha_adq = $fechaadq;
         $activo->save();
         $activo->cod_inventario = $activo->id.$request->fecha_adq;
         $activo->save();
+        // Guardando el Inventario correspondiente al activo anterior
         $inventario = new Inventario();
         $inventario->cod_inventario = $activo->cod_inventario;
         $inventario->activo_id = $activo->id;
@@ -63,7 +63,7 @@ class ActivoController extends Controller
         if($request->fecha_vencimiento==''){
 
         }else{
-            $inventario->fecha_vencimiento = DateTime::createFromFormat('d/m/Y', $request->fecha_vencimiento);
+            $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
         }
         $inventario->fecha_cargado = $today = Carbon::today();
         $inventario->save();
@@ -72,7 +72,7 @@ class ActivoController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Muestra el detalle del activo con su respectivo inventario.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -85,7 +85,7 @@ class ActivoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Muestra el formulario de edicion del activo.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -100,7 +100,22 @@ class ActivoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Muestra el formulario de edicion del iventario.
+     *
+     * @param  int  $id1
+     * @param int $id2
+     * @return \Illuminate\Http\Response
+     */
+    public function editinventario($id1,$id2)
+    {
+        $inventario = Inventario::find($id1);
+        $activo = Activo::find($id2);
+        return view('Inventario.Activo.inventario_edit', array('activo'=>$activo, 'inventario'=>$inventario));
+    }
+
+
+    /**
+     * Actualiza el activo especificado.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -117,7 +132,57 @@ class ActivoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Metodo para actualizar los datos del inventario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id1
+     * * @param  int  $id2
+     * @return \Illuminate\Http\Response
+     */
+    public function updateinventario(Request $request, $id1, $id2)
+    {
+        $inventario = Inventario::find($id1);
+        $inventario->existencia = $request->existencia;
+        $inventario->cantidad_minima = $request->cantidad_minima;
+        $inventario->cantidad_maxima = $request->cantidad_maxima;
+        if($request->fecha_vencimiento==''){
+
+        }else{
+            $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+        }
+        $inventario->save();
+
+        flash('El inventario con codigo "'.$inventario->cod_inventario.'" ha sido actualizado correctamente', 'warning');
+        return redirect()->route('activo.show',$id2);
+    }
+
+    /**
+     * Metodo para cargar existencias al inventario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id1
+     * * @param  int  $id2
+     * @return \Illuminate\Http\Response
+     */
+    public function cargarinventario(Request $request, $id1, $id2)
+    {
+        $inventario = Inventario::find($id1);
+        $inventario->existencia = $inventario->existencia+$request->cantidad;
+        $inventario->fecha_cargado = $today = Carbon::today();
+
+        if($request->fecha_vencimiento==''){
+
+        }else{
+            $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+        }
+        $inventario->save();
+
+        flash('El inventario con codigo "'.$inventario->cod_inventario.'" ha sido actualizado correctamente', 'warning');
+        return redirect()->route('activo.show',$id2);
+    }
+
+    /**
+     * Elimina un activo especificado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

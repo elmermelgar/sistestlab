@@ -29,5 +29,9 @@ Route::group(['namespace'=>'Inventario','prefix' => 'inventario','middleware' =>
     Route::resource('activo','ActivoController');
     Route::get('activo/{id}/destroy',['uses'=>'ActivoController@destroy', 'as'=>'activo.destroy']);
     Route::post('activo/{id}/update',['uses'=>'ActivoController@update', 'as'=>'activo.update']);
+
+    Route::get('activo/{id1}/{id2}',['uses'=>'ActivoController@editinventario', 'as'=>'activo.editinventario']);
+    Route::post('activo/{id1}/{id2}/updateinventario',['uses'=>'ActivoController@updateinventario', 'as'=>'activo.updateinventario']);
+    Route::post('cargar/{id1}/{id2}/updateinventario',['uses'=>'ActivoController@cargarinventario', 'as'=>'cargar.updateinventario']);
 });
 

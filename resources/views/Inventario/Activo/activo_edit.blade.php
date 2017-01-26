@@ -17,8 +17,9 @@
                         <li><a href="{{ url('/inicio')}}">
                                 <span class="fa fa-home"></span>
                             </a></li>
-                        <li>Inventario</li>
-                        <li>Activo</li>
+                        <li><a href="{{ route('activo.index')}}">Activo
+                            </a></li></li>
+                        <li>Crear nuevo activo</li>
                     </ol>
                 </div>
 
@@ -37,7 +38,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Editando el proveedor "{{$activo->nombre_activo}}</h2>
+                            <h2>Editando el activo "{{$activo->nombre_activo}}"</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li style="float: right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -84,8 +85,11 @@
                                         <label for="middle-name" class="control-label col-md-4 col-sm-3 col-xs-12">Tipo: <span class="required">*</span> </label>
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input class="form-control col-md-7 col-xs-12" type="text" placeholder="Tipo"
-                                                   name="tipo" required value="{{$activo->tipo}}">
+
+                                            <select class="form-control" name="tipo" tabindex="-1">
+                                                <option value="Mobiliario y Equipo" @if($activo->tipo=='Mobiliario y Equipo') selected @endif>Moviliario y Equipo</option>
+                                                <option value="Reactivo" @if($activo->tipo=='Reactivo') selected @endif>Reactivo</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">

@@ -39,7 +39,7 @@
     <div  class="row">
 
 
-        <div class="panel panel-success">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Detalles de {{$activo->nombre_activo}}</h3>
             </div>
@@ -133,8 +133,56 @@
                             </tbody>
                         </table>
 
-                        <a href="#" style="width: 30%;" class="btn btn-round btn-success"><i class="fa fa-upload" aria-hidden="true"> </i> Cargar Inventario</a>
-                        <a href="#" style="float: right; width: 30%;" class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
+                        <button  class="btn btn-round btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-upload" aria-hidden="true"> </i> Cargar Inventario</button>
+                        <a href="{{route('activo.editinventario',[$inventario->id,$activo->id])}}" style="float: right; " class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
+                    </div>
+                    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel2">Cargar Existencias</h4>
+                                </div>
+                                <form class="form-horizontal form-label-left" action="{{route('cargar.updateinventario',[$inventario->id,$activo->id])}}" method="POST">
+                                    {{ csrf_field() }}
+                                <div class="modal-body">
+
+                                        {{--Parte 1--}}
+                                        <fieldset>
+                                            <legend class="text-danger" style="text-align: center">{{$activo->nombre_activo}}</legend>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Cantidad a cargar:
+                                                    </label>
+                                                    <br/>
+
+                                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                                        <input type="number" name="cantidad" placeholder="0"
+                                                               class="form-control col-md-7 col-xs-12" min="1" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Fecha Vencimiento:
+                                                    </label>
+                                                    <br/>
+
+                                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                                        <input type="text" id="vencimiento" name="fecha_vencimiento" class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Cargar al inventario</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,6 +197,9 @@
     <script src="{{url('gentallela/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="{{url('gentallela/js/moment/moment.min.js')}}"></script>
+    <script src="{{url('gentallela/js/datepicker/daterangepicker.js')}}"></script>
     @endsection
 @section('script-codigo')
 <script>
@@ -213,6 +264,16 @@
         });
 
         TableManageButtons.init();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#vencimiento').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4"
+        }, function(start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
     });
 </script>
 <script>
