@@ -11,6 +11,7 @@ use App\Estado;
 use App\Sucursal;
 use \DateTime;
 use Carbon\Carbon;
+use Jleon\LaravelPnotify\Notify;
 
 class ActivoController extends Controller
 {
@@ -46,29 +47,35 @@ class ActivoController extends Controller
      */
     public function store(Request $request)
     {
-        $activo = new Activo($request->all());
-        $fechaadq = DateTime::createFromFormat('d/m/Y', $request->fecha_adq);
-        $activo->fecha_adq = $fechaadq;
-        $activo->cod_inventario = $activo->id.$request->fecha_adq;
-        $activo->save();
-        $activo->cod_inventario = $activo->id.$request->fecha_adq;
-        $activo->save();
-        // Guardando el Inventario correspondiente al activo anterior
-        $inventario = new Inventario();
-        $inventario->cod_inventario = $activo->cod_inventario;
-        $inventario->activo_id = $activo->id;
-        $inventario->existencia = $request->existencia;
-        $inventario->cantidad_minima = $request->cantidad_minima;
-        $inventario->cantidad_maxima = $request->cantidad_maxima;
-        if($request->fecha_vencimiento==''){
+        if($request->existencia<=$request->cantidad_maxima){
+            $activo = new Activo($request->all());
+            $fechaadq = DateTime::createFromFormat('d/m/Y', $request->fecha_adq);
+            $activo->fecha_adq = $fechaadq;
+            $activo->cod_inventario = $activo->id.$request->fecha_adq;
+            $activo->save();
+            $activo->cod_inventario = $activo->id.$request->fecha_adq;
+            $activo->save();
+            // Guardando el Inventario correspondiente al activo anterior
+            $inventario = new Inventario();
+            $inventario->cod_inventario = $activo->cod_inventario;
+            $inventario->activo_id = $activo->id;
+            $inventario->existencia = $request->existencia;
+            $inventario->cantidad_minima = $request->cantidad_minima;
+            $inventario->cantidad_maxima = $request->cantidad_maxima;
+            if($request->fecha_vencimiento==''){
 
+            }else{
+                $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+            }
+            $inventario->fecha_cargado = $today = Carbon::today();
+            $inventario->save();
+            Notify::success('Activo '.$activo->nombre_activo.' Creado Correctamente', 'Exito!!');
+            return redirect()->route('activo.index');
         }else{
-            $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+            Notify::danger('La Existencia debe ser menor o igual a la cantidad máxima', 'Error!!');
+            return redirect()->back();
         }
-        $inventario->fecha_cargado = $today = Carbon::today();
-        $inventario->save();
-        flash('Activo '.$activo->nombre_activo.'Creado Correctamente', 'success');
-        return redirect()->route('activo.index');
+
     }
 
     /**
@@ -126,8 +133,7 @@ class ActivoController extends Controller
         $activo = Activo::find($id);
         $activo->fill($request->all());
         $activo->save();
-
-        flash('El Activo "'.$activo->nombre_activo.'" ha sido actualizado correctamente', 'warning');
+        Notify::warning('Activo '.$activo->nombre_activo.' se actualizó correctamente', 'Actualización');
         return redirect()->route('activo.index');
     }
 
@@ -141,19 +147,23 @@ class ActivoController extends Controller
      */
     public function updateinventario(Request $request, $id1, $id2)
     {
-        $inventario = Inventario::find($id1);
-        $inventario->existencia = $request->existencia;
-        $inventario->cantidad_minima = $request->cantidad_minima;
-        $inventario->cantidad_maxima = $request->cantidad_maxima;
-        if($request->fecha_vencimiento==''){
+        if ($request->existencia <= $request->cantidad_maxima) {
+            $inventario = Inventario::find($id1);
+            $inventario->existencia = $request->existencia;
+            $inventario->cantidad_minima = $request->cantidad_minima;
+            $inventario->cantidad_maxima = $request->cantidad_maxima;
+            if ($request->fecha_vencimiento == '') {
 
-        }else{
-            $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+            } else {
+                $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+            }
+            $inventario->save();
+            Notify::warning('El inventario con codigo "' . $inventario->cod_inventario . '" ha sido actualizado correctamente', 'Actualización');
+            return redirect()->route('activo.show', $id2);
+        } else {
+            Notify::danger('La "existencia" debe ser menor o igual a la "cantidad máxima"', 'Error!!');
+            return redirect()->back();
         }
-        $inventario->save();
-
-        flash('El inventario con codigo "'.$inventario->cod_inventario.'" ha sido actualizado correctamente', 'warning');
-        return redirect()->route('activo.show',$id2);
     }
 
     /**
@@ -166,19 +176,25 @@ class ActivoController extends Controller
      */
     public function cargarinventario(Request $request, $id1, $id2)
     {
-        $inventario = Inventario::find($id1);
-        $inventario->existencia = $inventario->existencia+$request->cantidad;
-        $inventario->fecha_cargado = $today = Carbon::today();
 
-        if($request->fecha_vencimiento==''){
+            $inventario = Inventario::find($id1);
+        if (($inventario->existencia + $request->cantidad) <= $inventario->cantidad_maxima) {
+            $inventario->existencia = $inventario->existencia + $request->cantidad;
+            $inventario->fecha_cargado = $today = Carbon::today();
 
-        }else{
-            $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+            if ($request->fecha_vencimiento == '') {
+
+            } else {
+                $inventario->fecha_vencimiento = DateTime::createFromFormat('m/d/Y', $request->fecha_vencimiento);
+            }
+            $inventario->save();
+
+            Notify::warning('El inventario con codigo "' . $inventario->cod_inventario . '" ha sido cargado con ' . $request->cantidad . ' unidades', 'Cargado');
+            return redirect()->route('activo.show', $id2);
+        } else {
+            Notify::danger('La "existencia" debe ser menor o igual a la "cantidad máxima='.$inventario->cantidad_maxima.'"', 'Error!!');
+            return redirect()->back();
         }
-        $inventario->save();
-
-        flash('El inventario con codigo "'.$inventario->cod_inventario.'" ha sido actualizado correctamente', 'warning');
-        return redirect()->route('activo.show',$id2);
     }
 
     /**
@@ -190,10 +206,14 @@ class ActivoController extends Controller
     public function destroy($id)
     {
         $activo = Activo::find($id);
-        $activo->delete();
-
-        flash('El Activo "'.$activo->nombre_activo.'" ha sido eliminado correctamente', 'danger');
-
-        return redirect()->route('activo.index');
+        $inventario = Inventario::where(array('activo_id' => $id))->first();
+        if($inventario){
+            Notify::danger('El activo "'.$activo->nombre_activo.'" no puede ser eliminado porque posee registro asociado', 'Error!!');
+            return redirect()->route('activo.index');
+        }else{
+            $activo->delete();
+            Notify::warning('El activo "'.$activo->nombre_activo.'" ha sido eliminado correctamente', 'Eliminación');
+            return redirect()->route('activo.index');
+        }
     }
 }

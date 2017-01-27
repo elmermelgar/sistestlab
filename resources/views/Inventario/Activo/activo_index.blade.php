@@ -87,9 +87,9 @@
                                             <a href="{{route('activo.show',$activo->id)}}" style="background: #20b426" class="btn btn-dark" title="Ver Activo">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            {{--<a href="{{route('activo.destroy',$activo->id)}}" onclick="return confirm('Seguro')" class="btn btn-danger" title="Eliminar Activo">--}}
-                                                {{--<i class="fa fa-university" aria-hidden="true"></i>--}}
-                                            {{--</a>--}}
+                                            <a href="{{route('activo.destroy',$activo->id)}}" onclick="return confirm('Seguro')" class="btn btn-danger" title="Eliminar Activo">
+                                                <i class="fa fa-university" aria-hidden="true"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

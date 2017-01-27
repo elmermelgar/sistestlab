@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Proveedor;
 use Laracasts\Flash;
 use App\Http\Controllers\Controller;
-
+use Jleon\LaravelPnotify\Notify;
 class ProveedoresController extends Controller
 {
     /**
@@ -42,7 +42,7 @@ class ProveedoresController extends Controller
     {
         $proveedor = new Proveedor($request->all());
         $proveedor->save();
-        flash('Proveedor Creado Correctamente', 'success');
+        Notify::success('Proveedor "'.$proveedor->nombre.'" creado correctamente', 'Exito!!');
         return redirect()->route('proveedores.index');
     }
 
@@ -87,8 +87,7 @@ class ProveedoresController extends Controller
 //        $proveedor->ubicacion = $request->ubicacion;
 //        $proveedor->otros = $request->otros;
         $proveedor->save();
-
-        flash('El Proveedor "'.$proveedor->nombre.'" ha sido actualizado correctamente', 'warning');
+        Notify::warning('El Proveedor '.$proveedor->nombre.' ha sido actualizado correctamente', 'Actualización');
         return redirect()->route('proveedores.index');
     }
 
@@ -101,10 +100,15 @@ class ProveedoresController extends Controller
     public function destroy($id)
     {
         $proveedor = Proveedor::find($id);
-        $proveedor->delete();
+        $activo = Activo::where(array('proveedor_id' => $id))->first();
+        if($activo){
+            Notify::danger('El proveedor "'.$proveedor->nombre.'"" no puede ser eliminado porque posee registros asociados', 'Error!!');
+            return redirect()->route('proveedores.index');
+        }else{
+            $proveedor->delete();
 
-        flash('El Proveedor "'.$proveedor->nombre.'" ha sido eliminado correctamente', 'danger');
-
-        return redirect()->route('proveedores.index');
+            Notify::warning('Proveedor '.$proveedor->nombre.' eliminado correctamente', 'Eliminación!!');
+            return redirect()->route('proveedores.index');
+        }
     }
 }

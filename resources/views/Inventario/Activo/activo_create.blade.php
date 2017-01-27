@@ -213,7 +213,7 @@
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
                                                 <input type="number" name="cantidad_minima" placeholder="0"
-                                                       class="form-control col-md-7 col-xs-12" value="0" min="0">
+                                                       class="form-control col-md-7 col-xs-12" required value="0" min="0">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -222,7 +222,7 @@
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
                                                 <input type="number" name="cantidad_maxima" placeholder="0"
-                                                       class="form-control col-md-7 col-xs-12" value="0" min="0">
+                                                       class="form-control col-md-7 col-xs-12" required value="100" min="0">
                                             </div>
                                         </div>
                                     </div>
@@ -271,13 +271,13 @@
     $(document).ready(function() {
         $('#birthday').daterangepicker({
             singleDatePicker: true,
-            calender_style: "picker_4"
+            calender_style: "picker_3"
         }, function(start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
         });
         $('#vencimiento').daterangepicker({
             singleDatePicker: true,
-            calender_style: "picker_4"
+            calender_style: "picker_3"
         }, function(start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
         });

@@ -171,7 +171,8 @@ return [
         // ...
         App\Providers\AnnotationsServiceProvider::class,
         // ...
-        //
+        //Notificaciones
+        Jleon\LaravelPnotify\NotifyServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -230,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Notify' => Jleon\LaravelPnotify\Notify::class,
 
     ],
 

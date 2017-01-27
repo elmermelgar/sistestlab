@@ -76,7 +76,7 @@
                                         <td>{{$proveedor->otros}}</td>
                                         <td style="text-align: center">
                                             <a href="{{route('proveedores.edit',$proveedor->id)}}" class="btn btn-warning" title="Editar Proveedor">
-                                                <i class="fa fa-cogs" aria-hidden="true"></i>
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                                     <a href="{{route('proveedores.destroy',$proveedor->id)}}" class="btn btn-danger" title="Eliminar Proveedor">
                                                         <i class="fa fa-university" aria-hidden="true"></i>

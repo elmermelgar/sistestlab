@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/notificaciones', 'HomeController@getNotificaciones');
 
 Route::group(['namespace'=>'Inventario','prefix' => 'inventario','middleware' => 'auth'], function () {
 

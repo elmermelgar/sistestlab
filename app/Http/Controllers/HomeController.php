@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Jleon\LaravelPnotify\Notify;
 
 class HomeController extends Controller
 {
@@ -24,5 +25,15 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    /**
+     * Show the Index Page
+     * @Get("notificaciones")
+     * @return \Illuminate\Http\Response
+     */
+    public function getNotificaciones()
+    {
+        Notify::success('Usted esta siendo notificado', 'Exito!!');
+        return view('notificaciones');
     }
 }

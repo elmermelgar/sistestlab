@@ -20,6 +20,8 @@
     <!-- jQuery custom content scroller -->
     <link href="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')}}"
           rel="stylesheet"/>
+    <!-- PNotify -->
+    <link href="{{url('pnotify/pnotify.custom.min.css')}}" rel="stylesheet">
     @yield('styles')
     <!-- Custom Theme Style -->
     <link href="{{url('gentallela/build/css/custom.css')}}" rel="stylesheet">
@@ -287,6 +289,9 @@
 <script src="{{url('gentallela/vendors/nprogress/nprogress.js')}}"></script>
 <!-- jQuery custom content scroller -->
 <script src="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<!-- PNotify -->
+<script src="{{url('pnotify/pnotify.custom.min.js')}}"></script>
+@include('laravelPnotify::notify')
 @yield('scripts')
 <!-- Custom Theme Scripts -->
 <script src="{{url('gentallela/build/js/custom.js')}}"></script>
