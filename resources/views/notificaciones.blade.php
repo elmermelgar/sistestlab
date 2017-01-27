@@ -78,8 +78,11 @@
                                   type: 'info',
                                   styling: 'bootstrap3',
                                   addclass: 'dark'
-                              });">Dark</button>
+                              });">Dark
+                                </button>
 
+                                <button class="btn btn-default source" onclick="enviar(1) ">Dark
+                                </button>
 
 
                             </div>
@@ -103,10 +106,30 @@
 
 @endsection
 @section('script-codigo')
-    {{--@if (Session::has('notifier.notice'))--}}
-        {{--<script>--}}
-            {{--new PNotify({!! Session::get('notifier.notice') !!});--}}
-        {{--</script>--}}
-    {{--@endif--}}
+    <script>
+
+            function eliminar_activo(id) {
+                (new PNotify({
+                    title: 'Confirmation Needed',
+                    text: 'Esta seguro de eliminar el activo?',
+                    icon: 'glyphicon glyphicon-question-sign',
+                    hide: false,
+                    confirm: {
+                        confirm: true
+                    },
+                    buttons: {
+                        closer: false,
+                        sticker: false
+                    },
+                    history: {
+                        history: false
+                    }
+                })).get().on('pnotify.confirm', function() {
+                            location.href = "inventario/activo/"+id+"/destroy";
+                        }).on('pnotify.cancel', function() {
+                        });
+            }
+    </script>
+
 
 @endsection

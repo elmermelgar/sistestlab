@@ -77,7 +77,7 @@ return [
      * Speed at which the notice animates in and out.
      * "slow", "def" or "normal", "fast" or number of milliseconds.
     */
-    'animate_speed' => 'fast',
+    'animate_speed' => 'normal',
 
     /*
      * Specify a specific duration of position animation.

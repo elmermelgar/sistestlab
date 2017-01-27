@@ -78,7 +78,7 @@
                                             <a href="{{route('proveedores.edit',$proveedor->id)}}" class="btn btn-warning" title="Editar Proveedor">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
-                                                    <a href="{{route('proveedores.destroy',$proveedor->id)}}" class="btn btn-danger" title="Eliminar Proveedor">
+                                                    <a href="#" onclick="eliminar_proveedor({{$proveedor->id}})" class="btn btn-danger" title="Eliminar Proveedor">
                                                         <i class="fa fa-university" aria-hidden="true"></i>
                                                     </a>
                                               </td>
@@ -113,5 +113,26 @@
 </script>
 <script>
     $('#flash-overlay-modal').modal();
+    function eliminar_proveedor(id) {
+        (new PNotify({
+            title: 'Es necesario confirmación',
+            text: 'Esta seguro de eliminar el proveedor?',
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function() {
+                    location.href = "proveedores/"+id+"/destroy";
+                }).on('pnotify.cancel', function() {
+                });
+    }
 </script>
 @endsection

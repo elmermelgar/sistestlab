@@ -102,7 +102,7 @@ class ProveedoresController extends Controller
         $proveedor = Proveedor::find($id);
         $activo = Activo::where(array('proveedor_id' => $id))->first();
         if($activo){
-            Notify::danger('El proveedor "'.$proveedor->nombre.'"" no puede ser eliminado porque posee registros asociados', 'Error!!');
+            Notify::danger('El proveedor "'.$proveedor->nombre.'" no puede ser eliminado porque posee registros asociados', 'Error!!');
             return redirect()->route('proveedores.index');
         }else{
             $proveedor->delete();

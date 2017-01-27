@@ -87,7 +87,7 @@
                                             <a href="{{route('activo.show',$activo->id)}}" style="background: #20b426" class="btn btn-dark" title="Ver Activo">
                                                 <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{{route('activo.destroy',$activo->id)}}" onclick="return confirm('Seguro')" class="btn btn-danger" title="Eliminar Activo">
+                                            <a href="#" onclick="eliminar_activo({{$activo->id}})" class="btn btn-danger" title="Eliminar Activo">
                                                 <i class="fa fa-university" aria-hidden="true"></i>
                                             </a>
                                         </td>
@@ -181,5 +181,26 @@
 </script>
 <script>
     $('#flash-overlay-modal').modal();
+    function eliminar_activo(id) {
+        (new PNotify({
+            title: 'Es necesario confirmación',
+            text: 'Esta seguro de eliminar el activo?',
+            icon: 'glyphicon glyphicon-question-sign',
+            hide: false,
+            confirm: {
+                confirm: true
+            },
+            buttons: {
+                closer: false,
+                sticker: false
+            },
+            history: {
+                history: false
+            }
+        })).get().on('pnotify.confirm', function() {
+                    location.href = "activo/"+id+"/destroy";
+                }).on('pnotify.cancel', function() {
+                });
+    }
 </script>
 @endsection

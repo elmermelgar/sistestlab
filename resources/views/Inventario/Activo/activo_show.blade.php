@@ -107,7 +107,7 @@
                                 <td>{{$activo->unidades}}</td>
                             </tr>
                             <tr>
-                                <td>INVENTARIO</td>
+                                <td class="text-danger">INVENTARIO</td>
                                 <td><a href="#">----------------</a></td>
                             </tr>
                             <tr>
