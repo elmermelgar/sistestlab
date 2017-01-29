@@ -29,7 +29,6 @@
     @yield('imports')
 
 
-
 </head>
 <body class="nav-md">
 
@@ -38,8 +37,16 @@
         <div class="col-md-3 left_col menu_fixed">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="{{url('/')}}" class="site_title"><i class="fa fa-flask"></i>
-                        <span>{{ config('app.name', 'TestLab') }}</span></a>
+                    <a href="{{url('/')}}" class="site_title">
+                        <img src="
+                        {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}"
+                             alt="TestLab"
+                             class=" img-responsive">
+
+                        {{--<i class="fa fa-flask"></i>--}}
+                        {{--<span>{{ config('app.name', 'TestLab') }}</span>--}}
+
+                    </a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -68,24 +75,9 @@
                     <div class="menu_section">
                         <h3>General</h3>
                         <ul class="nav side-menu">
-                            <li><a><i class="fa fa-home"></i> Inicio <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="index.html">Dashboard</a></li>
-                                    <li><a href="index2.html">Dashboard2</a></li>
-                                    <li><a href="index3.html">Dashboard3</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-institution"></i> Sucursal <span
-                                            class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="form.html">General Form</a></li>
-                                    <li><a href="form_advanced.html">Advanced Components</a></li>
-                                    <li><a href="form_validation.html">Form Validation</a></li>
-                                    <li><a href="form_wizards.html">Form Wizard</a></li>
-                                    <li><a href="form_upload.html">Form Upload</a></li>
-                                    <li><a href="form_buttons.html">Form Buttons</a></li>
-                                </ul>
-                            </li>
+                            <li><a href="{{url('/home')}}"><i class="fa fa-home"></i> Inicio</a></li>
+
+                            @include('menu.sucursal')
 
                             @if(Auth::user()->hasRole('admin'))
                                 @include('menu.admin')
@@ -169,68 +161,29 @@
                         </li>
 
                         <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                            <a href="" class="dropdown-toggle info-number" data-toggle="dropdown"
                                aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">6</span>
+                                <span class="badge bg-green">2</span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
                                     <a>
-                                        <span class="image"><img src="{{url('gentallela/images/img.jpg')}}"
+                                        <span class="image"><img src="{{url('gentallela/images/user.png')}}"
                                                                  alt="Profile Image"/></span>
                                         <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
+                                            <span>{{Auth::user()->getFullName()}}</span>
+                                            <span class="time">hace 3 min</span>
+                                        </span>
                                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{url('gentallela/images/img.jpg')}}"
-                                                                 alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{url('gentallela/images/img.jpg')}}"
-                                                                 alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{url('gentallela/images/img.jpg')}}"
-                                                                 alt="Profile Image"/></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
+                                            Ahora las sucursales poseen logos.
+                                        </span>
                                     </a>
                                 </li>
                                 <li>
                                     <div class="text-center">
                                         <a>
-                                            <strong>See All Alerts</strong>
+                                            <strong>Mirar todas las alertas</strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
                                     </div>
@@ -241,8 +194,7 @@
                         <li>
                             <a href="{{url('sucursal')}}">
                                 <span>Sucursal {{Auth::user()->sucursal->display_name}}</span>
-                                <span> </span>
-                                <span class="badge bg-red pull-right">Cerrada</span>
+                                <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
                             </a>
                         </li>
 
@@ -264,7 +216,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                Gentelella - Bootstrap Admin Template by <a href="#">Colorlib</a>
+                Plantilla por <a href="http://colorlib.com" target="_blank">Colorlib</a>
             </div>
             <div class="clearfix"></div>
         </footer>

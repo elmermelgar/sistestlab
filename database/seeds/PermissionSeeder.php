@@ -30,6 +30,17 @@ class PermissionSeeder extends Seeder
         $administrar_usuarios->description="Registra, habilita, deshabilita, modifica y asigna role a usuarios";
         $administrar_usuarios->save();
 
+        $administrar_sucursales=new Permission();
+        $administrar_sucursales->name='admin_sucursales';
+        $administrar_sucursales->display_name="Administrar Sucursales";
+        $administrar_sucursales->description="Registra y modifica las sucursales";
+        $administrar_sucursales->save();
+
+        $administrar_imagenes=new Permission();
+        $administrar_imagenes->name='admin_imagenes';
+        $administrar_imagenes->display_name="Administrar Imágenes";
+        $administrar_imagenes->description="Sube, modifica y elimina imagenes";
+        $administrar_imagenes->save();
 
     }
 }

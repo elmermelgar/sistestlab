@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Lista los roles del sistema
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

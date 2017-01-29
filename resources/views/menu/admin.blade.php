@@ -6,6 +6,7 @@
         <li><a href="{{url('usuarios')}}">Usuarios</a></li>
         <li><a href="{{url('roles')}}">Roles</a></li>
         <li><a href="{{url('permisos')}}">Permisos</a></li>
+        <li><a href="{{url('imagenes')}}">Imágenes</a></li>
     </ul>
 </li>
 <li>

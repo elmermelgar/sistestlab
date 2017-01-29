@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('photo')->nullable();
             $table->integer('sucursal_id');
+            $table->timestamp('last_login')->nullable();
             $table->boolean('enabled')->default(true);
             $table->rememberToken();
             $table->timestamps();

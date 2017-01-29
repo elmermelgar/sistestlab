@@ -6,11 +6,11 @@ use App\Role;
 use App\User;
 use Carbon\Carbon;
 
-use Illuminate\Auth\Passwords\TokenRepositoryInterface;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserService
@@ -19,13 +19,20 @@ class UserService
     /**
      * @var string
      */
-    private $defaultavatar = 'user.png';
+    private $defaultAvatar = 'user.png';
 
     /**
-     * Ruta donde se almacenan las photos, relativo al directorio publico
+     * Url base para acceder a las fotos a través de http, relativo al directorio publico
      * @var string
      */
-    private $pathavatar = '/storage/photos/';
+    private $avatarUrl = '/storage/photos/';
+
+    /**
+     * Ruta donde se almacenan las photos, relativo al directorio de almacenamiento publico
+     * /storage/app/public/
+     * @var string
+     */
+    private $avatarPath = 'photos';
 
     /**
      * Asigna roles al usuario especificado
@@ -60,10 +67,10 @@ class UserService
      */
     public function storageAvatar(UploadedFile $file, User $user)
     {
-        $destinationPath = public_path() . $this->pathavatar;
         $extension = $file->getClientOriginalExtension();
         $filename = $user->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
-        $file->move($destinationPath, $filename);
+        Storage::disk('public')->putFileAs($this->avatarPath, $file, $filename);
+        $user->photo ? Storage::disk('public')->delete($this->avatarPath . '/' . $user->photo) : null;
         $user->photo = $filename;
         $user->save();
     }
@@ -72,9 +79,9 @@ class UserService
      * Enviar link para reestablecer la contraseña
      * @param CanResetPassword $user
      */
-    public function sendResetLink(CanResetPassword $user){
+    public function sendResetLink(CanResetPassword $user)
+    {
         $token = Password::getRepository()->create($user);
-//            $this->tokens->create($user)
         $user->sendPasswordResetNotification($token);
     }
 

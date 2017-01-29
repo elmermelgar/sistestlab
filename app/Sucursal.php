@@ -11,10 +11,11 @@ class Sucursal extends Model
      */
     public $table='sucursales';
 
-    /**
-     * @var boolean
-     */
-    public $timestamps=false;
+
+    public function imagen()
+    {
+        return $this->belongsTo('App\Imagen','imagen_id');
+    }
 
     public function activos(){
         return $this->hasMany('App\Activo');

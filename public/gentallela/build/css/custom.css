@@ -576,12 +576,11 @@ a:hover, a:focus {
   font-size: 22px;
   width: 100%;
   color: #ECF0F1 !important;
-  margin-left: 0 !important;
   line-height: 59px;
   display: block;
-  height: 55px;
+  height: 65px;
   margin: 0;
-  padding-left: 10px; }
+  padding-left: 0px; }
 
 .site_title:hover, .site_title:focus {
   text-decoration: none; }

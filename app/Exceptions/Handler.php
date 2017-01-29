@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Lang;
 use PDOException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 

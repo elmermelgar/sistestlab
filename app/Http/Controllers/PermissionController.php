@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Lista los permisos del sistema
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

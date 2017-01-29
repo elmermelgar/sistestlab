@@ -48,7 +48,7 @@
                         <th data-field="surname" data-sortable="true">Apellido</th>
                         <th data-field="email" data-sortable="true">Email</th>
                         <th data-field="sucursal" data-sortable="true">Sucursal</th>
-                        <th data-field="lastaccess" data-sortable="true">Ultimo Acceso</th>
+                        <th data-field="last_login" data-sortable="true">Ultimo Acceso</th>
                         <th data-field="actions" data-sortable="false">Acciones</th>
                     </tr>
                     </thead>
@@ -60,17 +60,8 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->surname}}</td>
                             <td>{{$user->email}}</td>
-                            {{--<td>--}}
-                            {{--<ul>--}}
-                            {{--@forelse ($user->getAttribute('roles') as $rol)--}}
-                            {{--<li>{{ $rol->getAttribute('display_name') }}</li>--}}
-                            {{--@empty--}}
-                            {{--<p>Sin roles</p>--}}
-                            {{--@endforelse--}}
-                            {{--</ul>--}}
-                            {{--</td>--}}
                             <td>{{$user->sucursal->display_name}}</td>
-                            <td>{{$user->getAttribute('updated_at')}}</td>
+                            <td>{{$user->last_login}}</td>
                             <td>
                                 <a href="{{ url('usuarios/show/'.$user->id )}}"
                                    class="btn btn-success btn-sm" title="Ver Usuario"><span

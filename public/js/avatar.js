@@ -42,6 +42,7 @@ function previewAvatar(evt) {
         var reader = new FileReader();
         reader.onload = (function(theFile) {
             return function(e) {
+                $('#faimage').hide();
                 $('.avatar-view').attr('src', e.target.result);
             };
         })(f);
