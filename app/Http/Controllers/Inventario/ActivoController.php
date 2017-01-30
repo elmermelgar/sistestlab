@@ -92,6 +92,29 @@ class ActivoController extends Controller
     }
 
     /**
+     * Muestra la existencia .
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function consumir()
+    {
+        $inventario = Inventario::all();
+        return view('Inventario.reactivos', array('inventario'=>$inventario));
+    }
+
+    /**
+     * Muestra para Actualizar la existencia del inventario si se consume reactivo.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function consumiredit()
+    {
+        $inventario = Inventario::all();
+        return view('Inventario.reactivos_edit', array('inventario'=>$inventario));
+    }
+
+
+    /**
      * Muestra el formulario de edicion del activo.
      *
      * @param  int  $id
@@ -104,6 +127,31 @@ class ActivoController extends Controller
         $sucursales = Sucursal::all();
         $estados = Estado::all();
         return view('Inventario.Activo.activo_edit', array('activo'=>$activo, 'proveedores'=>$proveedores, 'sucursales'=>$sucursales, 'estados'=>$estados));
+    }
+
+    /**
+     * Muestra el formulario de edicion del activo.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function consumirupdate(Request $request,$id)
+    {
+        $inventario = Inventario::find($id);
+        if($request->valor<=($inventario->cantidad_maxima-$inventario->existencia)){
+            $invent = Inventario::all();
+            Notify::danger('Introduzca un valor correcto', 'Error');
+            return redirect('inventario/reactivos/edit')->with('inventario',$invent);
+//            return view('Inventario.reactivos_edit', array('inventario'=>$inventario));
+        }else{
+            $inventario->existencia = $inventario->cantidad_maxima-$request->valor;
+//            dd($inventario->existencia);
+            $inventario->save();
+            $invent = Inventario::all();
+            Notify::warning('Inventario del activo '.$inventario->activo->nombre_activo.' actualizado', 'Actualización');
+            return redirect('inventario/reactivos/edit')->with('inventario',$invent);
+        }
     }
 
     /**
@@ -171,7 +219,7 @@ class ActivoController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id1
-     * * @param  int  $id2
+     * @param  int  $id2
      * @return \Illuminate\Http\Response
      */
     public function cargarinventario(Request $request, $id1, $id2)

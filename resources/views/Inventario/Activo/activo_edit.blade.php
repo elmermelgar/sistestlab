@@ -17,9 +17,9 @@
                         <li><a href="{{ url('/inicio')}}">
                                 <span class="fa fa-home"></span>
                             </a></li>
-                        <li><a href="{{ route('activo.index')}}">Activo
+                        <li><a href="{{ route('activo.index')}}">Activos
                             </a></li></li>
-                        <li>Crear nuevo activo</li>
+                        <li>Actualizando un activo</li>
                     </ol>
                 </div>
 

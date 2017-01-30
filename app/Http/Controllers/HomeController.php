@@ -36,4 +36,14 @@ class HomeController extends Controller
         Notify::success('Usted esta siendo notificado', 'Exito!!');
         return view('notificaciones');
     }
+
+    /**
+     * Show the Index Page
+     * @Get("advanced")
+     * @return \Illuminate\Http\Response
+     */
+    public function input()
+    {
+        return view('advanced');
+    }
 }
