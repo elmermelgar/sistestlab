@@ -88,7 +88,23 @@ class ActivoController extends Controller
     {
         $activo = Activo::find($id);
         $inventario = Inventario::where(array('activo_id' => $id))->first();
-        return view('Inventario.Activo.activo_show', array('activo'=>$activo, 'inventario'=>$inventario));
+        Carbon::setLocale('es');
+        $carga = Carbon::parse($inventario->fecha_cargado)->format('l j \\of F Y ');
+
+        if ($inventario->fecha_vencimiento) {
+
+            $vence = Carbon::parse($inventario->fecha_vencimiento)->format('l j \\of F Y ');
+            $today = Carbon::today();
+            $venimiento = Carbon::createFromFormat('Y-m-d', $inventario->fecha_vencimiento)->subMonth();
+
+            if ($venimiento <= $today) {
+                Notify::error('Reactivo "' . $inventario->activo->nombre_activo . '" próximo a vencerse', 'Próximo a vencerse');
+            }
+        } else {
+            $vence = 'No existe ninguna fecha de vencimiento';
+        }
+//        dd(Carbon::createFromFormat('Y-m-d',$inventario->fecha_vencimiento));
+        return view('Inventario.Activo.activo_show', array('activo'=>$activo, 'inventario'=>$inventario, 'carga'=>$carga, 'vence'=>$vence));
     }
 
     /**
@@ -99,6 +115,21 @@ class ActivoController extends Controller
     public function consumir()
     {
         $inventario = Inventario::all();
+        $nom='';
+        foreach ($inventario as $inv) {
+            if ($inv->fecha_vencimiento) {
+                $today = Carbon::today();
+                $venimiento = Carbon::createFromFormat('Y-m-d', $inv->fecha_vencimiento)->subMonth();
+                if ($venimiento <= $today) {
+                    $nom=$nom.'<br/>'.'-'.$inv->activo->nombre_activo;
+                }
+            }
+        }
+        if($nom==''){
+
+        }else{
+            Notify::error('Lista de rectivos próximo a vencerse' . $nom . '', 'Próximo a vencerse')->sticky();
+        }
         return view('Inventario.reactivos', array('inventario'=>$inventario));
     }
 
@@ -164,8 +195,9 @@ class ActivoController extends Controller
     public function editinventario($id1,$id2)
     {
         $inventario = Inventario::find($id1);
+        $vencimiento = Carbon::parse($inventario->fecha_vencimiento)->format('m-d-Y');
         $activo = Activo::find($id2);
-        return view('Inventario.Activo.inventario_edit', array('activo'=>$activo, 'inventario'=>$inventario));
+        return view('Inventario.Activo.inventario_edit', array('activo'=>$activo, 'inventario'=>$inventario, 'fecha_vencimiento'=>$vencimiento));
     }
 
 

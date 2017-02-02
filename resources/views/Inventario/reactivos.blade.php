@@ -28,8 +28,8 @@
                             <form class="form-horizontal form-label-left" action="activo.store" method="POST">
                                 {{ csrf_field() }}
                                 <p>{{$inv->activo->nombre_activo}}</p>
-                                <input class="knob" data-width="110" data-max="{{$inv->cantidad_maxima}}" data-min="{{$inv->cantidad_minima}}" data-height="120" data-angleOffset=15
-                                       data-angleArc=330 data-displayPrevious=true data-fgColor="#0AC3EF"
+                                <input class="knob" data-width="110" data-max="{{$inv->cantidad_maxima}}" data-min="0" data-height="120" data-angleOffset=15
+                                       data-angleArc=330 data-displayPrevious=true @if($inv->cantidad_minima>=$inv->existencia) data-fgColor="#FA1C1C"@else data-fgColor="#0AC3EF" @endif
                                        data-skin="tron" data-thickness=".2" value="{{$inv->existencia}}" readonly>
                             </form>
                         </div>

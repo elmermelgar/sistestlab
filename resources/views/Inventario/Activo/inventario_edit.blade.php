@@ -67,7 +67,7 @@
                                             </label>
 
                                             <div class="col-md-8 col-sm-6 col-xs-12">
-                                                <input type="text" id="vencimiento" name="fecha_vencimiento" value="{{$inventario->fecha_vencimiento}}" class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000">
+                                                <input type="text" id="vencimiento" name="fecha_vencimiento" value="{{$fecha_vencimiento}}" class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000">
                                             </div>
                                         </div>
                                     </div>

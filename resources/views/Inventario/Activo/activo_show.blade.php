@@ -124,11 +124,11 @@
                             </tr>
                             <tr>
                                 <td><b>Fecha cargado:</b></td>
-                                <td>{{$inventario->fecha_cargado}}</td>
+                                <td>{{$carga}}</td>
                             </tr>
                             <tr>
                                 <td><b>Fecha de Vencimiento:</b></td>
-                                <td>{{$inventario->fecha_vencimiento}}</td>
+                                <td>{{$vence}}</td>
                             </tr>
                             </tbody>
                         </table>

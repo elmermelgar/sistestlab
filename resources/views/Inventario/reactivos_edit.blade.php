@@ -42,8 +42,8 @@
                         <div class="col-md-2" style="text-align: center">
                             <form class="form-horizontal form-label-left" action="{{route('consumir.updateinventario',$inv->id)}}" method="POST">
                                 {{ csrf_field() }}
-                                <p>{{$inv->activo->nombre_activo}}:{{$inv->existencia}}</p>
-                                <input name="valor" class="knob" data-width="110" data-max="{{$inv->cantidad_maxima}}" data-min="{{$inv->cantidad_minima}}" data-height="120" data-angleOffset=15
+                                <p>{{$inv->activo->nombre_activo}}: </p><h2>{{$inv->existencia}}</h2>
+                                <input name="valor" class="knob" data-width="110" data-max="{{$inv->cantidad_maxima}}" data-min="0" data-height="120" data-angleOffset=15
                                        data-angleArc=330 data-displayPrevious=true data-fgColor="#0AC3EF"
                                        data-skin="tron" data-thickness=".2" value="{{$inv->cantidad_maxima-$inv->existencia}}">
                                 <button type="submit" class="btn btn-round btn-warning btn-xs">Actualizar</button>
