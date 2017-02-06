@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <i class="fa fa-home"></i>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             @if(Auth::user()->can('admin_users'))
                 <li><a href="{{url('/usuarios')}}">Usuarios</a></li>
             @endif

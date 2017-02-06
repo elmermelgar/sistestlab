@@ -73,13 +73,17 @@ class ImagenController extends Controller
     public function delete(Request $request)
     {
         if($request->id&&$imagen=Imagen::find($request->id)){
+            if(count($imagen->sucursales) || $imagen->default){
+                Notify::error('La imágen esta en uso y no se puede eliminar');
+                return redirect()->back();
+            }
             Storage::disk('public')->delete($this->imagePath.'/'. $imagen->file_name);
             $imagen->delete();
             Notify::info('La imagen se eliminó correctamente');
             return redirect('imagenes');
         }
         Notify::error('No se ha podido eliminar la imagen');
-        return redirect()->back();
+
     }
 
     /**

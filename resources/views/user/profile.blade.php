@@ -17,8 +17,7 @@
                          {{url('/storage/photos/'.$user->photo)}}
                          @else
                          {{url('/storage/photos/'. 'user.png')}}
-                            @endif
-                                 ">
+                         @endif ">
                 </div>
             </div>
         </div>
@@ -47,7 +46,7 @@
 
             <a class="btn btn-success" href="
             @if(Auth::user()->can('admin_users'))
-            {{url('usuarios/edit/'.$user->id)}}
+            {{url('usuarios/'.$user->id.'/edit')}}
             @else
             {{url('usuario/editar/')}}
             @endif "><i

@@ -16,14 +16,14 @@
     <!-- Bootstrap -->
     <link href="{{url('gentallela/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{url('gentallela/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
     <!-- jQuery custom content scroller -->
     <link href="{{url('gentallela/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css')}}"
           rel="stylesheet"/>
     <!-- PNotify -->
     <link href="{{url('pnotify/pnotify.custom.min.css')}}" rel="stylesheet">
-    @yield('styles')
-    <!-- Custom Theme Style -->
+@yield('styles')
+<!-- Custom Theme Style -->
     <link href="{{url('gentallela/build/css/custom.css')}}" rel="stylesheet">
 
     @yield('imports')
@@ -37,11 +37,13 @@
         <div class="col-md-3 left_col menu_fixed">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="{{url('/')}}" class="site_title">
-                        <img src="
-                        {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}"
-                             alt="TestLab"
-                             class=" img-responsive">
+                    <a href="{{url('/home')}}" class="site_title">
+                        <img alt="TestLab" class=" img-responsive" src="
+                        @if(Auth::user()->sucursal->imagen)
+                        {{url('/storage/images/'.Auth::user()->sucursal->imagen->file_name)}}
+                        @else
+                        {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}
+                        @endif ">
 
                         {{--<i class="fa fa-flask"></i>--}}
                         {{--<span>{{ config('app.name', 'TestLab') }}</span>--}}
@@ -76,28 +78,15 @@
                         <h3>General</h3>
                         <ul class="nav side-menu">
                             <li><a href="{{url('/home')}}"><i class="fa fa-home"></i> Inicio</a></li>
-
                             @include('menu.sucursal')
-
-                            @if(Auth::user()->hasRole('admin'))
-                                @include('menu.admin')
-                            @endif
-
                         </ul>
                     </div>
                     <div class="menu_section">
-                        <h3>Live On</h3>
+                        <h3>Administración</h3>
                         <ul class="nav side-menu">
-                            <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="page_403.html">403 Error</a></li>
-                                    <li><a href="page_404.html">404 Error</a></li>
-                                    <li><a href="page_500.html">500 Error</a></li>
-                                    <li><a href="plain_page.html">Plain Page</a></li>
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="pricing_tables.html">Pricing Tables</a></li>
-                                </ul>
-                            </li>
+                            @if(Auth::user()->hasRole('admin'))
+                                @include('menu.admin')
+                            @endif
                         </ul>
                     </div>
 
@@ -164,22 +153,24 @@
                             <a href="" class="dropdown-toggle info-number" data-toggle="dropdown"
                                aria-expanded="false">
                                 <i class="fa fa-envelope-o"></i>
-                                <span class="badge bg-green">2</span>
+                                <span class="badge bg-green">{{count(Auth::user()->unreadNotifications)}}</span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{url('gentallela/images/user.png')}}"
-                                                                 alt="Profile Image"/></span>
-                                        <span>
-                                            <span>{{Auth::user()->getFullName()}}</span>
-                                            <span class="time">hace 3 min</span>
+                                @foreach(Auth::user()->unreadNotifications as $notification)
+                                    <li>
+                                        <a>
+                                            <span class="fa fa-flag"></span>
+                                            <span>
+                                            <span>{{$notification->data['title']}}</span>
+                                            <span class="time">
+                                                {{$notification->created_at->diffForHumans()}}</span>
                                         </span>
-                                        <span class="message">
-                                            Ahora las sucursales poseen logos.
+                                            <span class="message">
+                                            {{$notification->data['description']}}
                                         </span>
-                                    </a>
-                                </li>
+                                        </a>
+                                    </li>
+                                @endforeach
                                 <li>
                                     <div class="text-center">
                                         <a>
@@ -194,7 +185,11 @@
                         <li>
                             <a href="{{url('sucursal')}}">
                                 <span>Sucursal {{Auth::user()->sucursal->display_name}}</span>
-                                <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
+                                @if(\App\Services\SucursalService::isOpen(Auth::user()->sucursal->id))
+                                    <span style="margin: 5px 10px" class="badge bg-green pull-right">Abierta</span>
+                                @else
+                                    <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
+                                @endif
                             </a>
                         </li>
 

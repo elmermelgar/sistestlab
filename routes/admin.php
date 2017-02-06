@@ -10,8 +10,8 @@ Route::group(['prefix' => 'usuarios', 'middleware' => ['permission:admin_users']
 
     Route::get('/', 'UserController@index');
     Route::get('create', 'UserController@create');
-    Route::get('show/{id}', 'UserController@show');
-    Route::get('edit/{id}', 'UserController@edit');
+    Route::get('{id}', 'UserController@show');
+    Route::get('{id}/edit', 'UserController@edit');
     Route::post('store', 'UserController@store');
 });
 
@@ -19,16 +19,17 @@ Route::group(['prefix' => 'roles', 'middleware' => ['permission:admin_roles']], 
 
     Route::get('/', 'RoleController@index');
     Route::get('create', 'RoleController@create');
-    Route::get('show/{id}', 'RoleController@show');
-    Route::get('edit/{id}', 'RoleController@edit');
+    Route::get('{id}/', 'RoleController@show');
+    Route::get('{id}/edit', 'RoleController@edit');
     Route::post('store', 'RoleController@store');
+    Route::post('delete', 'RoleController@delete');
     Route::post('postPerms', 'RoleController@postPerms');
 });
 
 Route::group(['prefix' => 'permisos', 'middleware' => ['permission:admin_permissions']], function () {
 
     Route::get('/', 'PermissionController@index');
-    Route::get('edit/{id}', 'PermissionController@edit');
+    Route::get('{id}/edit', 'PermissionController@edit');
     Route::post('store', 'PermissionController@store');
 });
 
@@ -36,12 +37,24 @@ Route::get('/usuario/perfil', 'UserController@show');
 Route::get('/usuario/editar', 'UserController@edit');
 
 
+
+Route::group(['prefix' => 'sucursal'], function () {
+    Route::get('/', 'SucursalController@show');
+
+    Route::group(['prefix'=>'caja','middleware' => ['permission:admin_caja']], function () {
+        Route::post('abrir', 'SucursalController@abrirCaja');
+        Route::post('cerrar', 'SucursalController@cerrarCaja');
+    });
+});
+
 Route::group(['prefix' => 'sucursales', 'middleware' => ['permission:admin_sucursales']], function () {
 
     Route::get('/', 'SucursalController@index');
     Route::get('create', 'SucursalController@create');
-    Route::get('show/{id}', 'SucursalController@show');
-    Route::get('edit/{id}', 'SucursalController@edit');
+    Route::get('{id}', 'SucursalController@show');
+    Route::get('{id}/edit', 'SucursalController@edit');
+    Route::get('{id}/image', 'SucursalController@image');
+    Route::post('image/', 'SucursalController@changeImage');
     Route::post('store', 'SucursalController@store');
 });
 
@@ -49,8 +62,7 @@ Route::group(['prefix' => 'imagenes', 'middleware' => ['permission:admin_imagene
 
     Route::get('/', 'ImagenController@index');
     Route::get('upload', 'ImagenController@upload');
-    Route::get('show/{id}', 'ImagenController@show');
-    Route::get('edit/{id}', 'ImagenController@edit');
+    Route::get('{id}/edit', 'ImagenController@edit');
     Route::post('delete', 'ImagenController@delete');
     Route::post('store', 'ImagenController@store');
 });

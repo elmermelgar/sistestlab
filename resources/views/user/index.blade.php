@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li>Usuarios</li>
         </ol>
     </div>
@@ -27,13 +25,13 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h1>Usuarios
+            <h3>Usuarios
                 <a href="{{ url('usuarios/create') }}" title="Crear Nuevo Usuario" style="float: right">
                     <div class="btn btn-primary">
                         <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo Usuario
                     </div>
                 </a>
-            </h1>
+            </h3>
 
             <div class="clearfix"></div>
         </div>
@@ -63,10 +61,10 @@
                             <td>{{$user->sucursal->display_name}}</td>
                             <td>{{$user->last_login}}</td>
                             <td>
-                                <a href="{{ url('usuarios/show/'.$user->id )}}"
+                                <a href="{{ url('usuarios/'.$user->id )}}"
                                    class="btn btn-success btn-sm" title="Ver Usuario"><span
                                             class="fa fa-eye"></span></a>
-                                <a href="{{ url('usuarios/edit/' . $user->id )  }}"
+                                <a href="{{ url('usuarios/'. $user->id.'/edit' )  }}"
                                    class="btn btn-primary btn-sm" title="Editar Usuario"><span
                                             class="fa fa-edit"></span></a>
                             </td>

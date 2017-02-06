@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Jleon\LaravelPnotify\Notify;
 
 class HomeController extends Controller

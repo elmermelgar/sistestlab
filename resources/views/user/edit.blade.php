@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <i class="fa fa-home"></i>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/usuarios')}}">Usuarios</a></li>
             <li>{{$user?$user->getFullName():'Nuevo'}}</li>
         </ol>
@@ -61,12 +59,13 @@
                             </label>
                             <input type="file" id="avatar" name="avatar" maxlength="255" accept=".png,.jpg,.jpeg"
                                    style="display: none">
+                            <p>*Resolución recomendada: 200x200</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="form-group hidden">
-                        <label for="id" class="control-label col-md-3 col-sm-3 col-xs-12"> Id
+                        <label for="id" class="control-label col-md-2 col-sm-2 col-xs-12"> Id
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -75,7 +74,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12"> Nombre
+                        <label for="name" class="control-label col-md-2 col-sm-2 col-xs-12"> Nombre
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -84,7 +83,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="control-label col-md-3 col-sm-3 col-xs-12"> Apellido
+                        <label for="surname" class="control-label col-md-2 col-sm-2 col-xs-12"> Apellido
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -94,7 +93,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12"> Email
+                        <label for="email" class="control-label col-md-2 col-sm-2 col-xs-12"> Email
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -104,7 +103,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="sucursal_id" class="control-label col-md-3 col-sm-3 col-xs-12"> Sucursal
+                        <label for="sucursal_id" class="control-label col-md-2 col-sm-2 col-xs-12"> Sucursal
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -124,7 +123,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="roles" class="control-label col-md-3 col-sm-3 col-xs-12"> Roles
+                        <label for="roles" class="control-label col-md-2 col-sm-2 col-xs-12"> Roles
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             @if(Auth::user()->can('admin_users'))
@@ -149,17 +148,20 @@
                             @endif
                         </div>
                     </div>
+
+
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="ln_solid"></div>
                     <div class="form-group">
 
-                        <div class="col-md-offset-3 col-md-3">
+                        <div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-12">
                             <a href="{{url()->previous()}}" class="form-control btn btn-default">Cancelar</a>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2 col-sm-2 col-xs-12">
                             <input type="submit" class="form-control btn btn-primary" value="Guardar">
                         </div>
                     </div>
-
                 </div>
 
             </form>

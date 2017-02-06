@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li>Imagenes</li>
         </ol>
     </div>
@@ -51,7 +49,7 @@
                                         <a class="pointer"
                                            onclick="imgModal('{{$imagen->file_name}}','{{$imagen->description}}')">
                                             <i class="fa fa-eye"></i></a>
-                                        <a class="pointer" href="{{url('imagenes/edit/'.$imagen->id)}}">
+                                        <a class="pointer" href="{{url('imagenes/'.$imagen->id).'/edit'}}">
                                             <i class="fa fa-pencil"></i></a>
                                         @if(!$imagen->default)
                                             <a class="pointer"

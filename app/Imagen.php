@@ -17,7 +17,7 @@ class Imagen extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description','file_name','default',
+        'title', 'description','file_name',
     ];
 
     /**
@@ -25,6 +25,14 @@ class Imagen extends Model
      */
     public static function getDefaultImage(){
         return Imagen::where('default',true)->first();
+    }
+
+    /**
+     * Obtiene las sucursales que estan ocupando la imagen.
+     */
+    public function sucursales()
+    {
+        return $this->hasMany('App\Sucursal');
     }
 
 }

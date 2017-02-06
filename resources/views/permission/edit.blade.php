@@ -3,10 +3,9 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
-            <li>Permisos</li>
+            <li><a href="{{ url('/home')}}"><span class="fa fa-home"></span></a></li>
+            <li><a href="{{url('permisos')}}">Permisos</a></li>
+            <li>Editar Permiso</li>
         </ol>
     </div>
 
@@ -29,7 +28,7 @@
 
         <div class="x_content">
 
-            <div class="col-md-6">
+            <div class="col-md-7">
 
                 <form class="form-horizontal form-label-left" method="post" action="{{url('permisos/store')}}">
                     {{csrf_field()}}
@@ -75,7 +74,9 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                            <a href="{{url()->previous()}}"><div class="btn btn-primary">Cancelar</div></a>
+                            <a href="{{url()->previous()}}">
+                                <div class="btn btn-primary">Cancelar</div>
+                            </a>
                             <button type="submit" class="btn btn-success">Guardar</button>
                         </div>
                     </div>

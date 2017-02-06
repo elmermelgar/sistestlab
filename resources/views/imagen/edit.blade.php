@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <i class="fa fa-home"></i>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/imagenes')}}">Imagenes</a></li>
             <li>{{$imagen? $imagen->title:'Subir Imagen'}}</li>
         </ol>
@@ -53,8 +51,9 @@
                                 <label for="image" id="imageLabel" class="hidden">Seleccionar Imagen</label>
                                 <input type="file" id="image" name="image" maxlength="255" accept=".png,.jpg,.jpeg"
                                        required>
+                                <p>*El tamaño máximo por archivo es: 2M</p>
+                                <p>*Resolución recomendada para logos: 700x200</p>
                             @endif
-                            <br>
                         </div>
                     </div>
                 </div>

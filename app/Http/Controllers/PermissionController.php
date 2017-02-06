@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Permission;
 use Illuminate\Http\Request;
+use Jleon\LaravelPnotify\Notify;
 
 class PermissionController extends Controller
 {
@@ -34,6 +35,8 @@ class PermissionController extends Controller
     public function edit($id)
     {
         if($permission=Permission::find($id)){
+            Notify::warning('Al modificarlo, la función de este permiso podría quedar fuera de contexto.',
+                'Se recomienda no modificar este permiso')->sticky();
             return view('permission.edit',['permission'=>$permission]);
         }
         return response()->view('errors.404',[],404);

@@ -2,6 +2,7 @@
 
 use App\Role;
 use App\User;
+use App\Sucursal;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -13,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $san_salvador=\App\Sucursal::where('name','san_salvador')->get()->first();
+        $san_salvador = Sucursal::where('name', 'san_salvador')->get()->first();
 
         $nelson = new User();
         $nelson->name = 'Nelson';
@@ -23,15 +24,15 @@ class UserSeeder extends Seeder
         $nelson->sucursal()->associate($san_salvador);
         $nelson->save();
 
-        $elmer= new User();
-        $elmer->name='Elmer';
-        $elmer->surname='Melgar';
-        $elmer->email='elmermelgar999@gmail.com';
-        $elmer->password=bcrypt('123456');
+        $elmer = new User();
+        $elmer->name = 'Elmer';
+        $elmer->surname = 'Melgar';
+        $elmer->email = 'elmermelgar999@gmail.com';
+        $elmer->password = bcrypt('123456');
         $elmer->sucursal()->associate($san_salvador);
         $elmer->save();
 
-        $admin=Role::where('name','admin')->first();
+        $admin = Role::where('name', 'admin')->first();
 
         $nelson->attachRole($admin);
         $elmer->attachRole($admin);

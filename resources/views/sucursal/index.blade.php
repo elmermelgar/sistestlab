@@ -12,9 +12,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li>Sucursales</li>
         </ol>
     </div>
@@ -50,19 +48,16 @@
                             <div class="col-sm-12">
                                 <h4 class="brief"><i>Sucursal</i></h4>
 
-                                <div class="right col-xs-12 text-center">
-                                    <img src="
+                                <div class="col-xs-12">
+                                    <img alt="TestLab" class="img-sucursal img-responsive" src="
                                     @if($sucursal->imagen)
-                                    {{url('/storage/images/'.$sucursal->imagen)}}
+                                    {{url('/storage/images/'.$sucursal->imagen->file_name)}}
                                     @else
                                     {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}
-                                    @endif "
-                                         alt="TestLab"
-                                         class=" img-responsive">
+                                    @endif " >
                                 </div>
                                 <div class="left col-xs-12">
                                     <h2>{{$sucursal->display_name}}</h2>
-                                    <p><strong>ID: </strong> {{$sucursal->id.' '.$sucursal->name}}</p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-building"></i> Dirección: {{$sucursal->direccion}}</li>
                                         <li><i class="fa fa-phone"></i> Telefono: {{$sucursal->telefono}}</li>
@@ -71,7 +66,7 @@
                             </div>
                             <div class="col-xs-12 bottom ">
                                 <div class="col-xs-12 emphasis">
-                                    <a class="btn btn-primary btn-xs">
+                                    <a class="btn btn-primary btn-xs" href="{{url('sucursales/'.$sucursal->id)}}">
                                         <i class="fa fa-eye"> </i> Ver Sucursal
                                     </a>
                                 </div>

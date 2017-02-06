@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><span class="fa fa-home"></span></a></li>
             <li>Roles</li>
         </ol>
     </div>
@@ -27,13 +25,13 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h1>Roles
+            <h3>Roles
                 <a href="{{ url('roles/create') }}" title="Crear Nuevo Rol" style="float: right">
                     <div class="btn btn-primary">
                         <i class="fa fa-plus" aria-hidden="true"></i> Nuevo Rol
                     </div>
                 </a>
-            </h1>
+            </h3>
             <div class="clearfix"></div>
         </div>
 
@@ -63,12 +61,8 @@
                             <td>{{$role->getAttribute('updated_at')}}</td>
                             <td>
                                 <a class="btn btn-success btn-sm" title="Mostrar Rol"
-                                   href="{{ url('roles/show/' . $role->getAttribute('id')) }}">
-                                    <i class="fa fa-eye"></i> Ver
-                                </a>
-                                <a class="btn btn-primary btn-sm" title="Editar Rol"
-                                   href="{{ url('roles/edit/' . $role->getAttribute('id')) }}">
-                                    <i class="fa fa-eye"></i> Editar
+                                   href="{{ url('roles/' . $role->getAttribute('id')) }}">
+                                    <i class="fa fa-eye"></i> Ver Rol
                                 </a>
                             </td>
                         </tr>

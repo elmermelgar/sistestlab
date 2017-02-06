@@ -6,6 +6,7 @@ use App\Permission;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Jleon\LaravelPnotify\Notify;
 
 class RoleController extends Controller
 {
@@ -29,15 +30,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Muestra el formulario crear un rol
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('role.edit', ['role' => null]);
-    }
-
-    /**
      * Muestra el rol especificado
      * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -45,9 +37,18 @@ class RoleController extends Controller
     public function show($id)
     {
         if ($role = Role::find($id)) {
-            return view('role.show', ['role' => $role,'perms'=>Permission::all()]);
+            return view('role.show', ['role' => $role, 'perms' => Permission::all()]);
         }
         return response()->view('errors.404', [], 404);
+    }
+
+    /**
+     * Muestra el formulario crear un rol
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('role.edit', ['role' => null]);
     }
 
     /**
@@ -58,9 +59,28 @@ class RoleController extends Controller
     public function edit($id)
     {
         if ($role = Role::find($id)) {
-            return view('role.edit', ['role' => $role,'edit'=>true]);
+            if ($role->locked) {
+                Notify::warning('Al modificarlo, las funciones de este rol podrían quedar fuera de contexto.',
+                    'Se recomienda no modificar este rol')->sticky();
+            }
+            return view('role.edit', ['role' => $role, 'edit' => true]);
         }
         return response()->view('errors.404', [], 404);
+    }
+
+    /**
+     * Elimina un rol no bloqueado
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function delete(Request $request){
+        if($request->id&&$role=Role::find($request->id)){
+            $role->users()->sync([]); // Delete relationship data
+            $role->perms()->sync([]); // Delete relationship data
+            $role->forceDelete();
+            Notify::warning('Se ha eliminado el rol');
+        }
+        return redirect('roles');
     }
 
     /**
@@ -70,12 +90,17 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->id&&$role = Role::find($request->id)) {
-            $role->update($request->except(['id', '_token']));
+        if ($request->id && $role = Role::find($request->id)) {
+            if ($role->locked) {
+                $role->update($request->except(['id', 'name', '_token']));
+            } else {
+                $role->update($request->except(['id', '_token']));
+            }
         } else {
-            Role::create($request->except(['id', '_token']));
+            $role = Role::create($request->except(['id', '_token']));
         }
-        return redirect('roles');
+        Notify::success('Rol guardado correctamente');
+        return redirect('roles/' . $role->id);
     }
 
     /**
@@ -86,7 +111,8 @@ class RoleController extends Controller
     public function postPerms(Request $request)
     {
         if ($role = Role::find($request->input('id'))) {
-            if($role->name=='admin'){
+            if ($role->loked) {
+                Notify::error('No se pueden asignar o remover permisos a este rol');
                 return redirect()->back();
             }
             if ($perms = $request->input('perms')) {
@@ -95,6 +121,7 @@ class RoleController extends Controller
                 $this->removePerms($role);
             }
         }
+        Notify::success('¡Permisos asignados correctamente!');
         return redirect()->back();
     }
 

@@ -7,9 +7,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
-                </a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li>Permisos</li>
         </ol>
     </div>
@@ -27,7 +25,7 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h1>Permisos</h1>
+            <h3>Permisos</h3>
             <div class="clearfix"></div>
         </div>
 
@@ -57,7 +55,7 @@
                             <td>{{$permission->getAttribute('updated_at')}}</td>
                             <td>
                                 <a class="btn btn-primary btn-sm" title="Editar Usuario"
-                                   href="{{ url('permisos/edit/' . $permission->getAttribute('id')) }}">
+                                   href="{{ url('permisos/' . $permission->getAttribute('id')).'/edit' }}">
                                     <i class="fa fa-edit"></i> Editar
                                 </a>
                             </td>

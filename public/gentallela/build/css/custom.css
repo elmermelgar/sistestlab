@@ -111,6 +111,11 @@
   width: 35%;
   float: left; }
 
+.img-sucursal{
+  margin: 0 auto;
+  max-height: 200px;
+}
+
 .img-circle.profile_img {
   width: 70%;
   background: #fff;
