@@ -109,7 +109,7 @@ class SucursalController extends Controller
      */
     public function abrirCaja(Request $request)
     {
-        if ($this->sucursalService->abrirCaja($request->id)) {
+        if ($this->sucursalService->abrirCaja($request->id,Auth::user())) {
             Notify::success('La caja se ha abierto');
         } else {
             Notify::danger('Puede que la caja ya estuviese abierta');
@@ -124,7 +124,7 @@ class SucursalController extends Controller
      */
     public function cerrarCaja(Request $request)
     {
-        if ($this->sucursalService->cerrarCaja($request->id)) {
+        if ($this->sucursalService->cerrarCaja($request->id,Auth::user())) {
             Notify::success('La caja se ha cerrado');
         } else {
             Notify::danger('Puede que la caja ya estuviese cerrada');

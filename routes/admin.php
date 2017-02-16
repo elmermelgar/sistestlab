@@ -9,11 +9,16 @@
 Route::group(['prefix' => 'usuarios', 'middleware' => ['permission:admin_users']], function () {
 
     Route::get('/', 'UserController@index');
+    Route::post('enable', 'UserController@enable');
+    Route::post('disable', 'UserController@disable');
     Route::get('create', 'UserController@create');
     Route::get('{id}', 'UserController@show');
     Route::get('{id}/edit', 'UserController@edit');
     Route::post('store', 'UserController@store');
 });
+
+Route::get('/usuario/perfil', 'UserController@show');
+Route::get('/usuario/editar', 'UserController@edit');
 
 Route::group(['prefix' => 'roles', 'middleware' => ['permission:admin_roles']], function () {
 
@@ -32,11 +37,6 @@ Route::group(['prefix' => 'permisos', 'middleware' => ['permission:admin_permiss
     Route::get('{id}/edit', 'PermissionController@edit');
     Route::post('store', 'PermissionController@store');
 });
-
-Route::get('/usuario/perfil', 'UserController@show');
-Route::get('/usuario/editar', 'UserController@edit');
-
-
 
 Route::group(['prefix' => 'sucursal'], function () {
     Route::get('/', 'SucursalController@show');
@@ -65,4 +65,14 @@ Route::group(['prefix' => 'imagenes', 'middleware' => ['permission:admin_imagene
     Route::get('{id}/edit', 'ImagenController@edit');
     Route::post('delete', 'ImagenController@delete');
     Route::post('store', 'ImagenController@store');
+});
+
+Route::group(['prefix' => 'clientes', 'middleware' => ['permission:admin_clientes']], function () {
+
+    Route::get('/', 'ClienteController@index');
+    Route::get('create', 'ClienteController@create');
+    Route::get('{id}', 'ClienteController@show');
+    Route::get('{id}/edit', 'ClienteController@edit');
+    Route::post('delete', 'ClienteController@delete');
+    Route::post('store', 'ClienteController@store');
 });

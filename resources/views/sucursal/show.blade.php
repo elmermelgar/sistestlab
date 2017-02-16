@@ -90,7 +90,7 @@
                     <tr>
                         <th>Estado</th>
                         <td>
-                            @if($caja->is_open) <span class="badge bg-green">Abierta</span>
+                            @if(\App\Services\SucursalService::isOpen($sucursal->id)) <span class="badge bg-green">Abierta</span>
                             @else <span class="badge bg-red">Cerrada</span>
                             @endif
                         </td>
@@ -113,7 +113,7 @@
                 @permission('admin_caja')
 
                 <form method="post" action="
-                @if($caja->is_open) {{url('sucursal/caja/cerrar')}}
+                @if(\App\Services\SucursalService::isOpen($sucursal->id)) {{url('sucursal/caja/cerrar')}}
                 @else {{url('sucursal/caja/abrir')}}
                 @endif">
                     {{csrf_field()}}
@@ -123,7 +123,7 @@
                         <input id="id" name="id" value="{{$sucursal->id}}">
                     </div>
 
-                    @if($caja->is_open)
+                    @if(\App\Services\SucursalService::isOpen($sucursal->id))
                         <input type="submit" value="Cerrar Caja" class="btn btn-danger">
                     @else
                         <input type="submit" value="Abrir Caja" class="btn btn-success">
@@ -136,6 +136,8 @@
             </div>
         </div>
     </div>
+
+    @permission('admin_caja')
 
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
@@ -150,20 +152,19 @@
                 <table class="table table-striped " id="datatable">
                     <thead>
                     <tr>
-                        <th data-field="fecha" data-sortable="true">Fecha</th>
-                        <th data-field="hora" data-sortable="true">Hora</th>
+                        <th data-field="stamp" data-sortable="true">Fecha y Hora</th>
                         <th data-field="estado" data-sortable="true">Estado</th>
                         <th data-field="efectivo" data-sortable="true">Efectivo</th>
                         <th data-field="debito" data-sortable="true">Debito</th>
                         <th data-field="credito" data-sortable="true">Credito</th>
+                        <th data-field="user" data-sortable="true">Usuario</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     @forelse($registros as $registro)
                         <tr>
-                            <td>{{$registro->fecha}}</td>
-                            <td>{{$registro->hora}}</td>
+                            <td>{{$registro->stamp}}</td>
                             <td>
                                 @if($registro->estado) Abierta
                                 @else Cerrada
@@ -172,6 +173,7 @@
                             <td>{{$registro->efectivo}}</td>
                             <td>{{$registro->debito}}</td>
                             <td>{{$registro->credito}}</td>
+                            <td>{{$registro->user? $registro->user->getFullName():'Sistema'}}</td>
                         </tr>
                     @empty
                         <td colspan="6">Sin registro!</td>
@@ -183,6 +185,8 @@
             </div>
         </div>
     </div>
+
+    @endpermission
 
 @endsection
 

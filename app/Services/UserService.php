@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Ramsey\Uuid\Uuid;
 
 class UserService
 {
@@ -33,6 +34,18 @@ class UserService
      * @var string
      */
     private $avatarPath = 'photos';
+
+    /**
+     *
+     */
+    public function createUser(array $data){
+        $aleat = Uuid::uuid4();
+        $data['password'] = $aleat;
+        $data['password_confirmation'] = $aleat;
+        $this->validator($data)->validate();
+        $user=User::create($data);
+        return $user;
+    }
 
     /**
      * Asigna roles al usuario especificado
@@ -76,6 +89,36 @@ class UserService
     }
 
     /**
+     * Deshabilita el usuario espeficado
+     * @param $user_id
+     * @return bool
+     */
+    public function disable($user_id)
+    {
+        if ($user = User::find($user_id)) {
+            $user->enabled=false;
+            $user->save();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Habilita el usuario espeficado
+     * @param $user_id
+     * @return bool
+     */
+    public function enable($user_id)
+    {
+        if ($user = User::find($user_id)) {
+            $user->enabled=true;
+            $user->save();
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Enviar link para reestablecer la contraseña
      * @param CanResetPassword $user
      */
@@ -94,7 +137,6 @@ class UserService
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'surname' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);

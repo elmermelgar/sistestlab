@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 
 class LoginController extends Controller
 {
@@ -60,6 +61,14 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+            // Verifica si el usuario esta habilitado
+            if(!Auth::user()->enabled){
+                Auth::logout();
+                return redirect()->back()
+                    ->withInput($request->only('email', 'remember'))
+                    ->withErrors(['disabled' => $this->getDisabledLoginMessage()]);
+            }
+
             if ($user=Auth::user()) {
                 $user->last_login = Carbon::now();
                 $user->save();
@@ -73,5 +82,15 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Obtiene un mensaje cuando un usuario deshabilitado intenta iniciar sesión.
+     * @return string
+     */
+    protected function getDisabledLoginMessage()
+    {
+        return Lang::has('auth.disabled') ?
+            Lang::get('auth.disabled') : 'Su usario está deshabilitado. Por favor contacte al administrador.';
     }
 }

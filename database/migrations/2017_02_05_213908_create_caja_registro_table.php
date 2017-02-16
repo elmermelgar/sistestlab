@@ -15,14 +15,15 @@ class CreateCajaRegistroTable extends Migration
     {
         Schema::create('caja_registro', function (Blueprint $table) {
             $table->integer('sucursal_id');
-            $table->date('fecha');
+            $table->timestamp('stamp');
+            $table->integer('user_id')->nullable();
             $table->integer('estado');
-            $table->time('hora');
             $table->decimal('efectivo', 8, 2)->default(0);
             $table->decimal('debito', 8, 2)->default(0);
             $table->decimal('credito', 8, 2)->default(0);
-            $table->primary(['sucursal_id', 'fecha', 'estado']);
+            $table->primary(['sucursal_id', 'stamp']);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

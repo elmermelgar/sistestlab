@@ -92,7 +92,7 @@
                             <td>{{$user->sucursal->display_name}}</td>
                             <td>
                                 <a class="btn btn-info btn-xs" title="Ver Usuario"
-                                   href="{{ url('usuarios/show/' . $user->getAttribute('id')) }}">
+                                   href="{{ url('usuarios/' . $user->getAttribute('id')) }}">
                                     <i class="fa fa-eye"></i> Ver Usuario
                                 </a>
                             </td>

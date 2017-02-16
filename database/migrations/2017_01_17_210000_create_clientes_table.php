@@ -18,9 +18,9 @@ class CreateClientesTable extends Migration
             $table->string('documento_identidad',9);
             $table->string('razon_social');
             $table->string('direccion');
-            $table->string('email')->unique();
             $table->string('telefono',8);
-            $table->integer('user_id')->nullable();
+            $table->string('seguro')->nullable();
+            $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

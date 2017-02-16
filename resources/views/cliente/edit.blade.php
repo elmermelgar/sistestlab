@@ -2,14 +2,15 @@
 
 @section('imports')
     <link rel="stylesheet" type="text/css" href="{{url("/css/sumoselect.css")}}">
+    <link rel="stylesheet" type="text/css" href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}">
 @endsection
 
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('/usuarios')}}">Usuarios</a></li>
-            <li>{{$user?$user->getFullName():'Nuevo'}}</li>
+            <li><a href="{{url('/clientes')}}">Clientes</a></li>
+            <li>{{$cliente? $cliente->razon_social:'Nuevo'}}</li>
         </ol>
     </div>
 
@@ -26,16 +27,16 @@
 
         <div class="x_title">
 
-            @if($user)
-                <h2>Editar Usuario</h2>
+            @if($cliente)
+                <h2>Editar Cliente</h2>
             @else
-                <h2>Nuevo Usuario</h2>
+                <h2>Registrar Cliente</h2>
             @endif
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{url('usuarios/store')}}"
+            <form class="form-horizontal form-label-left" method="post" action="{{url('clientes/store')}}"
                   enctype="multipart/form-data">
                 {{csrf_field()}}
 
@@ -46,8 +47,8 @@
                             <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
                                  style="max-height: 200px"
                                  src="
-                            @if($user? $user->photo:null)
-                                 {{url('/storage/photos/'.$user->photo)}}
+                            @if($cliente? ($cliente->user->photo)?:null:null)
+                                 {{url('/storage/photos/'.$cliente->user->photo)}}
                                  @else
                                  {{url('/storage/photos/'. 'user.png')}}
                                  @endif
@@ -55,7 +56,7 @@
 
                             <br>
                             <label for="avatar" id="labelAvatar" class="btn btn-success" style="margin-bottom: 1em">
-                                Cambiar Foto
+                                Cambiar Imágen
                             </label>
                             <input type="file" id="avatar" name="avatar" maxlength="255" accept=".png,.jpg,.jpeg"
                                    style="display: none">
@@ -65,90 +66,73 @@
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="form-group hidden">
-                        <label for="id" class="control-label col-md-2 col-sm-2 col-xs-12"> Id
+                        <label for="id" class="control-label col-md-3 col-sm-3 col-xs-12"> Id
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="id" name="id" class="form-control" placeholder="ID"
-                                   value="{{$user? $user->id:old('id')}}" @if($user) required @endif>
+                                   value="{{$cliente? $cliente->id:old('id')}}" @if($cliente) required @endif>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label col-md-2 col-sm-2 col-xs-12"> Nombre
+                        <label for="razon_social" class="control-label col-md-3 col-sm-3 col-xs-12"> Razón Social
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="name" name="name" class="form-control" placeholder="Nombre"
-                                   value="{{$user? $user->name:old('name')}}" required>
+                            <input id="razon_social" name="razon_social" class="form-control" placeholder="Razón Social"
+                                   value="{{$cliente? $cliente->razon_social:old('razon_social')}}" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="control-label col-md-2 col-sm-2 col-xs-12"> Apellido
-                            <span class="required">*</span>
+                        <label for="documento_identidad" class="control-label col-md-3 col-sm-3 col-xs-12">
+                            Documento de Identidad <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="surname" name="surname" class="form-control" placeholder="Apellido"
-                                   value="{{$user? $user->surname:old('surname')}}">
+                            <input id="documento_identidad" name="documento_identidad" class="form-control"
+                                   placeholder="Documento de Identidad"
+                                   value="{{$cliente? $cliente->documento_identidad:old('documento_identidad')}}" required>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="email" class="control-label col-md-2 col-sm-2 col-xs-12"> Email
+                        <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12"> Email
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="email" id="email" name="email" class="form-control" placeholder="Email"
-                                   value="{{$user? $user->email:old('email')}}" required @if($user) readonly @endif>
+                                   value="{{$cliente? $cliente->user->email:old('email')}}" required @if($cliente) readonly @endif>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="sucursal_id" class="control-label col-md-2 col-sm-2 col-xs-12"> Sucursal
+                        <label for="telefono" class="control-label col-md-3 col-sm-3 col-xs-12"> Teléfono
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            @if(Auth::user()->can('admin_users'))
-                                <select id="sucursal_id" name="sucursal_id" class="sucursal form-control" required>
-                                    @foreach($sucursales as $sucursal)
-                                        <option value="{{$sucursal->id}}"
-                                                @if($user? $user->sucursal:null)
-                                                    @if($user->sucursal->name==$sucursal->name) selected
-                                                    @endif
-                                                @endif>
-                                            {{$sucursal->display_name}}</option>
-                                    @endforeach
-                                </select>
-                            @else
-                                <input id="sucursal" name="sucursal" class="form-control" placeholder="Surcursal"
-                                       value="{{$user? $user->sucursal? $user->sucursal->display_name:null:null}}" required readonly>
-                            @endif
+                            <input id="telefono" name="telefono" class="form-control" placeholder="Teléfono"
+                                   value="{{$cliente? $cliente->telefono:old('telefono')}}">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="roles" class="control-label col-md-2 col-sm-2 col-xs-12"> Roles
+                        <label for="direccion" class="control-label col-md-3 col-sm-3 col-xs-12"> Dirección
+                            <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            @if(Auth::user()->can('admin_users'))
-                                <select id="roles" name="roles[]" class="role form-control" multiple>
-                                    @foreach($roles as $rol)
-                                        <option value="{{$rol->id}}"
-                                                @if($user? $user->hasRole($rol->name):null) selected @endif>
-                                            {{$rol->display_name}}</option>
-                                    @endforeach
-                                </select>
-                            @else
-                                <input id="role" name="role" class="form-control" placeholder="Roles"
-                                       value="@forelse($user->roles as $rol){{$rol->display_name}}
-                                            @if(!$loop->last) {{', '}} @endif
-                                            @empty Sin roles!
-                                            @endforelse " readonly>
-                            @endif
+                            <textarea id="direccion" name="direccion" class="form-control resize"
+                                      placeholder="Dirección"
+                                      required>{{$cliente? $cliente->direccion:old('direccion')}}</textarea>
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="user" class="control-label col-md-3 col-sm-3 col-xs-12">Habilitar Usuario</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 5px">
+                            <input type="checkbox" id="user" name="user" class="flat"
+                                   @if($cliente? $cliente->user->enabled:null) checked @endif>
+                        </div>
+                    </div>
 
                 </div>
+
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="ln_solid"></div>
                     <div class="form-group">
@@ -171,6 +155,7 @@
 @section('scripts')
     <script src="{{url('/js/avatar.js')}}"></script>
     <script src="{{url("/js/sumoselect.min.js")}}"></script>
+    <script src="{{url('gentallela/vendors/iCheck/icheck.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('.sucursal').SumoSelect({placeholder: 'Seleccione la sucursal a asignar'});

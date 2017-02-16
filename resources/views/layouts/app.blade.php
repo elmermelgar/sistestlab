@@ -39,7 +39,7 @@
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="{{url('/home')}}" class="site_title">
                         <img alt="TestLab" class=" img-responsive" src="
-                        @if(Auth::user()->sucursal->imagen)
+                        @if(Auth::user()->sucursal? Auth::user()->sucursal->imagen:null)
                         {{url('/storage/images/'.Auth::user()->sucursal->imagen->file_name)}}
                         @else
                         {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}
@@ -77,7 +77,8 @@
                     <div class="menu_section">
                         <h3>General</h3>
                         <ul class="nav side-menu">
-                            <li><a href="{{url('/home')}}"><i class="fa fa-home"></i> Inicio</a></li>
+                            <li><a href="{{url('/home')}}"><i class="fa fa-home fw"></i>Inicio</a></li>
+                            <li><a href="{{url('clientes')}}"><i class="fa fa-briefcase fw"></i>Clientes</a></li>
                             @include('menu.sucursal')
                         </ul>
                     </div>
@@ -182,16 +183,18 @@
                             </ul>
                         </li>
 
-                        <li>
-                            <a href="{{url('sucursal')}}">
-                                <span>Sucursal {{Auth::user()->sucursal->display_name}}</span>
-                                @if(\App\Services\SucursalService::isOpen(Auth::user()->sucursal->id))
-                                    <span style="margin: 5px 10px" class="badge bg-green pull-right">Abierta</span>
-                                @else
-                                    <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
-                                @endif
-                            </a>
-                        </li>
+                        @if(Auth::user()->sucursal)
+                            <li>
+                                <a href="{{url('sucursal')}}">
+                                    <span>Sucursal {{Auth::user()->sucursal->display_name}}</span>
+                                    @if(\App\Services\SucursalService::isOpen(Auth::user()->sucursal->id))
+                                        <span style="margin: 5px 10px" class="badge bg-green pull-right">Abierta</span>
+                                    @else
+                                        <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
+                                    @endif
+                                </a>
+                            </li>
+                        @endif
 
 
                     </ul>

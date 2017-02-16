@@ -1,4 +1,4 @@
-<li><a><i class="fa fa-institution"></i> Sucursal <span
+<li><a><i class="fa fa-institution"></i> Sucursales <span
                 class="fa fa-chevron-down"></span></a>
     <ul class="nav child_menu">
         <li><a href="{{url('sucursales')}}">Todas</a></li>

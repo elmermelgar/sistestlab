@@ -25,7 +25,8 @@
             <h3>{{$user->getFullName()}}</h3>
 
             <ul class="list-unstyled user_data">
-                <li><i class="fa fa-map-marker user-profile-icon"></i> Sucursal {{$user->sucursal->display_name}}</li>
+                <li><i class="fa fa-map-marker user-profile-icon"></i> Sucursal {{$user->sucursal?
+                $user->sucursal->display_name:'--'}}</li>
                 <li>
                     <i class="fa fa-briefcase user-profile-icon"></i>
                     @forelse($user->roles as $rol)

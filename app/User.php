@@ -32,14 +32,32 @@ class User extends Authenticatable implements CanResetPassword
         'password', 'remember_token',
     ];
 
+    /**
+     * Devuelve el nombre completo del usuario
+     * @return string
+     */
     public function getFullName()
     {
-        return $this->name.' '.$this->surname;
+        if($this->surname){
+            return $this->name.' '.$this->surname;
+        }
+        return $this->name;
     }
 
+    /**
+     * Obtiene la sucursal a la que pertenece el usuario.
+     */
     public function sucursal()
     {
-        return $this->belongsTo('App\Sucursal','sucursal_id');
+        return $this->belongsTo('App\Sucursal');
+    }
+
+    /**
+     * Obtiene, si corresponde, el registro de cliente del usuario.
+     */
+    public function cliente()
+    {
+        return $this->hasOne('App\Cliente');
     }
 
     /**

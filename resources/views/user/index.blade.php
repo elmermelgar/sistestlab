@@ -58,7 +58,7 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->surname}}</td>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->sucursal->display_name}}</td>
+                            <td>{{$user->sucursal? $user->sucursal->display_name:'--'}}</td>
                             <td>{{$user->last_login}}</td>
                             <td>
                                 <a href="{{ url('usuarios/'.$user->id )}}"

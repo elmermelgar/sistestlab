@@ -8,6 +8,7 @@ use App\Sucursal;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Jleon\LaravelPnotify\Notify;
 use Ramsey\Uuid\Uuid;
 
 class UserController extends Controller
@@ -108,6 +109,40 @@ class UserController extends Controller
             $this->userService->storageAvatar($request->file('avatar'), $user);
         }
         return redirect('usuarios');
+    }
+
+    /**
+     * Deshabilita el usuario espeficado
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function disable(Request $request)
+    {
+        if ($request->user_id) {
+            if($this->userService->disable($request->user_id)){
+                Notify::success('Se deshabilitó al usuario');
+                return redirect()->back();
+            }
+        }
+        Notify::warning('No se deshabilitó al usuario');
+        return redirect()->back();
+    }
+
+    /**
+     * Habilita el usuario espeficado
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function enable(Request $request)
+    {
+        if ($request->user_id) {
+            if($this->userService->enable($request->user_id)){
+                Notify::success('Se habilitó al usuario');
+                return redirect()->back();
+            }
+        }
+        Notify::warning('No se habilitó al usuario');
+        return redirect()->back();
     }
 
 }

@@ -1,5 +1,5 @@
 <li>
-    <a><i class="fa fa-gears"></i> Administrar
+    <a><i class="fa fa-gears fw"></i>Administrar
         <span class="fa fa-chevron-down"></span>
     </a>
     <ul class="nav child_menu">
@@ -10,7 +10,7 @@
     </ul>
 </li>
 <li>
-    <a><i class="fa fa-archive"></i> Inventario
+    <a><i class="fa fa-archive fw"></i>Inventario
         <span class="fa fa-chevron-down"></span>
     </a>
     <ul class="nav child_menu">

@@ -29,5 +29,4 @@
 @endsection
 
 @section('scripts')
-    @yield('otherScripts')
 @endsection

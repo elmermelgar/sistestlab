@@ -38,4 +38,12 @@ class CajaRegistro extends Model
         return $this->belongsTo('App\Sucursal');
     }
 
+    /**
+     * Obtiene el usuario correspondiente al registro.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }

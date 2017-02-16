@@ -2,8 +2,10 @@
 
 namespace App\Console;
 
+use App\Sucursal;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\App;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,8 +26,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->call(function () {
+            $sucursalService=App::make('SucursalService');
+            $sucusales=Sucursal::all();
+            \Log::info('Cerrando sucursales');
+            foreach ($sucusales as $sucusal) {
+                $sucursalService->cerrarCaja($sucusal->id);
+            }
+        })->dailyAt('23:50')->timezone('America/El_Salvador');
     }
 
     /**
