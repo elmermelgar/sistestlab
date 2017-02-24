@@ -24,6 +24,8 @@ class CreatePacientesTable extends Migration
             $table->string('telefono',8);
             $table->string('email')->nullable();
             $table->string('profesion')->nullable();
+            $table->string('observacion')->nullable();
+            $table->string('procedencia')->nullable();
             $table->timestamps();
         });
 

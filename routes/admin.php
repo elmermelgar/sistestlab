@@ -76,3 +76,13 @@ Route::group(['prefix' => 'clientes', 'middleware' => ['permission:admin_cliente
     Route::post('delete', 'ClienteController@delete');
     Route::post('store', 'ClienteController@store');
 });
+
+Route::group(['prefix' => 'pacientes', 'middleware' => ['permission:admin_pacientes']], function () {
+
+    Route::get('/', 'PacienteController@index');
+    Route::get('create', 'PacienteController@create');
+    Route::get('{id}', 'PacienteController@show');
+    Route::get('{id}/edit', 'PacienteController@edit');
+    Route::post('delete', 'PacienteController@delete');
+    Route::post('store', 'PacienteController@store');
+});

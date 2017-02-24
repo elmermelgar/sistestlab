@@ -67,7 +67,7 @@
 
                         <li class="m-top-xs">
                             <i class="fa fa-envelope user-profile-icon"></i>
-                            {{$cliente->user->email}}
+                            Email: <strong>{{$cliente->user->email}}</strong>
                         </li>
                         <li><i class="fa fa-phone user-profile-icon"></i>
                             Telefono: <strong>{{$cliente->telefono}}</strong>
@@ -164,9 +164,10 @@
                 <table class="table table-striped " id="datatable">
                     <thead>
                     <tr>
-                        <th data-field="id" data-sortable="true">Id</th>
-                        <th data-field="name" data-sortable="true">Nombre</th>
-                        <th data-field="sucursal" data-sortable="true">Sucursal</th>
+                        <th data-field="documento_identidad" data-sortable="true">Documento de identidad</th>
+                        <th data-field="nombre" data-sortable="true">Nombre</th>
+                        <th data-field="telefono" data-sortable="true">Teléfono</th>
+                        <th data-field="email" data-sortable="true">Email</th>
                         <th data-field="actions" data-sortable="true">Acciones</th>
                     </tr>
                     </thead>
@@ -177,7 +178,8 @@
                             <td>{{$paciente->documento_identidad
                             }}</td>
                             <td>{{$paciente->getFullName()}}</td>
-                            <td>{{$paciente->fecha_nacimiento}}</td>
+                            <td>{{$paciente->telefono}}</td>
+                            <td>{{$paciente->email}}</td>
                             <td>
                                 <a class="btn btn-info btn-xs" title="Ver Paciente"
                                    href="{{ url('pacientes/' . $paciente->id) }}">

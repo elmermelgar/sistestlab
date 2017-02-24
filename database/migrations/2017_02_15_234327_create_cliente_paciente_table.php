@@ -17,6 +17,7 @@ class CreateClientePacienteTable extends Migration
         Schema::create('cliente_paciente', function (Blueprint $table) {
             $table->integer('cliente_id')->unsigned();
             $table->integer('paciente_id')->unsigned();
+            $table->boolean('same_record')->default(false);
 
             $table->foreign('cliente_id')->references('id')->on('clientes')
                 ->onUpdate('cascade')->onDelete('cascade');

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
+use App\Paciente;
 use App\Role;
 use App\Services\UserService;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +59,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('cliente.edit', ['cliente' => null]);
+        return view('cliente.edit', ['cliente' => null, 'paciente' => null]);
     }
 
     /**
@@ -68,7 +70,10 @@ class ClienteController extends Controller
     public function edit($id)
     {
         if ($cliente = Cliente::find($id)) {
-            return view('cliente.edit', ['cliente' => $cliente]);
+            return view('cliente.edit', [
+                'cliente' => $cliente,
+                'paciente' => $cliente->pacientes()->wherePivot('same_record', true)->first(),
+            ]);
         }
         return response()->view('errors.404', [], 404);
     }
@@ -89,7 +94,7 @@ class ClienteController extends Controller
                 $cliente->update($request->only(['razon_social', 'documento_identidad', 'telefono', 'direccion']));
             } else {
                 //Crea el usuario del cliente
-                $request->merge(['name'=>$request->razon_social]);
+                $request->merge(['name' => $request->razon_social]);
                 $user = $this->userService->createUser($request->only(['name', 'email', 'password']));
                 $role = Role::where('name', 'cliente')->first();
                 $user->attachRole($role);
@@ -108,6 +113,21 @@ class ClienteController extends Controller
                 $cliente->telefono = $request->telefono;
                 $cliente->direccion = $request->direccion;
                 $cliente->save();
+            }
+            if ($request->paciente) {
+                $paciente = $cliente->pacientes()->wherePivot('same_record', true)->first();
+                if (!$paciente) {
+                    $paciente = new Paciente();
+                    $paciente->nombre = $request->razon_social;
+                    $paciente->apellido = '';
+                    $paciente->documento_identidad = $request->documento_identidad;
+                    $paciente->genero = 'Masculino';
+                    $paciente->fecha_nacimiento = Carbon::now();
+                    $paciente->telefono = $request->telefono;
+                    $paciente->email = $request->email;
+                    $paciente->save();
+                    $cliente->pacientes()->attach($paciente->id, ['same_record' => true]);
+                }
             }
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $this->userService->storageAvatar($request->file('avatar'), $user);

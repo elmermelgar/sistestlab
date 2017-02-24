@@ -48,6 +48,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'admin_clientes',
                 'display_name' => 'Administrar Clientes',
                 'description' => 'Registra y da de baja a clientes'
+            ],
+            [
+                'name' => 'admin_pacientes',
+                'display_name' => 'Administrar Pacientes',
+                'description' => 'Registra y da de baja a pacientes'
             ]
         ];
 

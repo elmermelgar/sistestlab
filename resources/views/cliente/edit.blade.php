@@ -3,6 +3,8 @@
 @section('imports')
     <link rel="stylesheet" type="text/css" href="{{url("/css/sumoselect.css")}}">
     <link rel="stylesheet" type="text/css" href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.css')}}">
 @endsection
 
 @section('content')
@@ -131,6 +133,42 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="paciente" class="control-label col-md-3 col-sm-3 col-xs-12">Registrar como paciente</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 5px">
+                            <input type="checkbox" id="paciente" name="paciente" class="flat"
+                                   @if($cliente? $cliente->pacientes()->wherePivot('same_record',true)->first():null) checked @endif>
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden">
+                        <label for="genero" class="control-label col-md-3 col-sm-3 col-xs-12"> Género
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="genero" name="genero" class="form-control" required disabled>
+                                <option value="Masculino"
+                                        @if($paciente? $paciente->genero=="Masculino":null) selected @endif>Masculino
+                                </option>
+                                <option value="Femenino"
+                                        @if($paciente? $paciente->genero=="Femenino":null) selected @endif>Femenino
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group hidden">
+                        <label for="fecha_nacimiento" class="control-label col-md-3 col-sm-3 col-xs-12"> Fecha de
+                            nacimiento
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input class="form-control has-feedback-left" id="fecha_nacimiento" name="fecha_nacimiento"
+                                   placeholder="Fecha de nacimiento" required disabled
+                                   value="{{$paciente? $paciente->fecha_nacimiento:old('fecha_nacimiento')}}">
+                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -154,12 +192,16 @@
 
 @section('scripts')
     <script src="{{url('/js/avatar.js')}}"></script>
-    <script src="{{url("/js/sumoselect.min.js")}}"></script>
+    <script src="{{url('gentallela/vendors/moment/min/moment.min.js')}}"></script>
+    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{url('gentallela/vendors/iCheck/icheck.min.js')}}"></script>
     <script>
         $(document).ready(function () {
-            $('.sucursal').SumoSelect({placeholder: 'Seleccione la sucursal a asignar'});
-            $('.role').SumoSelect({placeholder: 'Seleccione los roles a asignar'});
+            $('#fecha_nacimiento').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true
+            });
+
         });
     </script>
 @endsection

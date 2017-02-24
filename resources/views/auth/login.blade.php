@@ -30,26 +30,27 @@
                     {{ csrf_field() }}
                     <h1>Iniciar Sesión</h1>
 
-
                     <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                         <input class="form-control" placeholder="Correo Electrónico" id="email" type="email"
                                name="email" value="{{ old('email') }}" required autofocus/>
-                        @if ($errors->has('email'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                        @endif
                     </div>
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                         <input type="password" class="form-control" placeholder="Password" id="password" name="password"
                                required/>
-                        @if ($errors->has('password'))
-                            <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                        @endif
                     </div>
+
+                    @if ($errors->any())
+                        <div class="form-group has-error">
+                            <div class="col-md-12">
+                                @foreach ($errors->all() as $error)
+                                    <span class="help-block">
+                                        <strong>{{ $error }}</strong>
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
                     <div class="col-sm-12">
                         <input type="submit" class="btn btn-default submit" style="width: 75%" value="Iniciar Sesión"/>

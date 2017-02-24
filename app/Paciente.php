@@ -14,7 +14,7 @@ class Paciente extends Model
      */
     protected $fillable = [
         'documento_identidad', 'nombre', 'apellido', 'fecha_nacimiento', 'direccion', 'telefono',
-        'genero', 'email', 'profesion',
+        'genero', 'email', 'profesion', 'observacion', 'procedencia',
     ];
 
     /**
@@ -23,7 +23,7 @@ class Paciente extends Model
      */
     public function getFullName()
     {
-        return $this->name . ' ' . $this->surname;
+        return $this->nombre . ' ' . $this->apellido;
     }
 
     /**
