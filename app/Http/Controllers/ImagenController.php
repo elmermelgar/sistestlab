@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imagen;
+use App\ImagenCategoria;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,7 @@ class ImagenController extends Controller
      */
     public function upload()
     {
-        return view('imagen.edit', ['imagen' => null, 'new' => true]);
+        return view('imagen.edit', ['imagen' => null, 'categorias' => ImagenCategoria::all(), 'new' => true]);
     }
 
     /**
@@ -62,7 +63,10 @@ class ImagenController extends Controller
      */
     public function edit($id)
     {
-        return view('imagen.edit', ['imagen' => Imagen::find($id)]);
+        if ($imagen = Imagen::find($id)) {
+            return view('imagen.edit', ['imagen' => $imagen, 'categorias' => ImagenCategoria::all()]);
+        }
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -72,18 +76,18 @@ class ImagenController extends Controller
      */
     public function delete(Request $request)
     {
-        if($request->id&&$imagen=Imagen::find($request->id)){
-            if(count($imagen->sucursales) || $imagen->default){
+        if ($request->id && $imagen = Imagen::find($request->id)) {
+            if (count($imagen->sucursales) || $imagen->default) {
                 Notify::error('La imágen esta en uso y no se puede eliminar');
                 return redirect()->back();
             }
-            Storage::disk('public')->delete($this->imagePath.'/'. $imagen->file_name);
+            Storage::disk('public')->delete($this->imagePath . '/' . $imagen->file_name);
             $imagen->delete();
             Notify::info('La imagen se eliminó correctamente');
-            return redirect('imagenes');
+            return redirect()->action('ImagenController@index');
         }
         Notify::error('No se ha podido eliminar la imagen');
-
+        return redirect()->back();
     }
 
     /**
@@ -94,14 +98,14 @@ class ImagenController extends Controller
     public function store(Request $request)
     {
         if ($request->id && $imagen = Imagen::find($request->id)) {
-            $imagen->update($request->only(['title', 'description']));
+            $imagen->update($request->only(['title', 'description', 'imagen_categoria_id']));
         } else if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
             $filename = Carbon::now()->format('YmdHis') . '.' . $extension;
             Storage::disk('public')->putFileAs($this->imagePath, $file, $filename);
             $request->merge(['file_name' => $filename]);
-            $imagen = Imagen::create($request->only(['title', 'description', 'file_name']));
+            $imagen = Imagen::create($request->only(['title', 'description', 'file_name','imagen_categoria_id']));
         } else {
             Notify::danger('La imagen no se ha subido');
             return redirect()->back();
@@ -112,7 +116,7 @@ class ImagenController extends Controller
         }
         $imagen->save();
         Notify::success('La imagen se subió exitosamente.', 'Exito');
-        return redirect('imagenes');
+        return redirect()->action('ImagenController@index');
     }
 
 }

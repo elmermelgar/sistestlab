@@ -18,7 +18,7 @@ class Cliente extends Model
      * @var array
      */
     protected $fillable = [
-        'documento_identidad', 'razon_social','direccion', 'telefono',
+        'documento_identidad', 'razon_social','direccion', 'telefono','user_id',
     ];
 
     /**
@@ -30,9 +30,7 @@ class Cliente extends Model
     }
 
     /**
-     * Many-to-Many relations with Paciente.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * Relacion de muchos a muchos con Paciente.
      */
     public function pacientes()
     {

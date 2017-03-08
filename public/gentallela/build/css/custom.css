@@ -1913,6 +1913,11 @@ span.section {
   border: 0;
   border-bottom: 1px solid #e5e5e5; }
 
+.custom-check {
+  height: 20px;
+  width: 20px;
+}
+
 .form-control {
   border-radius: 0;
   width: 100%; }

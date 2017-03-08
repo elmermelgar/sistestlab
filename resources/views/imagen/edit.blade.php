@@ -77,6 +77,20 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="imagen_categoria_id"> Categoría de imágen
+                            <span class="required">*</span>
+                        </label>
+                        <div>
+                            <select id="imagen_categoria_id" name="imagen_categoria_id" class="form-control" required>
+                                @foreach($categorias as $categoria)
+                                    <option value="{{$categoria->id}}"
+                                            @if($imagen? $imagen->categoria->id==$categoria->id:null) selected
+                                            @endif>{{$categoria->display_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="description"> Descripción
                             <span class="required">*</span>
                         </label>

@@ -108,7 +108,7 @@ class UserController extends Controller
         if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
             $this->userService->storageAvatar($request->file('avatar'), $user);
         }
-        return redirect('usuarios');
+        return redirect()->action('UserController@show',['id'=>$user->id]);
     }
 
     /**

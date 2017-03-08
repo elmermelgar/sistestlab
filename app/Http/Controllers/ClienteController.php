@@ -8,10 +8,11 @@ use App\Role;
 use App\Services\UserService;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Logging\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Jleon\LaravelPnotify\Notify;
+use Swift_TransportException;
 
 class ClienteController extends Controller
 {
@@ -85,64 +86,92 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-
+        //Empieza la transacción
         DB::beginTransaction();
 
         try {
+
             if ($request->id && $cliente = Cliente::find($request->id)) {
                 $user = $cliente->user;
-                $cliente->update($request->only(['razon_social', 'documento_identidad', 'telefono', 'direccion']));
+                $cliente->update($request->all());
             } else {
                 //Crea el usuario del cliente
-                $request->merge(['name' => $request->razon_social]);
-                $user = $this->userService->createUser($request->only(['name', 'email', 'password']));
+                $data = $this->userDataFromCustomer($request->all());
+                $user = $this->userService->createUser($data);
                 $role = Role::where('name', 'cliente')->first();
                 $user->attachRole($role);
 
-                //si se habilitó el usuario envía link para establecer contraseña, sino lo deshabilita
+                //habilita el usuario y envía link para establecer contraseña, sino lo deshabilita
                 if ($request->user) {
                     $this->userService->sendResetLink($user);
                 } else {
                     $user->enabled = false;
                     $user->save();
                 }
-                $cliente = new Cliente();
-                $cliente->user()->associate($user);
-                $cliente->razon_social = $request->razon_social;
-                $cliente->documento_identidad = $request->documento_identidad;
-                $cliente->telefono = $request->telefono;
-                $cliente->direccion = $request->direccion;
-                $cliente->save();
+                $request->merge(['user_id' => $user->id]);
+
+                //Registra al cliente
+                $cliente = Cliente::create($request->all());
             }
+
+            //Crea y asocia al cliente como paciente
             if ($request->paciente) {
+                $request->merge(['fecha_nacimiento'=>Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento)]);
                 $paciente = $cliente->pacientes()->wherePivot('same_record', true)->first();
                 if (!$paciente) {
-                    $paciente = new Paciente();
-                    $paciente->nombre = $request->razon_social;
-                    $paciente->apellido = '';
-                    $paciente->documento_identidad = $request->documento_identidad;
-                    $paciente->genero = 'Masculino';
-                    $paciente->fecha_nacimiento = Carbon::now();
-                    $paciente->telefono = $request->telefono;
-                    $paciente->email = $request->email;
-                    $paciente->save();
-                    $cliente->pacientes()->attach($paciente->id, ['same_record' => true]);
+                    $paciente = Paciente::create($request->all());
                 }
+                else{
+                    $paciente->update($request->all());
+                }
+                $cliente->pacientes()->syncWithoutDetaching([$paciente->id => ['same_record' => true]]);
             }
+
+            //Almacena el avatar del cliente
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 $this->userService->storageAvatar($request->file('avatar'), $user);
             }
 
+            //Exito, hace efectivos todos los cambios en la base de datos
             DB::commit();
+
         } catch (\Exception $e) {
-            \Log::error($e);
-            Notify::error('No se ha registrado al cliente');
+            //Ocurre algun error, deshace los todos los cambios en la base de datos y responde con un mensaje
             DB::rollBack();
+            if ($e instanceof ValidationException) {
+                foreach ($e->validator->errors()->all() as $error) {
+                    Notify::error($error);
+                }
+                return back()->withInput();
+            }
+            if ($e instanceof Swift_TransportException) {
+                Notify::error('No se ha podido enviar el email con los datos de la cuenta al usuario');
+            }
+            \Log::error($e);
             return back()->withInput();
         }
 
+        //Se completó el registro del cliente exitosamente
         Notify::success('Cliente registrado correctamente');
         return redirect()->action('ClienteController@show', ['cliente' => $cliente->id]);
+    }
+
+    /**
+     * Obtiene los datos necesarios para crear un usuario a partir del cliente
+     * @param array $data
+     * @return array
+     */
+    public function userDataFromCustomer(array $data)
+    {
+        if (array_has($data, 'nombre')) {
+            $data['name'] = $data['nombre'];
+        } else {
+            $data['name'] = $data['razon_social'];
+        }
+        if (array_has($data, 'apellido')) {
+            $data['surname'] = $data['apellido'];
+        }
+        return $data;
     }
 
 }

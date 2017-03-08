@@ -27,9 +27,7 @@ class Paciente extends Model
     }
 
     /**
-     * Many-to-Many relations with Cliente.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * Relacion de muchos a muchos con Cliente.
      */
     public function clientes()
     {

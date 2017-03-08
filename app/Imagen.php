@@ -9,7 +9,7 @@ class Imagen extends Model
     /**
      * @var string
      */
-    public $table='imagenes';
+    public $table = 'imagenes';
 
     /**
      * The attributes that are mass assignable.
@@ -17,14 +17,15 @@ class Imagen extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'description','file_name',
+        'title', 'description', 'file_name', 'imagen_categoria_id',
     ];
 
     /**
      * Obtiene la imagen por defecto para sucursales y logos
      */
-    public static function getDefaultImage(){
-        return Imagen::where('default',true)->first();
+    public static function getDefaultImage()
+    {
+        return Imagen::where('default', true)->first();
     }
 
     /**
@@ -33,6 +34,14 @@ class Imagen extends Model
     public function sucursales()
     {
         return $this->hasMany('App\Sucursal');
+    }
+
+    /**
+     * Categoria de la imagen
+     */
+    public function categoria()
+    {
+        return $this->belongsTo('App\ImagenCategoria','imagen_categoria_id');
     }
 
 }

@@ -28,6 +28,9 @@ class Sucursal extends Model
         return $this->belongsTo('App\Imagen','imagen_id');
     }
 
+    /**
+     * Activos de la sucursal
+     */
     public function activos(){
         return $this->hasMany('App\Activo');
     }

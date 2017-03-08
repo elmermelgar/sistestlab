@@ -2,7 +2,6 @@
 
 @section('imports')
     <link rel="stylesheet" type="text/css" href="{{url("/css/sumoselect.css")}}">
-    <link rel="stylesheet" type="text/css" href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}">
     <link rel="stylesheet" type="text/css"
           href="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.css')}}">
 @endsection
@@ -125,23 +124,44 @@
                         </div>
                     </div>
 
+                    @if(!$cliente)
                     <div class="form-group">
                         <label for="user" class="control-label col-md-3 col-sm-3 col-xs-12">Habilitar Usuario</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 5px">
-                            <input type="checkbox" id="user" name="user" class="flat"
-                                   @if($cliente? $cliente->user->enabled:null) checked @endif>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="checkbox" id="user" name="user" class="custom-check">
+                            <i>(Se le enviará un correo electrónico al usuario)</i>
                         </div>
                     </div>
+                    @endif
 
                     <div class="form-group">
                         <label for="paciente" class="control-label col-md-3 col-sm-3 col-xs-12">Registrar como paciente</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12" style="padding-top: 5px">
-                            <input type="checkbox" id="paciente" name="paciente" class="flat"
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="checkbox" id="paciente" name="paciente" class="custom-check"
                                    @if($cliente? $cliente->pacientes()->wherePivot('same_record',true)->first():null) checked @endif>
                         </div>
                     </div>
 
-                    <div class="form-group hidden">
+                    <div class="form-group hidden" id="div_nombre">
+                        <label for="nombre" class="control-label col-md-3 col-sm-3 col-xs-12"> Nombre
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="nombre" name="nombre" class="form-control" placeholder="Nombre"
+                                   value="{{$paciente? $paciente->nombre:old('nombre')}}" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group hidden" id="div_apellido">
+                        <label for="apellido" class="control-label col-md-3 col-sm-3 col-xs-12"> Apellido
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="apellido" name="apellido" class="form-control" placeholder="Apellido"
+                                   value="{{$paciente? $paciente->apellido:old('apellido')}}" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden" id="div_genero">
                         <label for="genero" class="control-label col-md-3 col-sm-3 col-xs-12"> Género
                             <span class="required">*</span>
                         </label>
@@ -156,7 +176,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group hidden">
+                    <div class="form-group hidden" id="div_fecha_nacimiento">
                         <label for="fecha_nacimiento" class="control-label col-md-3 col-sm-3 col-xs-12"> Fecha de
                             nacimiento
                             <span class="required">*</span>
@@ -192,16 +212,10 @@
 
 @section('scripts')
     <script src="{{url('/js/avatar.js')}}"></script>
-    <script src="{{url('gentallela/vendors/moment/min/moment.min.js')}}"></script>
-    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{url('gentallela/vendors/iCheck/icheck.min.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#fecha_nacimiento').daterangepicker({
-                singleDatePicker: true,
-                showDropdowns: true
-            });
-
-        });
+    <script src="{{url('/js/paciente.js')}}"></script>
+    <script src="{{url('/js/moment-with-locales.min.js')}}"></script>
+    <script type="application/javascript">
+        moment.locale('es');
     </script>
+    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @endsection

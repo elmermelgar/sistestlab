@@ -65,6 +65,18 @@ Route::group(['prefix' => 'imagenes', 'middleware' => ['permission:admin_imagene
     Route::get('{id}/edit', 'ImagenController@edit');
     Route::post('delete', 'ImagenController@delete');
     Route::post('store', 'ImagenController@store');
+
+
+    Route::group(['prefix' => 'categorias'], function () {
+
+        Route::get('/', 'ImagenCategoriaController@index');
+        Route::get('create', 'ImagenCategoriaController@create');
+        Route::get('{id}/edit', 'ImagenCategoriaController@edit');
+        Route::post('delete', 'ImagenCategoriaController@delete');
+        Route::post('store', 'ImagenCategoriaController@store');
+
+    });
+
 });
 
 Route::group(['prefix' => 'clientes', 'middleware' => ['permission:admin_clientes']], function () {

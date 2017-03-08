@@ -22,6 +22,7 @@ class CreateClientesTable extends Migration
             $table->string('seguro')->nullable();
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unique('razon_social');
             $table->timestamps();
         });
     }

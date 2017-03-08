@@ -54,7 +54,7 @@
                             <td>{{$permission->getAttribute('created_at')}}</td>
                             <td>{{$permission->getAttribute('updated_at')}}</td>
                             <td>
-                                <a class="btn btn-primary btn-sm" title="Editar Usuario"
+                                <a class="btn btn-primary btn-sm" title="Editar Permiso"
                                    href="{{ url('permisos/' . $permission->getAttribute('id')).'/edit' }}">
                                     <i class="fa fa-edit"></i> Editar
                                 </a>

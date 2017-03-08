@@ -43,7 +43,7 @@
         <div class="x_content">
             <div class="row">
                 @foreach($sucursales as $sucursal)
-                    <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
+                    <div class="col-md-3 col-sm-4 col-xs-12 profile_details">
                         <div class="well profile_view col-md-12">
                             <div class="col-sm-12">
                                 <h4 class="brief"><i>Sucursal</i></h4>

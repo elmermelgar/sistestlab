@@ -45,9 +45,9 @@
                 @foreach($clientes as $cliente)
                     <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
                         <div class="well profile_view">
-                            <div class="col-sm-12">
+                            <div class="col-xs-12">
                                 <h4 class="brief"><i>Cliente</i></h4>
-                                <div class="left col-xs-7">
+                                <div class="left col-xs-8">
                                     <h2>{{$cliente->razon_social}}</h2>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-envelope"></i> {{$cliente->user->email}}</li>
@@ -55,8 +55,8 @@
                                         <li><i class="fa fa-phone"></i> Télefono:{{$cliente->telefono}}</li>
                                     </ul>
                                 </div>
-                                <div class="right col-xs-5 text-center">
-                                    <img src="{{url('storage/photos/'. ($cliente->user->photo)? :'user.png')}}"
+                                <div class="right col-xs-4 text-center">
+                                    <img src="{{url('storage/photos/'. (($cliente->user->photo)? :'user.png'))}}"
                                          alt="cliente" class="img-circle img-responsive">
                                 </div>
                             </div>
