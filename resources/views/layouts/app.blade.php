@@ -215,7 +215,7 @@
         <!-- footer content -->
         <footer>
             <div class="pull-right">
-                Plantilla por <a href="http://colorlib.com" target="_blank">Colorlib</a>
+                Derechos reservados <a href="#" target="_blank">Testlab</a>
             </div>
             <div class="clearfix"></div>
         </footer>

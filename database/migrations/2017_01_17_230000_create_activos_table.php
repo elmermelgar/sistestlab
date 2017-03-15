@@ -26,6 +26,8 @@ class CreateActivosTable extends Migration
             $table->string('modelo')->nullable();
             $table->string('serie')->nullable();
             $table->string('unidades')->nullable();
+            $table->string('observacion')->nullable();
+            $table->string('photo')->nullable();
             $table->integer('proveedor_id')->nullable();
             $table->integer('sucursal_id')->nullable();
             $table->integer('estado_id')->nullable();

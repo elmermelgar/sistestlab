@@ -104,7 +104,7 @@ class ActivoController extends Controller
             $vence = 'No existe ninguna fecha de vencimiento';
         }
 //        dd(Carbon::createFromFormat('Y-m-d',$inventario->fecha_vencimiento));
-        return view('Inventario.Activo.activo_show', array('activo'=>$activo, 'inventario'=>$inventario, 'carga'=>$carga, 'vence'=>$vence));
+        return view('Inventario.Activo.inventario_show', array('activo'=>$activo, 'inventario'=>$inventario, 'carga'=>$carga, 'vence'=>$vence));
     }
 
     /**
@@ -195,7 +195,7 @@ class ActivoController extends Controller
     public function editinventario($id1,$id2)
     {
         $inventario = Inventario::find($id1);
-        $vencimiento = Carbon::parse($inventario->fecha_vencimiento)->format('m-d-Y');
+        $vencimiento = Carbon::parse($inventario->fecha_vencimiento)->format('m/d/Y');
         $activo = Activo::find($id2);
         return view('Inventario.Activo.inventario_edit', array('activo'=>$activo, 'inventario'=>$inventario, 'fecha_vencimiento'=>$vencimiento));
     }

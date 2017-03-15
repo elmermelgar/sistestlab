@@ -106,7 +106,7 @@
                                         <div class="col-md-8 col-sm-6 col-xs-12">
                                             <select class="select2_single form-control" style="width: 100%" required name="proveedor_id" tabindex="-1">
                                                 @foreach($proveedores as $proveedor)
-                                                <option value="{{$proveedor->id}}" @if($proveedor->id=$activo->proveedor_id) selected @endif>{{$proveedor->nombre}}</option>
+                                                <option value="{{$proveedor->id}}" @if($proveedor->id===$activo->proveedor_id) selected @endif>{{$proveedor->nombre}}</option>
                                                     @endforeach
                                             </select>
                                         </div>
@@ -175,7 +175,7 @@
                                                         name="sucursal_id" tabindex="-1">
                                                     @foreach($sucursales as $sucursal)
                                                         <option value="{{$sucursal->id}}"
-                                                                @if($sucursal->id=$activo->sucursal_id) selected @endif>{{$sucursal->display_name}}</option>
+                                                                @if($sucursal->id===$activo->sucursal_id) selected @endif>{{$sucursal->display_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -189,7 +189,7 @@
                                                         name="estado_id" tabindex="-1">
                                                     @foreach($estados as $estado)
                                                         <option value="{{$estado->id}}"
-                                                                @if($estado->id=$activo->estado_id) selected @endif>{{$estado->display_name}}</option>
+                                                                @if($estado->id===$activo->estado_id) selected @endif>{{$estado->display_name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

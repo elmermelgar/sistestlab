@@ -20,7 +20,7 @@ class Activo extends Model
     /**
      * @var boolean
      */
-    public $timestamps=false;
+    public $timestamps=true;
 
 
     public function proveedor(){
