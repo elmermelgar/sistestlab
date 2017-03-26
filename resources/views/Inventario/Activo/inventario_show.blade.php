@@ -133,18 +133,23 @@
                         <th>Fecha de última carga:</th>
                         <td>{{$carga}}</td>
                     </tr>
+                    @if($activo->tipo == "reactivo")
                     <tr>
                         <th>Fecha de Vencimiento:</th>
                         <td>{{$vence}}</td>
                     </tr>
+                    @endif
                     <tr>
                         <th>Última actualización:</th>
                         <td>{{$activo->updated_at}}</td>
                     </tr>
                     </tbody>
                 </table>
+                @if($activo->tipo == "reactivo")
                 <button  class="btn btn-round btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-upload" aria-hidden="true"> </i> Cargar Inventario</button>
-                <a href="{{route('activo.editinventario',[$inventario->id,$activo->id])}}" style="float: right; " class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
+                @endif
+                    <a href="{{route('activo.editinventario',[$inventario->id,$activo->id])}}" style="float: right; " class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
+
             </div>
         </div>
     </div>
@@ -158,7 +163,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <h4>Este Inventario no posee observaciones:</h4>
+                <h4>Este Inventario no posee observaciones</h4>
 
             </div>
         </div>

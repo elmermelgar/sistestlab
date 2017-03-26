@@ -15,7 +15,7 @@ class Activo extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre_activo', 'fecha_adq', 'precio', 'num_lote', 'ubicacion','tipo','marca','modelo','serie','unidades','proveedor_id','sucursal_id','estado_id'];
+    protected $fillable = ['nombre_activo', 'fecha_adq', 'precio', 'num_lote', 'ubicacion','tipo','marca','modelo','serie','unidades','observacion','proveedor_id','sucursal_id','estado_id'];
 
     /**
      * @var boolean
