@@ -13,7 +13,7 @@ class Paciente extends Model
      * @var array
      */
     protected $fillable = [
-        'documento_identidad', 'nombre', 'apellido', 'fecha_nacimiento', 'direccion', 'telefono',
+        'dui', 'nombre', 'apellido', 'fecha_nacimiento', 'direccion', 'telefono',
         'genero', 'email', 'profesion', 'observacion', 'procedencia',
     ];
 

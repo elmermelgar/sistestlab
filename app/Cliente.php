@@ -10,7 +10,7 @@ class Cliente extends Model
     /**
      * @var string
      */
-    public $table='clientes';
+    public $table = 'clientes';
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +18,7 @@ class Cliente extends Model
      * @var array
      */
     protected $fillable = [
-        'documento_identidad', 'razon_social','direccion', 'telefono','user_id',
+        'persona_juridica', 'razon_social', 'dui', 'nit', 'nrc', 'giro', 'telefono', 'direccion', 'seguro',
     ];
 
     /**

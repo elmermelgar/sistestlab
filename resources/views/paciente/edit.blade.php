@@ -70,13 +70,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="documento_identidad" class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Documento de Identidad
+                        <label for="dui" class="control-label col-md-3 col-sm-3 col-xs-12">
+                            DUI
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="documento_identidad" name="documento_identidad" class="form-control"
-                                   placeholder="Documento de Identidad"
-                                   value="{{$paciente? $paciente->documento_identidad:old('documento_identidad')}}">
+                            <input id="dui" name="dui" class="form-control" placeholder="DUI"
+                                   value="{{$paciente? $paciente->dui:old('dui')}}" maxlength="10"
+                                   pattern="[0-9]{8}-([0-9])" title="Formato: 00000000-0"
+                                   data-inputmask="'mask': '99999999-9'">
                         </div>
                     </div>
                     <div class="form-group">
@@ -134,6 +135,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="telefono" name="telefono" class="form-control" placeholder="Teléfono" required
+                                   data-inputmask="'mask': '9999-9999'"
                                    value="{{$paciente? $paciente->telefono:old('telefono')}}">
                         </div>
                     </div>
@@ -198,15 +200,18 @@
 @section('scripts')
     <script src="{{url("/js/sumoselect.min.js")}}"></script>
     <script src="{{url('gentallela/vendors/iCheck/icheck.min.js')}}"></script>
-    <script src="{{url('gentallela/vendors/moment/min/moment.min.js')}}"></script>
-    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
-    <script>
-        $(document).ready(function () {
+    <script src="{{url('js/moment-with-locales.min.js')}}"></script>
+    <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
+    <script type="application/javascript">
+        moment.locale('es');
+        $(document).ready(function(){
             $('#cliente_id').SumoSelect({search: true, placeholder: 'Seleccione el cliente a asociar'});
             $('#fecha_nacimiento').daterangepicker({
                 singleDatePicker: true,
                 showDropdowns: true
             });
+            Inputmask().mask(document.querySelectorAll("input"));
         });
     </script>
+    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @endsection

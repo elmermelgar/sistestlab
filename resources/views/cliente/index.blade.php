@@ -50,13 +50,20 @@
                                 <div class="left col-xs-8">
                                     <h2>{{$cliente->razon_social}}</h2>
                                     <ul class="list-unstyled">
-                                        <li><i class="fa fa-envelope"></i> {{$cliente->user->email}}</li>
+                                        <li><i class="fa fa-envelope"></i>
+                                            {{$cliente->user?$cliente->user->email:'--'}}
+                                        </li>
                                         <li><i class="fa fa-building"></i> Dirección: {{$cliente->direccion}}</li>
                                         <li><i class="fa fa-phone"></i> Télefono:{{$cliente->telefono}}</li>
                                     </ul>
                                 </div>
                                 <div class="right col-xs-4 text-center">
-                                    <img src="{{url('storage/photos/'. (($cliente->user->photo)? :'user.png'))}}"
+                                    <img src="
+                                    @if(isset($cliente->user->photo))
+                                    {{url('storage/photos/'. $cliente->user->photo)}}
+                                    @else
+                                    {{url('storage/photos/user.png')}}
+                                    @endif "
                                          alt="cliente" class="img-circle img-responsive">
                                 </div>
                             </div>

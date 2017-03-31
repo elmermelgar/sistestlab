@@ -90,46 +90,37 @@ class ClienteController extends Controller
         DB::beginTransaction();
 
         try {
+            $request->merge(['dui' => str_replace('-', '', $request->dui)]);
+            $request->merge(['nit' => str_replace('-', '', $request->nit)]);
+            $request->merge(['nrc' => str_replace('-', '', $request->nrc)]);
+            $request->merge(['telefono' => str_replace('-', '', $request->telefono)]);
 
+            //Si el cliente ya esta registrado, lo actualiza, de lo contrario, registra al cliente
             if ($request->id && $cliente = Cliente::find($request->id)) {
-                $user = $cliente->user;
                 $cliente->update($request->all());
             } else {
-                //Crea el usuario del cliente
-                $data = $this->userDataFromCustomer($request->all());
-                $user = $this->userService->createUser($data);
-                $role = Role::where('name', 'cliente')->first();
-                $user->attachRole($role);
-
-                //habilita el usuario y envía link para establecer contraseña, sino lo deshabilita
-                if ($request->user) {
-                    $this->userService->sendResetLink($user);
-                } else {
-                    $user->enabled = false;
-                    $user->save();
-                }
-                $request->merge(['user_id' => $user->id]);
-
-                //Registra al cliente
                 $cliente = Cliente::create($request->all());
+            }
+
+            //Si el cliente tiene un usuario, lo actualiza, o se le habilita un usuario si se especificó
+            if ($cliente->user) {
+                $cliente->user->update($this->userDataFromCustomer($request->all()));
+            } else if ($request->user) {
+                $user = $this->createUserForCustomer($request);
+                $cliente->user()->associate($user);
+                $cliente->save();
             }
 
             //Crea y asocia al cliente como paciente
             if ($request->paciente) {
-                $request->merge(['fecha_nacimiento'=>Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento)]);
+                $request->merge(['fecha_nacimiento' => Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento)]);
                 $paciente = $cliente->pacientes()->wherePivot('same_record', true)->first();
-                if (!$paciente) {
+                if ($paciente) {
+                    $paciente->update($request->all());
+                } else {
                     $paciente = Paciente::create($request->all());
                 }
-                else{
-                    $paciente->update($request->all());
-                }
                 $cliente->pacientes()->syncWithoutDetaching([$paciente->id => ['same_record' => true]]);
-            }
-
-            //Almacena el avatar del cliente
-            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                $this->userService->storageAvatar($request->file('avatar'), $user);
             }
 
             //Exito, hace efectivos todos los cambios en la base de datos
@@ -172,6 +163,29 @@ class ClienteController extends Controller
             $data['surname'] = $data['apellido'];
         }
         return $data;
+    }
+
+    /**
+     * @param Request $request
+     * @return \App\User
+     */
+    public function createUserForCustomer(Request $request)
+    {
+        //Crea el usuario del cliente
+        $data = $this->userDataFromCustomer($request->all());
+        $user = $this->userService->createUser($data);
+        $role = Role::where('name', 'cliente')->first();
+        $user->attachRole($role);
+
+        //Almacena el avatar del cliente
+        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+            $this->userService->storageAvatar($request->file('avatar'), $user);
+        }
+
+        //habilita el usuario y envía link para establecer contraseña
+        //$this->userService->sendResetLink($user);
+
+        return $user;
     }
 
 }

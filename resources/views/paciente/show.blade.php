@@ -42,7 +42,7 @@
                         Email: <strong>{{$paciente->email}}</strong>
                     </li>
                     <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
-                        Documento de identidad: <strong>{{$paciente->documento_identidad}}</strong>
+                        Documento de identidad: <strong>{{$paciente->dui}}</strong>
                     </li>
                     <li><i class="fa fa-genderless fa-fw user-profile-icon"></i>
                         Genero: <strong>{{$paciente->genero}}</strong>
@@ -62,7 +62,7 @@
                     <li><i class="fa fa-comment fa-fw user-profile-icon"></i>
                         Observación: <strong>{{$paciente->observacion}}</strong>
                     </li>
-                    <li><i class="fa fa-calendar user-profile-icon"></i>
+                    <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
                         Registrado en: <strong>{{$paciente->created_at}}</strong>
                     </li>
                 </ul>

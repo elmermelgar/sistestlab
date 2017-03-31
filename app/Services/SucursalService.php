@@ -86,8 +86,9 @@ class SucursalService
         if ($this->isOpen($sucursal_id)) {
             $registro = new CajaRegistro();
             $registro->sucursal()->associate($sucursal_id);
-            if (!$user)
+            if ($user) {
                 $registro->user()->associate($user);
+            }
             $registro->stamp = Carbon::now();
             $registro->estado = self::CERRADA;
             $registro->efectivo = $this->getEfectivo($sucursal_id);

@@ -68,6 +68,12 @@ class PacienteController extends Controller
     public function edit($id)
     {
         if ($paciente = Paciente::find($id)) {
+            $cliente = $paciente->clientes()->wherePivot('same_record', true)->first();
+            if($cliente){
+                Notify::warning('Este paciente esta registrado como cliente; 
+                para actualizar datos deberá editar el registro de cliente.');
+                return back();
+            }
             return view('paciente.edit', ['paciente' => $paciente, 'clientes'=>Cliente::all()]);
         }
         return response()->view('errors.404', [], 404);
@@ -84,6 +90,8 @@ class PacienteController extends Controller
         DB::beginTransaction();
 
         try {
+            $request->merge(['dui' => str_replace('-', '', $request->dui)]);
+            $request->merge(['telefono' => str_replace('-', '', $request->telefono)]);
             $fecha_nacimiento=Carbon::createFromFormat('d/m/Y',$request->fecha_nacimiento);
             $request->merge(['fecha_nacimiento'=>$fecha_nacimiento]);
             if ($request->id && $paciente = Paciente::find($request->id)) {

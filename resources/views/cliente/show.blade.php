@@ -40,10 +40,10 @@
                             <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
                                  style="max-height: 200px"
                                  src="
-                            @if($cliente->user->photo)
+                            @if(isset($cliente->user->photo))
                                  {{url('/storage/photos/'.$cliente->user->photo)}}
                                  @else
-                                 {{url('/storage/photos/'. 'user.png')}}
+                                 {{url('/storage/photos/user.png')}}
                                  @endif ">
                         </div>
                     </div>
@@ -54,25 +54,44 @@
                     <ul class="list-unstyled user_data">
 
                         <li>
-                            <i class="fa fa-briefcase user-profile-icon"></i>
-                            @forelse($cliente->user->roles as $rol)
-                                {{$rol->display_name}}
-                                @if(!$loop->last)
-                                    {{', '}}
-                                @endif
-                            @empty
-                                Sin roles!
-                            @endforelse
+                            <i class="fa fa-unlock-alt fa-fw user-profile-icon"></i>
+                            @if($cliente->user)
+                                @forelse($cliente->user->roles as $rol)
+                                    {{$rol->display_name}}
+                                    @if(!$loop->last)
+                                        {{', '}}
+                                    @endif
+                                @empty
+                                    Sin roles!
+                                @endforelse
+                            @else
+                                {{'Rol: ninguno'}}
+                            @endif
                         </li>
 
+                        <li class="m-top-xs"><i class="fa fa-address-card user-profile-icon"></i>
+                            DUI: <strong>{{$cliente->dui}}</strong>
+                        </li>
+                        <li class="m-top-xs"><i class="fa fa-address-card user-profile-icon"></i>
+                            NIT: <strong>{{$cliente->nit}}</strong>
+                        </li>
+                        <li class="m-top-xs"><i class="fa fa-address-card user-profile-icon"></i>
+                            DUI: <strong>{{$cliente->nrc}}</strong>
+                        </li>
+                        <li class="m-top-xs"><i class="fa fa-briefcase user-profile-icon"></i>
+                            Giro: <strong>{{$cliente->giro}}</strong>
+                        </li>
+                        <li class="m-top-xs"><i class="fa fa-shield fa-fw user-profile-icon"></i>
+                            Seguro: <strong>{{$cliente->seguro}}</strong>
+                        </li>
                         <li class="m-top-xs">
                             <i class="fa fa-envelope user-profile-icon"></i>
-                            Email: <strong>{{$cliente->user->email}}</strong>
+                            Email: <strong>{{$cliente->user? $cliente->user->email:'--'}}</strong>
                         </li>
                         <li><i class="fa fa-phone user-profile-icon"></i>
                             Telefono: <strong>{{$cliente->telefono}}</strong>
                         </li>
-                        <li><i class="fa fa-bank user-profile-icon"></i>
+                        <li><i class="fa fa-building user-profile-icon"></i>
                             Dirección: <strong>{{$cliente->direccion}}</strong>
                         </li>
                         <li><i class="fa fa-calendar user-profile-icon"></i>
@@ -102,49 +121,55 @@
             </div>
             <div class="x_content">
 
-                <table class="table table-striped">
-                    <tbody>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{$cliente->user->email}}</td>
-                    </tr>
-                    <tr>
-                        <th>Estado</th>
-                        <td>
-                            @if($cliente->user->enabled) <span class="badge bg-green">Habilitado</span>
-                            @else <span class="badge bg-red">Deshabilitado</span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Ultimo Acceso</th>
-                        <td>{{($cliente->user->last_login)?:'--'}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                @if($cliente->user)
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th>Email</th>
+                            <td>{{$cliente->user->email}}</td>
+                        </tr>
+                        <tr>
+                            <th>Estado</th>
+                            <td>
+                                @if($cliente->user->enabled) <span class="badge bg-green">Habilitado</span>
+                                @else <span class="badge bg-red">Deshabilitado</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Ultimo Acceso</th>
+                            <td>{{($cliente->user->last_login)?:'--'}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                @permission('admin_users')
+                    @permission('admin_users')
 
-                <form method="post" action="
+                    <form method="post" action="
                 @if($cliente->user->enabled) {{url('usuarios/disable')}}
-                @else {{url('usuarios/enable')}}
-                @endif">
-                    {{csrf_field()}}
+                    @else {{url('usuarios/enable')}}
+                    @endif">
+                        {{csrf_field()}}
 
-                    <div class="form-group hidden">
-                        <label for="user_id">ID</label>
-                        <input id="user_id" name="user_id" value="{{$cliente->user->id}}">
-                    </div>
+                        <div class="form-group hidden">
+                            <label for="user_id">ID</label>
+                            <input id="user_id" name="user_id" value="{{$cliente->user->id}}">
+                        </div>
 
-                    @if($cliente->user->enabled)
-                        <input type="submit" value="Deshabilitar" class="btn btn-danger">
-                    @else
-                        <input type="submit" value="Habilitar" class="btn btn-success">
-                    @endif
+                        @if($cliente->user->enabled)
+                            <input type="submit" value="Deshabilitar" class="btn btn-danger">
+                        @else
+                            <input type="submit" value="Habilitar" class="btn btn-success">
+                        @endif
 
-                </form>
+                    </form>
 
-                @endpermission
+                    @endpermission
+                @else
+                    <p><strong>Sin usuario!</strong></p>
+                    <p>Para crearle un usuario selecione "habilitar usuario" al editar el registro de cliente.</p>
+
+                @endif
 
             </div>
         </div>
@@ -164,7 +189,7 @@
                 <table class="table table-striped " id="datatable">
                     <thead>
                     <tr>
-                        <th data-field="documento_identidad" data-sortable="true">Documento de identidad</th>
+                        <th data-field="dui" data-sortable="true">Documento de identidad</th>
                         <th data-field="nombre" data-sortable="true">Nombre</th>
                         <th data-field="telefono" data-sortable="true">Teléfono</th>
                         <th data-field="email" data-sortable="true">Email</th>
@@ -175,8 +200,7 @@
                     <tbody>
                     @forelse($cliente->pacientes as $paciente)
                         <tr>
-                            <td>{{$paciente->documento_identidad
-                            }}</td>
+                            <td>{{$paciente->dui }}</td>
                             <td>{{$paciente->getFullName()}}</td>
                             <td>{{$paciente->telefono}}</td>
                             <td>{{$paciente->email}}</td>
