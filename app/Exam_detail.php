@@ -26,10 +26,6 @@ class Exam_detail extends Model
         return $this->belongsTo('App\Grouping');
     }
 
-    public function estado(){
-        return $this->belongsTo('App\Estado');
-    }
-
     public function reference_values(){
         return $this->hasMany('App\Reference_value');
     }

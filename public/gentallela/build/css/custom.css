@@ -1606,7 +1606,9 @@ h4.graph_title {
   border: 1px solid #E4E4E4;
   -webkit-border-radius: 5px;
   overflow: hidden;
+  height: auto;
   padding-bottom: 5px;
+  border-bottom: groove;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 5px;
   -moz-background-clip: padding;
@@ -1634,23 +1636,23 @@ h4.graph_title {
   -moz-animation-fill-mode: forwards; }
 
 .tile-stats .icon {
-  width: 20px;
-  height: 20px;
-  color: #BAB8B8;
+  width: 15px;
+  height: 15px;
+  color: #26B99A;
   position: absolute;
   right: 53px;
-  top: 22px;
+  top: 12px;
   z-index: 1; }
 
 .tile-stats .icon i {
   margin: 0;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 0;
   vertical-align: bottom;
   padding: 0; }
 
 .tile-stats .count {
-  font-size: 38px;
+  font-size: 28px;
   font-weight: bold;
   line-height: 1.65857; }
 
@@ -1662,11 +1664,14 @@ h4.graph_title {
   padding: 0; }
 
 .tile-stats h3 {
-  color: #BAB8B8; }
+  color: #1d67ba;
+  top: 18px;}
 
 .tile-stats p {
-  margin-top: 5px;
-  font-size: 12px; }
+  margin-top: 20px;
+  font-size: 12px;
+  color: #767676;
+  /*top: 18px;*/}
 
 .tile-stats > .dash-box-footer {
   position: relative;

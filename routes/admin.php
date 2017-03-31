@@ -98,3 +98,8 @@ Route::group(['prefix' => 'pacientes', 'middleware' => ['permission:admin_pacien
     Route::post('delete', 'PacienteController@delete');
     Route::post('store', 'PacienteController@store');
 });
+
+Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
+
+    Route::resource('/','ExamController');
+});

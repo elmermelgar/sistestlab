@@ -36,6 +36,13 @@ class Sucursal extends Model
     }
 
     /**
+     * Examenes por sucursal
+     */
+    public function exams(){
+        return $this->hasMany('App\Exam');
+    }
+
+    /**
      * Registro de aperturas y cierres de caja.
      */
     public function registro()

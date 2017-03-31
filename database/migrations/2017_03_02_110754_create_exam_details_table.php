@@ -16,14 +16,12 @@ class CreateExamDetailsTable extends Migration
         Schema::create('exam_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('grouping_id')->unsigned();
-            $table->integer('estado_id')->nullable();
             $table->string('name_detail');
             $table->string('tipo_vr');
             $table->string('unidades');
             $table->string('description');
             $table->timestamps();
             $table->foreign('grouping_id')->references('id')->on('groupings');
-            $table->foreign('estado_id')->references('id')->on('estados');
         });
     }
 

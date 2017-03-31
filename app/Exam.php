@@ -15,7 +15,7 @@ class Exam extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'display_name', 'precio', 'material_directo', 'mano_obra', 'cif', 'observation', 'sucursal_id', 'sample_id', 'exam_category_id'];
+    protected $fillable = ['name', 'display_name', 'precio', 'material_directo', 'mano_obra', 'cif', 'observation', 'sucursal_id', 'sample_id', 'exam_category_id', 'estado_id'];
 
     /**
      * @var boolean
@@ -28,6 +28,10 @@ class Exam extends Model
 
     public function samples(){
         return $this->belongsTo('App\Sample');
+    }
+
+    public function estado(){
+        return $this->belongsTo('App\Estado');
     }
 
     public function sucursal(){

@@ -18,6 +18,7 @@ class CreateExamesTable extends Migration
             $table->integer('sucursal_id')->unsigned();
             $table->integer('sample_id')->unsigned();
             $table->integer('exam_category_id')->unsigned();
+            $table->integer('estado_id')->nullable();
             $table->string('name');
             $table->string('display_name');
             $table->decimal('precio', 8, 2);
@@ -29,14 +30,7 @@ class CreateExamesTable extends Migration
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('sample_id')->references('id')->on('samples');
             $table->foreign('exam_category_id')->references('id')->on('exam_categories');
-        });
-        Schema::create('exam_activo', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('exam_id')->unsigned();
-            $table->integer('activo_id')->unsigned();
-            $table->timestamps();
-            $table->foreign('exam_id')->references('id')->on('exams');
-            $table->foreign('activo_id')->references('id')->on('activos');
+            $table->foreign('estado_id')->references('id')->on('estados');
         });
     }
 
