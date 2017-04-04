@@ -77,8 +77,7 @@ class UserController extends Controller
     {
         $id ? null : $id = Auth::id();
         if ($user = User::find($id)) {
-            $cliente = $user->cliente;
-            if($cliente){
+            if($user->cliente){
                 Notify::warning('Este usuario pertenece a un cliente; 
                 para actualizar datos deberá editar el registro de cliente.');
                 return back();

@@ -55,6 +55,7 @@ class RoleSeeder extends Seeder
         $administrar_caja = Permission::where('name', 'admin_caja')->first();
         $administrar_clientes = Permission::where('name', 'admin_clientes')->first();
         $administrar_pacientes = Permission::where('name', 'admin_pacientes')->first();
+        $administrar_origenes = Permission::where('name', 'admin_origenes')->first();
 
         $admin->attachPermission($administrar_permisos);
         $admin->attachPermission($administrar_roles);
@@ -64,5 +65,6 @@ class RoleSeeder extends Seeder
         $admin->attachPermission($administrar_caja);
         $admin->attachPermission($administrar_clientes);
         $admin->attachPermission($administrar_pacientes);
+        $admin->attachPermission($administrar_origenes);
     }
 }

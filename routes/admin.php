@@ -99,6 +99,17 @@ Route::group(['prefix' => 'pacientes', 'middleware' => ['permission:admin_pacien
     Route::post('store', 'PacienteController@store');
 });
 
+Route::group(['prefix' => 'origenes', 'middleware' => ['permission:admin_origenes']], function () {
+
+    Route::get('/', 'CentroOrigenController@index');
+    Route::get('create', 'CentroOrigenController@create');
+    Route::get('{id}', 'CentroOrigenController@show');
+    Route::get('{id}/edit', 'CentroOrigenController@edit');
+    Route::post('delete', 'CentroOrigenController@delete');
+    Route::post('store', 'CentroOrigenController@store');
+});
+
+
 Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
 
     Route::resource('/','ExamController');

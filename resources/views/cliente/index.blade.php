@@ -49,6 +49,7 @@
                                 <h4 class="brief"><i>Cliente</i></h4>
                                 <div class="left col-xs-8">
                                     <h2>{{$cliente->razon_social}}</h2>
+                                    <p style="color: #0b97c4"><strong>{{$cliente->descripcion}}</strong></p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-envelope"></i>
                                             {{$cliente->user?$cliente->user->email:'--'}}

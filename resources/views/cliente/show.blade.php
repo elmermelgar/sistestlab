@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <h4>{{$cliente->razon_social}}</h4>
-
+                    <p style="color: #0b97c4"><strong>{{$cliente->descripcion}}</strong></p>
                     <ul class="list-unstyled user_data">
 
                         <li>
@@ -69,32 +69,31 @@
                             @endif
                         </li>
 
-                        <li class="m-top-xs"><i class="fa fa-address-card user-profile-icon"></i>
+                        <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
                             DUI: <strong>{{$cliente->dui}}</strong>
                         </li>
-                        <li class="m-top-xs"><i class="fa fa-address-card user-profile-icon"></i>
+                        <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
                             NIT: <strong>{{$cliente->nit}}</strong>
                         </li>
-                        <li class="m-top-xs"><i class="fa fa-address-card user-profile-icon"></i>
+                        <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
                             DUI: <strong>{{$cliente->nrc}}</strong>
                         </li>
-                        <li class="m-top-xs"><i class="fa fa-briefcase user-profile-icon"></i>
+                        <li><i class="fa fa-briefcase fa-fw user-profile-icon"></i>
                             Giro: <strong>{{$cliente->giro}}</strong>
                         </li>
-                        <li class="m-top-xs"><i class="fa fa-shield fa-fw user-profile-icon"></i>
+                        <li><i class="fa fa-shield fa-fw user-profile-icon"></i>
                             Seguro: <strong>{{$cliente->seguro}}</strong>
                         </li>
-                        <li class="m-top-xs">
-                            <i class="fa fa-envelope user-profile-icon"></i>
+                        <li><i class="fa fa-envelope fa-fw user-profile-icon"></i>
                             Email: <strong>{{$cliente->user? $cliente->user->email:'--'}}</strong>
                         </li>
-                        <li><i class="fa fa-phone user-profile-icon"></i>
+                        <li><i class="fa fa-phone fa-fw user-profile-icon"></i>
                             Telefono: <strong>{{$cliente->telefono}}</strong>
                         </li>
-                        <li><i class="fa fa-building user-profile-icon"></i>
+                        <li><i class="fa fa-building fa-fw user-profile-icon"></i>
                             Dirección: <strong>{{$cliente->direccion}}</strong>
                         </li>
-                        <li><i class="fa fa-calendar user-profile-icon"></i>
+                        <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
                             Registrado en: <strong>{{$cliente->created_at}}</strong>
                         </li>
                     </ul>

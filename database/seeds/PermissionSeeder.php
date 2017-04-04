@@ -53,6 +53,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'admin_pacientes',
                 'display_name' => 'Administrar Pacientes',
                 'description' => 'Registra y da de baja a pacientes'
+            ],
+            [
+                'name' => 'admin_origenes',
+                'display_name' => 'Administrar Centros de Origen',
+                'description' => 'Registra y da de baja a centros de origenes'
             ]
         ];
 

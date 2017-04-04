@@ -131,6 +131,24 @@ class UserService
     }
 
     /**
+     * Obtiene los datos necesarios para crear un usuario a partir del cliente
+     * @param array $data
+     * @return array
+     */
+    public function userDataFromCustomer(array $data)
+    {
+        if (array_has($data, 'nombre')) {
+            $data['name'] = $data['nombre'];
+        } else {
+            $data['name'] = $data['razon_social'];
+        }
+        if (array_has($data, 'apellido')) {
+            $data['surname'] = $data['apellido'];
+        }
+        return $data;
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator

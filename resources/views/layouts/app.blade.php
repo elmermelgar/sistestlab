@@ -80,6 +80,7 @@
                             <li><a href="{{url('/home')}}"><i class="fa fa-home fw"></i>Inicio</a></li>
                             <li><a href="{{url('clientes')}}"><i class="fa fa-briefcase fw"></i>Clientes</a></li>
                             <li><a href="{{url('pacientes')}}"><i class="fa fa-medkit fw"></i>Pacientes</a></li>
+                            <li><a href="{{url('origenes')}}"><i class="fa fa-building fw"></i>Centros de Origen</a></li>
                             @include('menu.sucursal')
                         </ul>
                     </div>

@@ -18,7 +18,7 @@ class Cliente extends Model
      * @var array
      */
     protected $fillable = [
-        'persona_juridica', 'razon_social', 'dui', 'nit', 'nrc', 'giro', 'telefono', 'direccion', 'seguro',
+        'persona_juridica', 'razon_social', 'dui', 'nit', 'nrc', 'giro', 'telefono', 'direccion', 'descripcion', 'seguro',
     ];
 
     /**
@@ -35,6 +35,14 @@ class Cliente extends Model
     public function pacientes()
     {
         return $this->belongsToMany('App\Paciente');
+    }
+
+    /**
+     * Obtiene, si corresponde, el registro de centro de centro-origen.
+     */
+    public function origen()
+    {
+        return $this->hasOne('App\CentroOrigen', 'id');
     }
 
 }

@@ -71,6 +71,11 @@ class ClienteController extends Controller
     public function edit($id)
     {
         if ($cliente = Cliente::find($id)) {
+            if($cliente->origen){
+                Notify::warning('Este cliente pertenece a un centro de centro-origen; 
+                para actualizar datos deberá editar el registro de centro de centro-origen.');
+                return back();
+            }
             return view('cliente.edit', [
                 'cliente' => $cliente,
                 'paciente' => $cliente->pacientes()->wherePivot('same_record', true)->first(),
@@ -104,7 +109,7 @@ class ClienteController extends Controller
 
             //Si el cliente tiene un usuario, lo actualiza, o se le habilita un usuario si se especificó
             if ($cliente->user) {
-                $cliente->user->update($this->userDataFromCustomer($request->all()));
+                $cliente->user->update($this->userService->userDataFromCustomer($request->all()));
             } else if ($request->user) {
                 $user = $this->createUserForCustomer($request);
                 $cliente->user()->associate($user);
@@ -148,31 +153,13 @@ class ClienteController extends Controller
     }
 
     /**
-     * Obtiene los datos necesarios para crear un usuario a partir del cliente
-     * @param array $data
-     * @return array
-     */
-    public function userDataFromCustomer(array $data)
-    {
-        if (array_has($data, 'nombre')) {
-            $data['name'] = $data['nombre'];
-        } else {
-            $data['name'] = $data['razon_social'];
-        }
-        if (array_has($data, 'apellido')) {
-            $data['surname'] = $data['apellido'];
-        }
-        return $data;
-    }
-
-    /**
      * @param Request $request
      * @return \App\User
      */
     public function createUserForCustomer(Request $request)
     {
         //Crea el usuario del cliente
-        $data = $this->userDataFromCustomer($request->all());
+        $data = $this->userService->userDataFromCustomer($request->all());
         $user = $this->userService->createUser($data);
         $role = Role::where('name', 'cliente')->first();
         $user->attachRole($role);
@@ -183,7 +170,7 @@ class ClienteController extends Controller
         }
 
         //habilita el usuario y envía link para establecer contraseña
-        //$this->userService->sendResetLink($user);
+        $this->userService->sendResetLink($user);
 
         return $user;
     }

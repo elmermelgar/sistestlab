@@ -23,10 +23,11 @@ class CreateClientesTable extends Migration
             $table->string('giro')->nullable();
             $table->string('telefono',8);
             $table->string('direccion')->nullable();
+            $table->string('descripcion')->nullable();
             $table->string('seguro')->nullable();
             $table->integer('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->unique('razon_social');
+//            $table->unique('razon_social');
             $table->timestamps();
         });
     }
