@@ -22,11 +22,14 @@ class Exam extends Model
      */
     public $timestamps=true;
 
-    public function category(){
+    public function groupings(){
+        return $this->hasMany('App\Grouping');
+    }
+    public function exam_category(){
         return $this->belongsTo('App\Exam_category');
     }
 
-    public function samples(){
+    public function sample(){
         return $this->belongsTo('App\Sample');
     }
 
@@ -38,7 +41,5 @@ class Exam extends Model
         return $this->belongsTo('App\Sucursal');
     }
 
-    public function groupings(){
-        return $this->hasMany('App\Grouping');
-    }
+
 }

@@ -17,8 +17,16 @@ class Estado extends Model
      */
     protected $fillable = ['name', 'display_name', 'tipo'];
 
+    /**
+     * @var boolean
+     */
+    public $timestamps=false;
 
     public function activos(){
         return $this->hasMany('App\Activo');
+    }
+
+    public function exams(){
+        return $this->hasMany('App\Exam');
     }
 }

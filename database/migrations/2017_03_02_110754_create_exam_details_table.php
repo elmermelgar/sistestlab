@@ -20,6 +20,7 @@ class CreateExamDetailsTable extends Migration
             $table->string('tipo_vr');
             $table->string('unidades');
             $table->string('description');
+            $table->string('estado')->nullable();
             $table->timestamps();
             $table->foreign('grouping_id')->references('id')->on('groupings');
         });

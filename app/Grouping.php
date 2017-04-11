@@ -15,7 +15,7 @@ class Grouping extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'display_name'];
+    protected $fillable = ['name', 'display_name', 'exam_id'];
 
     /**
      * @var boolean

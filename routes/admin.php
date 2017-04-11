@@ -50,6 +50,7 @@ Route::group(['prefix' => 'sucursal'], function () {
 Route::group(['prefix' => 'sucursales', 'middleware' => ['permission:admin_sucursales']], function () {
 
     Route::get('/', 'SucursalController@index');
+    Route::get('/view', 'SucursalController@view');
     Route::get('create', 'SucursalController@create');
     Route::get('{id}', 'SucursalController@show');
     Route::get('{id}/edit', 'SucursalController@edit');
@@ -113,4 +114,7 @@ Route::group(['prefix' => 'origenes', 'middleware' => ['permission:admin_origene
 Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
 
     Route::resource('/','ExamController');
+    Route::get('/{id}', 'ExamController@index');
+    Route::get('/{id1}/{id2}', 'ExamController@detail');
+    Route::get('/{id}/create', 'ExamController@create');
 });

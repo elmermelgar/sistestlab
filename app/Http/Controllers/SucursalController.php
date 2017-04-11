@@ -36,6 +36,15 @@ class SucursalController extends Controller
     }
 
     /**
+     * Muestra una lista de las sucursales para la administración
+     * @return \Illuminate\Http\Response
+     */
+    public function view()
+    {
+        return view('sucursal.view', ['sucursales' => Sucursal::all()]);
+    }
+
+    /**
      * Muestra la sucursal especificada
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
