@@ -32,7 +32,7 @@
 
         <div class="x_title">
             <h3>Exámenes de {{ $sucursal->display_name }}
-                <a href="{{ url('examenes/'.$sucursal->id.'/create') }}" title="Crear Nuevo Usuario" style="float: right">
+                <a href="{{ url('examenes/examen/'.$sucursal->id.'/create') }}" title="Crear Nuevo Usuario" style="float: right">
                     <div class="btn btn-primary">
                         <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo Exámen
                     </div>

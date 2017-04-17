@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Estado;
 use App\Exam;
 use App\Exam_category;
+use App\Exam_detail;
 use App\Grouping;
+use App\Reference_value;
+use App\ReferenceType;
 use App\Sample;
 use App\Sucursal;
 use Illuminate\Http\Request;
@@ -45,8 +48,10 @@ class ExamController extends Controller
      */
     public function detail($id1, $id2)
     {
-//
-        return view('examen.exam_detail.detail', ['examen' => Exam::find($id2), 'sucursal'=> Sucursal::find($id1)]);
+
+        return view('examen.exam_detail.detail',
+            ['examen' => Exam::find($id2), 'sucursal'=> Sucursal::find($id1),
+                'grupos'=> Grouping::where(array('exam_id' => $id2))->get(), 'details'=> Exam_detail::all()]);
     }
 
     /**
@@ -108,52 +113,134 @@ class ExamController extends Controller
 //        }
 
         //Se completó el registro del cliente exitosamente
-        Notify::success('Examen registrado correctamente');
-        return redirect('examenes/' . $request->sucursal_id);
+        Notify::success('Guardado correctamente','Exito!!');
+        return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+    }
+
+    /**
+     * Guarda los agrupamientos de los examenes.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storegroup(Request $request)
+    {
+            $group = Grouping::create($request->all());
+
+        Notify::success('Guardado correctamente','Exito!!');
+        return redirect('examenes/' . $group->exam->sucursal_id .'/'. $group->exam->id);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function storedetail(Request $request)
     {
-        //
+        if ($request->id && $detail = Exam_detail::find($request->id)) {
+            $detail->update($request->all());
+        } else {
+            $detail = Exam_detail::create($request->all());
+        }
+        Notify::success('Guardado correctamente','Exito!!');
+        return redirect('examenes/' . $detail->grouping->exam->sucursal_id .'/'. $detail->grouping->exam->id);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Cargar vista para Editar el examen.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $estado = Estado::all();
+        $samples = Sample::all();
+        $categories = Exam_category::all();
+//        dd($examen = Exam::find($id));
+        if ($examen = Exam::find($id)) {
+            return view('examen.edit', ['examen' => $examen, 'samples' => $samples, 'sucursal' => Sucursal::find($id), 'estados' => $estado, 'categories' => $categories]);
+        }
+       // return response()->view('errors.404', [], 404);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Crear un nuevo Resultado.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function create_detail($id)
     {
-        //
+        return view('examen.exam_detail.edit', ['detail' => null, 'examen' => Exam::find($id), 'types'=> ReferenceType::all(), 'groupings'=> Grouping::where(array('exam_id' => $id))->get()]);
     }
+
+    /**
+     * Editar Resultados.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit_detail($id, $id2)
+    {
+        return view('examen.exam_detail.edit', ['detail' => Exam_detail::find($id2), 'examen' => Exam::find($id), 'types'=> ReferenceType::all(), 'groupings'=> Grouping::where(array('exam_id' => $id))->get()]);
+    }
+
+    /**
+     * Ir a la vista de valores de referencia.
+     *
+     * @param  int  $id, $id2
+     * @return \Illuminate\Http\Response
+     */
+    public function reference_detail($id, $id2)
+    {
+        return view('examen.reference_value.index', ['detail' => Exam_detail::find($id2), 'examen' => Exam::find($id), 'reference'=> Reference_value::where(array('exam_detail_id' => $id2))->get()]);
+    }
+
+    /**
+     * Elimina detalles de examen.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_detail($id, $id2)
+    {
+        $examen = Exam::find($id);
+        $reference = Reference_value::where(array('exam_detail_id' => $id2))->first();
+//        dd($reference);
+        if ($reference != null){
+            Notify::error('No se puede eliminar este registro, porque tiene asosiados','Error!!');
+            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        }else{
+            Exam_detail::destroy($id2);
+            Notify::warning('Registro eliminado correctamente','Eliminado!!');
+            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        }
+    }
+
+    /**
+     * Elimina detalles de examen.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy_group($id, $id2)
+    {
+        $examen = Exam::find($id);
+        $details = Exam_detail::where(array('grouping_id' => $id2))->first();
+//        dd($details);
+        if ($details != null){
+            Notify::error('No se puede eliminar este registro, porque tiene asosiados','Error!!');
+            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        }else{
+            Grouping::destroy($id2);
+            Notify::warning('Registro eliminado correctamente','Eliminado!!');
+            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        }
+    }
+
 }

@@ -16,15 +16,13 @@ class CreateReferenceValuesTable extends Migration
         Schema::create('reference_values', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('exam_detail_id')->unsigned();
-            $table->integer('activo_id')->nullable();
+            $table->string('unidades');
             $table->string('value');
             $table->string('gender')->nullable();
             $table->integer('edad_menor')->nullable();
             $table->integer('edad_mayor')->nullable();
-            $table->string('formula')->nullable();
             $table->timestamps();
             $table->foreign('exam_detail_id')->references('id')->on('exam_details');
-            $table->foreign('activo_id')->references('id')->on('activos');
         });
     }
 

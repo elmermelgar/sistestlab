@@ -9,13 +9,13 @@ class Exam_detail extends Model
     /**
      * @var string
      */
-    protected $table='exam_detail';
+    protected $table='exam_details';
 
     /**
      *
      * @var array
      */
-    protected $fillable = ['name_detail', 'tipo_vr', 'unidades', 'description',  'grouping_id', 'estado_id'];
+    protected $fillable = ['name_detail', 'description', 'estado', 'grouping_id', 'reference_type_id'];
 
     /**
      * @var boolean
@@ -26,11 +26,11 @@ class Exam_detail extends Model
         return $this->belongsTo('App\Grouping');
     }
 
-    public function reference_values(){
-        return $this->hasMany('App\Reference_value');
+    public function referenceType(){
+        return $this->belongsTo('App\ReferenceType');
     }
 
-    public function special_results(){
-        return $this->hasMany('App\Special_result');
+    public function reference_values(){
+        return $this->hasMany('App\Reference_value');
     }
 }

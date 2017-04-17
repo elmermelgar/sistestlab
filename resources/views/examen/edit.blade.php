@@ -10,7 +10,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('/examenes')}}">Exámenes</a></li>
+            <li><a href="{{url('/examenes/'.$examen->sucursal_id)}}">Exámenes</a></li>
             <li>{{$examen? $examen->display_name:'Nuevo'}}</li>
         </ol>
     </div>
