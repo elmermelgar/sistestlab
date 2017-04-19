@@ -78,7 +78,7 @@
                         <address>
                             <strong>Precio:</strong> ${{ $examen->precio }}
                             <br><br>
-                            <a href="{{url('examenes/examen/'.$examen->id.'/edit')}}" class="btn btn-sm btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Editar Examen</a>
+                            <a href="{{url('examenes/examen/'.$examen->id.'/edit')}}" class="btn btn-sm btn-warning"><i class="fa fa-edit" aria-hidden="true"></i> Editar Examen</a>
                             {{--<a href="#" class="btn btn-sm btn-warning"> Dar de baja</a>--}}
                         </address>
                     </div>

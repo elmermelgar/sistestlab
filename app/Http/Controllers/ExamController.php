@@ -36,10 +36,11 @@ class ExamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(Request $request, $id)
     {
 //        dd(Exam::where(array('sucursal_id' => $id))->get());
-        return view('examen.index', ['examnes' => Exam::where(array('sucursal_id' => $id))->get(), 'sucursal_id'=>$id, 'sucursal'=> Sucursal::find($id)]);
+//        dd($request->get('display_name'));
+        return view('examen.index', ['examenes' => Exam::name($request->get('display_name'))->where(array('sucursal_id' => $id))->paginate(20), 'sucursal_id'=>$id, 'sucursal'=> Sucursal::find($id)]);
     }
 
     /**

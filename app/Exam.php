@@ -49,5 +49,13 @@ class Exam extends Model
         return $this->belongsToMany('App\Activo', 'exam_activo');
     }
 
+    //Busqueda de Examenes
+    public function scopeName($query, $name){
+        if ( trim($name) != ""){
+            $query->where('display_name',"LIKE", "%$name%");
+        }
+
+    }
+
 
 }

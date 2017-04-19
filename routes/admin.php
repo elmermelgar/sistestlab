@@ -113,7 +113,7 @@ Route::group(['prefix' => 'origenes', 'middleware' => ['permission:admin_origene
 
 Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
 
-//    Route::resource('/','ExamController');
+    Route::resource('/','ExamController');
     Route::get('/{id}', 'ExamController@index');
     Route::get('/{id1}/{id2}', 'ExamController@detail');
     Route::get('/examen/{id}/create', 'ExamController@create');

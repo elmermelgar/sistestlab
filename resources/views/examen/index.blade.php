@@ -32,12 +32,24 @@
 
         <div class="x_title">
             <h3>Exámenes de {{ $sucursal->display_name }}
+
                 <a href="{{ url('examenes/examen/'.$sucursal->id.'/create') }}" title="Crear Nuevo Usuario" style="float: right">
                     <div class="btn btn-primary">
                         <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo Exámen
                     </div>
                 </a>
+                <div class="col-md-3 col-sm-4 col-xs-12 form-group pull-right top_search" style="margin-right: 5%">
+                   <form class="form-group" action="{{ url('examenes/'.$sucursal->id) }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="display_name" placeholder="Buscar examen...">
+                        <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                    </div>
+                   </form>
+                </div>
             </h3>
+
 
             <div class="clearfix"></div>
         </div>
@@ -45,7 +57,7 @@
 
         <div class="x_content">
             <div class="row">
-                @foreach($examnes as $examen)
+                @foreach($examenes as $examen)
                 <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
                     <a href="{{ url('examenes/'.$sucursal->id.'/'.$examen->id )}}">
                         <div class="tile-stats" style="background: #FFFFFF">
@@ -60,6 +72,9 @@
                 </div>
                 @endforeach
             </div>
+        </div>
+        <div class="col-md-12" style="text-align: center">
+        {{ $examenes->appends(Request::only(['display_name']))->render() }}
         </div>
     </div>
 
