@@ -38,4 +38,9 @@ class Activo extends Model
     public function inventario(){
         return $this->hasOne('App\Inventario');
     }
+
+    public function exams(){
+        return $this->belongsToMany('App\Exam', 'exam_activo');
+    }
+
 }

@@ -41,5 +41,13 @@ class Exam extends Model
         return $this->belongsTo('App\Sucursal');
     }
 
+    /**
+     * Relacion de muchos a muchos con Activo.
+     */
+    public function activos()
+    {
+        return $this->belongsToMany('App\Activo', 'exam_activo');
+    }
+
 
 }

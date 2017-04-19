@@ -93,7 +93,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <h3 class="green">Grupos</h3>
-                        <a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">
+                        <a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" title="Crear un nuevo grupo" data-toggle="modal" data-target=".bs-example-modal-sm">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                         </a>
                         <div class="panel-body">
@@ -102,8 +102,8 @@
                             <div class="accordion" id="accordion{{ $grupo->id }}" role="tablist" aria-multiselectable="true">
                                 <div class="panel">
 
-                                    <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion{{ $grupo->id }}" href="#collapseOne{{ $grupo->id }}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">{{ $grupo->name }}</h4>
+                                    <a class="panel-heading"  role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion{{ $grupo->id }}" href="#collapseOne{{ $grupo->id }}" aria-expanded="false" aria-controls="collapseOne">
+                                        <h4 class="panel-title"><b>{{ $grupo->name }}</b></h4>
                                         @if(!$grupo->name == '')
                                         <a href="{{url('examenes/examen/'.$examen->id.'/'.$grupo->id.'/delete_group')}}" class="btn btn-sm btn-black" style="float: right; margin-top: -35px; color: #942a25">
                                             <i class="fa fa-trash" aria-hidden="true"></i>
@@ -133,13 +133,16 @@
                             <div class="clearfix"></div>
                         </div>
                         <h3 class="green">Recursos</h3>
-                        <a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary">
+                        <a href="{{url('examenes/examen/'.$examen->id.'/create_resources')}}" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" title="Asignar Recursos">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                         </a>
                         <div class="panel-body">
-                            <ul class="to_do">
-                                <li><span class="label label-default">Reactivo Sprint</span></li>
-
+                            <ul class="to_do" >
+                                @foreach($activos as $activo)
+                                    @if($examen? $examen->activos->find($activo->id):null)
+                                        <li style="background: #9DF8A2; "><span class="label label-default" style="background: #9DF8A2; font-size: 13px; color: #2A3F54">{{ $activo->nombre_activo }}</span></li>
+                                    @endif
+                                @endforeach
                             </ul>
                             <br>
                         </div>
@@ -167,16 +170,16 @@
                                             <th>Nombre</th>
                                             <th>Tipo</th>
                                             <th>Descripcion</th>
-                                            <th>*</th>
+                                            <th>Acciones</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php  ?>
+                                        <?php $i=0 ?>
                                         @foreach($grupos as $grupo)
-                                            @foreach($details as $detail)
+                                            @foreach($details as $index => $detail)
                                                 @if($grupo->id == $detail->grouping_id)
                                                     <tr>
-                                                        <th scope="row">1</th>
+                                                        <th scope="row"> <?php $i++ ?> {{ $i }}</th>
                                                         <td>{{ $detail->name_detail }}</td>
                                                         <td>{{ $detail->referenceType->display_name }}</td>
                                                         <td>{{ $detail->description }}</td>
@@ -188,10 +191,11 @@
                                                             <a href="{{url('examenes/examen/'.$examen->id.'/'.$detail->id.'/delete_detail')}}" class="btn btn-sm btn-danger">
                                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                                             </a>
-
-                                                            <a href="{{url('examenes/examen/'.$examen->id.'/'.$detail->id.'/reference_value')}}" class="btn btn-sm btn-primary" title="Valores de Referencia">
-                                                                <i class="fa fa-sliders" aria-hidden="true"></i>
+                                                            @if($detail->referenceType->name == 'default')
+                                                            <a href="{{url('examenes/examen/'.$examen->id.'/'.$detail->id.'/reference_value')}}" class="btn btn-sm btn-success" title="Valores de Referencia">
+                                                                <i class="fa fa-sliders" aria-hidden="true"></i> Valores de Referencia
                                                             </a>
+                                                                @endif
                                                         </td>
                                                     </tr>
                                                 @endif

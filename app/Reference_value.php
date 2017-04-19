@@ -15,7 +15,7 @@ class Reference_value extends Model
      *
      * @var array
      */
-    protected $fillable = ['value', 'gender', 'edad_menor', 'edad_mayor',  'formula', 'exam_detail_id'];
+    protected $fillable = ['value', 'unidades', 'gender', 'edad_menor', 'edad_mayor', 'exam_detail_id'];
 
     /**
      * @var boolean
@@ -26,7 +26,4 @@ class Reference_value extends Model
         return $this->belongsTo('App\Exam_detail');
     }
 
-    public function activos(){
-        return $this->hasMany('App\Activo');
-    }
 }

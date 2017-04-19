@@ -119,10 +119,15 @@ Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacient
     Route::get('/examen/{id}/create', 'ExamController@create');
     Route::get('/examen/{id}/edit',['uses'=>'ExamController@edit', 'as'=>'examenes.edit']);
     Route::get('/examen/{id}/create_detail',['uses'=>'ExamController@create_detail', 'as'=>'examenes.create_detail']);
+    Route::get('/examen/{id}/create_resources',['uses'=>'ExamController@create_resources', 'as'=>'examenes.create_resources']);
     Route::get('/examen/{id}/{id2}/edit_detail',['uses'=>'ExamController@edit_detail', 'as'=>'examenes.edit_detail']);
     Route::get('/examen/{id}/{id2}/delete_detail',['uses'=>'ExamController@destroy_detail', 'as'=>'examenes.destroy_detail']);
     Route::get('/examen/{id}/{id2}/delete_group',['uses'=>'ExamController@destroy_group', 'as'=>'examenes.destroy_group']);
+    Route::get('/examen/{id}/{id2}/{id3}/delete_reference',['uses'=>'ExamController@destroy_reference', 'as'=>'examenes.destroy_reference']);
     Route::get('/examen/{id}/{id2}/reference_value',['uses'=>'ExamController@reference_detail', 'as'=>'examenes.reference_value']);
     Route::post('/examen/storegrupo', 'ExamController@storegroup');
     Route::post('/examen/storedetail', 'ExamController@storedetail');
+    Route::post('/examen/storereference', 'ExamController@storereference');
+    Route::post('/examen/store_examen_activo', 'ExamController@store_examen_activo');
+
 });

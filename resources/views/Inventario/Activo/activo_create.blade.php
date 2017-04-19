@@ -83,8 +83,8 @@
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
                                             <select class="form-control" name="tipo" tabindex="-1">
+                                                <option value="reactivo">Recurso</option>
                                                 <option value="equipo">Mobiliario y Equipo</option>
-                                                <option value="reactivo">Reactivo</option>
                                             </select>
                                         </div>
                                     </div>

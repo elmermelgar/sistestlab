@@ -88,7 +88,7 @@
 
                                             <select class="form-control" name="tipo" tabindex="-1">
                                                 <option value="equipo" @if($activo->tipo=='equipo') selected @endif>Moviliario y Equipo</option>
-                                                <option value="reactivo" @if($activo->tipo=='reactivo') selected @endif>Reactivo</option>
+                                                <option value="reactivo" @if($activo->tipo=='reactivo') selected @endif>Recurso</option>
                                             </select>
                                         </div>
                                     </div>

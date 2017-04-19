@@ -17,7 +17,6 @@ class CreateExamActiveTable extends Migration
             $table->increments('id');
             $table->integer('exam_id')->unsigned();
             $table->integer('activo_id')->unsigned();
-            $table->timestamps();
             $table->foreign('exam_id')->references('id')->on('exams');
             $table->foreign('activo_id')->references('id')->on('activos');
         });
