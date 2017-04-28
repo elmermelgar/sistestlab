@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+    var origen = $('#centro_origen');
     var paciente = $('#paciente');
     var user = $('#user');
     var natural = $('#persona_natural');
@@ -20,6 +21,27 @@ $(document).ready(function () {
     fecha_nacimiento.daterangepicker({
         singleDatePicker: true,
         showDropdowns: true
+    });
+
+    function origenClick() {
+        if (origen[0].checked) {
+            natural.attr('disabled', 'disabled');
+            juridica.attr('disabled', 'disabled');
+            juridica[0].checked = true;
+            paciente.attr('disabled', 'disabled');
+            paciente[0].checked = false;
+        }
+        else {
+            natural.removeAttr('disabled');
+            juridica.removeAttr('disabled');
+            paciente.removeAttr('disabled');
+        }
+        juridicaClick();
+    }
+
+    origenClick();
+    origen.change(function () {
+        origenClick();
     });
 
     function pacienteClick() {

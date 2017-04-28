@@ -1,13 +1,17 @@
 <li>
-    <a><i class="fa fa-gears fw"></i>Administrar
+    <a><i class="fa fa-gears"></i>Administrar
         <span class="fa fa-chevron-down"></span>
     </a>
     <ul class="nav child_menu">
         <li><a href="{{url('usuarios')}}">Usuarios</a></li>
         <li><a href="{{url('roles')}}">Roles</a></li>
         <li><a href="{{url('permisos')}}">Permisos</a></li>
+        <li><a href="{{url('bonos')}}">Bonos</a></li>
+        <li><a href="{{url('niveles')}}">Niveles (Ganancia)</a></li>
     </ul>
-</li><li>
+</li>
+@include('menu.sucursal')
+<li>
     <a><i class="fa fa-image fw"></i>Imagenes
         <span class="fa fa-chevron-down"></span>
     </a>

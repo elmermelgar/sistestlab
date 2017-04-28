@@ -5,6 +5,9 @@
         .profile_details {
             clear: inherit !important;
         }
+        .tab a:hover{
+            background-color: #eee !important;
+        }
     </style>
 
 @endsection
@@ -26,27 +29,39 @@
         </ul>
     @endif
 
-    <div class="x_panel">
+    <ul id="myTab" class="nav nav-tabs">
+        <li @if(!isset($origen)) class="active" @else class="tab" @endif>
+            <a class="tab" href="{{url('clientes')}}">Clientes</a>
+        </li>
+        <li @if(isset($origen)) class="active" @else class="tab" @endif>
+            <a href="{{url('origenes')}}">Centros de Origen</a>
+        </li>
+        <li style="float: right">
+            <a href="{{ url('clientes/create') }}" title="Registrar Nuevo Cliente" style="padding: 0">
+                <div class="btn btn-primary" style="margin: 0">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i> Registrar Nuevo Cliente
+                </div>
+            </a>
+        </li>
 
-        <div class="x_title">
-            <h3>Clientes
-                <a href="{{ url('clientes/create') }}" title="Registrar Nuevo Cliente" style="float: right">
-                    <div class="btn btn-primary">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i> Registrar Nuevo Cliente
-                    </div>
-                </a>
-            </h3>
+    </ul>
 
-            <div class="clearfix"></div>
-        </div>
+    <div class="x_panel" style="border-top: none">
 
         <div class="x_content">
             <div class="row">
-                @foreach($clientes as $cliente)
+                @forelse($clientes as $cliente)
                     <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
                         <div class="well profile_view">
                             <div class="col-xs-12">
-                                <h4 class="brief"><i>Cliente</i></h4>
+                                <h4 class="brief">
+                                    <i>@if($cliente->centro_origen)
+                                            Centro de Origen
+                                        @else
+                                            Cliente
+                                        @endif
+                                    </i>
+                                </h4>
                                 <div class="left col-xs-8">
                                     <h2>{{$cliente->razon_social}}</h2>
                                     <p style="color: #0b97c4"><strong>{{$cliente->descripcion}}</strong></p>
@@ -72,13 +87,15 @@
                                 <div class="col-xs-12 col-sm-7 emphasis"></div>
                                 <div class="col-xs-12 col-sm-5 emphasis">
                                     <a class="btn btn-primary btn-xs" href="{{url('clientes/'.$cliente->id)}}">
-                                        <i class="fa fa-briefcase fa-fw"></i>Ver Perfil
+                                        <i class="fa fa-eye fa-fw"></i> Ver Perfil
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    Sin registros!
+                @endforelse
             </div>
         </div>
     </div>

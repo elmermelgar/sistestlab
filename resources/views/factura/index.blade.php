@@ -8,7 +8,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li>Centros de Origen</li>
+            <li>Facturas</li>
         </ol>
     </div>
 
@@ -24,13 +24,7 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h3>Centros de Origen
-                <a href="{{ url('origenes/create') }}" title="Registrar Nuevo Centro de Origen" style="float: right">
-                    <div class="btn btn-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Nuevo Centro de Origen
-                    </div>
-                </a>
-            </h3>
+            <h3>Facturas</h3>
 
             <div class="clearfix"></div>
         </div>
@@ -41,26 +35,30 @@
                     <thead>
                     <tr>
                         <th data-field="id" data-sortable="true">Id</th>
-                        <th data-field="name" data-sortable="true">Nombre</th>
-                        <th data-field="surname" data-sortable="true">Nombre para mostrar</th>
-                        <th data-field="email" data-sortable="true">Email</th>
+                        <th data-field="name" data-sortable="true">Número</th>
+                        <th data-field="cliente" data-sortable="true">Cliente</th>
+                        <th data-field="examenes" data-sortable="true">Examenes</th>
+                        <th data-field="venta" data-sortable="true">Facturado por</th>
+                        <th data-field="venta" data-sortable="true">Venta</th>
                         <th data-field="actions" data-sortable="false">Acciones</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @foreach($origenes as $origen)
+                    @foreach($facturas as $factura)
                         <tr>
-                            <td>{{$origen->id}}</td>
-                            <td>{{$origen->name}}</td>
-                            <td>{{$origen->display_name}}</td>
-                            <td>{{$origen->email}}</td>
+                            <td>{{$factura->id}}</td>
+                            <td>{{$factura->numero}}</td>
+                            <td>{{$factura->cliente->razon_social}}</td>
+                            <td>{{count($factura->examen_paciente)}}</td>
+                            <td>{{$factura->user->getFullName()}}</td>
+                            <td>{{$factura->total}}</td>
                             <td>
-                                <a href="{{ url('origenes/'.$origen->id )}}"
-                                   class="btn btn-success btn-sm" title="Ver Centro de Origen"><span
-                                            class="fa fa-eye fa-fw"></span> Cliente</a>
-                                <a href="{{ url('origenes/'. $origen->id.'/edit' )  }}"
-                                   class="btn btn-primary btn-sm" title="Editar Centro de Origen"><span
+                                <a href="{{ url('facturas/'.$factura->id )}}"
+                                   class="btn btn-success btn-sm" title="Ver Factura"><span
+                                            class="fa fa-eye"></span></a>
+                                <a href="{{ url('facturas/'. $factura->id.'/edit' )  }}"
+                                   class="btn btn-primary btn-sm" title="Editar Factura"><span
                                             class="fa fa-edit"></span></a>
                             </td>
                         </tr>

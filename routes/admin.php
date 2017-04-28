@@ -41,7 +41,7 @@ Route::group(['prefix' => 'permisos', 'middleware' => ['permission:admin_permiss
 Route::group(['prefix' => 'sucursal'], function () {
     Route::get('/', 'SucursalController@show');
 
-    Route::group(['prefix'=>'caja','middleware' => ['permission:admin_caja']], function () {
+    Route::group(['prefix' => 'caja', 'middleware' => ['permission:admin_caja']], function () {
         Route::post('abrir', 'SucursalController@abrirCaja');
         Route::post('cerrar', 'SucursalController@cerrarCaja');
     });
@@ -80,36 +80,23 @@ Route::group(['prefix' => 'imagenes', 'middleware' => ['permission:admin_imagene
 
 });
 
-Route::group(['prefix' => 'clientes', 'middleware' => ['permission:admin_clientes']], function () {
+Route::group(['prefix' => 'bonos', 'middleware' => ['permission:admin_bonos']], function () {
 
-    Route::get('/', 'ClienteController@index');
-    Route::get('create', 'ClienteController@create');
-    Route::get('{id}', 'ClienteController@show');
-    Route::get('{id}/edit', 'ClienteController@edit');
-    Route::post('delete', 'ClienteController@delete');
-    Route::post('store', 'ClienteController@store');
+    Route::get('/', 'BonoController@index');
+    Route::get('create', 'BonoController@create');
+    Route::get('{id}/edit', 'BonoController@edit');
+    Route::post('delete', 'BonoController@delete');
+    Route::post('store', 'BonoController@store');
 });
 
-Route::group(['prefix' => 'pacientes', 'middleware' => ['permission:admin_pacientes']], function () {
+Route::group(['prefix' => 'niveles', 'middleware' => ['permission:admin_pacientes']], function () {
 
-    Route::get('/', 'PacienteController@index');
-    Route::get('create', 'PacienteController@create');
-    Route::get('{id}', 'PacienteController@show');
-    Route::get('{id}/edit', 'PacienteController@edit');
-    Route::post('delete', 'PacienteController@delete');
-    Route::post('store', 'PacienteController@store');
+    Route::get('/', 'NivelController@index');
+    Route::get('create', 'NivelController@create');
+    Route::get('{id}/edit', 'NivelController@edit');
+    Route::post('delete', 'NivelController@delete');
+    Route::post('store', 'NivelController@store');
 });
-
-Route::group(['prefix' => 'origenes', 'middleware' => ['permission:admin_origenes']], function () {
-
-    Route::get('/', 'CentroOrigenController@index');
-    Route::get('create', 'CentroOrigenController@create');
-    Route::get('{id}', 'CentroOrigenController@show');
-    Route::get('{id}/edit', 'CentroOrigenController@edit');
-    Route::post('delete', 'CentroOrigenController@delete');
-    Route::post('store', 'CentroOrigenController@store');
-});
-
 
 Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
 

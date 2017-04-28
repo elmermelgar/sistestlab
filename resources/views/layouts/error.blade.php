@@ -6,7 +6,7 @@
     <!-- Bootstrap -->
     <link href="{{url('gentallela/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{url('gentallela/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{url('css/font-awesome.min.css')}}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="{{url('gentallela/build/css/custom.min.css')}}" rel="stylesheet">

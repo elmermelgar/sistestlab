@@ -61,6 +61,14 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
+     * Obtiene las facturas realizadas por el usuario.
+     */
+    public function facturas()
+    {
+        return $this->hasMany('App\Factura');
+    }
+
+    /**
      * Send the password reset notification.
      *
      * @param  string  $token

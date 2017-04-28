@@ -54,6 +54,14 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="centro_origen" class="control-label col-md-4 col-sm-4 col-xs-12">Registrar como
+                            Centro de Origen</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input type="checkbox" id="centro_origen" name="centro_origen" class="custom-check"
+                                   @if($cliente? $cliente->centro_origen:null) checked @endif>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="persona_juridica" class="control-label col-md-4 col-sm-4 col-xs-12">Persona</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <input type="radio" id="persona_natural" name="persona_juridica" class="custom-check"
@@ -85,13 +93,6 @@
                                 <input id="dui" name="dui" class="form-control" placeholder="DUI"
                                        value="{{$cliente? $cliente->dui:old('dui')}}" maxlength="10"
                                        data-inputmask="'mask': '99999999-9'">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="seguro" class="control-label col-md-4 col-sm-4 col-xs-12"> Seguro</label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="seguro" name="seguro" class="form-control" placeholder="Seguro"
-                                       maxlength="255" value="{{$paciente? $paciente->seguro:old('seguro')}}">
                             </div>
                         </div>
                     </div>
@@ -154,6 +155,14 @@
                             <textarea id="direccion" name="direccion" class="form-control resize"
                                       placeholder="Dirección"
                                       maxlength="255">{{$cliente? $cliente->direccion:old('direccion')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion" class="control-label col-md-4 col-sm-4 col-xs-12"> Descripción/Comentario</label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <textarea id="descripcion" name="descripcion" class="form-control resize"
+                                      placeholder="Descripción"
+                                      maxlength="255">{{$cliente? $cliente->descripcion:old('descripcion')}}</textarea>
                         </div>
                     </div>
 

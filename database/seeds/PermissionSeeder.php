@@ -55,9 +55,24 @@ class PermissionSeeder extends Seeder
                 'description' => 'Registra y da de baja a pacientes'
             ],
             [
-                'name' => 'admin_origenes',
-                'display_name' => 'Administrar Centros de Origen',
-                'description' => 'Registra y da de baja a centros de origenes'
+                'name' => 'admin_bonos',
+                'display_name' => 'Administrar Bonos',
+                'description' => 'Registra y elimina cantidades de bonos'
+            ],
+            [
+                'name' => 'admin_niveles',
+                'display_name' => 'Administrar Niveles de Ganancia',
+                'description' => 'Registra y elimina niveles de ganancia'
+            ],
+            [
+                'name' => 'admin_recolectores',
+                'display_name' => 'Administrar Recolectores',
+                'description' => 'Registra a recolectores de centros de origen'
+            ],
+            [
+                'name' => 'facturar',
+                'display_name' => 'Facturar',
+                'description' => 'Registra facturas en la sucursal correspondiente'
             ]
         ];
 

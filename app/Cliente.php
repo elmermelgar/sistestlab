@@ -18,7 +18,8 @@ class Cliente extends Model
      * @var array
      */
     protected $fillable = [
-        'persona_juridica', 'razon_social', 'dui', 'nit', 'nrc', 'giro', 'telefono', 'direccion', 'descripcion', 'seguro',
+        'persona_juridica', 'centro_origen', 'razon_social', 'dui', 'nit', 'nrc', 'giro', 'telefono',
+        'email', 'direccion', 'descripcion',
     ];
 
     /**
@@ -30,19 +31,19 @@ class Cliente extends Model
     }
 
     /**
+     * Obtiene, si corresponde, el registro de cliente del usuario.
+     */
+    public function facturas()
+    {
+        return $this->hasMany('App\Factura');
+    }
+
+    /**
      * Relacion de muchos a muchos con Paciente.
      */
     public function pacientes()
     {
         return $this->belongsToMany('App\Paciente');
-    }
-
-    /**
-     * Obtiene, si corresponde, el registro de centro de centro-origen.
-     */
-    public function origen()
-    {
-        return $this->hasOne('App\CentroOrigen', 'id');
     }
 
 }

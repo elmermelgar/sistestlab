@@ -57,5 +57,12 @@ class Exam extends Model
 
     }
 
+    /**
+     * Examenes facturados.
+     */
+    public function examen_paciente()
+    {
+        return $this->hasMany('App\ExamenPaciente');
+    }
 
 }

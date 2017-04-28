@@ -38,7 +38,15 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        return view('cliente.index', ['clientes' => Cliente::all()]);
+        return view('cliente.index', ['clientes' => Cliente::where('centro_origen',false)->get()]);
+    }
+
+    /**
+     * Muestra la lista de centros de origen
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function origenes(){
+        return view('cliente.index', ['clientes' => Cliente::where('centro_origen',true)->get(),'origen'=>true]);
     }
 
     /**

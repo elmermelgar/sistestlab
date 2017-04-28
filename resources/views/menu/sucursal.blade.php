@@ -1,5 +1,7 @@
-<li><a><i class="fa fa-institution"></i> Sucursales <span
-                class="fa fa-chevron-down"></span></a>
+<li>
+    <a>
+        <i class="fa fa-institution"></i>Sucursales <span class="fa fa-chevron-down"></span>
+    </a>
     <ul class="nav child_menu">
         <li><a href="{{url('sucursales')}}">Todas</a></li>
         @php $sucursales=\App\Sucursal::all() @endphp

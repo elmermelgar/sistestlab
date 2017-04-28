@@ -21,7 +21,7 @@
         </ul>
     @endif
 
-    <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="col-sm-7 col-xs-12">
         <div class="x_panel">
 
             <div class="x_title">
@@ -31,7 +31,7 @@
             </div>
             <div class="x_content">
 
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-sm-5 col-xs-12">
                     <img class="img-sucursal img-responsive"
                          src="
                          @if($sucursal->imagen)
@@ -41,7 +41,7 @@
                          @endif">
                 </div>
 
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-sm-7 col-xs-12">
                     <ul class="list-unstyled user_data">
                         <li><i class="fa fa-id-card user-profile-icon"></i>
                             Nombre: <strong>{{$sucursal->name}}</strong>
@@ -74,7 +74,7 @@
         </div>
     </div>
 
-    <div class="col-md-6 col-sm-6 col-xs-12">
+    <div class="col-sm-5 col-xs-12">
         <div class="x_panel">
 
             <div class="x_title">
@@ -100,11 +100,11 @@
                         <td>{{number_format($caja->efectivo,2)}}</td>
                     </tr>
                     <tr>
-                        <th>Abierto en</th>
+                        <th>Abierta en</th>
                         <td>{{($caja->open_time)? :'--'}}</td>
                     </tr>
                     <tr>
-                        <th>Cerrado en</th>
+                        <th>Cerrada en</th>
                         <td>{{($caja->close_time)?:'--'}}</td>
                     </tr>
                     </tbody>

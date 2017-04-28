@@ -55,7 +55,10 @@ class RoleSeeder extends Seeder
         $administrar_caja = Permission::where('name', 'admin_caja')->first();
         $administrar_clientes = Permission::where('name', 'admin_clientes')->first();
         $administrar_pacientes = Permission::where('name', 'admin_pacientes')->first();
-        $administrar_origenes = Permission::where('name', 'admin_origenes')->first();
+        $administrar_bonos = Permission::where('name', 'admin_bonos')->first();
+        $administrar_niveles = Permission::where('name', 'admin_niveles')->first();
+        $administrar_recolectores = Permission::where('name', 'admin_recolectores')->first();
+        $facturar = Permission::where('name', 'facturar')->first();
 
         $admin->attachPermission($administrar_permisos);
         $admin->attachPermission($administrar_roles);
@@ -65,6 +68,9 @@ class RoleSeeder extends Seeder
         $admin->attachPermission($administrar_caja);
         $admin->attachPermission($administrar_clientes);
         $admin->attachPermission($administrar_pacientes);
-        $admin->attachPermission($administrar_origenes);
+        $admin->attachPermission($administrar_bonos);
+        $admin->attachPermission($administrar_niveles);
+        $admin->attachPermission($administrar_recolectores);
+        $admin->attachPermission($facturar);
     }
 }

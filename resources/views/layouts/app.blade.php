@@ -77,11 +77,11 @@
                     <div class="menu_section">
                         <h3>General</h3>
                         <ul class="nav side-menu">
-                            <li><a href="{{url('/home')}}"><i class="fa fa-home fw"></i>Inicio</a></li>
-                            <li><a href="{{url('clientes')}}"><i class="fa fa-briefcase fw"></i>Clientes</a></li>
-                            <li><a href="{{url('pacientes')}}"><i class="fa fa-medkit fw"></i>Pacientes</a></li>
-                            <li><a href="{{url('origenes')}}"><i class="fa fa-building fw"></i>Centros de Origen</a></li>
-                            @include('menu.sucursal')
+                            <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Inicio</a></li>
+                            <li><a href="{{url('facturar')}}"><i class="fa fa-usd"></i>Facturar</a></li>
+                            <li><a href="{{url('facturas')}}"><i class="fa fa-list-ul"></i>Facturas</a></li>
+                            <li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>
+                            @include('menu.laboratorio')
                         </ul>
                     </div>
                     <div class="menu_section">

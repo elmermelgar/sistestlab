@@ -28,7 +28,7 @@
         <div class="x_panel">
 
             <div class="x_title">
-                <h3>Cliente {{$cliente->razon_social}}</h3>
+                <h3>@if($cliente->centro_origen) Centro de Origen @else Cliente @endif {{$cliente->razon_social}}</h3>
 
                 <div class="clearfix"></div>
             </div>
@@ -80,9 +80,6 @@
                         </li>
                         <li><i class="fa fa-briefcase fa-fw user-profile-icon"></i>
                             Giro: <strong>{{$cliente->giro}}</strong>
-                        </li>
-                        <li><i class="fa fa-shield fa-fw user-profile-icon"></i>
-                            Seguro: <strong>{{$cliente->seguro}}</strong>
                         </li>
                         <li><i class="fa fa-envelope fa-fw user-profile-icon"></i>
                             Email: <strong>{{$cliente->user? $cliente->user->email:'--'}}</strong>

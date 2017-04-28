@@ -66,7 +66,7 @@
                                    href="{{ url('imagenes/categorias/' . $categoria->getAttribute('id')).'/edit' }}">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a class="btn btn-danger btn-sm" title="Editar Categoría"
+                                <a class="btn btn-danger btn-sm" title="Eliminar Categoría"
                                    onclick="ModalDel({{$categoria->id .',"'. $categoria->display_name.'"'}})">
                                     <i class="fa fa-trash"></i>
                                 </a>

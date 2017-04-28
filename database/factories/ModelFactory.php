@@ -21,3 +21,26 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Exam::class, function (Faker\Generator $faker) {
+
+    return [
+        'name' => $faker->word,
+        'display_name' => $faker->sentence(3),
+        'observation' => $faker->text(255),
+        'precio' => $faker->randomFloat(2, 0, 100),
+        'sucursal_id' => $faker->numberBetween(1, 3),
+        'sample_id' => $faker->numberBetween(1, 2),
+        'exam_category_id' => $faker->numberBetween(1, 2),
+        'estado_id' => $faker->numberBetween(1, 2),
+    ];
+});
+
+$factory->define(App\Grouping::class, function (Faker\Generator $faker) {
+
+    return [
+        'name' => $faker->word,
+        'display_name' => $faker->sentence(3),
+        'exam_id' => $faker->numberBetween(1, 3),
+    ];
+});

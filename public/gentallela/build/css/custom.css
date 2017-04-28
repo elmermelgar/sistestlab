@@ -339,7 +339,7 @@ body {
   color: #2A3F54;
   background: #2A3F54;
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.471; }
 
@@ -2299,7 +2299,7 @@ ul.bar_tabs > li {
   color: #333 !important;
   margin-top: -17px;
   margin-left: 8px;
-  background: #fff;
+  /*background: #fff;*/
   border-bottom: none;
   border-radius: 4px 4px 0 0; }
 
@@ -3689,7 +3689,7 @@ fieldset {
 
 .actionBar {
   width: 100%;
-  border-top: 1px solid #ddd;
+  /*border-top: 1px solid #ddd;*/
   padding: 10px 5px;
   text-align: right;
   margin-top: 10px; }

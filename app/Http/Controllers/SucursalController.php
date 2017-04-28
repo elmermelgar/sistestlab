@@ -57,7 +57,7 @@ class SucursalController extends Controller
         if ($sucursal = Sucursal::find($id)) {
             $caja = $this->sucursalService->getCaja($id);
             $registro = $this->sucursalService->getRegistro($id);
-            setlocale(LC_TIME, 'es_SV.UTF-8');
+            setlocale(LC_TIME, 'es_SV.UTF-8', 'es');
             return view('sucursal.show', [
                 'sucursal' => $sucursal,
                 'caja' => $caja,
@@ -118,7 +118,7 @@ class SucursalController extends Controller
      */
     public function abrirCaja(Request $request)
     {
-        if ($this->sucursalService->abrirCaja($request->id,Auth::user())) {
+        if ($this->sucursalService->abrirCaja($request->id, Auth::user())) {
             Notify::success('La caja se ha abierto');
         } else {
             Notify::danger('Puede que la caja ya estuviese abierta');
@@ -133,7 +133,7 @@ class SucursalController extends Controller
      */
     public function cerrarCaja(Request $request)
     {
-        if ($this->sucursalService->cerrarCaja($request->id,Auth::user())) {
+        if ($this->sucursalService->cerrarCaja($request->id, Auth::user())) {
             Notify::success('La caja se ha cerrado');
         } else {
             Notify::danger('Puede que la caja ya estuviese cerrada');

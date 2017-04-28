@@ -42,6 +42,14 @@ class Sucursal extends Model
         return $this->hasMany('App\Exam');
     }
 
+
+    /**
+     * Factura
+     */
+    public function facturas(){
+        return $this->hasMany('App\Factura');
+    }
+
     /**
      * Registro de aperturas y cierres de caja.
      */

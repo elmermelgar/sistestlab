@@ -34,4 +34,12 @@ class Paciente extends Model
         return $this->belongsToMany('App\Cliente');
     }
 
+    /**
+     * Examenes facturados.
+     */
+    public function examen_paciente()
+    {
+        return $this->hasMany('App\ExamenPaciente');
+    }
+
 }

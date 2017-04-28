@@ -6,6 +6,7 @@ namespace App\Services;
 use App\CajaRegistro;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SucursalService
 {
@@ -28,7 +29,7 @@ class SucursalService
     public static function isOpen($sucursal_id)
     {
         $caja = CajaRegistro::where('sucursal_id', $sucursal_id)
-            ->whereDate('stamp', Carbon::now()->toDateString())
+            //->whereDate('stamp', Carbon::now()->toDateString())
             ->latest('stamp')
             ->first();
         if ($caja && $caja->estado == self::ABIERTA) {
@@ -45,7 +46,7 @@ class SucursalService
     public static function canBeOpened($sucursal_id)
     {
         $caja = CajaRegistro::where('sucursal_id', $sucursal_id)
-            ->whereDate('stamp', Carbon::now()->toDateString())
+            //->whereDate('stamp', Carbon::now()->toDateString())
             ->latest('stamp')
             ->first();
         if ($caja && $caja->estado == self::ABIERTA) {
@@ -91,7 +92,13 @@ class SucursalService
             }
             $registro->stamp = Carbon::now();
             $registro->estado = self::CERRADA;
-            $registro->efectivo = $this->getEfectivo($sucursal_id);
+
+            $apertura = CajaRegistro::where('sucursal_id', $sucursal_id)
+                //->whereDate('stamp', Carbon::now()->toDateString())
+                ->where('estado', self::ABIERTA)
+                ->latest('stamp')->first();
+
+            $registro->efectivo = $this->getEfectivo($sucursal_id, $apertura->stamp);
             $registro->save();
             return true;
         } else {
@@ -108,20 +115,21 @@ class SucursalService
     {
         $caja = new CajaRegistro();
         $apertura = CajaRegistro::where('sucursal_id', $sucursal_id)
-            ->whereDate('stamp', Carbon::now()->toDateString())
+            //->whereDate('stamp', Carbon::now()->toDateString())
             ->where('estado', self::ABIERTA)
-            ->oldest('stamp')->first();
+            ->latest('stamp')->first();
         $cierre = CajaRegistro::where('sucursal_id', $sucursal_id)
-            ->whereDate('stamp', Carbon::now()->toDateString())
+            //->whereDate('stamp', Carbon::now()->toDateString())
             ->where('estado', self::CERRADA)
             ->latest('stamp')->first();
         if ($apertura) {
             $caja->open_time = $apertura->stamp;
+            if ($cierre && $cierre->stamp > $apertura->stamp) {
+                $caja->close_time = $cierre->stamp;
+            }
+            $caja->efectivo = $this->getEfectivo($sucursal_id, $apertura->stamp);
         }
-        if ($cierre) {
-            $caja->close_time = $cierre->stamp;
-        }
-        $caja->efectivo = $this->getEfectivo($sucursal_id);
+
         return $caja;
     }
 
@@ -141,9 +149,16 @@ class SucursalService
      * @param $sucursal_id
      * @return int
      */
-    private function getEfectivo($sucursal_id)
+    private function getEfectivo($sucursal_id, $apertura, $cierre = null)
     {
-        return 0;
+        if (is_null($cierre)) {
+            $cierre = Carbon::now()->toDateString();
+        }
+        $efectivo = DB::table('facturas')->where('sucursal_id', $sucursal_id)
+            ->where('created_at', '>=', $apertura)
+            ->where('created_at', '<=', $cierre)
+            ->selectRaw('sum(facturas.efectivo)')->first()->sum;
+        return $efectivo;
     }
 
 }

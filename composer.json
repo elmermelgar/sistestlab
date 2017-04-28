@@ -10,7 +10,8 @@
         "zizaco/entrust": "1.8.0-alpha1",
         "laracasts/flash": "^2.0",
         "laravelcollective/annotations": "^5.3.0",
-        "jorgejavierleon/laravelpnotify": "~1.0"
+        "jorgejavierleon/laravelpnotify": "~1.0",
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
