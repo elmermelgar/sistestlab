@@ -24,7 +24,13 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h3>Facturas</h3>
+            <h3>Facturas
+                <a href="{{ url('facturar') }}" title="Facturar" style="float: right">
+                    <div class="btn btn-primary">
+                        <i class="fa fa-dollar" aria-hidden="true"></i> Facturar
+                    </div>
+                </a>
+            </h3>
 
             <div class="clearfix"></div>
         </div>
@@ -57,9 +63,6 @@
                                 <a href="{{ url('facturas/'.$factura->id )}}"
                                    class="btn btn-success btn-sm" title="Ver Factura"><span
                                             class="fa fa-eye"></span></a>
-                                <a href="{{ url('facturas/'. $factura->id.'/edit' )  }}"
-                                   class="btn btn-primary btn-sm" title="Editar Factura"><span
-                                            class="fa fa-edit"></span></a>
                             </td>
                         </tr>
                     @endforeach

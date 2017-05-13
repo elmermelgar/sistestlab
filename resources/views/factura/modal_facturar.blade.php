@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label for="credito_fiscal">Crédito Fiscal </label>
                         <input id="credito_fiscal" name="credito_fiscal" type="checkbox" class="custom-check"
-                               @if($factura) checked @endif>
+                               @if($factura->credito_fiscal) checked @endif>
                     </div>
                     <div class="form-group">
                         <label for="numero">Número de factura</label>
@@ -38,10 +38,22 @@
                         <input id="deuda" name="deuda" class="form-control" type="number" step="0.01" min="0"
                                style="width: 100%" required value="{{$factura->deuda}}">
                     </div>
+                    <div class="form-group">
+                        <label for="suma">SUMA:</label>
+                        <input id="suma" disabled value="{{$factura->efectivo+$factura->debito+$factura->deuda}}"
+                               style="background: none;border: none;box-shadow: none">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="total">TOTAL:</label>
+                        <input id="total" disabled value="{{$total}}"
+                               style="background: none;border: none;box-shadow: none">
+
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <input type="submit" class="btn btn-primary" value="Facturar">
+                    <input id="facturar" type="submit" class="btn btn-primary" value="Facturar">
                 </div>
             </form>
         </div>

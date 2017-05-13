@@ -152,7 +152,7 @@ class SucursalService
     private function getEfectivo($sucursal_id, $apertura, $cierre = null)
     {
         if (is_null($cierre)) {
-            $cierre = Carbon::now()->toDateString();
+            $cierre = Carbon::now()->toDateTimeString();
         }
         $efectivo = DB::table('facturas')->where('sucursal_id', $sucursal_id)
             ->where('created_at', '>=', $apertura)

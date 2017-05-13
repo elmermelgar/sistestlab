@@ -74,7 +74,8 @@
         <div class="col-sm-12">
             <div class="alignright">
                 <div class="btn btn-primary btn-lg" data-toggle="modal"
-                     data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR</div>
+                     data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
+                </div>
             </div>
         </div>
     </div>
@@ -86,7 +87,6 @@
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-
     <script>
         $(document).ready(function () {
             $('#factura').dataTable({
@@ -98,6 +98,35 @@
                     "zeroRecords": "Sin registros"
                 }
             });
+
+
+            function suma() {
+                var total=parseFloat($('#total').val());
+                var efectivo=parseFloat($('#efectivo').val());
+                var debito=parseFloat($('#debito').val());
+                var deuda=parseFloat($('#deuda').val());
+                var suma=(efectivo+debito+deuda).toFixed(2);
+                $('#suma').val(suma);
+                if(suma!=total){
+                    $('#suma').css('color','red');
+                    $('#facturar').attr('disabled', 'disabled');
+                }
+                else{
+                    $('#suma').css('color','green');
+                    $('#facturar').removeAttr('disabled');
+                }
+            }
+
+            $('#efectivo').bind('input', function () {
+                suma();
+            });
+            $('#debito').bind('input', function () {
+                suma()
+            });
+            $('#deuda').bind('input', function () {
+                suma()
+            });
+
         });
     </script>
 @endsection

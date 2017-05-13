@@ -18,7 +18,8 @@
                 <input id="user_id" name="user_id" value="{{$user->id}}" class="form-control"
                        readonly style="background: none;border: none;box-shadow: none">
             </div>
-        </div>        <div class="form-group">
+        </div>
+        <div class="form-group">
             <label for="user_name"
                    class="control-label col-md-2 col-sm-2 col-xs-12">Vendedor: </label>
             <div class="col-md-10 col-sm-10 col-xs-12">
@@ -36,7 +37,9 @@
                             <option value="Seleccione recolector" disabled></option>
                             <option value="" disabled selected>Seleccione recolector</option>
                             @foreach($recolectores as $recolector)
-                                <option value="{{$recolector->id}}">{{$recolector->getFullName()}}</option>
+                                <option value="{{$recolector->id}}"
+                                        @if($recolector->id==($factura? $factura->recolector_id:0)) selected @endif
+                                >{{$recolector->getFullName()}}</option>
                             @endforeach
                         </select>
                     @else

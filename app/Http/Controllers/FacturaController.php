@@ -11,6 +11,7 @@ use App\Services\SucursalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Jleon\LaravelPnotify\Notify;
 
 class FacturaController extends Controller
 {
@@ -48,6 +49,29 @@ class FacturaController extends Controller
                 'examenes' => $examenes,
                 'centro_origen' => $factura->centro_origen,
                 'edit' => false
+            ]);
+        }
+
+        return abort(404);
+    }
+
+    /**
+     * Muestra la factura especificada para que sea editada
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        if ($factura = Factura::find($id)) {
+            $examenes = $factura->examen_paciente->groupBy('exam_id');
+            return view('factura.facturar', [
+                'factura' => $factura,
+                'sucursal' => $factura->sucursal,
+                'user' => $factura->user,
+                'recolectores' => Recolector::all(),
+                'examenes' => $examenes,
+                'centro_origen' => true,
+                'edit' => true
             ]);
         }
 
@@ -126,12 +150,19 @@ class FacturaController extends Controller
     public function facturar($id, Request $request)
     {
         if ($id == $request->id) {
-            if($request->credito_fiscal){
-                $request->merge(['credito_fiscal'=>true]);
-            }
+            $request->credito_fiscal ?
+                $request->merge(['credito_fiscal' => true]) : $request->merge(['credito_fiscal' => false]);
             $factura = Factura::find($id);
-            $factura->update($request->only(['credito_fiscal','numero','efectivo','debito','deuda']));
-            return redirect()->action("FacturaController@show", ['id' => $factura->id]);
+            $total = 0;
+            $examenes = $factura->examen_paciente->groupBy('exam_id');
+            foreach ($examenes as $examen) {
+                $subtotal = $examen->first()->exam->precio * $examen->count();
+                $total += $subtotal;
+            }
+            $request->merge(['total'=>$total]);
+            $factura->update($request->all());
+            Notify::success('Facturación completa');
+            return redirect()->action("FacturaController@index", ['id' => $factura->id]);
         }
         return abort(404);
     }
