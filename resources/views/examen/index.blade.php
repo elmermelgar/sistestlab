@@ -55,18 +55,18 @@
         </div>
 
 
-        <div class="x_content">
+        <div >
             <div class="row">
                 @foreach($examenes as $examen)
-                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 " style="height: 200px">
                     <a href="{{ url('examenes/'.$sucursal->id.'/'.$examen->id )}}">
-                        <div class="tile-stats" style="background: #FFFFFF">
+                        <div class="tile-stats" style="background: #FFFFFF;">
                             <div class="icon"><i class="fa fa-newspaper-o"></i>
                             </div>
                             <div class="count">{{$examen->name}}</div>
 
                             <h3 style="font-size: 13px" class="list-inline count2"><b>{{ $examen->display_name }}</b></h3>
-                            <p>{{ $examen->observation }}</p>
+                        <div style="overflow-y: hidden; height: 85px"><p>{{ $examen->observation }}</p></div>
                         </div>
                     </a>
                 </div>

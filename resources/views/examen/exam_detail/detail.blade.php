@@ -50,7 +50,7 @@
                 <!-- info row -->
                 <div class="row invoice-info">
                     <div class="col-sm-4 invoice-col">
-                        {{ $examen->observation }}
+
                         <address>
                             <strong>Muestra: </strong>
                             {{ $examen->sample->display_name }}
@@ -59,6 +59,7 @@
                             <br><strong>Sucursal: </strong>
                             {{ $examen->sucursal->display_name }}
                         </address>
+                        {{ $examen->observation }}
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">

@@ -115,7 +115,7 @@
     $('#flash-overlay-modal').modal();
     function eliminar_proveedor(id) {
         (new PNotify({
-            title: 'Es necesario confirmación',
+            title: 'Esta a punto de eliminar un registro',
             text: 'Esta seguro de eliminar el proveedor?',
             icon: 'glyphicon glyphicon-question-sign',
             hide: false,
