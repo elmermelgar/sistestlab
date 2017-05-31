@@ -9,14 +9,14 @@ class CajaRegistro extends Model
     /**
      * @var string
      */
-    public $table='caja_registro';
+    public $table = 'caja_registro';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = ['sucursal_id','estado','fecha'];
+    protected $primaryKey = ['sucursal_id', 'stamp'];
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -28,7 +28,7 @@ class CajaRegistro extends Model
     /**
      * @var boolean
      */
-    public $timestamps=false;
+    public $timestamps = false;
 
     /**
      * Obtiene la sucursal correspondiente al registro.

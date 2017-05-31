@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BonoSeeder::class);
         $this->call(EstadoSeeder::class);
         $this->call(ReferenceTypeSeeder::class);
+        $this->call(SampleSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }

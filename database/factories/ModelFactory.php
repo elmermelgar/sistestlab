@@ -36,11 +36,12 @@ $factory->define(App\Exam::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Grouping::class, function (Faker\Generator $faker) {
+$factory->define(App\Profile::class, function (Faker\Generator $faker) {
 
     return [
         'name' => $faker->word,
         'display_name' => $faker->sentence(3),
-        'exam_id' => $faker->numberBetween(1, 3),
+        'description' => $faker->text(255),
+        'price' => $faker->randomFloat(2, 0, 250),
     ];
 });

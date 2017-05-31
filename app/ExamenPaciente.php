@@ -17,7 +17,7 @@ class ExamenPaciente extends Model
      * @var array
      */
     protected $fillable = [
-        'exam_id', 'factura_id', 'paciente_id', 'profesional_id', 'paciente_nombre', 'paciente_genero', 'paciente_edad',
+        'exam_id', 'invoice_profile_id', 'paciente_id', 'profesional_id', 'paciente_nombre', 'paciente_genero', 'paciente_edad',
         'numero_boleta', 'medico', 'observacion',
     ];
 
@@ -30,11 +30,11 @@ class ExamenPaciente extends Model
     }
 
     /**
-     * Factura del examen
+     * Facturas
      */
-    public function factura()
+    public function invoices()
     {
-        return $this->belongsTo('App\Factura');
+        return $this->belongsTo('App\InvoiceProfile');
     }
 
     /**

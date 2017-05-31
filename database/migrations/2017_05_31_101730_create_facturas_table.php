@@ -21,9 +21,6 @@ class CreateFacturasTable extends Migration
             $table->integer('recolector_id');
             $table->integer('estado_id')->nullable();
             $table->string('numero',8)->nullable();
-            $table->decimal('efectivo')->default(0);
-            $table->decimal('debito')->default(0);
-            $table->decimal('deuda')->default(0);
             $table->decimal('total')->default(0);
             $table->boolean('credito_fiscal')->default(false);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');

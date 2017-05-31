@@ -20,7 +20,7 @@ class CreateCajaRegistroTable extends Migration
             $table->integer('estado');
             $table->decimal('efectivo', 8, 2)->default(0);
             $table->decimal('debito', 8, 2)->default(0);
-            $table->decimal('credito', 8, 2)->default(0);
+            $table->decimal('deuda', 8, 2)->default(0);
             $table->primary(['sucursal_id', 'stamp']);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('user_id')->references('id')->on('users');

@@ -154,11 +154,14 @@ class SucursalService
         if (is_null($cierre)) {
             $cierre = Carbon::now()->toDateTimeString();
         }
-        $efectivo = DB::table('facturas')->where('sucursal_id', $sucursal_id)
-            ->where('created_at', '>=', $apertura)
-            ->where('created_at', '<=', $cierre)
-            ->selectRaw('sum(facturas.efectivo)')->first()->sum;
-        return $efectivo;
+        $efectivo = DB::table('payments')
+            ->join('facturas', 'payments.factura_id', '=', 'facturas.id')
+            ->where('facturas.sucursal_id', $sucursal_id)
+            ->where('payments.created_at', '>=', $apertura)
+            ->where('payments.created_at', '<=', $cierre)
+            ->where('payments.tipo', 1)
+            ->selectRaw("sum(payments.monto)")->first()->sum;
+        return $efectivo ? $efectivo : 0;
     }
 
 }

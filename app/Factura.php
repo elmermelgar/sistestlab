@@ -49,11 +49,19 @@ class Factura extends Model
     }
 
     /**
-     * Examenes facturados.
+     * Perfiles facturados.
      */
-    public function examen_paciente()
+    public function profiles()
     {
-        return $this->hasMany('App\ExamenPaciente');
+        return $this->hasMany('App\InvoiceProfile');
+    }
+
+    /**
+     * Estado de la factura
+     */
+    public function estado()
+    {
+        return $this->belongsTo('App\Estado');
     }
 
 }

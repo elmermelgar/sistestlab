@@ -20,6 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('photo')->nullable();
+            $table->string('signature')->nullable();
+            $table->string('seal')->nullable();
             $table->integer('sucursal_id')->nullable();
             $table->timestamp('last_login')->nullable();
             $table->boolean('enabled')->default(true);
