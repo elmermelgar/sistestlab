@@ -37,4 +37,12 @@ class InvoiceProfile extends Model
         return $this->belongsTo('App\Profile');
     }
 
+    /**
+     * Examenes facturados.
+     */
+    public function examen_paciente()
+    {
+        return $this->hasMany('App\ExamenPaciente');
+    }
+
 }

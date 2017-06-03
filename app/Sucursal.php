@@ -9,7 +9,7 @@ class Sucursal extends Model
     /**
      * @var string
      */
-    public $table='sucursales';
+    public $table = 'sucursales';
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +17,7 @@ class Sucursal extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'display_name','telefono','direccion',
+        'name', 'display_name', 'telefono', 'direccion',
     ];
 
     /**
@@ -25,29 +25,39 @@ class Sucursal extends Model
      */
     public function imagen()
     {
-        return $this->belongsTo('App\Imagen','imagen_id');
+        return $this->belongsTo('App\Imagen', 'imagen_id');
     }
 
     /**
      * Activos de la sucursal
      */
-    public function activos(){
+    public function activos()
+    {
         return $this->hasMany('App\Activo');
     }
 
     /**
      * Examenes por sucursal
      */
-    public function exams(){
+    public function exams()
+    {
         return $this->hasMany('App\Exam');
     }
-
 
     /**
      * Factura
      */
-    public function facturas(){
+    public function facturas()
+    {
         return $this->hasMany('App\Factura');
+    }
+
+    /**
+     * Perfiles asociados
+     */
+    public function perfiles()
+    {
+        return $this->belongsToMany('App\Profile', 'profile_sucursal');
     }
 
     /**

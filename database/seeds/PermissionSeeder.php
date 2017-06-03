@@ -73,6 +73,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'facturar',
                 'display_name' => 'Facturar',
                 'description' => 'Registra facturas en la sucursal correspondiente'
+            ],
+            [
+                'name' => 'admin_perfiles',
+                'display_name' => 'Administrar Perfiles',
+                'description' => 'Registra y modifica los perfiles de examenes'
             ]
         ];
 

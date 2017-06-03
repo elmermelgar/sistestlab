@@ -3,6 +3,7 @@
         <i class="fa fa-flask"></i>Laboratorio <span class="fa fa-chevron-down"></span>
     </a>
     <ul class="nav child_menu">
+        <li><a href="{{url('perfiles')}}">Perfiles</a></li>
         @if(Auth::user()->sucursal)
             <li><a href="{{url('examenes/'.Auth::user()->sucursal->id)}}">Examenes</a></li>
         @endif

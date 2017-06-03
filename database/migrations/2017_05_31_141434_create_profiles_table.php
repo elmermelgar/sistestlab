@@ -17,8 +17,9 @@ class CreateProfilesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('display_name');
-            $table->decimal('price');
-            $table->string('description')->nullable();;
+            $table->integer('type');
+            $table->string('description')->nullable();
+            $table->boolean('enabled')->default(true);
             $table->timestamps();
         });
 
@@ -29,9 +30,18 @@ class CreateProfilesTable extends Migration
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('profile_id')->references('id')->on('profiles')
                 ->onUpdate('cascade')->onDelete('cascade');
-
             $table->primary(['exam_id', 'profile_id']);
-            $table->timestamps();
+        });
+
+        Schema::create('profile_sucursal', function (Blueprint $table) {
+            $table->integer('profile_id');
+            $table->integer('sucursal_id');
+            $table->decimal('price')->default(0);
+            $table->foreign('profile_id')->references('id')->on('profiles')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('sucursal_id')->references('id')->on('sucursales')
+                ->onUpdate('cascade')->onDelete('cascade');
+            $table->primary(['profile_id', 'sucursal_id']);
         });
     }
 
@@ -43,6 +53,7 @@ class CreateProfilesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('exam_profile');
+        Schema::dropIfExists('profile_sucursal');
         Schema::dropIfExists('profiles');
     }
 }

@@ -13,7 +13,7 @@ class Factura extends Model
      */
     protected $fillable = [
         'sucursal_id', 'cliente_id', 'user_id', 'recolector_id', 'estado_id', 'centro_origen',
-        'numero', 'efectivo', 'debito', 'deuda', 'total', 'credito_fiscal'
+        'numero', 'total', 'credito_fiscal'
     ];
 
     /**

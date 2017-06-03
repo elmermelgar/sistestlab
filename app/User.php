@@ -69,6 +69,14 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
+     * Obtiene, si corresponde, los examenes validados por un profesional
+     */
+    public function examen_paciente()
+    {
+        return $this->hasMany('App\ExamenPaciente');
+    }
+
+    /**
      * Send the password reset notification.
      *
      * @param  string  $token

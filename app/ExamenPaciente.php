@@ -30,6 +30,14 @@ class ExamenPaciente extends Model
     }
 
     /**
+     * Paciente del examen
+     */
+    public function paciente()
+    {
+        return $this->belongsTo('App\Paciente');
+    }
+
+    /**
      * Facturas
      */
     public function invoices()
@@ -38,12 +46,13 @@ class ExamenPaciente extends Model
     }
 
     /**
-     * Paciente del examen
+     * Profesional
      */
-    public function paciente()
+    public function profesional()
     {
-        return $this->belongsTo('App\Paciente');
+        return $this->belongsTo('App\User');
     }
+
 
 
 }

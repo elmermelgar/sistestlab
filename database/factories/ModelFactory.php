@@ -42,6 +42,7 @@ $factory->define(App\Profile::class, function (Faker\Generator $faker) {
         'name' => $faker->word,
         'display_name' => $faker->sentence(3),
         'description' => $faker->text(255),
-        'price' => $faker->randomFloat(2, 0, 250),
+        'type' => $faker->numberBetween(0, 1),
+        'enabled' => true,
     ];
 });
