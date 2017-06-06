@@ -29,7 +29,6 @@ $factory->define(App\Exam::class, function (Faker\Generator $faker) {
         'display_name' => $faker->sentence(3),
         'observation' => $faker->text(255),
         'precio' => $faker->randomFloat(2, 0, 100),
-        'sucursal_id' => $faker->numberBetween(1, 3),
         'sample_id' => $faker->numberBetween(1, 2),
         'exam_category_id' => $faker->numberBetween(1, 2),
         'estado_id' => $faker->numberBetween(1, 2),

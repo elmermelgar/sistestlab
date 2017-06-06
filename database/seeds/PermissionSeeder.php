@@ -78,6 +78,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'admin_perfiles',
                 'display_name' => 'Administrar Perfiles',
                 'description' => 'Registra y modifica los perfiles de examenes'
+            ],
+            [
+                'name' => 'admin_examenes',
+                'display_name' => 'Administrar Exámenes',
+                'description' => 'Registra y modifica exámenes'
             ]
         ];
 

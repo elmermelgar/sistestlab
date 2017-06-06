@@ -41,7 +41,7 @@
     <div class="col-xs-6">
         <div class="x_panel">
             <div class="x_title">
-                <h3>Perfil {{ $perfil->display_name }}
+                <h3>Perfil: {{ $perfil->display_name }}
                     <small>{{ $perfil->name }}</small>
                 </h3>
 
@@ -149,7 +149,7 @@
                             <td>{{ $examen->display_name }}</td>
                             <td>{{ $examen->precio }}</td>
                             <td class="no-print">
-                                <a href="{{url('examenes/'.$perfil->id.'/'.$examen->id)}}"
+                                <a href="{{url('examenes/'.$examen->id)}}"
                                    class="btn btn-md btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>

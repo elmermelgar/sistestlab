@@ -37,7 +37,7 @@
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{url('examenes')}}"
+            <form class="form-horizontal form-label-left" method="post" action="{{url('examenes/store')}}"
                   enctype="multipart/form-data">
                 {{csrf_field()}}
 
@@ -184,8 +184,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{url('/js/avatar.js')}}"></script>
-    <script src="{{url('/js/paciente.js')}}"></script>
     <script src="{{url('/js/moment-with-locales.min.js')}}"></script>
     <script type="application/javascript">
         moment.locale('es');

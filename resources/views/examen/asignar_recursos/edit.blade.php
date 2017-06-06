@@ -35,7 +35,7 @@
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{url('examenes/examen/store_examen_activo')}}">
+            <form class="form-horizontal form-label-left" method="post" action="{{url('examenes/store_examen_activo')}}">
                 {{csrf_field()}}
 
                 <div class="col-md-9 col-sm-9 col-xs-12" style="margin: 0 auto;float: none">

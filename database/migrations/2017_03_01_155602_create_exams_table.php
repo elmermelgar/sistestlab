@@ -15,7 +15,6 @@ class CreateExamsTable extends Migration
     {
         Schema::create('exams', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sucursal_id')->unsigned();
             $table->integer('sample_id')->unsigned();
             $table->integer('exam_category_id')->unsigned();
             $table->integer('estado_id')->nullable();
@@ -27,7 +26,6 @@ class CreateExamsTable extends Migration
             $table->decimal('cif', 8, 2)->default(0);
             $table->string('observation');
             $table->timestamps();
-            $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('sample_id')->references('id')->on('samples');
             $table->foreign('exam_category_id')->references('id')->on('exam_categories');
             $table->foreign('estado_id')->references('id')->on('estados');

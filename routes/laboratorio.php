@@ -41,11 +41,6 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
     Route::post('store', 'RecolectorController@store');
 });
 
-Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
-
-    Route::resource('/','ExamController');
-});
-
 Route::group(['prefix' => 'facturar', 'middleware' => ['permission:facturar']], function () {
 
     Route::get('/', 'FacturaController@facturar_centro_origen');

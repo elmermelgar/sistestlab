@@ -53,11 +53,11 @@
                     <div class="form-group">
                         <label for="type" class="control-label col-md-4 col-sm-4 col-xs-12">Tipo</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="radio" id="type" name="type" class="custom-check"
+                            <input type="radio" id="type" name="type" class="custom-check" disabled
                                    value="1" @if($perfil? $perfil->type:true) checked @endif>
                             Grupo <br>
                             <input type="radio" id="type" name="type" class="custom-check"
-                                   value="0" @if($perfil? !$perfil->type:null) checked @endif>
+                                   value="0" @if($perfil? !$perfil->type:null) checked @endif disabled>
                             Examen <br>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="description" class="control-label col-md-4 col-sm-4 col-xs-12"> Nombre para mostrar
+                        <label for="description" class="control-label col-md-4 col-sm-4 col-xs-12"> Descripción
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">

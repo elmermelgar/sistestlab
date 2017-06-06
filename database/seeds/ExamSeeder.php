@@ -11,8 +11,15 @@ class ExamSeeder extends Seeder
      */
     public function run()
     {
-        $profiles = factory(App\Profile::class, 100)->create()->each(function($profile) {
-            $profile->exams()->attach(factory(App\Exam::class, 3)->create());
+        $exams = factory(App\Exam::class, 100)->create()->each(function ($exam) {
+            $profile = \App\Profile::create([
+                'enabled' => true,
+                'type' => \App\Http\Controllers\ProfileController::EXAMEN,
+                'name' => $exam->name,
+                'display_name' => $exam->display_name,
+                'description' => $exam->observation
+            ]);
+            $exam->profiles()->attach($profile);
         });
     }
 }

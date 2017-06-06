@@ -10,7 +10,9 @@
             <li><a href="{{url('/examenes')}}">Exámenes</a></li>
             <li>{{$detail? $detail->name_detail:'Nuevo'}}</li>
         </ol>
-        <a href="{{ url('examenes/'. $examen->sucursal_id.'/'.$examen->id) }}" style="float: right; margin-top: -50px; margin-right: 20px; font-size: 9px" class="btn btn-dark"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
+        <a href="{{ url('examenes/'.$examen->id) }}"
+           style="float: right; margin-top: -50px; margin-right: 20px; font-size: 9px" class="btn btn-dark"><i
+                    class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
     </div>
 
     @if ($errors->any())
@@ -27,10 +29,11 @@
         <div class="x_title">
 
 
-                <h3>Valores de Referencia</h3>
+            <h3>Valores de Referencia</h3>
             <h2>{{ $detail->name_detail }}</h2>
 
-            <a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">
+            <a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" data-toggle="modal"
+               data-target=".bs-example-modal-sm">
                 [<i class="fa fa-plus" aria-hidden="true"></i>] Nuevo Valor de Referencia
             </a>
 
@@ -39,37 +42,38 @@
         <div class="x_content">
             <div class="col-md-2"></div>
             <div class="col-md-8">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Valor</th>
-                    <th>Unidades</th>
-                    <th>Sexo</th>
-                    <th>Edad Menor</th>
-                    <th>Edad Mayor</th>
-                    <th>*</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($references as $reference)
-                <tr>
-                    <th scope="row">1</th>
-                    <td>{{ $reference->value }}</td>
-                    <td>{{ $reference->unidades }}</td>
-                    <td>{{ $reference->gender  }}</td>
-                    <td>{{ $reference->edad_menor }}</td>
-                    <td>{{ $reference->edad_mayor }}</td>
-                    <td>
-                        <a href="{{url('examenes/examen/'.$examen->id.'/'.$detail->id.'/'.$reference->id.'/delete_reference')}}" class="btn btn-sm btn-danger">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </a>
-                    </td>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Valor</th>
+                        <th>Unidades</th>
+                        <th>Sexo</th>
+                        <th>Edad Menor</th>
+                        <th>Edad Mayor</th>
+                        <th>*</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($references as $reference)
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>{{ $reference->value }}</td>
+                            <td>{{ $reference->unidades }}</td>
+                            <td>{{ $reference->gender  }}</td>
+                            <td>{{ $reference->edad_menor }}</td>
+                            <td>{{ $reference->edad_mayor }}</td>
+                            <td>
+                                <a href="{{url('examenes/'.$examen->id.'/'.$detail->id.'/delete_reference/'.$reference->id)}}"
+                                   class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </a>
+                            </td>
 
-                </tr>
-                @endforeach
+                        </tr>
+                    @endforeach
 
-            </table>
+                </table>
             </div>
         </div>
     </div>
@@ -79,11 +83,13 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">×</span>
                     </button>
                     <h4 class="modal-title" id="myModalLabel2">Nuevo Valor de Referencia</h4>
                 </div>
-                <form class="form-horizontal form-label-left" action="{{ url('examenes/examen/storereference') }}" method="POST">
+                <form class="form-horizontal form-label-left" action="{{ url('examenes/storereference') }}"
+                      method="POST">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <input type="hidden" name="exam_detail_id" value="{{ $detail->id }}">
@@ -91,7 +97,7 @@
                         <fieldset>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Valor (*):
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Valor (*):
                                     </label>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
@@ -100,7 +106,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Unidades (*):
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Unidades (*):
                                     </label>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
@@ -110,31 +116,33 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Sexo:
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Sexo:
                                     </label>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
-                                        <select id="gender" name="gender" class="form-control" required >
+                                        <select id="gender" name="gender" class="form-control" required>
                                             <option value="Masculino">Masculino</option>
                                             <option value="Femenino">Femenino</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Edad Menor :
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Edad Menor :
                                     </label>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
-                                        <input type="number" name="edad_menor" value="0" class="form-control col-md-8 col-xs-12"
+                                        <input type="number" name="edad_menor" value="0"
+                                               class="form-control col-md-8 col-xs-12"
                                                placeholder="Edad Menor" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Edad Mayor :
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Edad Mayor :
                                     </label>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
-                                        <input type="number" name="edad_mayor" value="0" class="form-control col-md-8 col-xs-12"
+                                        <input type="number" name="edad_mayor" value="0"
+                                               class="form-control col-md-8 col-xs-12"
                                                placeholder="Edad Mayor" required>
                                     </div>
                                 </div>

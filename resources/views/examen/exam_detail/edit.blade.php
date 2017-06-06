@@ -10,8 +10,8 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('/examenes/1')}}">Exámenes</a></li>
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
+            <li><a href="{{url('examenes')}}">Exámenes</a></li>
             <li>{{$detail? $detail->name_detail:'Nuevo'}}</li>
         </ol>
     </div>
@@ -38,7 +38,7 @@
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{ url('examenes/examen/storedetail') }}"
+            <form class="form-horizontal form-label-left" method="post" action="{{ url('examenes/storedetail') }}"
                   enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="col-md-2"></div>

@@ -8,15 +8,14 @@ use App\Exam;
 use App\Exam_category;
 use App\Exam_detail;
 use App\Grouping;
+use App\Profile;
 use App\Reference_value;
 use App\ReferenceType;
 use App\Sample;
-use App\Sucursal;
 use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use Jleon\LaravelPnotify\Notify;
+
+use Illuminate\Validation\ValidationException;
 use Swift_TransportException;
 
 
@@ -36,11 +35,9 @@ class ExamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $id)
+    public function index(Request $request)
     {
-//        dd(Exam::where(array('sucursal_id' => $id))->get());
-//        dd($request->get('display_name'));
-        return view('examen.index', ['examenes' => Exam::name($request->get('display_name'))->where(array('sucursal_id' => $id))->paginate(20), 'sucursal_id'=>$id, 'sucursal'=> Sucursal::find($id)]);
+        return view('examen.index', ['examenes' => Exam::filter($request->get('display_name'))->paginate(20),]);
     }
 
     /**
@@ -48,14 +45,14 @@ class ExamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function detail($id1, $id2)
+    public function detail($id)
     {
-        $examen = Exam::find($id2);
-        return view('examen.exam_detail.detail',
-            ['examen' => $examen, 'sucursal'=> Sucursal::find($id1),
-                'grupos'=> Grouping::where(array('exam_id' => $id2))->get(),
-                'activos'=> Activo::where(array('sucursal_id' => $examen->sucursal_id))->get(),
-                'details'=> Exam_detail::all()]);
+        $examen = Exam::find($id);
+        return view('examen.exam_detail.detail', [
+            'examen' => $examen,
+            'grupos' => Grouping::where(['exam_id' => $id])->get(),
+            'activos' => Activo::all(),
+            'details' => Exam_detail::all()]);
     }
 
     /**
@@ -64,18 +61,23 @@ class ExamController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create($id)
+    public function create()
     {
         $estado = Estado::all();
         $samples = Sample::all();
         $categories = Exam_category::all();
-        return view('examen.edit', ['examen' => null, 'samples' => $samples, 'sucursal' => Sucursal::find($id), 'estados' => $estado, 'categories' => $categories]);
+        return view('examen.edit', [
+            'examen' => null,
+            'samples' => $samples,
+            'estados' => $estado,
+            'categories' => $categories
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -85,17 +87,26 @@ class ExamController extends Controller
 //
 //        try {
 
-            if ($request->id && $examen = Exam::find($request->id)) {
-                $examen->update($request->all());
-            } else {
-                $examen = Exam::create($request->all());
+        $request->merge([
+            'enabled' => true,
+            'type' => ProfileController::EXAMEN,
+            'description'=>$request->observation
+        ]);
 
-                $group = new Grouping();
-                $group->name = '';
-                $group->display_name = 'Sin Agrupamiento';
-                $group->exam_id = $examen->id;
-                $group->save();
-            }
+        if ($request->id && $examen = Exam::find($request->id)) {
+            $profile = Profile::where(['name' => $examen->name])->first();
+            $profile->update($request->all());
+            $examen->update($request->all());
+        } else {
+            $examen = Exam::create($request->all());
+            $profile = Profile::create($request->all());
+
+            $group = new Grouping();
+            $group->name = '';
+            $group->display_name = 'Sin Agrupamiento';
+            $group->exam_id = $examen->id;
+            $group->save();
+        }
 
 //            //Exito, hace efectivos todos los cambios en la base de datos
 //            DB::commit();
@@ -117,45 +128,45 @@ class ExamController extends Controller
 //        }
 
         //Se completó el registro del cliente exitosamente
-        Notify::success('Guardado correctamente','Exito!!');
-        return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        Notify::success('Guardado correctamente', 'Exito!!');
+        return redirect('examenes/' . $examen->id);
     }
 
     /**
      * Guarda los agrupamientos de los examenes.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function storegroup(Request $request)
     {
-            $group = Grouping::create($request->all());
+        $group = Grouping::create($request->all());
 
-        Notify::success('Guardado correctamente','Exito!!');
-        return redirect('examenes/' . $group->exam->sucursal_id .'/'. $group->exam->id);
+        Notify::success('Guardado correctamente', 'Exito!!');
+        return redirect('examenes/' . $group->exam->id);
     }
 
     /**
      * Guarda los agrupamientos de los examenes.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function storereference(Request $request)
     {
         $reference = Reference_value::create($request->all());
 
-        Notify::success('Guardado correctamente','Exito!!');
-        return redirect('examenes/examen/' . $reference->exam_detail->grouping->exam->id .'/'. $reference->exam_detail->id.'/reference_value');
+        Notify::success('Guardado correctamente', 'Exito!!');
+        return redirect('examenes/' . $reference->exam_detail->grouping->exam->id . '/reference_value/' . $reference->exam_detail->id);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function storedetail(Request $request)
@@ -165,15 +176,15 @@ class ExamController extends Controller
         } else {
             $detail = Exam_detail::create($request->all());
         }
-        Notify::success('Guardado correctamente','Exito!!');
-        return redirect('examenes/' . $detail->grouping->exam->sucursal_id .'/'. $detail->grouping->exam->id);
+        Notify::success('Guardado correctamente', 'Exito!!');
+        return redirect('examenes/' . $detail->grouping->exam->id);
     }
 
     /**
      * Guardar las asociaciones de activos y examenes.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function store_examen_activo(Request $request)
@@ -184,14 +195,14 @@ class ExamController extends Controller
 
 //        $activos = Activo::where(array('id' => $request->activo_id))->get();
 //        $activos->exams()->sync($request->exam_id);
-        Notify::success('Guardado correctamente','Exito!!');
-        return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        Notify::success('Guardado correctamente', 'Exito!!');
+        return redirect('examenes/' . $examen->id);
     }
 
     /**
      * Cargar vista para Editar el examen.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -201,108 +212,136 @@ class ExamController extends Controller
         $categories = Exam_category::all();
 //        dd($examen = Exam::find($id));
         if ($examen = Exam::find($id)) {
-            return view('examen.edit', ['examen' => $examen, 'samples' => $samples, 'sucursal' => Sucursal::find($id), 'estados' => $estado, 'categories' => $categories]);
+            return view('examen.edit', [
+                'examen' => $examen, 'samples' => $samples,
+                'estados' => $estado,
+                'categories' => $categories
+            ]);
         }
-       // return response()->view('errors.404', [], 404);
+        // return response()->view('errors.404', [], 404);
     }
 
     /**
      * Crear un nuevo Resultado.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function create_detail($id)
     {
-        return view('examen.exam_detail.edit', ['detail' => null, 'examen' => Exam::find($id), 'types'=> ReferenceType::all(), 'groupings'=> Grouping::where(array('exam_id' => $id))->get()]);
+        return view('examen.exam_detail.edit', [
+            'detail' => null,
+            'examen' => Exam::find($id),
+            'types' => ReferenceType::all(),
+            'groupings' => Grouping::where(['exam_id' => $id])->get()
+        ]);
     }
 
     /**
      * Asignar recursos al examen.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function create_resources($id)
     {
         $examen = Exam::find($id);
-        return view('examen.asignar_recursos.edit', ['examen_activo' => null, 'examen' => $examen, 'activos'=> Activo::where(array('sucursal_id' => $examen->sucursal_id))->get()]);
+        return view('examen.asignar_recursos.edit', [
+            'examen_activo' => null,
+            'examen' => $examen,
+            'activos' => Activo::all()
+        ]);
     }
 
     /**
      * Editar Resultados.
      *
-     * @param  int  $id
+     * @param  $exam_id
+     * @param  $exam_detail_id
      * @return \Illuminate\Http\Response
      */
-    public function edit_detail($id, $id2)
+    public function edit_detail($exam_id, $exam_detail_id)
     {
-        return view('examen.exam_detail.edit', ['detail' => Exam_detail::find($id2), 'examen' => Exam::find($id), 'types'=> ReferenceType::all(), 'groupings'=> Grouping::where(array('exam_id' => $id))->get()]);
+        return view('examen.exam_detail.edit', [
+            'detail' => Exam_detail::find($exam_detail_id),
+            'examen' => Exam::find($exam_id),
+            'types' => ReferenceType::all(),
+            'groupings' => Grouping::where(['exam_id' => $exam_id])->get()
+        ]);
     }
 
     /**
      * Ir a la vista de valores de referencia.
      *
-     * @param  int  $id, $id2
+     * @param $exam_id
+     * @param $exam_detail_id
      * @return \Illuminate\Http\Response
      */
-    public function reference_detail($id, $id2)
+    public function reference_detail($exam_id, $exam_detail_id)
     {
-        return view('examen.reference_value.index', ['detail' => Exam_detail::find($id2), 'examen' => Exam::find($id), 'references'=> Reference_value::where(array('exam_detail_id' => $id2))->get()]);
+        return view('examen.reference_value.index', [
+            'detail' => Exam_detail::find($exam_detail_id),
+            'examen' => Exam::find($exam_id),
+            'references' => Reference_value::where(['exam_detail_id' => $exam_detail_id])->get()
+        ]);
     }
 
     /**
      * Elimina detalles de examen.
      *
-     * @param  int  $id
+     * @param  int $exam_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy_detail($id, $id2)
+    public function destroy_detail($exam_id, $exam_detail_id)
     {
-        $examen = Exam::find($id);
-        $reference = Reference_value::where(array('exam_detail_id' => $id2))->first();
-        if ($reference != null){
-            Notify::error('No se puede eliminar este registro, porque tiene asosiados','Error!!');
-            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
-        }else{
-            Exam_detail::destroy($id2);
-            Notify::warning('Registro eliminado correctamente','Eliminado!!');
-            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        $examen = Exam::find($exam_id);
+        $reference = Reference_value::where(['exam_detail_id' => $exam_detail_id])->first();
+        if ($reference != null) {
+            Notify::error('No se puede eliminar este registro, porque tiene asosiados', 'Error!!');
+        } else {
+            Exam_detail::destroy($exam_detail_id);
+            Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
         }
+        return redirect('examenes/' . $examen->id);
     }
 
     /**
      * Elimina grupos de examenes.
      *
-     * @param  int  $id, $id2
+     * @param  int $exam_id , $id2
      * @return \Illuminate\Http\Response
      */
-    public function destroy_group($id, $id2)
+    public function destroy_group($exam_id, $grouping_id)
     {
-        $examen = Exam::find($id);
-        $details = Exam_detail::where(array('grouping_id' => $id2))->first();
-        if ($details != null){
-            Notify::error('No se puede eliminar este registro, porque tiene asosiados','Error!!');
-            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
-        }else{
-            Grouping::destroy($id2);
-            Notify::warning('Registro eliminado correctamente','Eliminado!!');
-            return redirect('examenes/' . $examen->sucursal_id .'/'. $examen->id);
+        $examen = Exam::find($exam_id);
+        $details = Exam_detail::where(['grouping_id' => $grouping_id])->first();
+        if ($details != null) {
+            Notify::error('No se puede eliminar este registro, porque tiene asosiados', 'Error!!');
+        } else {
+            Grouping::destroy($grouping_id);
+            Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
         }
+        return redirect('examenes/' . $examen->id);
     }
 
     /**
      * Elimina valores de referencia de los detalles de examenes.
      *
-     * @param  int  $id, $id2, $id3
+     * @param  $exam_id
+     * @param  $exam_detail_id
+     * @param  $reference_values_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy_reference($id, $id2, $id3)
+    public function destroy_reference($exam_id, $exam_detail_id, $reference_values_id)
     {
 
-        Reference_value::destroy($id3);
-        Notify::warning('Registro eliminado correctamente','Eliminado!!');
-        return view('examen.reference_value.index', ['detail' => Exam_detail::find($id2), 'examen' => Exam::find($id), 'references'=> Reference_value::where(array('exam_detail_id' => $id2))->get()]);
+        Reference_value::destroy($reference_values_id);
+        Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
+        return view('examen.reference_value.index', [
+            'detail' => Exam_detail::find($exam_detail_id),
+            'examen' => Exam::find($exam_id),
+            'references' => Reference_value::where(['exam_detail_id' => $exam_detail_id])->get()
+        ]);
     }
 
 }

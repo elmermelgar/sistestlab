@@ -12,12 +12,11 @@ class Exam extends Model
     protected $table = 'exams';
 
     /**
-     *
      * @var array
      */
     protected $fillable = [
         'name', 'display_name', 'precio', 'material_directo', 'mano_obra', 'cif', 'observation',
-        'sucursal_id', 'sample_id', 'exam_category_id', 'estado_id'
+        'sample_id', 'exam_category_id', 'estado_id'
     ];
 
     /**
@@ -25,29 +24,36 @@ class Exam extends Model
      */
     public $timestamps = true;
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function groupings()
     {
         return $this->hasMany('App\Grouping');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function exam_category()
     {
         return $this->belongsTo('App\Exam_category');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function sample()
     {
         return $this->belongsTo('App\Sample');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function estado()
     {
         return $this->belongsTo('App\Estado');
-    }
-
-    public function sucursal()
-    {
-        return $this->belongsTo('App\Sucursal');
     }
 
     /**
@@ -59,12 +65,11 @@ class Exam extends Model
     }
 
     //Busqueda de Examenes
-    public function scopeName($query, $name)
+    public function scopeFilter($query, $name)
     {
         if (trim($name) != "") {
-            $query->where('display_name', "LIKE", "%$name%");
+            $query->where('display_name', "~*", $name);
         }
-
     }
 
     /**

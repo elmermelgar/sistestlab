@@ -89,7 +89,7 @@ Route::group(['prefix' => 'bonos', 'middleware' => ['permission:admin_bonos']], 
     Route::post('store', 'BonoController@store');
 });
 
-Route::group(['prefix' => 'niveles', 'middleware' => ['permission:admin_pacientes']], function () {
+Route::group(['prefix' => 'niveles', 'middleware' => ['permission:admin_niveles']], function () {
 
     Route::get('/', 'NivelController@index');
     Route::get('create', 'NivelController@create');
@@ -98,24 +98,24 @@ Route::group(['prefix' => 'niveles', 'middleware' => ['permission:admin_paciente
     Route::post('store', 'NivelController@store');
 });
 
-Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_pacientes']], function () {
+Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_examenes']], function () {
 
-    Route::resource('/', 'ExamController');
-    Route::get('/{id}', 'ExamController@index');
-    Route::get('/{id1}/{id2}', 'ExamController@detail');
-    Route::get('/examen/{id}/create', 'ExamController@create');
-    Route::get('/examen/{id}/edit', ['uses' => 'ExamController@edit', 'as' => 'examenes.edit']);
-    Route::get('/examen/{id}/create_detail', ['uses' => 'ExamController@create_detail', 'as' => 'examenes.create_detail']);
-    Route::get('/examen/{id}/create_resources', ['uses' => 'ExamController@create_resources', 'as' => 'examenes.create_resources']);
-    Route::get('/examen/{id}/{id2}/edit_detail', ['uses' => 'ExamController@edit_detail', 'as' => 'examenes.edit_detail']);
-    Route::get('/examen/{id}/{id2}/delete_detail', ['uses' => 'ExamController@destroy_detail', 'as' => 'examenes.destroy_detail']);
-    Route::get('/examen/{id}/{id2}/delete_group', ['uses' => 'ExamController@destroy_group', 'as' => 'examenes.destroy_group']);
-    Route::get('/examen/{id}/{id2}/{id3}/delete_reference', ['uses' => 'ExamController@destroy_reference', 'as' => 'examenes.destroy_reference']);
-    Route::get('/examen/{id}/{id2}/reference_value', ['uses' => 'ExamController@reference_detail', 'as' => 'examenes.reference_value']);
-    Route::post('/examen/storegrupo', 'ExamController@storegroup');
-    Route::post('/examen/storedetail', 'ExamController@storedetail');
-    Route::post('/examen/storereference', 'ExamController@storereference');
-    Route::post('/examen/store_examen_activo', 'ExamController@store_examen_activo');
+    Route::get('/', 'ExamController@index');
+    Route::get('create', 'ExamController@create');
+    Route::get('{id}', 'ExamController@detail');
+    Route::get('{id}/edit', ['uses' => 'ExamController@edit', 'as' => 'examenes.edit']);
+    Route::get('{id}/create_detail', ['uses' => 'ExamController@create_detail', 'as' => 'examenes.create_detail']);
+    Route::get('{id}/create_resources', ['uses' => 'ExamController@create_resources', 'as' => 'examenes.create_resources']);
+    Route::get('{exam_id}/edit_detail/{exam_detail_id}', ['uses' => 'ExamController@edit_detail', 'as' => 'examenes.edit_detail']);
+    Route::get('{exam_id}/delete_detail/{exam_detail_id}', ['uses' => 'ExamController@destroy_detail', 'as' => 'examenes.destroy_detail']);
+    Route::get('{exam_id}/reference_value/{exam_detail_id}', ['uses' => 'ExamController@reference_detail', 'as' => 'examenes.reference_value']);
+    Route::get('{exam_id}/delete_group/{grouping_id}', ['uses' => 'ExamController@destroy_group', 'as' => 'examenes.destroy_group']);
+    Route::get('{exam_id}/{exam_detail_id}/delete_reference/{reference_values_id}', ['uses' => 'ExamController@destroy_reference', 'as' => 'examenes.destroy_reference']);
+    Route::post('store', 'ExamController@store');
+    Route::post('storegrupo', 'ExamController@storegroup');
+    Route::post('storedetail', 'ExamController@storedetail');
+    Route::post('storereference', 'ExamController@storereference');
+    Route::post('store_examen_activo', 'ExamController@store_examen_activo');
 
 });
 
