@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-8"
-         style="padding: 15px 10px;border-radius: 1em; border-style: solid; border-color: silver">
+         style="padding-top: 5px;border-radius: 5px; border-style: solid; border-color: silver">
 
         <div class="form-group hidden">
             <label for="sucursal_id"
@@ -34,8 +34,7 @@
                     @if($edit)
                         <select id="recolector_id" name="recolector_id" class="form-control" style="width: 100%"
                                 required>
-                            <option value="Seleccione recolector" disabled></option>
-                            <option value="" disabled selected>Seleccione recolector</option>
+                            <option value="" disabled selected>Seleccione un recolector</option>
                             @foreach($recolectores as $recolector)
                                 <option value="{{$recolector->id}}"
                                         @if($recolector->id==($factura? $factura->recolector_id:0)) selected @endif
@@ -70,7 +69,7 @@
 
     </div>
     <div class="col-sm-offset-1 col-sm-3"
-         style="padding: 15px 10px;border-radius: 1em; border-style: solid; border-color: silver">
+         style="padding-top: 10px;border-radius: 5px; border-style: solid; border-color: silver">
         <p><strong>Fecha y Hora:</strong> {{$factura? $factura->created_at:\Carbon\Carbon::now()->toDateTimeString()}}
         </p>
         <p><strong>Condición de pago:</strong> {{$factura? $factura->condicion:null}}</p>

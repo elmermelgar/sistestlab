@@ -1,4 +1,4 @@
-<div class="row" style="border-bottom: solid;padding-bottom:10px;border-color: silver;margin-bottom: 20px">
+<div class="row" style="border-bottom: solid;padding-bottom:10px;border-color: silver;margin-bottom: 10px">
     <div class="col-sm-9">
         <h3>TESTLAB <br>
             <small>SERVICIOS DE ANÁLISIS Y ESTUDIOS DE DIAGNÓSTICO</small>
@@ -9,7 +9,7 @@
         <p>TEL: (503) {{ $sucursal->telefono}} - CORREO ELECTRÓNICO:{{ $sucursal->email}} </p>
     </div>
     <div class="col-sm-3"
-         style="margin-top: 2em;padding:5px 10px;border-radius: 1em;
+         style="margin-top: 2em;padding:5px 10px;border-radius: 5px;
          border-style: solid; border-color: silver; text-align: center">
         <p>FACTURA</p>
         <p style="color: red; font-size: 20px">N° {{$factura?$factura->numero:null}}</p>

@@ -15,6 +15,11 @@ class CreateInvoiceProfileTable extends Migration
     {
         Schema::create('invoice_profile', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('factura_id');
+            $table->integer('profile_id');
+            $table->decimal('price', 8, 2)->default(0);
+            $table->foreign('factura_id')->references('id')->on('facturas');
+            $table->foreign('profile_id')->references('id')->on('profiles');
             $table->timestamps();
         });
     }

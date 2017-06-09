@@ -156,7 +156,7 @@
                         <th data-field="estado" data-sortable="true">Estado</th>
                         <th data-field="efectivo" data-sortable="true">Efectivo</th>
                         <th data-field="debito" data-sortable="true">Debito</th>
-                        <th data-field="credito" data-sortable="true">Credito</th>
+                        <th data-field="credito" data-sortable="true">Deuda</th>
                         <th data-field="user" data-sortable="true">Usuario</th>
                     </tr>
                     </thead>

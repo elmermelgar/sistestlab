@@ -57,6 +57,14 @@ class Factura extends Model
     }
 
     /**
+     * Perfiles facturados.
+     */
+    public function payments()
+    {
+        return $this->hasMany('App\Payment');
+    }
+
+    /**
      * Estado de la factura
      */
     public function estado()

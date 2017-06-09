@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\CajaRegistro;
+use App\Http\Controllers\FacturaController;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -159,8 +160,8 @@ class SucursalService
             ->where('facturas.sucursal_id', $sucursal_id)
             ->where('payments.created_at', '>=', $apertura)
             ->where('payments.created_at', '<=', $cierre)
-            ->where('payments.tipo', 1)
-            ->selectRaw("sum(payments.monto)")->first()->sum;
+            ->where('payments.type', FacturaController::EFECTIVO)
+            ->selectRaw("sum(payments.amount)")->first()->sum;
         return $efectivo ? $efectivo : 0;
     }
 

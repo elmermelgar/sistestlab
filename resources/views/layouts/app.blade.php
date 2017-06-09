@@ -78,8 +78,15 @@
                         <h3>General</h3>
                         <ul class="nav side-menu">
                             <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Inicio</a></li>
-                            <li><a href="{{url('facturar')}}"><i class="fa fa-usd"></i>Facturar</a></li>
-                            <li><a href="{{url('facturas')}}"><i class="fa fa-list-ul"></i>Facturas</a></li>
+                            <li>
+                                <a>
+                                    <i class="fa fa-usd"></i>Facturar <span class="fa fa-chevron-down"></span>
+                                </a>
+                                <ul class="nav child_menu">
+                                    <li><a href="{{url('facturas/create')}}">Nueva Factura</a></li>
+                                    <li><a href="{{url('facturas')}}">Facturas</a></li>
+                                </ul>
+                            </li>
                             <li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>
                             @include('menu.laboratorio')
                         </ul>

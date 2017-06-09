@@ -12,12 +12,12 @@ class ProfileController extends Controller
 {
 
     /**
-     * Constante para el estado de caja cerrada
+     * Constante para el perfil tipo examen
      */
     const EXAMEN = 0;
 
     /**
-     * Constante para el estado de caja abierta
+     * Constante para el perfil tipo grupo
      */
     const GRUPO = 1;
 

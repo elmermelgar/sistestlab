@@ -18,7 +18,7 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
-        'factura_id, monto', 'tipo',
+        'factura_id', 'amount', 'type',
     ];
 
     /**

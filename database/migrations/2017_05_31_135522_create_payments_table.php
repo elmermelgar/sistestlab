@@ -16,8 +16,8 @@ class CreatePaymentsTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('factura_id');
-            $table->decimal('monto')->default(0);
-            $table->integer('tipo')->default(1);
+            $table->decimal('amount')->default(0);
+            $table->integer('type')->default(0);
             $table->foreign('factura_id')->references('id')->on('facturas');
             $table->timestamps();
         });

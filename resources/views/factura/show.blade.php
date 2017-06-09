@@ -23,64 +23,112 @@
         </ul>
     @endif
 
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Factura {{$factura->id}}</h3>
+
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="x_panel">
+
+                <form class="form-horizontal">
+                    <div class="x_content">
+                        @include('factura.encabezado')
+                        @include('factura.cliente')
+                    </div>
+                </form>
+
+                <table class="table table-hover" id="factura">
+                    <thead>
+                    <tr>
+                        <th data-sortable="true">Código</th>
+                        <th data-sortable="true">Cantidad</th>
+                        <th data-sortable="true">Descripción</th>
+                        <th data-sortable="true">Precio unitario (USD)</th>
+                        <th data-sortable="true">Venta gravada (USD)</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    @php $total=0 @endphp
+                    @foreach($profiles as $profile)
+                        <tr>
+                            @php
+                                $subtotal=$profile->first()->price*$profile->count();
+                                $total+=$subtotal;
+                            @endphp
+                            <td>{{$profile->first()->profile->name}}</td>
+                            <td>{{$profile->count()}}</td>
+                            <td>{{$profile->first()->profile->display_name}}</td>
+                            <td>{{$profile->first()->price}}</td>
+                            <td>{{number_format($subtotal,2)}}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="col-sm-12">
+                    <div class="alignright"><h4>TOTAL USD: {{number_format($total,2)}} </h4></div>
+                </div>
+                <br><br>
+                <div class="col-sm-12">
+                    <div class="alignright">
+                        <div class="btn btn-primary btn-lg" data-toggle="modal"
+                             data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="x_panel">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4>Pagos</h4>
+                </div>
+                <div class="x_content">
 
-        <form class="form-horizontal">
-            <div class="x_content">
-                @include('factura.encabezado')
-                @include('factura.cliente')
-            </div>
-        </form>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Monto (USD)</th>
+                            <th>Tipo</th>
+                            <th>Fecha</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @forelse($factura->payments as $payment)
+                            <tr>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$payment->amount}}</td>
+                                <td>@if($payment->Type==\App\Http\Controllers\FacturaController::EFECTIVO)Efectivo
+                                    @else Débito
+                                    @endif
+                                </td>
+                                <td>{{$payment->created_at}}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4">Sin pagos!</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                    <div class="col-sm-12">
+                        <div class="alignright"><h4>SUMA USD: {{$suma}} </h4></div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="alignright"><h4>DEUDA USD: {{number_format($total-$suma,2)}} </h4></div>
+                    </div>
+                    <a class="alignright btn btn-primary" data-toggle="modal"
+                       data-target="#modal_pago"><i class="fa fa-dollar fa-fw"></i>Registrar pago</a>
 
-        <br><br>
-        <table class="table table-hover" id="factura">
-            <thead>
-            <tr>
-                <th data-sortable="true">Código</th>
-                <th data-sortable="true">Cantidad</th>
-                <th data-sortable="true">Descripción</th>
-                <th data-sortable="true">Precio unitario (USD)</th>
-                <th data-sortable="true">Venta gravada (USD)</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            @php $total=0 @endphp
-            @foreach($examenes as $examen)
-                <tr>
-                    @php
-                        $subtotal=$examen->first()->exam->precio*$examen->count();
-                        $total+=$subtotal;
-                    @endphp
-                    <td>{{$examen->first()->exam_id}}</td>
-                    <td>{{$examen->count()}}</td>
-                    <td>{{$examen->first()->exam->display_name}}</td>
-                    <td>{{$examen->first()->exam->precio}}</td>
-                    <td>{{$subtotal}}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-        <div class="col-sm-12">
-            <div class="alignright"><h4>TOTAL USD: $ {{$total}} </h4></div>
-        </div>
-        <br><br>
-        <div class="col-sm-12">
-            <div class="alignright">
-                <div class="btn btn-primary btn-lg" data-toggle="modal"
-                     data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
                 </div>
             </div>
         </div>
     </div>
 
     @include('factura.modal_facturar')
+    @include('factura.modal_pago')
 
 @endsection
 
@@ -90,7 +138,9 @@
     <script>
         $(document).ready(function () {
             $('#factura').dataTable({
-                "paging": false,
+                bFilter: false,
+                paging: false,
+                info: false,
                 "language": {
                     "search": "Buscar:",
                     "info": "Mostrando _END_ de _TOTAL_ entradas",
@@ -99,32 +149,21 @@
                 }
             });
 
-
             function suma() {
-                var total=parseFloat($('#total').val());
-                var efectivo=parseFloat($('#efectivo').val());
-                var debito=parseFloat($('#debito').val());
-                var deuda=parseFloat($('#deuda').val());
-                var suma=(efectivo+debito+deuda).toFixed(2);
-                $('#suma').val(suma);
-                if(suma!=total){
-                    $('#suma').css('color','red');
-                    $('#facturar').attr('disabled', 'disabled');
+                var total = parseFloat($('#facturar_total').val());
+                var monto = parseFloat($('#facturar_monto').val());
+                var deuda = (total - monto).toFixed(2);
+                $('#facturar_deuda').val(deuda);
+                if (deuda > 0) {
+                    $('#facturar_deuda').css('color', 'red');
                 }
-                else{
-                    $('#suma').css('color','green');
-                    $('#facturar').removeAttr('disabled');
+                else {
+                    $('#facturar_deuda').css('color', 'green');
                 }
             }
 
-            $('#efectivo').bind('input', function () {
+            $('#facturar_monto').bind('input', function () {
                 suma();
-            });
-            $('#debito').bind('input', function () {
-                suma()
-            });
-            $('#deuda').bind('input', function () {
-                suma()
             });
 
         });

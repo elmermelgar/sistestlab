@@ -1,10 +1,10 @@
-<div class="modal fade" id="modal_examen">
+<div class="modal fade" id="modal_profile">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" id="modal_close" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="modal_label">Exámen</h4>
+                <h4 class="modal-title" id="modal_label">Agregar un perfil a la factura</h4>
             </div>
             <form id="modal_form" method="post" action="">
 
@@ -14,20 +14,25 @@
                         <input id="id" name="id" class="form-control" value="">
                     </div>
                     <div class="form-group">
-                        <label for="modal_examen_id">Exámen</label>
-                        <select id="modal_examen_id" name="modal_examen_id" class="form-control"
+                        <label for="modal_profile_id">Perfil</label>
+                        <select id="modal_profile_id" name="modal_profile_id" class="form-control"
                                 style="width: 100%">
                         </select>
                     </div>
                     <div class="form-group hidden">
-                        <label for="modal_examen_name">Nombre Exámen</label>
-                        <input id="modal_examen_name" name="modal_examen_name" class="form-control"
+                        <label for="modal_profile_name">Nombre del Perfil</label>
+                        <input id="modal_profile_name" name="modal_profile_name" class="form-control"
                                style="width: 100%">
                     </div>
                     <div class="form-group hidden">
-                        <label for="modal_examen_price">Precio Exámen</label>
-                        <input id="modal_examen_price" name="modal_examen_price" class="form-control"
+                        <label for="modal_profile_price">Precio</label>
+                        <input id="modal_profile_price" name="modal_profile_price" class="form-control"
                                style="width: 100%">
+                    </div>
+                    <div class="form-group">
+                        <label for="modal_numero_boleta">Número de boleta</label>
+                        <input id="modal_numero_boleta" name="modal_numero_boleta" class="form-control" maxlength="8"
+                               style="width: 100%" required>
                     </div>
                     <div class="form-group">
                         <label for="modal_nombre">Nombre del paciente</label>

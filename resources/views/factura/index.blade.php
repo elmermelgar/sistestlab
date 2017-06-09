@@ -25,9 +25,9 @@
 
         <div class="x_title">
             <h3>Facturas
-                <a href="{{ url('facturar') }}" title="Facturar" style="float: right">
+                <a href="{{ url('facturas/create') }}" title="Facturar" style="float: right">
                     <div class="btn btn-primary">
-                        <i class="fa fa-dollar" aria-hidden="true"></i> Facturar
+                        <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nueva Factura
                     </div>
                 </a>
             </h3>

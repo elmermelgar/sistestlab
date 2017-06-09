@@ -36,7 +36,7 @@ class CreateProfilesTable extends Migration
         Schema::create('profile_sucursal', function (Blueprint $table) {
             $table->integer('profile_id');
             $table->integer('sucursal_id');
-            $table->decimal('price')->default(0);
+            $table->decimal('price', 8, 2)->default(0);
             $table->foreign('profile_id')->references('id')->on('profiles')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('sucursal_id')->references('id')->on('sucursales')

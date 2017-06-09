@@ -25,6 +25,7 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
     /**
      * Show the Index Page
      * @Get("notificaciones")

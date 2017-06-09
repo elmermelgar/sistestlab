@@ -18,13 +18,13 @@ class InvoiceProfile extends Model
      * @var array
      */
     protected $fillable = [
-        'factura_id', 'profile_id',
+        'factura_id', 'profile_id', 'price'
     ];
 
     /**
      * Facturas
      */
-    public function facturas()
+    public function factura()
     {
         return $this->belongsTo('App\Factura');
     }
@@ -32,7 +32,7 @@ class InvoiceProfile extends Model
     /**
      * Perfiles
      */
-    public function profiles()
+    public function profile()
     {
         return $this->belongsTo('App\Profile');
     }
