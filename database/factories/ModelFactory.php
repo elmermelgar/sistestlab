@@ -45,3 +45,14 @@ $factory->define(App\Profile::class, function (Faker\Generator $faker) {
         'enabled' => true,
     ];
 });
+
+$factory->define(App\Recolector::class, function (Faker\Generator $faker) {
+
+    return [
+        'nombre' => $faker->firstName,
+        'apellido' => $faker->lastName,
+        'dui' => $faker->randomNumber(9),
+        'nit' => $faker->randomNumber(9) . $faker->randomNumber(5),
+        'activo' => true,
+    ];
+});

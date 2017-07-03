@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Bono;
+use App\Factura;
 use App\Recolector;
+use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Jleon\LaravelPnotify\Notify;
 
 class RecolectorController extends Controller
@@ -37,9 +40,13 @@ class RecolectorController extends Controller
     {
         if ($recolector = Recolector::find($id)) {
             $mes = Carbon::now()->startOfMonth()->toDateString();
-            $bonos_aplicados = $recolector->bonos()->where('fecha', '>=', $mes)->get();
+            $recolecciones = Factura::where('recolector_id', $recolector->id)
+                ->whereDate('created_at', Carbon::now())->get();
+            $bonos_aplicados = $recolector->bonos()->where('date', '>=', $mes)->get();
+            setlocale(LC_TIME, 'es_SV.UTF-8', 'es');
             return view('recolector.show', [
                 'recolector' => $recolector,
+                'recolecciones' => $recolecciones,
                 'bonos_aplicados' => $bonos_aplicados,
                 'bonos' => Bono::all(),
             ]);
@@ -87,6 +94,11 @@ class RecolectorController extends Controller
         return redirect()->action('RecolectorController@show', ['id' => $recolector->id]);
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function bonoficar($id, Request $request)
     {
         if ($id != $request->id || !$recolector = Recolector::find($request->id)) {
@@ -95,7 +107,11 @@ class RecolectorController extends Controller
         }
         try {
             $bono = Bono::find($request->bono_id);
-            $recolector->bonos()->attach([$bono->id => ['fecha' => Carbon::now()->toDateString()]]);
+            $recolector->bonos()->attach([$bono->id => [
+                'sucursal_id' => Auth::user()->sucursal->id,
+                'amount' => -$bono->monto,
+                'type' => Transaction::EFECTIVO,
+            ]]);
         } catch (\Exception $e) {
             if ($e->getCode() == 23505) {
                 Notify::danger('Ya se aplicó un bono con ese monto este día');
@@ -105,6 +121,41 @@ class RecolectorController extends Controller
 
         Notify::success('El bono se aplicó correctamente');
         return redirect()->action('RecolectorController@show', ['id' => $recolector->id]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function desactivar(Request $request)
+    {
+        if ($request->recolector_id && $recolector = Recolector::find($request->recolector_id)) {
+            $recolector->activo = false;
+            $recolector->save();
+            Notify::warning('El recolector se marco como inactivo');
+        } else {
+            Notify::danger('No se desactivo al recolector');
+            return back();
+        }
+        return redirect()->action('RecolectorController@show', ['id' => $recolector->id]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function activar(Request $request)
+    {
+        if ($request->recolector_id && $recolector = Recolector::find($request->recolector_id)) {
+            $recolector->activo = true;
+            $recolector->save();
+            Notify::success('El recolector fue activado correctamente');
+        } else {
+            Notify::danger('No se activo al recolector');
+            return back();
+        }
+        return redirect()->action('RecolectorController@show', ['id' => $recolector->id]);
+
     }
 
 }

@@ -39,6 +39,8 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
     Route::post('{id}/bonificar', 'RecolectorController@bonoficar');
     Route::post('delete', 'RecolectorController@delete');
     Route::post('store', 'RecolectorController@store');
+    Route::post('activar', 'RecolectorController@activar');
+    Route::post('desactivar', 'RecolectorController@desactivar');
 });
 
 Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], function () {

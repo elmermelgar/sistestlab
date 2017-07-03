@@ -17,7 +17,7 @@ class Recolector extends Model
      * @var array
      */
     protected $fillable = [
-        'dui', 'nit', 'nombre', 'apellido',
+        'dui', 'nit', 'nombre', 'apellido', 'activo',
     ];
 
     /**
@@ -34,7 +34,8 @@ class Recolector extends Model
      */
     public function bonos()
     {
-        return $this->belongsToMany('App\Bono')->withPivot('fecha');
+        return $this->belongsToMany('App\Bono', 'bono_recolector_vw')
+            ->withPivot(['transaction_id', 'sucursal_id', 'amount', 'type', 'date']);
     }
 
     /**

@@ -15,10 +15,11 @@ class CreateRecolectoresTable extends Migration
     {
         Schema::create('recolectores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('dui',9);
-            $table->string('nit',14);
+            $table->string('dui', 9);
+            $table->string('nit', 14);
             $table->string('nombre');
             $table->string('apellido');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }

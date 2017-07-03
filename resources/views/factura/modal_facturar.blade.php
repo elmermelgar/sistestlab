@@ -11,7 +11,13 @@
                 <div class="modal-body">
                     <div class="form-group hidden">
                         <label for="factura_id">ID</label>
-                        <input id="factura_id" name="factura_id" class="form-control" value="{{$factura->id}}" required>
+                        <input type="hidden" id="factura_id" name="factura_id" class="form-control"
+                               value="{{$factura->id}}" required>
+                    </div>
+                    <div class="form-group hidden">
+                        <label for="sucursal_idfactura_id">Sucursal</label>
+                        <input type="hidden" id="sucursal_id" name="sucursal_id" class="form-control"
+                               value="{{$factura->sucursal->id}}" required>
                     </div>
                     <div class="form-group">
                         <label for="credito_fiscal">Crédito Fiscal </label>
@@ -31,8 +37,8 @@
                     <div class="form-group">
                         <label for="facturar_tipo">Tipo de pago</label>
                         <select id="facturar_tipo" name="type" class="form-control" style="width: 100%" required>
-                            <option value="{{\App\Http\Controllers\FacturaController::EFECTIVO}}">Efectivo</option>
-                            <option value="{{\App\Http\Controllers\FacturaController::DEBITO}}">Débito</option>
+                            <option value="{{\App\Transaction::EFECTIVO}}">Efectivo</option>
+                            <option value="{{\App\Transaction::DEBITO}}">Débito</option>
                         </select>
                     </div>
                     <div class="form-group">

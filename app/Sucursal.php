@@ -45,11 +45,11 @@ class Sucursal extends Model
     }
 
     /**
-     * Factura
+     * Transacciones
      */
-    public function facturas()
+    public function transactions()
     {
-        return $this->hasMany('App\Factura');
+        return $this->hasMany('App\Transaction');
     }
 
     /**

@@ -20,6 +20,7 @@ class Bono extends Model
      */
     public function recolectores()
     {
-        return $this->belongsToMany('App\Recolector')->withPivot('fecha');
+        return $this->belongsToMany('App\Recolector', 'bono_recolector_vw')
+            ->withPivot(['transaction_id', 'sucursal_id', 'amount', 'type', 'date']);
     }
 }

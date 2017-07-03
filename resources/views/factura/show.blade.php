@@ -100,13 +100,13 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$payment->amount}}</td>
-                                <td>@if($payment->Type==\App\Http\Controllers\FacturaController::EFECTIVO)Efectivo
+                                <td>@if($payment->Type==\App\Transaction::EFECTIVO)Efectivo
                                     @else Débito
                                     @endif
                                 </td>
-                                <td>{{$payment->created_at}}</td>
+                                <td>{{$payment->transaction->date.' '.$payment->transaction->time}}</td>
                             </tr>
-                            @empty
+                        @empty
                             <tr>
                                 <td colspan="4">Sin pagos!</td>
                             </tr>

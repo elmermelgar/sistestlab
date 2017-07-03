@@ -4,8 +4,8 @@ namespace App\Services;
 
 
 use App\CajaRegistro;
-use App\Http\Controllers\FacturaController;
 use App\User;
+use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -155,13 +155,13 @@ class SucursalService
         if (is_null($cierre)) {
             $cierre = Carbon::now()->toDateTimeString();
         }
-        $efectivo = DB::table('payments')
-            ->join('facturas', 'payments.factura_id', '=', 'facturas.id')
-            ->where('facturas.sucursal_id', $sucursal_id)
-            ->where('payments.created_at', '>=', $apertura)
-            ->where('payments.created_at', '<=', $cierre)
-            ->where('payments.type', FacturaController::EFECTIVO)
-            ->selectRaw("sum(payments.amount)")->first()->sum;
+        $efectivo = DB::table('transactions')
+            ->where('transactions.sucursal_id', $sucursal_id)
+            ->where('transactions.date', $apertura)
+            ->where('transactions.time', '>=', $apertura)
+            ->where('transactions.time', '<=', $cierre)
+            ->where('transactions.type', Transaction::EFECTIVO)
+            ->selectRaw("sum(transactions.amount)")->first()->sum;
         return $efectivo ? $efectivo : 0;
     }
 

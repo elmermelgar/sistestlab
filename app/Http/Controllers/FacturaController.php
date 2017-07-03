@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
-use App\Exam;
 use App\ExamenPaciente;
 use App\Factura;
 use App\InvoiceProfile;
@@ -14,22 +13,11 @@ use App\Services\SucursalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Validation\ValidationException;
 use Jleon\LaravelPnotify\Notify;
 
 class FacturaController extends Controller
 {
-
-    /**
-     * Constante para el tipo de pago en efectivo
-     */
-    const EFECTIVO = 0;
-
-    /**
-     * Constante para el tipo de pago con debito
-     */
-    const DEBITO = 1;
 
     /**
      * FacturaController constructor.
@@ -173,7 +161,7 @@ class FacturaController extends Controller
             $total = $factura->profiles()->sum('price');
             $request->merge(['total' => $total]);
             $factura->update($request->all());
-            Payment::create($request->only(['factura_id', 'amount', 'type']));
+            Payment::create($request->only(['sucursal_id', 'factura_id', 'amount', 'type']));
             Notify::success('Facturación completa');
             return redirect()->action("FacturaController@show", ['id' => $factura->id]);
         }
@@ -254,7 +242,8 @@ class FacturaController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function payment($id, Request $request){
+    public function payment($id, Request $request)
+    {
         if ($id == $request->factura_id) {
             Payment::create($request->all());
             Notify::success('Pago registrado');
