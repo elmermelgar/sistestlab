@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCajaRegistroTable extends Migration
+class CreateBoxRegistryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreateCajaRegistroTable extends Migration
      */
     public function up()
     {
-        Schema::create('caja_registro', function (Blueprint $table) {
+        Schema::create('box_registry', function (Blueprint $table) {
             $table->integer('sucursal_id');
-            $table->timestamp('stamp');
+            $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('user_id')->nullable();
-            $table->integer('estado');
-            $table->decimal('efectivo', 8, 2)->default(0);
-            $table->decimal('debito', 8, 2)->default(0);
-            $table->decimal('deuda', 8, 2)->default(0);
-            $table->primary(['sucursal_id', 'stamp']);
+            $table->integer('state')->default(0);
+            $table->decimal('cash', 8, 2)->default(0);
+            $table->decimal('debit', 8, 2)->default(0);
+            $table->decimal('debt', 8, 2)->default(0);
+            $table->primary(['sucursal_id', 'date', 'time']);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('user_id')->references('id')->on('users');
         });
@@ -34,6 +35,6 @@ class CreateCajaRegistroTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('caja_registro');
+        Schema::dropIfExists('box_registry');
     }
 }

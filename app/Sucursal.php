@@ -57,7 +57,7 @@ class Sucursal extends Model
      */
     public function perfiles()
     {
-        return $this->belongsToMany('App\Profile', 'profile_sucursal');
+        return $this->belongsToMany('App\Profile', 'profile_sucursal')->withPivot('price');
     }
 
     /**
@@ -65,7 +65,7 @@ class Sucursal extends Model
      */
     public function registro()
     {
-        return $this->hasMany('App\CajaRegistro');
+        return $this->hasMany('App\BoxRegistry');
     }
 
 }

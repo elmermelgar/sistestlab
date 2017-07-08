@@ -9,12 +9,12 @@ class Transaction extends Model
     /**
      * Constante para el tipo de transaccion en efectivo
      */
-    const EFECTIVO = 0;
+    const CASH = 0;
 
     /**
      * Constante para el tipo de transaccion con debito
      */
-    const DEBITO = 1;
+    const DEBIT = 1;
 
     /**
      * The attributes that are mass assignable.

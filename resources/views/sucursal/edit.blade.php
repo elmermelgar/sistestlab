@@ -57,7 +57,7 @@
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input id="name" name="name" class="form-control" placeholder="nombre_de_sucursal"
-                                   value="{{$sucursal? $sucursal->name:null}}" required >
+                                   maxlength="255" value="{{$sucursal? $sucursal->name:null}}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -65,7 +65,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input id="display_name" name="display_name" class="form-control"
+                            <input id="display_name" name="display_name" class="form-control" maxlength="255"
                                    placeholder="Nombre para Mostrar"
                                    value="{{$sucursal? $sucursal->display_name:old('display_name')}}" required>
                         </div>
@@ -75,7 +75,7 @@
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
                             <input id="telefono" name="telefono" class="form-control"
-                                   placeholder="Telefono"
+                                   placeholder="Telefono" maxlength="8"
                                    value="{{$sucursal? $sucursal->telefono:old('telefono')}}" required>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <textarea id="direccion" name="direccion" class="form-control" rows="3"
+                            <textarea id="direccion" name="direccion" class="form-control" rows="3" maxlength="255"
                                       placeholder="Dirección">{{$sucursal? $sucursal->direccion:old('direccion')}}</textarea>
                         </div>
                     </div>

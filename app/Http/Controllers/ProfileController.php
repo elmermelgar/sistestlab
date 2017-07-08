@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exam;
 use App\Profile;
 use App\Sucursal;
 use Illuminate\Http\Request;
@@ -119,6 +120,10 @@ class ProfileController extends Controller
     public function add_exam(Request $request)
     {
         if ($profile = Profile::find($request->profile_id)) {
+            if ($profile->type == self::EXAMEN) {
+                Notify::warning('Esté es el perfil de un examen, no puede agregar más exámenes');
+                return back();
+            }
             $profile->exams()->syncWithoutDetaching([$request->exam_id]);
             Notify::success('Examen agregado correctamente');
         } else {
@@ -134,12 +139,41 @@ class ProfileController extends Controller
     public function del_exam(Request $request)
     {
         if ($profile = Profile::find($request->profile_id)) {
+            if ($profile->type == self::EXAMEN) {
+                Notify::warning('Esté es el perfil de un examen, no puede remover exámenes');
+                return back();
+            }
             $profile->exams()->detach([$request->exam_id]);
             Notify::warning('Se quitó un examen de este perfil');
         } else {
             Notify::danger('No se agregó el examen');
         }
         return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function searchExam(Request $request)
+    {
+        try {
+            $exam = Exam::select(['id', 'name', 'display_name', 'observation', 'precio'])
+                ->where('display_name', '~*', $request->display_name)
+                ->get();
+            $resultado = [
+                "total_count" => count($exam),
+                "incomplete_results" => false,
+                "items" => $exam,
+            ];
+        } catch (\Exception $e) {
+            $resultado = [
+                "total_count" => 0,
+                "incomplete_results" => true,
+                "items" => [],
+            ];
+        }
+        return json_encode($resultado);
     }
 
 }

@@ -37,8 +37,8 @@
                     <div class="form-group">
                         <label for="facturar_tipo">Tipo de pago</label>
                         <select id="facturar_tipo" name="type" class="form-control" style="width: 100%" required>
-                            <option value="{{\App\Transaction::EFECTIVO}}">Efectivo</option>
-                            <option value="{{\App\Transaction::DEBITO}}">Débito</option>
+                            <option value="{{\App\Transaction::CASH}}">Efectivo</option>
+                            <option value="{{\App\Transaction::DEBIT}}">Débito</option>
                         </select>
                     </div>
                     <div class="form-group">

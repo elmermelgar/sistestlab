@@ -42,7 +42,7 @@ class ExamenPaciente extends Model
      */
     public function invoices()
     {
-        return $this->belongsTo('App\InvoiceProfile');
+        return $this->belongsTo('App\InvoiceProfile', 'invoice_profile_id');
     }
 
     /**
@@ -52,7 +52,6 @@ class ExamenPaciente extends Model
     {
         return $this->belongsTo('App\User');
     }
-
 
 
 }

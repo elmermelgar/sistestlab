@@ -286,6 +286,7 @@ class FacturaController extends Controller
             $perfil = Profile::select(['id', 'name', 'display_name', 'type', 'description', 'price'])
                 ->where('display_name', '~*', $request->display_name)
                 ->where('sucursal_id', $request->sucursal_id)
+                ->where('enabled', true)
                 ->join('profile_sucursal', 'profiles.id', '=', 'profile_sucursal.profile_id')
                 ->get();
             $resultado = [

@@ -4,19 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CajaRegistro extends Model
+class BoxRegistry extends Model
 {
     /**
      * @var string
      */
-    public $table = 'caja_registro';
+    public $table = 'box_registry';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = ['sucursal_id', 'stamp'];
+    protected $primaryKey = ['sucursal_id', 'date', 'time'];
 
     /**
      * Indicates if the IDs are auto-incrementing.
@@ -24,6 +24,15 @@ class CajaRegistro extends Model
      * @var bool
      */
     public $incrementing = false;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'sucursal_id', 'user_id', 'state', 'cash', 'debit', 'debt'
+    ];
 
     /**
      * @var boolean

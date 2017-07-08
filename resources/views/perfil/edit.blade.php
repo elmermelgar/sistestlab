@@ -53,7 +53,7 @@
                     <div class="form-group">
                         <label for="type" class="control-label col-md-4 col-sm-4 col-xs-12">Tipo</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="radio" id="type" name="type" class="custom-check" disabled
+                            <input type="radio" id="type" name="type" class="custom-check"
                                    value="1" @if($perfil? $perfil->type:true) checked @endif>
                             Grupo <br>
                             <input type="radio" id="type" name="type" class="custom-check"

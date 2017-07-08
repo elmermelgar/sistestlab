@@ -37,7 +37,7 @@ class ExamController extends Controller
      */
     public function index(Request $request)
     {
-        return view('examen.index', ['examenes' => Exam::filter($request->get('display_name'))->paginate(20),]);
+        return view('examen.index', ['examenes' => Exam::filter($request->get('display_name'))->paginate(20)]);
     }
 
     /**
@@ -90,7 +90,7 @@ class ExamController extends Controller
         $request->merge([
             'enabled' => true,
             'type' => ProfileController::EXAMEN,
-            'description'=>$request->observation
+            'description' => $request->observation
         ]);
 
         if ($request->id && $examen = Exam::find($request->id)) {
@@ -100,6 +100,7 @@ class ExamController extends Controller
         } else {
             $examen = Exam::create($request->all());
             $profile = Profile::create($request->all());
+            $examen->profiles()->attach($profile);
 
             $group = new Grouping();
             $group->name = '';

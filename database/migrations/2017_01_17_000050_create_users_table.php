@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->boolean('enabled')->default(true);
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('sucursal_id')->references('id')->on('sucursales')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('sucursal_id')->references('id')->on('sucursales')->onUpdate('restrict')->onDelete('restrict');
         });
     }
 

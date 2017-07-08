@@ -15,7 +15,7 @@
                                value="{{$factura->id}}" required>
                     </div>
                     <div class="form-group hidden">
-                        <label for="sucursal_idfactura_id">Sucursal</label>
+                        <label for="sucursal_id">Sucursal</label>
                         <input type="hidden" id="sucursal_id" name="sucursal_id" class="form-control"
                                value="{{$factura->sucursal->id}}" required>
                     </div>
@@ -32,8 +32,8 @@
                     <div class="form-group">
                         <label for="type">Tipo de pago</label>
                         <select id="type" name="type" class="form-control" style="width: 100%" required>
-                            <option value="{{\App\Transaction::EFECTIVO}}">Efectivo</option>
-                            <option value="{{\App\Transaction::DEBITO}}">Débito</option>
+                            <option value="{{\App\Transaction::CASH}}">Efectivo</option>
+                            <option value="{{\App\Transaction::DEBIT}}">Débito</option>
                         </select>
                     </div>
                     <div class="form-group">

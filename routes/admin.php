@@ -40,6 +40,7 @@ Route::group(['prefix' => 'permisos', 'middleware' => ['permission:admin_permiss
 
 Route::group(['prefix' => 'sucursal'], function () {
     Route::get('/', 'SucursalController@show');
+    Route::get('registry', 'SucursalController@registry');
 
     Route::group(['prefix' => 'caja', 'middleware' => ['permission:admin_caja']], function () {
         Route::post('abrir', 'SucursalController@abrirCaja');
@@ -55,6 +56,7 @@ Route::group(['prefix' => 'sucursales', 'middleware' => ['permission:admin_sucur
     Route::get('{id}', 'SucursalController@show');
     Route::get('{id}/edit', 'SucursalController@edit');
     Route::get('{id}/image', 'SucursalController@image');
+    Route::get('{id}/registry', 'SucursalController@registry');
     Route::post('image/', 'SucursalController@changeImage');
     Route::post('store', 'SucursalController@store');
 });
@@ -125,6 +127,7 @@ Route::group(['prefix' => 'perfiles', 'middleware' => ['permission:admin_perfile
     Route::get('create', 'ProfileController@create');
     Route::get('{id}', 'ProfileController@show');
     Route::get('{id}/edit', 'ProfileController@edit');
+    Route::get('search/exam', 'ProfileController@searchExam');
     Route::post('store', 'ProfileController@store');
     Route::post('store/prices', 'ProfileController@prices');
     Route::post('add_exam', 'ProfileController@add_exam');

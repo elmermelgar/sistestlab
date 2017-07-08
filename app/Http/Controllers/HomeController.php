@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Jleon\LaravelPnotify\Notify;
 
 class HomeController extends Controller
@@ -46,4 +47,13 @@ class HomeController extends Controller
     {
         return view('advanced');
     }
+
+    /**
+     * @param Request $request
+     */
+    public function test(Request $request)
+    {
+        dump($request->page);
+    }
+
 }

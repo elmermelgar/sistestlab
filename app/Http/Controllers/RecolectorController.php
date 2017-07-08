@@ -110,7 +110,7 @@ class RecolectorController extends Controller
             $recolector->bonos()->attach([$bono->id => [
                 'sucursal_id' => Auth::user()->sucursal->id,
                 'amount' => -$bono->monto,
-                'type' => Transaction::EFECTIVO,
+                'type' => Transaction::CASH,
             ]]);
         } catch (\Exception $e) {
             if ($e->getCode() == 23505) {

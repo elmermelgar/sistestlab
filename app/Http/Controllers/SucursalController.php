@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\BoxRegistry;
 use App\Imagen;
 use App\Services\SucursalService;
 use App\Sucursal;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Jleon\LaravelPnotify\Notify;
 
@@ -112,13 +114,37 @@ class SucursalController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param null $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     */
+    public function registry(Request $request, $id = null)
+    {
+        if (is_null($id)) {
+            $id = Auth::user()->sucursal->id;
+        }
+        $page = $request->page;
+        if ($sucursal = Sucursal::find($id)) {
+            $count = BoxRegistry::where('sucursal_id', $id)->count();
+            $registro = $this->sucursalService->getRegistro($id, 10, $page);
+            $paginate = new LengthAwarePaginator($registro, $count, 10);
+            $paginate->setPath('');
+            return view('sucursal.registry', [
+                'sucursal' => $sucursal,
+                'registros' => $paginate,
+            ]);
+        }
+        return response()->view('errors.404', [], 404);
+    }
+
+    /**
      * Abre la caja de la sucursal
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function abrirCaja(Request $request)
     {
-        if ($this->sucursalService->abrirCaja($request->id, Auth::user())) {
+        if ($this->sucursalService->abrirCaja($request->id, Auth::id(), $request->cash)) {
             Notify::success('La caja se ha abierto');
         } else {
             Notify::danger('Puede que la caja ya estuviese abierta');
@@ -133,7 +159,8 @@ class SucursalController extends Controller
      */
     public function cerrarCaja(Request $request)
     {
-        if ($this->sucursalService->cerrarCaja($request->id, Auth::user())) {
+
+        if ($this->sucursalService->cerrarCaja($request->id, Auth::id())) {
             Notify::success('La caja se ha cerrado');
         } else {
             Notify::danger('Puede que la caja ya estuviese cerrada');

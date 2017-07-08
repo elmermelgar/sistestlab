@@ -25,7 +25,7 @@
         </ul>
     @endif
 
-    <div class="x_panel2">
+    <div class="x_panel">
 
         <div class="x_title">
             <h3>Perfiles de exámenes

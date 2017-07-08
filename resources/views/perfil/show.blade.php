@@ -121,10 +121,12 @@
         <div class="x_panel">
             <div class="x_title">
                 <h3 class="green">Exámenes</h3>
-                <a href="#" data-toggle="modal" data-target="#modal_add_examen"
-                   style="float: right; margin-top: -35px" class="btn btn-md btn-primary">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Agregar Examen
-                </a>
+                @if($perfil->type==\App\Http\Controllers\ProfileController::GRUPO)
+                    <a href="#" data-toggle="modal" data-target="#modal_add_examen"
+                       style="float: right; margin-top: -35px" class="btn btn-md btn-primary">
+                        <i class="fa fa-plus" aria-hidden="true"></i> Agregar Examen
+                    </a>
+                @endif
                 <div class="clearfix"></div>
             </div>
 
@@ -153,10 +155,13 @@
                                    class="btn btn-md btn-info">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </a>
-                                <a data-toggle="modal" data-target="#modal_del_examen" class="btn btn-md btn-danger"
-                                   onclick="delExam('{{$examen->id}}','{{$examen->display_name}}')">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </a>
+                                @if($perfil->type==\App\Http\Controllers\ProfileController::GRUPO)
+                                    <a data-toggle="modal" data-target="#modal_del_examen" class="btn btn-md btn-danger"
+                                       onclick="delExam('{{$examen->id}}','{{$examen->display_name}}')">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+
                             </td>
                         </tr>
                     @endforeach
@@ -206,7 +211,7 @@
                 placeholder: 'Seleccione un examen',
                 ajax: {
 //                    url: "https://api.github.com/search/repositories",
-                    url: "/facturar/search/exam",
+                    url: "/perfiles/search/exam",
                     dataType: 'json',
                     delay: 250,
                     data: function (params) {

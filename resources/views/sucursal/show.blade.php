@@ -90,46 +90,46 @@
                     <tr>
                         <th>Estado</th>
                         <td>
-                            @if(\App\Services\SucursalService::isOpen($sucursal->id)) <span class="badge bg-green">Abierta</span>
+                            @if(\App\Services\SucursalService::isOpen($sucursal->id))
+                                <span class="badge bg-green">Abierta</span>
                             @else <span class="badge bg-red">Cerrada</span>
                             @endif
                         </td>
                     </tr>
                     <tr>
+                        <th>Venta (USD)</th>
+                        <td>{{isset($caja['sale'])? number_format($caja['sale'],2):'--'}}</td>
+                    </tr>
+                    <tr>
                         <th>Efectivo (USD)</th>
-                        <td>{{number_format($caja->efectivo,2)}}</td>
+                        <td>{{isset($caja['cash'])? number_format($caja['cash'],2):'--'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Débito (USD)</th>
+                        <td>{{isset($caja['debit'])? number_format($caja['debit'],2):'--'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Deuda (USD)</th>
+                        <td>{{isset($caja['debt'])? number_format($caja['debt'],2):'--'}}</td>
                     </tr>
                     <tr>
                         <th>Abierta en</th>
-                        <td>{{($caja->open_time)? :'--'}}</td>
+                        <td>{{$caja['opening']? $caja['opening']->time:'--'}}</td>
                     </tr>
                     <tr>
                         <th>Cerrada en</th>
-                        <td>{{($caja->close_time)?:'--'}}</td>
+                        <td>{{$caja['closing']? $caja['closing']->time:'--'}}</td>
                     </tr>
                     </tbody>
                 </table>
 
                 @permission('admin_caja')
 
-                <form method="post" action="
-                @if(\App\Services\SucursalService::isOpen($sucursal->id)) {{url('sucursal/caja/cerrar')}}
-                @else {{url('sucursal/caja/abrir')}}
-                @endif">
-                    {{csrf_field()}}
-
-                    <div class="form-group hidden">
-                        <label for="id">ID</label>
-                        <input id="id" name="id" value="{{$sucursal->id}}">
-                    </div>
-
-                    @if(\App\Services\SucursalService::isOpen($sucursal->id))
-                        <input type="submit" value="Cerrar Caja" class="btn btn-danger">
-                    @else
-                        <input type="submit" value="Abrir Caja" class="btn btn-success">
-                    @endif
-
-                </form>
+                @if(\App\Services\SucursalService::isOpen($sucursal->id))
+                    <a class="btn btn-danger" data-toggle="modal" data-target="#modal_cerrar">Cerrar Caja</a>
+                @else
+                    <a class="btn btn-success" data-toggle="modal" data-target="#modal_abrir">Abrir Caja</a>
+                @endif
 
                 @endpermission
 
@@ -143,41 +143,73 @@
         <div class="x_panel">
 
             <div class="x_title">
-                <h2>Registro</h2>
+                <h3>Registro
+                    <a href="{{ url("sucursales/$sucursal->id/registry") }}" title="Ver Registro" style="float: right">
+                        <div class="btn btn-primary">
+                            <i class="fa fa-eye" aria-hidden="true"></i> Ver el registro completo
+                        </div>
+                    </a>
+                </h3>
 
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
 
-                <table class="table table-striped " id="datatable">
+                <table class="table table-hover table-striped" id="datatable">
                     <thead>
                     <tr>
-                        <th data-field="stamp" data-sortable="true">Fecha y Hora</th>
+                        <th data-field="stamp" data-sortable="true">Fecha</th>
+                        <th data-field="venta" data-sortable="true">Venta (USD)</th>
+                        <th data-field="hora" data-sortable="true">Hora</th>
                         <th data-field="estado" data-sortable="true">Estado</th>
                         <th data-field="efectivo" data-sortable="true">Efectivo</th>
-                        <th data-field="debito" data-sortable="true">Debito</th>
+                        <th data-field="debito" data-sortable="true">Débito</th>
                         <th data-field="credito" data-sortable="true">Deuda</th>
                         <th data-field="user" data-sortable="true">Usuario</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @forelse($registros as $registro)
+                    @foreach($registros as $registro)
                         <tr>
-                            <td>{{$registro->stamp}}</td>
+                            <td rowspan="2">{{$registro['opening']->date}}</td>
+                            <td rowspan="2">{{number_format($registro['sale'],2)}}</td>
+                            <td>{{$registro['opening']->time}}</td>
                             <td>
-                                @if($registro->estado) Abierta
+                                @if($registro['opening']->state) Abierta
                                 @else Cerrada
                                 @endif
                             </td>
-                            <td>{{$registro->efectivo}}</td>
-                            <td>{{$registro->debito}}</td>
-                            <td>{{$registro->credito}}</td>
-                            <td>{{$registro->user? $registro->user->getFullName():'Sistema'}}</td>
+                            <td>{{$registro['opening']->cash}}</td>
+                            <td>{{$registro['opening']->debit}}</td>
+                            <td>{{$registro['opening']->debt}}</td>
+                            <td>{{$registro['opening']->user? $registro['opening']->user->getFullName():'Sistema'}}</td>
                         </tr>
-                    @empty
-                        <td colspan="6">Sin registro!</td>
-                    @endforelse
+
+                        @if(isset($registro['closing']))
+                            <tr>
+                                <td>{{$registro['closing']->time}}</td>
+                                <td>
+                                    @if($registro['closing']->state) Abierta
+                                    @else Cerrada
+                                    @endif
+                                </td>
+                                <td>{{$registro['closing']->cash}}</td>
+                                <td>{{$registro['closing']->debit}}</td>
+                                <td>{{$registro['closing']->debt}}</td>
+                                <td>{{$registro['closing']->user? $registro['closing']->user->getFullName():'Sistema'}}</td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                                <td>--</td>
+                            </tr>
+                        @endif
+                    @endforeach
                     </tbody>
 
                 </table>
@@ -187,6 +219,69 @@
     </div>
 
     @endpermission
+
+    <div class="modal fade" id="modal_abrir">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="modal_close" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modal_label">Abrir Caja</h4>
+                </div>
+                <form class="form form-inline" method="post" action="{{url('sucursal/caja/abrir')}}">
+                    {{csrf_field()}}
+                    <div class="modal-body">
+                        <div class="form-group hidden">
+                            <label for="id">ID</label>
+                            <input type="hidden" id="id" name="id" value="{{$sucursal->id}}" required readonly>
+                        </div>
+                        <p>Digite el efectivo con que abrirá la caja.</p>
+                        <div class="form-group">
+                            <label for="cash">Efectivo (USD): </label>
+                            <input type="number" id="cash" name="cash" class="form-control" step="0.01" min="0"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="btn btn-primary" value="Abrir Caja">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_cerrar">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="modal_close" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modal_label">Cerrar Caja</h4>
+                </div>
+                <form method="post" action="{{url('sucursal/caja/cerrar')}}">
+                    {{csrf_field()}}
+                    <div class="modal-body">
+                        <div class="form-group hidden">
+                            <label for="id">ID</label>
+                            <input type="hidden" id="id" name="id" value="{{$sucursal->id}}" required readonly>
+                        </div>
+                        <p>Estado actual de la caja:</p>
+                        <p><strong>Venta (USD): </strong>{{number_format($caja['sale'],2)}}</p>
+                        <p><strong>Efectivo (USD): </strong>{{number_format($caja['cash'],2)}}</p>
+                        <p><strong>Débito (USD): </strong>{{number_format($caja['debit'],2)}}</p>
+                        <p><strong>Deuda (USD): </strong>{{number_format($caja['debt'],2)}}</p>
+                        <p>¿Está seguro de cerrar la caja?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="btn btn-danger" value="Cerrar Caja">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 

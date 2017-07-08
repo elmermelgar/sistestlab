@@ -100,7 +100,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$payment->amount}}</td>
-                                <td>@if($payment->Type==\App\Transaction::EFECTIVO)Efectivo
+                                <td>@if($payment->Type==\App\Transaction::CASH)Efectivo
                                     @else Débito
                                     @endif
                                 </td>
