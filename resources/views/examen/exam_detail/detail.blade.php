@@ -57,8 +57,12 @@
                             {{ $examen->sample->display_name }}
                             <br><strong>Estado: </strong>
                             {{ $examen->estado->display_name }}
+                            <br><strong>Precio:</strong> ${{ $examen->precio }}
+                            <br><br>
+                            <a href="{{url('examenes/'.$examen->id.'/edit')}}" class="btn btn-sm btn-warning"><i
+                                        class="fa fa-edit" aria-hidden="true"></i> Editar Examen</a>
                         </address>
-                        {{ $examen->observation }}
+
                     </div>
                     <!-- /.col -->
                     <div class="col-sm-4 invoice-col">
@@ -76,10 +80,8 @@
                     <div class="col-sm-4 invoice-col">
 
                         <address>
-                            <strong>Precio:</strong> ${{ $examen->precio }}
-                            <br><br>
-                            <a href="{{url('examenes/'.$examen->id.'/edit')}}" class="btn btn-sm btn-warning"><i
-                                        class="fa fa-edit" aria-hidden="true"></i> Editar Examen</a>
+                            <strong>Descripción:</strong>
+                            {{ $examen->observation }}
                             {{--<a href="#" class="btn btn-sm btn-warning"> Dar de baja</a>--}}
                         </address>
                     </div>

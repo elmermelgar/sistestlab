@@ -341,17 +341,17 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       return _string;
     },
     integer: function integer(string) {
-      if (isNaN(string)) throw 'Requirement is not an integer: "' + string + '"';
+      if (isNaN(string)) throw 'Requisito no es un entero: "' + string + '"';
       return parseInt(string, 10);
     },
     number: function number(string) {
-      if (isNaN(string)) throw 'Requirement is not a number: "' + string + '"';
+      if (isNaN(string)) throw 'Requisito no es un número: "' + string + '"';
       return parseFloat(string);
     },
     reference: function reference(string) {
       // Unused for now
       var result = $(string);
-      if (result.length === 0) throw 'No such reference: "' + string + '"';
+      if (result.length === 0) throw 'Ninguna referencia: "' + string + '"';
       return result;
     },
     boolean: function boolean(string) {
@@ -471,7 +471,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     this.__class__ = 'ParsleyValidatorRegistry';
 
     // Default Parsley locale is en
-    this.locale = 'en';
+    this.locale = 'es';
 
     this.init(validators || {}, catalog || {});
   };
@@ -2255,8 +2255,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
   // This is included with the Parsley library itself,
   // thus there is no use in adding it to your project.
-  Parsley.addMessages('en', {
-    defaultMessage: "This value seems to be invalid.",
+  Parsley.addMessages('es', {
+    defaultMessage: "Este valor parece ser inválido.",
     type: {
       email: "This value should be a valid email.",
       url: "This value should be a valid url.",
@@ -2265,9 +2265,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       digits: "This value should be digits.",
       alphanum: "This value should be alphanumeric."
     },
-    notblank: "This value should not be blank.",
-    required: "This value is required.",
-    pattern: "This value seems to be invalid.",
+    notblank: "Este valor no debe estar en blanco.",
+    required: "Este valor es requerido.",
+    pattern: "Este valor parece ser inválido.",
     min: "This value should be greater than or equal to %s.",
     max: "This value should be lower than or equal to %s.",
     range: "This value should be between %s and %s.",
@@ -2280,7 +2280,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     equalto: "This value should be the same."
   });
 
-  Parsley.setLocale('en');
+  Parsley.setLocale('es');
 
   /**
    * inputevent - Alleviate browser bugs for input events

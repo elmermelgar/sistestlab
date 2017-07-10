@@ -5,6 +5,7 @@
     <link href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
     <!-- Select2 -->
     <link href="{{url('gentallela/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+    {{--<link href="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">--}}
 @endsection
 
 @section('content')
@@ -67,7 +68,7 @@
                                         </label>
 
                                         <div class="col-md-8 col-sm-6 col-xs-12">
-                                            <input id="birthday" name="fecha_adq"  class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000" required="required" type="text">
+                                            <input id="birthday" name="fecha_adq"  class="date-picker form-control col-md-7 col-xs-12" placeholder="mm/dd/yyyy" required="required" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -251,7 +252,8 @@
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="{{url('gentallela/js/moment/moment.min.js')}}"></script>
-    <script src="{{url('gentallela/js/datepicker/daterangepicker.js')}}"></script>
+    {{--<script src="{{url('gentallela/js/datepicker/daterangepicker.js')}}"></script>--}}
+    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <!-- Select2 -->
     <script src="{{url('gentallela/vendors/select2/dist/js/select2.full.min.js')}}"></script>
     @endsection
@@ -271,7 +273,8 @@
     $(document).ready(function() {
         $('#birthday').daterangepicker({
             singleDatePicker: true,
-            calender_style: "picker_3"
+            calender_style: "picker_3",
+            showDropdowns:true
         }, function(start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
         });

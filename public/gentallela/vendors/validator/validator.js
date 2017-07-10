@@ -15,21 +15,21 @@ var validator = (function($){
     /* general text messages
     */
     message = {
-        invalid         : 'invalid input',
+        invalid         : 'Campo invalido',
         checked         : 'must be checked',
         empty           : 'please put something here',
-        min             : 'input is too short',
-        max             : 'input is too long',
-        number_min      : 'too low',
-        number_max      : 'too high',
-        url             : 'invalid URL',
-        number          : 'not a number',
-        email           : 'email address is invalid',
+        min             : 'El valor es muy corto',
+        max             : 'El valor es muy largo',
+        number_min      : 'Número Bajo',
+        number_max      : 'Número Alto',
+        url             : 'URL invalida',
+        number          : 'No es un número',
+        email           : 'Correo electrónico invalido',
         email_repeat    : 'emails do not match',
         password_repeat : 'passwords do not match',
         repeat          : 'no match',
-        complete        : 'input is not complete',
-        select          : 'Please select an option'
+        complete        : 'El campo no esta completado',
+        select          : 'Por favor seleccione una opción'
     };
 
     if(!window.console){

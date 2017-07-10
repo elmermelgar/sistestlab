@@ -87,7 +87,8 @@
                                     <li><a href="{{url('facturas')}}">Facturas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>
+                            {{--<li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>--}}
+                            @include('menu.boletas')
                             @include('menu.laboratorio')
                         </ul>
                     </div>

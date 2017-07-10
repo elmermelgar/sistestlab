@@ -7,8 +7,7 @@
 
 @section('content')
 
-    <div>
-        <div class="">
+    <div class="">
             <div class="page-title">
                 <div class="title_left">
                     <ol class="breadcrumb">
@@ -42,7 +41,6 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-
 
                             <form class="form-horizontal form-label-left" action="{{route('proveedores.store')}}" method="POST">
                                 {{ csrf_field() }}
@@ -110,7 +108,7 @@
                                 {{--<div class="ln_solid"></div>--}}
                                 <br><br>
                                 <div class="form-group col-md-12" style="margin-top: 40px">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-5">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 " style="text-align: center">
                                         <button type="reset" class="btn btn-dark">Limpiar</button>
                                         <button type="submit" class="btn btn-success">Guardar</button>
                                     </div>
@@ -122,9 +120,7 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
-
 @endsection
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>

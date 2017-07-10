@@ -71,15 +71,15 @@
                                    value="{{$detail? $detail->description:old('description')}}" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="estado" class="control-label col-md-3 col-sm-3 col-xs-12"> Estado
+                    {{--<div class="form-group">--}}
+                        {{--<label for="estado" class="control-label col-md-3 col-sm-3 col-xs-12"> Estado--}}
 
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="estado" name="estado" class="form-control" placeholder="Estado"
-                                   value="{{$detail? $detail->estado:old('estado')}}">
-                        </div>
-                    </div>
+                        {{--</label>--}}
+                        {{--<div class="col-md-6 col-sm-6 col-xs-12">--}}
+                            {{--<input id="estado" name="estado" class="form-control" placeholder="Estado"--}}
+                                   {{--value="{{$detail? $detail->estado:old('estado')}}">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
                     <div class="form-group" >
                         <label for="reference_type_id" class="control-label col-md-3 col-sm-3 col-xs-12"> Tipo de Resultado

@@ -133,3 +133,13 @@ Route::group(['prefix' => 'perfiles', 'middleware' => ['permission:admin_perfile
     Route::post('add_exam', 'ProfileController@add_exam');
     Route::post('del_exam', 'ProfileController@del_exam');
 });
+
+Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes']], function () {
+
+    Route::get('/invoice/', 'ResultadosController@index');
+    Route::get('/invoice/all', 'ResultadosController@all');
+    Route::get('/invoice/process', 'ResultadosController@process');
+    Route::get('{id_ex}/{id_xp}/complete', 'ResultadosController@complete');
+    Route::post('store/results', 'ResultadosController@results');
+
+});

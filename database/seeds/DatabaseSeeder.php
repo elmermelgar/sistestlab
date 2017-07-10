@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ReferenceTypeSeeder::class);
         $this->call(SampleSeeder::class);
         $this->call(CategorySeeder::class);
+        $this->call(ProtozoariosSeeder::class);
+        $this->call(SpermogramSeeder::class);
     }
 }

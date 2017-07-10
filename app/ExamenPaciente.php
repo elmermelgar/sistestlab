@@ -38,6 +38,14 @@ class ExamenPaciente extends Model
     }
 
     /**
+     * Estado del Examen_Paciente
+     */
+    public function estado()
+    {
+        return $this->belongsTo('App\Estado');
+    }
+
+    /**
      * Facturas
      */
     public function invoices()
@@ -53,5 +61,12 @@ class ExamenPaciente extends Model
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * Detalles de Examenes asociados
+     */
+    public function detalles()
+    {
+        return $this->belongsToMany('App\Exam_detail', 'results')->withPivot(['result', 'observation', 'protozoarios_type_id']);
+    }
 
 }
