@@ -7,6 +7,7 @@ use App\Exam_detail;
 use App\ExamenPaciente;
 use App\Exam;
 use App\Protozoarios;
+use App\Spermogram;
 use App\User;
 use App\Grouping;
 use Illuminate\Http\Request;
@@ -89,7 +90,7 @@ class ResultadosController extends Controller
             $exam_paciente->detalles()->detach();
             foreach ($request->exam_detail_id as $index => $exam_detail_id) {
                 if ($request->result[$index] != null)
-                    $exam_paciente->detalles()->attach($exam_detail_id, ['result' => $request->result[$index], 'observation' => $request->observation[$index], 'protozoarios_type_id' => $request->protozoarios_type_id[$index]]);
+                    $exam_paciente->detalles()->attach($exam_detail_id, ['result' => $request->result[$index], 'observation' => $request->observation[$index], 'protozoarios_type_id' => $request->protozoarios_type_id[$index], 'spermogram_modality_id' => $request->spermogram_type_id[$index]]);
             }
             $estado=Estado::where('name','proceso')->first();
             $exam_paciente->estado_id=$estado->id;
@@ -115,6 +116,8 @@ class ResultadosController extends Controller
             'details' => Exam_detail::all(),
             'proto_types' => Protozoarios::all(),
             'proto_nin' => Protozoarios::where('name', 'Ninguno')->first(),
+            'sperm_types' => Spermogram::all(),
+            'sperm_nin' => Spermogram::where('name', 'Ninguno')->first(),
             'examen_paciente' => ExamenPaciente::find($id_xp),
             'groupings' => Grouping::where(['exam_id' => $id_ex])->get()
         ]);

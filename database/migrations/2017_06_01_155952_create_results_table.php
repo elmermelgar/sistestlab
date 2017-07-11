@@ -33,7 +33,7 @@ class CreateResultsTable extends Migration
             $table->foreign('examen_paciente_id')->references('id')->on('examen_paciente');
             $table->foreign('protozoarios_type_id')->references('id')->on('protozoarios_type');
             $table->foreign('spermogram_modality_id')->references('id')->on('spermogram_modality');
-            $table->primary(['exam_detail_id', 'examen_paciente_id', 'protozoarios_type_id']);
+            $table->primary(['exam_detail_id', 'examen_paciente_id', 'protozoarios_type_id', 'spermogram_modality_id']);
         });
     }
 

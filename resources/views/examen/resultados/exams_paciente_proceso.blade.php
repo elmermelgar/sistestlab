@@ -84,8 +84,8 @@
             <table class="table table-striped projects " id="datatable">
                 <thead>
                 <tr>
-                    <th style="width: 1%">#</th>
                     <th style="width: 20%">Examen</th>
+                    <th>Pertenece</th>
                     <th>Fecha de Ingreso</th>
                     <th>Hora</th>
                     <th>Boleta</th>
@@ -100,11 +100,13 @@
                     @if($examen->invoices->factura->sucursal_id == Auth::user()->sucursal_id)
                         {{--@if($examen->estado->name == 'proceso' )--}}
                         <tr>
-                            <td>{{ $examen->exam->name}} </td>
                             <td>
-                                <a>{{ $examen->exam->display_name}}</a>
-                                <br>
+                                {{ $examen->exam->name}} - <a>{{ $examen->exam->display_name}}</a>
+                            </td>
+                            <td>
                                 Cliente:<small>{{ $examen->invoices->factura->cliente->razon_social}}</small>
+                                <br/>
+                                Paciente:<small>{{ $examen->paciente_nombre}}</small>
                             </td>
                             <td>
                                 {{ date_format($examen->created_at, 'd/m/Y')  }}
@@ -150,8 +152,8 @@
                                     <a href="{{url('results/'.$examen->exam->id.'/'.$examen->id.'/complete')}}"
                                        class="btn btn-primary bg-orange"><i class="fa fa-pencil-square"></i> Corregir
                                         resultados</a>
-                                    <a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
-                                    <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>
+                                    {{--<a href="#" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>--}}
+                                    {{--<a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i> Delete </a>--}}
                                 @endif
                             </td>
                         </tr>

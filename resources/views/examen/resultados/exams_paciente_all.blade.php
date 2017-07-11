@@ -84,9 +84,9 @@
             <table class="table table-striped projects " id="datatable">
                 <thead>
                 <tr>
-                    <th style="width: 1%">#</th>
                     <th style="width: 20%">Examen</th>
                     <th>Fecha de Ingreso</th>
+                    <th>Pertenece</th>
                     <th>Hora</th>
                     <th>Boleta</th>
                     {{--<th>Progreso de Laboratorio</th>--}}
@@ -100,10 +100,10 @@
 
                     @if($examen->invoices->factura->sucursal_id == Auth::user()->sucursal_id)
                         <tr>
-                            <td>{{ $examen->exam->name}} </td>
                             <td>
-                                <a>{{ $examen->exam->display_name}}</a>
-                                <br>
+                                {{ $examen->exam->name}} - <a>{{ $examen->exam->display_name}}</a>
+                            </td>
+                            <td>
                                 Cliente:<small>{{ $examen->invoices->factura->cliente->razon_social}}</small>
                                 <br/>
                                 Paciente:<small>{{ $examen->paciente_nombre}}</small>

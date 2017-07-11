@@ -56,6 +56,7 @@
                                 <input type="hidden" required readonly name="exam_detail_id[]"
                                        value="{{$detail->id}}">
                                 <input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>
+                                <input type="hidden" name="spermogram_type_id[]" value="{{ $sperm_nin->id }}" readonly required>
                             @endif
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">{{ $detail->name_detail }}
@@ -66,19 +67,23 @@
                                     @if($detail->referenceType->name == 'protozoarios')
                                     @elseif($detail->referenceType->name == 'espermograma')
                                     @else
-                                        @php $result=$examen_paciente->detalles
-                                               ->where('id',$detail->id)->first() @endphp
+                                        @php $result=DB::table('results')->where([
+                                                                 ['exam_detail_id', '=', $detail->id],
+                                                                    ['examen_paciente_id', '=', $examen_paciente->id],])->first();
+                                        @endphp
                                     @endif
                                     @if($detail->referenceType->name == 'protozoarios')
                                         @foreach($proto_types as $type)
                                             @if($type->name != 'Ninguno')
-                                                    @php $result=DB::table('results')->where([
+                                                @php $result=DB::table('results')->where([
                                                                  ['exam_detail_id', '=', $detail->id],
                                                                     ['examen_paciente_id', '=', $examen_paciente->id],
                                                                     ['protozoarios_type_id', '=', $type->id],])->first();
-                                                    @endphp
+                                                @endphp
                                                 <input type="hidden" required readonly name="exam_detail_id[]"
                                                        value="{{$detail->id}}">
+                                                 <input type="hidden" name="spermogram_type_id[]" value="{{ $sperm_nin->id }}" readonly required>
+                                                    {{--<input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>--}}
                                                 <input type="hidden" name="protozoarios_type_id[]"
                                                        value="{{ $type->id }}" readonly required>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
@@ -92,25 +97,50 @@
                                                 <input type="hidden" name="observation[]"
                                                        value="@if($result){{$result->observation}}@endif"
                                                        class="form-control"
-                                                       placeholder="Obervación">
+                                                       placeholder="Observación">
                                             @endif
                                         @endforeach
                                     @elseif($detail->referenceType->name == 'espermograma')
-
+                                        @foreach($sperm_types as $type)
+                                            @if($type->name != 'Ninguno')
+                                                @php $result=DB::table('results')->where([
+                                                                 ['exam_detail_id', '=', $detail->id],
+                                                                    ['examen_paciente_id', '=', $examen_paciente->id],
+                                                                    ['spermogram_modality_id', '=', $type->id],])->first();
+                                                @endphp
+                                                <input type="hidden" required readonly name="exam_detail_id[]"
+                                                       value="{{$detail->id}}">
+                                                <input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>
+                                                <input type="hidden" name="spermogram_type_id[]"
+                                                       value="{{ $type->id }}" readonly required>
+                                                <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                                                    <input type="text" name="result[]"
+                                                           value="@if($result){{ $result->result }}@endif"
+                                                           required="required" placeholder="{{ $type->name }}"
+                                                           class="form-control col-md-7 col-xs-12 parsley-success"
+                                                           data-parsley-id="5">
+                                                    <ul class="parsley-errors-list" id="parsley-id-5"></ul>
+                                                </div>
+                                                <input type="hidden" name="observation[]"
+                                                       value="@if($result){{$result->observation}}@endif"
+                                                       class="form-control"
+                                                       placeholder="Observación">
+                                            @endif
+                                        @endforeach
                                     @else
                                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="result[]"
-                                                   value="@if($result){{$result->pivot->result}}@endif"
+                                                   value="@if($result){{$result->result}}@endif"
                                                    required="required" placeholder="{{ $detail->name_detail }}"
                                                    class="form-control col-md-7 col-xs-12 parsley-success"
                                                    data-parsley-id="5">
                                             <ul class="parsley-errors-list" id="parsley-id-5"></ul>
                                             {{--<span class="fa  form-control-feedback right"--}}
-                                                  {{--aria-hidden="true"><b>ml-static</b></span>--}}
+                                            {{--aria-hidden="true"><b>ml-static</b></span>--}}
                                         </div>
                                         <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="observation[]"
-                                                   value="@if($result){{$result->pivot->observation}}@endif"
+                                                   value="@if($result){{$result->observation}}@endif"
                                                    class="form-control"
                                                    placeholder="Obervación">
                                         </div>

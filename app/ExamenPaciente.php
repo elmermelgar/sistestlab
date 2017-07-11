@@ -66,7 +66,7 @@ class ExamenPaciente extends Model
      */
     public function detalles()
     {
-        return $this->belongsToMany('App\Exam_detail', 'results')->withPivot(['result', 'observation', 'protozoarios_type_id']);
+        return $this->belongsToMany('App\Exam_detail', 'results')->withPivot(['result', 'observation', 'protozoarios_type_id', 'spermogram_modality_id']);
     }
 
 }
