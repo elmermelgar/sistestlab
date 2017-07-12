@@ -121,6 +121,7 @@
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
                                         <select id="gender" name="gender" class="form-control" required>
+                                            <option value="Default">Default</option>
                                             <option value="Masculino">Masculino</option>
                                             <option value="Femenino">Femenino</option>
                                         </select>

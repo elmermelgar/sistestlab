@@ -160,11 +160,15 @@
                     @endif
 
                 @endforeach
+
                 @endif
                 </tbody>
-            </table>
-            <!-- end project list -->
 
+            </table>
+                <div class="col-md-12" style="text-align: center">
+            {{ $examenes->links() }}
+            <!-- end project list -->
+                </div>
         </div>
     </div>
 

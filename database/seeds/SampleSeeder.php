@@ -35,5 +35,11 @@ class SampleSeeder extends Seeder
         $sample4->display_name = 'Suero';
         $sample4->description = 'Suero';
         $sample4->save();
+
+        $sample5 = new Sample();
+        $sample5->name = 'semen';
+        $sample5->display_name = 'Semen';
+        $sample5->description = 'Semen';
+        $sample5->save();
     }
 }

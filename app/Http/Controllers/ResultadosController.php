@@ -11,6 +11,7 @@ use App\Spermogram;
 use App\User;
 use App\Grouping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Jleon\LaravelPnotify\Notify;
 use Carbon\Carbon;
@@ -36,8 +37,13 @@ class ResultadosController extends Controller
         //dd(auth()->user()->sucursal_id);
 //        $ex_pac= ExamenPaciente::all();
 //        dd($ex_pac->invoices->profile->pivot->sucursal_id);
+        $denegado = Estado::where('name','denegado')->first();
+        $var =DB::table('examen_paciente')->where('estado_id', '=', null)->orWhere(
+            'estado_id', '=', $denegado->id)->get();
+
         return view('examen.resultados.exams_paciente', [
-            'examenes' => ExamenPaciente::all()
+            'examenes' => ExamenPaciente::where('estado_id', '=', null)->orWhere(
+                'estado_id', '=', $denegado->id)->get()
         ]);
     }
 
@@ -49,7 +55,7 @@ class ResultadosController extends Controller
     public function all()
     {
         return view('examen.resultados.exams_paciente_all', [
-            'examenes' => ExamenPaciente::all()
+            'examenes' => ExamenPaciente::paginate(100)
         ]);
     }
 
@@ -60,8 +66,10 @@ class ResultadosController extends Controller
      */
     public function process()
     {
+        $estado = Estado::where('name','proceso')->first();
+//        dd($estado);
         return view('examen.resultados.exams_paciente_proceso', [
-            'examenes' => ExamenPaciente::all()
+            'examenes' => ExamenPaciente::where('estado_id', $estado->id)->get()
         ]);
     }
 

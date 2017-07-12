@@ -45,7 +45,7 @@
             <form id="demo-form2" data-parsley-validate="" action="{{ url('results/store/results') }}" method="post" class="form-horizontal form-label-left" novalidate="">
                 {{ csrf_field() }}
                 <input type="hidden" name="examen_paciente_id" value="{{ $examen_paciente->id }}" readonly required>
-                <p>Por favor complete todos los <code>resultados</code> antes de guardar.</p>
+                <p>Por favor complete todos los <code>resultados</code> antes de guardar. <code>{{ $examen_paciente->observacion }}</code></p>
                 @foreach($groupings as $group)
                     <span class="section">{{ $group->name }}</span>
                     @foreach($details as $detail)
