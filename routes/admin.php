@@ -141,5 +141,6 @@ Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes
     Route::get('/invoice/process', 'ResultadosController@process');
     Route::get('{id_ex}/{id_xp}/complete', 'ResultadosController@complete');
     Route::post('store/results', 'ResultadosController@results');
+    Route::get('/ticket/', 'ResultadosController@ticket');
 
 });

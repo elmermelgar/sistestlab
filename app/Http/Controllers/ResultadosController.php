@@ -8,9 +8,11 @@ use App\ExamenPaciente;
 use App\Exam;
 use App\Protozoarios;
 use App\Spermogram;
+use App\Sucursal;
 use App\User;
 use App\Grouping;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Jleon\LaravelPnotify\Notify;
@@ -33,13 +35,7 @@ class ResultadosController extends Controller
      */
     public function index()
     {
-
-        //dd(auth()->user()->sucursal_id);
-//        $ex_pac= ExamenPaciente::all();
-//        dd($ex_pac->invoices->profile->pivot->sucursal_id);
         $denegado = Estado::where('name','denegado')->first();
-        $var =DB::table('examen_paciente')->where('estado_id', '=', null)->orWhere(
-            'estado_id', '=', $denegado->id)->get();
 
         return view('examen.resultados.exams_paciente', [
             'examenes' => ExamenPaciente::where('estado_id', '=', null)->orWhere(
@@ -137,9 +133,12 @@ class ResultadosController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function ticket( /**$id*/)
     {
-        //
+//        dd(Auth::user()->sucursal_id );
+        return view('boleta.index', [
+            'sucursal' => Sucursal::where('id', Auth::user()->sucursal_id)->first()
+        ]);
     }
 
     /**

@@ -22,7 +22,7 @@ class CreateAntibioticosTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
         });
-        Schema::create('results', function (Blueprint $table) {
+        Schema::create('register_antibiotico', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('examen_paciente_id');
             $table->integer('antibiotico_id');
