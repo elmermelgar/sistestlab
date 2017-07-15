@@ -26,8 +26,8 @@
                     </div>
                     <div class="form-group">
                         <label for="amount">Monto del pago(USD)</label>
-                        <input id="amount" name="amount" type="number" step="0.01" min="0" class="form-control"
-                               style="width: 100%" required>
+                        <input id="amount" name="amount" type="number" step="0.01" min="0" style="width: 100%"
+                               max="{{number_format($total-$suma,2)}}" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="type">Tipo de pago</label>
@@ -38,13 +38,12 @@
                     </div>
                     <div class="form-group">
                         <label for="deuda">Deuda (USD):</label>
-                        <input id="deuda" type="number" step="0.01" min="0" value="0.00" disabled
-                               style="background: none;border: none;box-shadow: none">
+                        <input id="deuda" type="number" value="{{$total-$suma}}" disabled
+                               class="input-readonly">
                     </div>
                     <div class="form-group">
                         <label for="total">TOTAL(USD): </label>
-                        <input id="total" disabled value="{{$total}}"
-                               style="background: none;border: none;box-shadow: none">
+                        <input id="total" disabled value="{{$total}}" class="input-readonly">
 
                     </div>
                 </div>

@@ -42,6 +42,7 @@ class CreateAntibioticosTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('register_antibiotico');
         Schema::dropIfExists('antibioticos_type');
         Schema::dropIfExists('antibioticos');
     }

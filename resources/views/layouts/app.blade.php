@@ -38,7 +38,7 @@
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="{{url('/home')}}" class="site_title">
-                        <img alt="TestLab" class=" img-responsive" src="
+                        <img alt="TestLab" class=" img-responsive logo" src="
                         @if(Auth::user()->sucursal? Auth::user()->sucursal->imagen:null)
                         {{url('/storage/images/'.Auth::user()->sucursal->imagen->file_name)}}
                         @else
@@ -84,6 +84,7 @@
                                 </a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{url('facturas/create')}}">Nueva Factura</a></li>
+                                    <li><a href="{{url('facturas/create/origen')}}">Nueva Factura <br>(Centro de Origen)</a></li>
                                     <li><a href="{{url('facturas')}}">Facturas</a></li>
                                 </ul>
                             </li>

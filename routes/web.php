@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/notificaciones', 'HomeController@getNotificaciones');
 Route::get('/advanced', 'HomeController@input');
 Route::get('/test', 'HomeController@test');
+Route::post('/test', 'HomeController@test');
 Route::group(['namespace'=>'Inventario','prefix' => 'inventario','middleware' => 'auth'], function () {
 
 //    Route::get('/proveedores', 'InventarioController@index');

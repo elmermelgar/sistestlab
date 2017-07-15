@@ -44,7 +44,8 @@ class CreateResultsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('results');
+        Schema::dropIfExists('spermogram_modality');
         Schema::dropIfExists('protozoarios_type');
-        Schema::dropIfExists('espermogram_modality');
     }
 }

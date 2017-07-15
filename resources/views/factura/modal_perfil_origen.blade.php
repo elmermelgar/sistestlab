@@ -15,19 +15,15 @@
                     </div>
                     <div class="form-group">
                         <label for="modal_profile_id">Perfil</label>
-                        <select id="modal_profile_id" name="modal_profile_id" class="form-control"
+                        <select id="modal_profile_id" name="modal_profile_id" class="form-control" required
                                 style="width: 100%">
                         </select>
                     </div>
                     <div class="form-group hidden">
-                        <label for="modal_profile_name">Nombre del Perfil</label>
-                        <input id="modal_profile_name" name="modal_profile_name" class="form-control"
-                               style="width: 100%">
-                    </div>
-                    <div class="form-group hidden">
-                        <label for="modal_profile_price">Precio</label>
-                        <input id="modal_profile_price" name="modal_profile_price" class="form-control"
-                               style="width: 100%">
+                        <input type="hidden" id="modal_profile_name" name="modal_profile_name">
+                        <input type="hidden" id="modal_profile_display_name" name="modal_profile_display_name">
+                        <input type="hidden" id="modal_profile_price" name="modal_profile_price">
+                        <select id="modal_paciente_id" name="modal_paciente_id"></select>
                     </div>
                     <div class="form-group">
                         <label for="modal_numero_boleta">Número de boleta</label>

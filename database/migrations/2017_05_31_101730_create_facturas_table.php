@@ -18,8 +18,8 @@ class CreateFacturasTable extends Migration
             $table->integer('sucursal_id');
             $table->integer('cliente_id');
             $table->integer('user_id');
-            $table->integer('recolector_id');
-            $table->integer('estado_id')->nullable();
+            $table->integer('recolector_id')->nullable();
+            $table->integer('estado_id');
             $table->string('numero',8)->nullable();
             $table->decimal('total')->default(0);
             $table->boolean('credito_fiscal')->default(false);

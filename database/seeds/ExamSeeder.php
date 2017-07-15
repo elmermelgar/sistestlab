@@ -11,7 +11,8 @@ class ExamSeeder extends Seeder
      */
     public function run()
     {
-        $exams = factory(App\Exam::class, 100)->create()->each(function ($exam) {
+        $sucursal_ids = \App\Sucursal::pluck('id');
+        factory(App\Exam::class, 100)->create()->each(function ($exam) use ($sucursal_ids) {
             $profile = \App\Profile::create([
                 'enabled' => true,
                 'type' => \App\Http\Controllers\ProfileController::EXAMEN,
@@ -20,6 +21,10 @@ class ExamSeeder extends Seeder
                 'description' => $exam->observation
             ]);
             $exam->profiles()->attach($profile);
+
+            foreach ($sucursal_ids as $index => $sucursal_id) {
+                $profile->sucursales()->attach($sucursal_id, ['price' => $exam->precio + mt_rand(0, 5)]);
+            }
         });
     }
 }

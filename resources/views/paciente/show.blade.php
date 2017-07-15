@@ -47,6 +47,10 @@
                     <li><i class="fa fa-genderless fa-fw user-profile-icon"></i>
                         Genero: <strong>{{$paciente->genero}}</strong>
                     </li>
+                    <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
+                        Nacimiento: <strong>{{$paciente->fecha_nacimiento}}
+                            ({{\Carbon\Carbon::parse($paciente->fecha_nacimiento)->age}} años)</strong>
+                    </li>
                     <li><i class="fa fa-phone fa-fw user-profile-icon"></i>
                         Telefono: <strong>{{$paciente->telefono}}</strong>
                     </li>

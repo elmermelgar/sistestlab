@@ -83,7 +83,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="deleteModalLabel">Eliminar Categoría de Imágen</h4>
+                    <h4 class="modal-title" id="deleteModalLabel">Eliminar Bono</h4>
                 </div>
                 <form method="post" action="{{url('bonos/delete/')}}">
                     {{csrf_field()}}

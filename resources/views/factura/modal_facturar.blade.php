@@ -26,13 +26,13 @@
                     </div>
                     <div class="form-group">
                         <label for="numero">Número de factura</label>
-                        <input id="numero" name="numero" maxlength="8" step="0.01" min="0" class="form-control"
-                               style="width: 100%" value="{{$factura->numero}}">
+                        <input id="numero" name="numero" maxlength="8" class="form-control" style="width: 100%"
+                               value="{{$factura->numero}}" required>
                     </div>
                     <div class="form-group">
                         <label for="facturar_monto">Monto del pago(USD)</label>
-                        <input id="facturar_monto" name="amount" type="number" step="0.01" min="0" class="form-control"
-                               style="width: 100%" required>
+                        <input id="facturar_monto" name="amount" type="number" step="0.01" min="0" max="{{$total}}"
+                               class="form-control" style="width: 100%" required>
                     </div>
                     <div class="form-group">
                         <label for="facturar_tipo">Tipo de pago</label>
@@ -44,12 +44,11 @@
                     <div class="form-group">
                         <label for="facturar_deuda">Deuda (USD):</label>
                         <input id="facturar_deuda" type="number" step="0.01" min="0" value="0.00" disabled
-                               style="background: none;border: none;box-shadow: none">
+                               class="input-readonly">
                     </div>
                     <div class="form-group">
                         <label for="facturar_total">TOTAL(USD): </label>
-                        <input id="facturar_total" disabled value="{{$total}}"
-                               style="background: none;border: none;box-shadow: none">
+                        <input id="facturar_total" class="input-readonly" disabled value="{{$total}}">
 
                     </div>
                 </div>

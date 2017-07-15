@@ -37,15 +37,15 @@
 
         <div class="x_content">
             <div class="table">
-                <table class="table table-striped" id="datatable">
+                <table class="table table-hover">
                     <thead>
                     <tr>
-                        <th data-field="id" data-sortable="true">Id</th>
+                        <th data-field="id" data-sortable="true">ID</th>
                         <th data-field="name" data-sortable="true">Número</th>
                         <th data-field="cliente" data-sortable="true">Cliente</th>
-                        <th data-field="examenes" data-sortable="true">Examenes</th>
-                        <th data-field="venta" data-sortable="true">Facturado por</th>
-                        <th data-field="venta" data-sortable="true">Venta</th>
+                        <th data-field="facturador" data-sortable="true">Facturado por</th>
+                        <th data-field="estado" data-sortable="true">Estado</th>
+                        <th data-field="venta" data-sortable="true">Venta (USD)</th>
                         <th data-field="actions" data-sortable="false">Acciones</th>
                     </tr>
                     </thead>
@@ -56,13 +56,12 @@
                             <td>{{$factura->id}}</td>
                             <td>{{$factura->numero}}</td>
                             <td>{{$factura->cliente->razon_social}}</td>
-                            <td>{{count($factura->examen_paciente)}}</td>
                             <td>{{$factura->user->getFullName()}}</td>
+                            <td>{{$factura->estado->display_name}}</td>
                             <td>{{$factura->total}}</td>
                             <td>
-                                <a href="{{ url('facturas/'.$factura->id )}}"
-                                   class="btn btn-success btn-sm" title="Ver Factura"><span
-                                            class="fa fa-eye"></span></a>
+                                <a href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
+                                   title="Ver Factura"><span class="fa fa-eye"></span></a>
                             </td>
                         </tr>
                     @endforeach
@@ -78,10 +77,4 @@
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#datatable').dataTable();
-        });
-    </script>
 @endsection

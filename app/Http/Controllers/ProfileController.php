@@ -152,6 +152,8 @@ class ProfileController extends Controller
     }
 
     /**
+     * Busca y retorna a los exámenes que coincidan con el nombre especificado
+     * Retorna una cadena json para ser usada con Select2 AJAX
      * @param Request $request
      * @return string
      */

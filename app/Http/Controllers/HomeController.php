@@ -53,7 +53,7 @@ class HomeController extends Controller
      */
     public function test(Request $request)
     {
-        dump($request->page);
+        dump($request->all());
     }
 
 }

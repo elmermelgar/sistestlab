@@ -28,7 +28,7 @@ $factory->define(App\Exam::class, function (Faker\Generator $faker) {
         'name' => $faker->word,
         'display_name' => $faker->sentence(3),
         'observation' => $faker->text(255),
-        'precio' => $faker->randomFloat(2, 0, 100),
+        'precio' => $faker->randomFloat(2, 1, 100),
         'sample_id' => $faker->numberBetween(1, 2),
         'exam_category_id' => $faker->numberBetween(1, 2),
         'estado_id' => $faker->numberBetween(1, 2),
@@ -54,5 +54,31 @@ $factory->define(App\Recolector::class, function (Faker\Generator $faker) {
         'dui' => $faker->randomNumber(9),
         'nit' => $faker->randomNumber(9) . $faker->randomNumber(5),
         'activo' => true,
+    ];
+});
+
+$factory->define(App\Cliente::class, function (Faker\Generator $faker) {
+
+    $juridica = $faker->boolean;
+    return [
+        'persona_juridica' => $juridica,
+        'centro_origen' => $juridica && $faker->boolean,
+        'razon_social' => $faker->name,
+        'dui' => $faker->randomNumber(9),
+        'nit' => $faker->randomNumber(9) . $faker->randomNumber(5),
+        'telefono' => $faker->randomNumber(8),
+        'descripcion' => $faker->sentence(3),
+    ];
+});
+
+$factory->define(App\Paciente::class, function (Faker\Generator $faker) {
+
+    return [
+        'dui' => $faker->randomNumber(9),
+        'nombre' => $faker->firstName,
+        'apellido' => $faker->lastName,
+        'telefono' => $faker->randomNumber(8),
+        'fecha_nacimiento' => $faker->date('Y-m-d', 'now'),
+        'genero' => $faker->randomElement(['M', 'F']),
     ];
 });

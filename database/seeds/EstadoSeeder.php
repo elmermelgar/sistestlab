@@ -35,6 +35,16 @@ class EstadoSeeder extends Seeder
                 'tipo' => 'examen',
             ],
             [
+                'name' => 'sin_facturar',
+                'display_name' => 'Sin Facturar',
+                'tipo' => 'examen_paciente',
+            ],
+            [
+                'name' => 'facturado',
+                'display_name' => 'Facturado',
+                'tipo' => 'examen_paciente',
+            ],
+            [
                 'name' => 'proceso',
                 'display_name' => 'En Proceso',
                 'tipo' => 'examen_paciente',
@@ -48,10 +58,27 @@ class EstadoSeeder extends Seeder
                 'name' => 'denegado',
                 'display_name' => 'Denegado',
                 'tipo' => 'examen_paciente',
+            ],
+            [
+                'name' => 'borrador',
+                'display_name' => 'Borrador',
+                'tipo' => 'factura',
+            ],
+            [
+                'name' => 'abierta',
+                'display_name' => 'Abierta',
+                'tipo' => 'factura',
+            ],
+            [
+                'name' => 'cerrada',
+                'display_name' => 'Cerrada',
+                'tipo' => 'factura',
+            ],
+            [
+                'name' => 'anulada',
+                'display_name' => 'Anulada',
+                'tipo' => 'factura',
             ]
-
-
-
 
         ];
 

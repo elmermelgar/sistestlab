@@ -2,7 +2,6 @@
 
 @section('styles')
     <link href="{{url('gentallela/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('css/s2-docs.css')}}" rel="stylesheet" type="text/css"/>
     <style>
         .profile_details {
             clear: inherit !important;

@@ -7,6 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Factura extends Model
 {
     /**
+     * Constantes para estados de factura
+     */
+    const BORRADOR = 'borrador';
+    const ABIERTA = 'abierta';
+    const CERRADA = 'cerrada';
+    const ANULADA = 'anulada';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

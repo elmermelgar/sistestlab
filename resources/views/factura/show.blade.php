@@ -2,7 +2,6 @@
 
 @section('imports')
     <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('css/s2-docs.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 
 @section('content')
@@ -68,104 +67,93 @@
                 </div>
                 <br><br>
                 <div class="col-sm-12">
-                    <div class="alignright">
-                        <div class="btn btn-primary btn-lg" data-toggle="modal"
-                             data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
+                    @if($factura->estado->name==\App\Factura::BORRADOR)
+                        <div class="alignleft">
+                            <a class="btn btn-info btn-lg" href="{{route('factura_edit', ['id' => $factura->id])}}">
+                                <i class="fa fa-edit"></i> Modificar</a>
+                            <a class="btn btn-danger btn-lg"
+                               onclick="Anular({{$factura->id}})">
+                                <i class="fa fa-times"></i> Anular</a>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-10">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h4>Pagos</h4>
-                </div>
-                <div class="x_content">
-
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Monto (USD)</th>
-                            <th>Tipo</th>
-                            <th>Fecha</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($factura->payments as $payment)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$payment->amount}}</td>
-                                <td>@if($payment->Type==\App\Transaction::CASH)Efectivo
-                                    @else Débito
-                                    @endif
-                                </td>
-                                <td>{{$payment->transaction->date.' '.$payment->transaction->time}}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4">Sin pagos!</td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
-                    <div class="col-sm-12">
-                        <div class="alignright"><h4>SUMA USD: {{$suma}} </h4></div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="alignright"><h4>DEUDA USD: {{number_format($total-$suma,2)}} </h4></div>
-                    </div>
-                    <a class="alignright btn btn-primary" data-toggle="modal"
-                       data-target="#modal_pago"><i class="fa fa-dollar fa-fw"></i>Registrar pago</a>
+                        <div class="alignright">
+                            <a class="btn btn-primary btn-lg" data-toggle="modal"
+                               data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
+                            </a>
+                        </div>
+                    @endif
 
                 </div>
             </div>
         </div>
     </div>
 
-    @include('factura.modal_facturar')
-    @include('factura.modal_pago')
+    @if($factura->estado->name==\App\Factura::ABIERTA||$factura->estado->name==\App\Factura::CERRADA)
+        <div class="row">
+            <div class="col-sm-10">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h4>Pagos</h4>
+                    </div>
+                    <div class="x_content">
+
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Monto (USD)</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($factura->payments as $payment)
+                                <tr>
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$payment->amount}}</td>
+                                    <td>@if($payment->Type==\App\Transaction::CASH)Efectivo
+                                        @else Débito
+                                        @endif
+                                    </td>
+                                    <td>{{$payment->transaction->date.' '.$payment->transaction->time}}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4">Sin pagos!</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                        <div class="col-sm-12">
+                            <div class="alignright"><h4>SUMA USD: {{$suma}} </h4></div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="alignright"><h4>DEUDA USD: {{number_format($total-$suma,2)}} </h4></div>
+                        </div>
+                        @if($factura->estado->name==\App\Factura::ABIERTA)
+                            <a class="alignright btn btn-primary" data-toggle="modal"
+                               data-target="#modal_pago"><i class="fa fa-dollar fa-fw"></i>Registrar pago</a>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)
+        @include('factura.modal_facturar')
+        @include('factura.modal_pago')
+    @endif
+    @if($factura->estado->name==\App\Factura::BORRADOR)
+        @include('factura.modal_anular')
+    @endif
 
 @endsection
 
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#factura').dataTable({
-                bFilter: false,
-                paging: false,
-                info: false,
-                "language": {
-                    "search": "Buscar:",
-                    "info": "Mostrando _END_ de _TOTAL_ entradas",
-                    "infoEmpty": "Mostrando 0 de 0 entradas",
-                    "zeroRecords": "Sin registros"
-                }
-            });
-
-            function suma() {
-                var total = parseFloat($('#facturar_total').val());
-                var monto = parseFloat($('#facturar_monto').val());
-                var deuda = (total - monto).toFixed(2);
-                $('#facturar_deuda').val(deuda);
-                if (deuda > 0) {
-                    $('#facturar_deuda').css('color', 'red');
-                }
-                else {
-                    $('#facturar_deuda').css('color', 'green');
-                }
-            }
-
-            $('#facturar_monto').bind('input', function () {
-                suma();
-            });
-
-        });
-    </script>
+    @if($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)
+        <script src="{{url('js/facturar.js')}}"></script>
+    @endif
 @endsection

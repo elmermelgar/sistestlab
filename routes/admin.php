@@ -57,6 +57,7 @@ Route::group(['prefix' => 'sucursales', 'middleware' => ['permission:admin_sucur
     Route::get('{id}/edit', 'SucursalController@edit');
     Route::get('{id}/image', 'SucursalController@image');
     Route::get('{id}/registry', 'SucursalController@registry');
+    Route::get('{id}/facturas', 'FacturaController@index');
     Route::post('image/', 'SucursalController@changeImage');
     Route::post('store', 'SucursalController@store');
 });

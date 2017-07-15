@@ -45,12 +45,14 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
 
 Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], function () {
     Route::get('/', 'FacturaController@index');
-    Route::get('create', 'FacturaController@facturar_centro_origen');
+    Route::get('create/{origen?}', 'FacturaController@create')->where('origen', 'origen');
     Route::get('{id}', 'FacturaController@show');
-    Route::get('{id}/edit', 'FacturaController@edit');
+    Route::get('{id}/edit', 'FacturaController@edit')->name('factura_edit');
     Route::get('search/customer', 'FacturaController@searchCustomer');
     Route::get('search/profile', 'FacturaController@searchProfile');
+    Route::get('search/paciente', 'FacturaController@searchPaciente');
     Route::post('store', 'FacturaController@store');
+    Route::post('annul', 'FacturaController@annul')->name('factura_annul');
     Route::post('{id}/facturar', 'FacturaController@facturar');
     Route::post('{id}/payment', 'FacturaController@payment');
 });
