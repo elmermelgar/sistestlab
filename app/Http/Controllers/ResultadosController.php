@@ -133,11 +133,19 @@ class ResultadosController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function ticket( /**$id*/)
+    public function ticket($id_ex, $id_xp)
     {
 //        dd(Auth::user()->sucursal_id );
         return view('boleta.index', [
-            'sucursal' => Sucursal::where('id', Auth::user()->sucursal_id)->first()
+            'sucursal' => Sucursal::where('id', Auth::user()->sucursal_id)->first(),
+            'examen' => Exam::find($id_ex),
+            'details' => Exam_detail::all(),
+            'proto_types' => Protozoarios::all(),
+            'proto_nin' => Protozoarios::where('name', 'Ninguno')->first(),
+            'sperm_types' => Spermogram::all(),
+            'sperm_nin' => Spermogram::where('name', 'Ninguno')->first(),
+            'examen_paciente' => ExamenPaciente::find($id_xp),
+            'groupings' => Grouping::where(['exam_id' => $id_ex])->get()
         ]);
     }
 

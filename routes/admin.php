@@ -135,6 +135,7 @@ Route::group(['prefix' => 'perfiles', 'middleware' => ['permission:admin_perfile
     Route::post('del_exam', 'ProfileController@del_exam');
 });
 
+
 Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes']], function () {
 
     Route::get('/invoice/', 'ResultadosController@index');
@@ -142,6 +143,6 @@ Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes
     Route::get('/invoice/process', 'ResultadosController@process');
     Route::get('{id_ex}/{id_xp}/complete', 'ResultadosController@complete');
     Route::post('store/results', 'ResultadosController@results');
-    Route::get('/ticket/', 'ResultadosController@ticket');
+    Route::get('/ticket/{id_ex}/{id_xp}', 'ResultadosController@ticket');
 
 });

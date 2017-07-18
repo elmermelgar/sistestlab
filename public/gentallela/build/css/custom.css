@@ -3075,15 +3075,18 @@ ul.widget_tally li {
 }
 
 ul.widget_tally .month {
-    width: 70%;
-    float: left;
-}
+    width: 50%;
+    float: left; }
 
 ul.widget_tally .count {
-    width: 30%;
+    width: 50%;
     float: left;
-    text-align: right;
-}
+    text-align: right; }
+
+ul.widget_tally .obs {
+    width: 100%;
+    float: left;
+    text-align: left; }
 
 .pie_bg {
     border-bottom: 1px solid rgba(101, 204, 182, 0.16);

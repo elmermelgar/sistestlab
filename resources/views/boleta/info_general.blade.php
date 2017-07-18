@@ -1,61 +1,36 @@
-<div class="row">
-    <div class="col-sm-12"
-         style="padding-top: 0px;border-radius: 5px; border-style: solid; border-color: silver">
-        <table class="table" style="font-size: 10px">
+<div class="row" >
+    <div class="col-sm-12" id="general"
+         style="border-radius: 5px; border-style: solid; border-color: silver" >
+        <table class="table" style=" margin-top: -1px; margin-bottom: 2px" >
             <tbody>
             <tr>
-                <th style="width:50%">Subtotal:</th>
-                <td>$250.30</td>
-                <th style="width:50%">Subtotal:</th>
-                <td>$250.30</td>
+                <th>Paciente:</th>
+                <td> @if($examen_paciente->paciente_id==null){{ $examen_paciente->paciente_nombre }}
+                    @else {{ $examen_paciente->paciente->nombre }} {{ $examen_paciente->paciente->apellido }}@endif &ensp; &ensp; &ensp;</td>
+                <th>Edad:</th>
+                <td>@if($examen_paciente->paciente_id==null) {{ $examen_paciente->paciente_edad }}@endif años </td>
             </tr>
             <tr>
-                <th>Tax (9.3%)</th>
-                <td>$10.34</td>
-                <th>Tax (9.3%)</th>
-                <td>$10.34</td>
+                <th>Sexo:</th>
+                <td>@if($examen_paciente->paciente_id==null) @if($examen_paciente->paciente_genero=='M')Masculino @else Femenino @endif @endif</td>
+                <th>N° Boleta:</th>
+                <td> {{ $examen_paciente->numero_boleta }}</td>
             </tr>
             <tr>
-                <th>Shipping:</th>
-                <td>$5.80</td>
-                <th>Shipping:</th>
-                <td>$5.80</td>
+                <th> @if($examen_paciente->invoices->factura->cliente->centro_origen==true)Centro de Origen:@else Cliente: @endif</th>
+                <td>{{ $examen_paciente->invoices->factura->cliente->razon_social }}</td>
+                <th>Fecha:</th>
+                <td>{{ $examen_paciente->fecha_validado }}</td>
             </tr>
             <tr>
-                <th>Total:</th>
-                <td>$265.24</td>
-                <th>Total:</th>
-                <td>$265.24</td>
+                <th>Prueba Realizada:</th>
+                <td> {{ $examen->display_name }}</td>
+                <th>Muestra:</th>
+                {{--<td>Lic. Yasmin Arevalo de Perez</td>--}}
+                <td>{{ $examen->sample->display_name }}</td>
             </tr>
             </tbody>
         </table>
-        {{--@if($centro_origen)--}}
-            {{--<div class="form-group">--}}
-                {{--<label for="recolector_id" class="control-label col-md-2 col-sm-2 col-xs-12">Recolector: </label>--}}
-                {{--<div class="col-md-10 col-sm-10 col-xs-12">--}}
-                    {{--@if($edit)--}}
-                        {{--<select id="recolector_id" name="recolector_id" class="form-control" style="width: 100%"--}}
-                                {{--required>--}}
-                            {{--<option value="" disabled selected>Seleccione un recolector</option>--}}
-                            {{--@foreach($recolectores as $recolector)--}}
-                                {{--<option value="{{$recolector->id}}"--}}
-                                        {{--@if($recolector->id==($factura? $factura->recolector_id:0)) selected @endif--}}
-                                {{-->{{$recolector->getFullName()}}</option>--}}
-                            {{--@endforeach--}}
-                        {{--</select>--}}
-                    {{--@else--}}
-                        {{--{{$factura->recolector->getFullName()}}--}}
-                    {{--@endif--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--@endif--}}
-
 
     </div>
-    {{--<div class="col-sm-offset-1 col-sm-3"--}}
-         {{--style="padding-top: 10px;border-radius: 5px; border-style: solid; border-color: silver">--}}
-        {{--<p><strong>Fecha y Hora:</strong> {{$factura? $factura->created_at:\Carbon\Carbon::now()->toDateTimeString()}}--}}
-        {{--</p>--}}
-        {{--<p><strong>Condición de pago:</strong> </p>--}}
-    {{--</div>--}}
 </div>
