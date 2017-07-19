@@ -46,4 +46,12 @@ class Cliente extends Model
         return $this->belongsToMany('App\Paciente');
     }
 
+    //Busqueda de clientes
+    public function scopeFilter($query, $razon_social)
+    {
+        if (trim($razon_social) != "") {
+            $query->where('razon_social', "~*", $razon_social);
+        }
+    }
+
 }

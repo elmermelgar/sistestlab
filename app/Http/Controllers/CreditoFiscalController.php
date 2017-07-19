@@ -15,11 +15,14 @@ use Jleon\LaravelPnotify\Notify;
 class CreditoFiscalController extends Controller
 {
     /**
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('credito_fiscal.index', ['creditos_fiscales' => TaxCredit::all()]);
+        return view('credito_fiscal.index', [
+            'creditos_fiscales' => TaxCredit::filter($request->get('numero'))->paginate(10),
+        ]);
     }
 
     /**

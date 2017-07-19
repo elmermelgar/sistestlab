@@ -88,4 +88,12 @@ class Factura extends Model
         return $this->belongsTo('App\TaxCredit');
     }
 
+    //Busqueda de facturas
+    public function scopeFilter($query, $numero)
+    {
+        if (trim($numero) != "") {
+            $query->where('numero', "~*", $numero);
+        }
+    }
+
 }

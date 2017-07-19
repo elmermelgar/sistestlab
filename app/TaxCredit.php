@@ -36,4 +36,13 @@ class TaxCredit extends Model
         return $this->belongsTo('App\User');
     }
 
+    //Busqueda de créditos fiscales
+    public function scopeFilter($query, $numero)
+    {
+        if (trim($numero) != "") {
+            $query->where('numero', "~*", $numero);
+        }
+    }
+
+
 }

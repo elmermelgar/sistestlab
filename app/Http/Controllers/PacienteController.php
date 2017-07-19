@@ -31,11 +31,12 @@ class PacienteController extends Controller
 
     /**
      * Muestra la cartera de pacientes
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('paciente.index', ['pacientes' => Paciente::all()]);
+        return view('paciente.index', ['pacientes' => Paciente::filter($request->get('nombre'))->paginate(10)]);
     }
 
     /**
@@ -57,7 +58,7 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        return view('paciente.edit', ['paciente' => null,'clientes'=>Cliente::all()]);
+        return view('paciente.edit', ['paciente' => null, 'clientes' => Cliente::all()]);
     }
 
     /**
@@ -69,12 +70,12 @@ class PacienteController extends Controller
     {
         if ($paciente = Paciente::find($id)) {
             $cliente = $paciente->clientes()->wherePivot('same_record', true)->first();
-            if($cliente){
+            if ($cliente) {
                 Notify::warning('Este paciente esta registrado como cliente; 
                 para actualizar datos deberá editar el registro de cliente.');
                 return back();
             }
-            return view('paciente.edit', ['paciente' => $paciente, 'clientes'=>Cliente::all()]);
+            return view('paciente.edit', ['paciente' => $paciente, 'clientes' => Cliente::all()]);
         }
         return response()->view('errors.404', [], 404);
     }
@@ -92,12 +93,12 @@ class PacienteController extends Controller
         try {
             $request->merge(['dui' => str_replace('-', '', $request->dui)]);
             $request->merge(['telefono' => str_replace('-', '', $request->telefono)]);
-            $fecha_nacimiento=Carbon::createFromFormat('d/m/Y',$request->fecha_nacimiento);
-            $request->merge(['fecha_nacimiento'=>$fecha_nacimiento]);
+            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento);
+            $request->merge(['fecha_nacimiento' => $fecha_nacimiento]);
             if ($request->id && $paciente = Paciente::find($request->id)) {
                 $paciente->update($request->all());
             } else {
-                $paciente =Paciente::create($request->all());
+                $paciente = Paciente::create($request->all());
             }
             $paciente->clientes()->sync($request->cliente_id);
 

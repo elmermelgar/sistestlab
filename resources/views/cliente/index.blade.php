@@ -5,7 +5,8 @@
         .profile_details {
             clear: inherit !important;
         }
-        .tab a:hover{
+
+        .tab a:hover {
             background-color: #eee !important;
         }
     </style>
@@ -43,13 +44,30 @@
                 </div>
             </a>
         </li>
+        <li style="float: right">
+            <div class="pull-right top_search" style="margin-right: 5%">
+                <form action="@if(isset($origen)) {{url('origenes')}} @else {{url('clientes')}} @endif" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="razon_social"
+                               placeholder="Buscar por razon social...">
+                        <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                    </div>
+                </form>
+            </div>
+        </li>
 
     </ul>
+    <div class="alignright">
+
+    </div>
 
     <div class="x_panel" style="border-top: none">
 
         <div class="x_content">
             <div class="row">
+                @php $count=0 @endphp
                 @forelse($clientes as $cliente)
                     <div class="col-md-4 col-sm-4 col-xs-12 profile_details">
                         <div class="well profile_view">
@@ -93,9 +111,17 @@
                             </div>
                         </div>
                     </div>
+                    @php $count+=1 @endphp
+                    @if($count==3)
+                        <div class="clearfix"></div>
+                        @php $count=0 @endphp
+                    @endif
                 @empty
                     Sin registros!
                 @endforelse
+                <div class="col-md-12" style="text-align: center">
+                    {{ $clientes->appends(Request::only(['nombre']))->render() }}
+                </div>
             </div>
         </div>
     </div>

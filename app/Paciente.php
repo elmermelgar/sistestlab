@@ -42,4 +42,12 @@ class Paciente extends Model
         return $this->hasMany('App\ExamenPaciente');
     }
 
+    //Busqueda de Pacientes
+    public function scopeFilter($query, $nombre)
+    {
+        if (trim($nombre) != "") {
+            $query->where('nombre', "~*", $nombre);
+        }
+    }
+
 }

@@ -31,37 +31,36 @@
 
         <div class="x_content">
             <p>A continuación se muestran los clientes que poseen una o más facturas marcadas como crédito fiscal.</p>
-            <div class="table">
-                <table class="table table-hover">
-                    <thead>
+
+            <table id="datatable" class="table table-hover">
+                <thead>
+                <tr>
+                    <th data-field="id" data-sortable="true">ID Cliente</th>
+                    <th data-field="nit" data-sortable="true">NIT</th>
+                    <th data-field="cliente" data-sortable="true">Cliente</th>
+                    <th data-field="facturas" data-sortable="true">Cantidad de facturas</th>
+                    <th data-field="monto" data-sortable="true">Monto (USD)</th>
+                    <th data-field="actions" data-sortable="false">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @foreach($clientes as $cliente)
                     <tr>
-                        <th data-field="id" data-sortable="true">ID Cliente</th>
-                        <th data-field="nit" data-sortable="true">NIT</th>
-                        <th data-field="cliente" data-sortable="true">Cliente</th>
-                        <th data-field="facturas" data-sortable="true">Cantidad de facturas</th>
-                        <th data-field="monto" data-sortable="true">Monto (USD)</th>
-                        <th data-field="actions" data-sortable="false">Acciones</th>
+                        <td>{{$cliente->id}}</td>
+                        <td>{{$cliente->nit}}</td>
+                        <td>{{$cliente->razon_social}}</td>
+                        <td>{{$cliente->cantidad_facturas}}</td>
+                        <td>{{$cliente->total}}</td>
+                        <td>
+                            <a href="{{ route('credito_fiscal_create',['cliente_id'=>$cliente->id] )}}"
+                               title="Otorgar Crédito Fiscal"><span class="fa fa-arrow-right fa-2x"></span></a>
+                        </td>
                     </tr>
-                    </thead>
+                @endforeach
+                </tbody>
 
-                    <tbody>
-                    @foreach($clientes as $cliente)
-                        <tr>
-                            <td>{{$cliente->id}}</td>
-                            <td>{{$cliente->nit}}</td>
-                            <td>{{$cliente->razon_social}}</td>
-                            <td>{{$cliente->cantidad_facturas}}</td>
-                            <td>{{$cliente->total}}</td>
-                            <td>
-                                <a href="{{ route('credito_fiscal_create',['cliente_id'=>$cliente->id] )}}"
-                                   title="Otorgar Crédito Fiscal"><span class="fa fa-arrow-right fa-2x"></span></a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-
-                </table>
-            </div>
+            </table>
         </div>
     </div>
 
@@ -70,4 +69,9 @@
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#datatable').dataTable();
+        });
+    </script>
 @endsection

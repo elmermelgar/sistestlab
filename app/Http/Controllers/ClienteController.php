@@ -34,19 +34,24 @@ class ClienteController extends Controller
 
     /**
      * Muestra la cartera de clientes
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('cliente.index', ['clientes' => Cliente::where('centro_origen',false)->get()]);
+        $clientes = Cliente::where('centro_origen', false)->filter($request->razon_social)->paginate(9);
+        return view('cliente.index', ['clientes' => $clientes]);
     }
 
     /**
      * Muestra la lista de centros de origen
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function origenes(){
-        return view('cliente.index', ['clientes' => Cliente::where('centro_origen',true)->get(),'origen'=>true]);
+    public function origenes(Request $request)
+    {
+        $clientes = Cliente::where('centro_origen', true)->filter($request->razon_social)->paginate(9);
+        return view('cliente.index', ['clientes' => $clientes, 'origen' => true]);
     }
 
     /**
@@ -79,7 +84,7 @@ class ClienteController extends Controller
     public function edit($id)
     {
         if ($cliente = Cliente::find($id)) {
-            if($cliente->origen){
+            if ($cliente->origen) {
                 Notify::warning('Este cliente pertenece a un centro de centro-origen; 
                 para actualizar datos deberá editar el registro de centro de centro-origen.');
                 return back();

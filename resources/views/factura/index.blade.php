@@ -24,13 +24,26 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h3>Facturas
+            <h3 class="alignleft">Facturas</h3>
+            <div class="alignright">
                 <a href="{{ url('facturas/create') }}" title="Facturar" style="float: right">
                     <div class="btn btn-primary">
                         <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nueva Factura
                     </div>
                 </a>
-            </h3>
+            </div>
+            <div class="alignright">
+                <div class="form-group pull-right top_search" style="margin-right: 5%">
+                    <form class="form-group" action="{{ url('facturas') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="numero" placeholder="Buscar por número...">
+                            <span class="input-group-btn">
+                      <button class="btn btn-default" type="submit">Buscar</button>
+                    </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <div class="clearfix"></div>
         </div>
@@ -70,6 +83,9 @@
                     </tbody>
 
                 </table>
+                <div class="col-md-12" style="text-align: center">
+                    {{ $facturas->appends(Request::only(['numero']))->render() }}
+                </div>
             </div>
         </div>
     </div>

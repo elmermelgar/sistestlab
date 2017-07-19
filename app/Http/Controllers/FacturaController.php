@@ -32,19 +32,26 @@ class FacturaController extends Controller
 
     /**
      * Muestra la lista de facturas
+     * @param Request $request
+     * @param $sucursal_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index($sucursal_id = null)
+    public function index(Request $request, $sucursal_id = null)
     {
         if (!$sucursal_id) {
             $sucursal_id = Auth::user()->sucursal->id;
         }
         $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
+        $query_factura = Factura::where('sucursal_id', $sucursal_id)
+            ->where('tax_credit_id', null)
+            ->orWhere('estado_id', '<>', $estado_cerrada->id);
+        if ($request->numero) {
+            $query_factura = $query_factura->filter($request->get('numero'));
+        } else {
+            $query_factura = $query_factura->orderBy('created_at', 'desc');
+        }
         return view('factura.index', [
-            'facturas' => Factura::where('sucursal_id', $sucursal_id)
-                ->where('tax_credit_id', null)
-                ->orWhere('estado_id', '<>', $estado_cerrada->id)
-                ->orderBy('created_at', 'desc')->get()
+            'facturas' => $query_factura->paginate(10),
         ]);
     }
 
