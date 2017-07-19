@@ -84,8 +84,12 @@
                                 </a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{url('facturas/create')}}">Nueva Factura</a></li>
-                                    <li><a href="{{url('facturas/create/origen')}}">Nueva Factura <br>(Centro de Origen)</a></li>
+                                    <li><a href="{{url('facturas/create/origen')}}">Nueva Factura
+                                            <br>(Centro de Origen)</a>
+                                    </li>
                                     <li><a href="{{url('facturas')}}">Facturas</a></li>
+                                    <li><a href="{{route('credito_fiscal_customers')}}">Otorgar Crédito Fiscal</a></li>
+                                    <li><a href="{{route('credito_fiscal_index')}}">Crédito Fiscal</a></li>
                                 </ul>
                             </li>
                             {{--<li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>--}}

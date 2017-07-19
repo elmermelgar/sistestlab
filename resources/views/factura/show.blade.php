@@ -8,7 +8,11 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('facturas')}}">Facturas</a></li>
+            @if(isset($credito_fiscal))
+                <li><a href="{{route('credito_fiscal_index')}}">Créditos Fiscales</a></li>
+            @else
+                <li><a href="{{url('facturas')}}">Facturas</a></li>
+            @endif
             <li>{{$factura->id}}</li>
         </ol>
     </div>
@@ -80,6 +84,21 @@
                                data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
                             </a>
                         </div>
+                    @elseif(isset($credito_fiscal)&&!$factura->closed)
+                        <div class="alignleft">
+                            <a class="btn btn-info btn-lg"
+                               href="{{route('credito_fiscal_edit', ['id' => $factura->id])}}">
+                                <i class="fa fa-edit fa-fw"></i>Modificar</a>
+                        </div>
+                        <div class="alignright">
+                            <form class="form" method="post" action="{{route('credito_fiscal_close')}}">
+                                {{csrf_field()}}
+                                <div class="form-group">
+                                    <input type="hidden" name="tax_credit_id" value="{{$factura->id}}">
+                                    <input type="submit" value="&#10004; TERMINAR" class="btn btn-primary btn-lg">
+                                </div>
+                            </form>
+                        </div>
                     @endif
 
                 </div>
@@ -87,7 +106,8 @@
         </div>
     </div>
 
-    @if($factura->estado->name==\App\Factura::ABIERTA||$factura->estado->name==\App\Factura::CERRADA)
+    @if(($factura->estado->name==\App\Factura::ABIERTA||$factura->estado->name==\App\Factura::CERRADA)
+    &&!isset($credito_fiscal))
         <div class="row">
             <div class="col-sm-10">
                 <div class="x_panel">
@@ -140,12 +160,14 @@
         </div>
     @endif
 
-    @if($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)
-        @include('factura.modal_facturar')
-        @include('factura.modal_pago')
-    @endif
-    @if($factura->estado->name==\App\Factura::BORRADOR)
-        @include('factura.modal_anular')
+    @if(!isset($credito_fiscal))
+        @if($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)
+            @include('factura.modal_facturar')
+            @include('factura.modal_pago')
+        @endif
+        @if($factura->estado->name==\App\Factura::BORRADOR)
+            @include('factura.modal_anular')
+        @endif
     @endif
 
 @endsection
@@ -153,7 +175,7 @@
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    @if($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)
+    @if(($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)&&!isset($credito_fiscal))
         <script src="{{url('js/facturar.js')}}"></script>
     @endif
 @endsection

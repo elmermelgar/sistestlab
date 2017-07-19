@@ -11,7 +11,7 @@
     <div class="col-sm-3"
          style="margin-top: 2em;padding:5px 10px;border-radius: 5px;
          border-style: solid; border-color: silver; text-align: center">
-        <p>FACTURA</p>
+        <p>@if(isset($factura)&&$factura->credito_fiscal) COMPROBANTE DE CRÉDITO FISCAL @else FACTURA @endif</p>
         <p style="color: red; font-size: 20px">N° {{$factura?$factura->numero:null}}</p>
         <p style="margin:0">NIT: {{ $sucursal->nit}}</p>
         <p style="margin:0">NRC: {{ $sucursal->nrc}}</p>

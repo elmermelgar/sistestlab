@@ -39,8 +39,12 @@ class FacturaController extends Controller
         if (!$sucursal_id) {
             $sucursal_id = Auth::user()->sucursal->id;
         }
+        $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
         return view('factura.index', [
-            'facturas' => Factura::where('sucursal_id', $sucursal_id)->orderBy('created_at', 'desc')->get()
+            'facturas' => Factura::where('sucursal_id', $sucursal_id)
+                ->where('tax_credit_id', null)
+                ->orWhere('estado_id', '<>', $estado_cerrada->id)
+                ->orderBy('created_at', 'desc')->get()
         ]);
     }
 
@@ -54,6 +58,9 @@ class FacturaController extends Controller
         if ($factura = Factura::find($id)) {
             //profiles->profile_invoice
             $profiles = $factura->profiles()->get()->groupBy('profile_id');
+            if ($factura->credito_fiscal) {
+                Notify::info('Esta factura ha sido marcada como parte de un crédito fiscal');
+            }
             return view('factura.show', [
                 'factura' => $factura,
                 'sucursal' => $factura->sucursal,
@@ -116,27 +123,6 @@ class FacturaController extends Controller
         }
 
         return abort(404);
-    }
-
-    /**
-     * Muestra la vista para crear una factura de credito fiscal
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function credito_fiscal()
-    {
-        if (Auth::user()->sucursal && SucursalService::isOpen(Auth::user()->sucursal->id)) {
-            $facturador = Auth::user();
-            return view('factura.credito_fiscal', [
-                'factura' => null,
-                'user' => $facturador,
-                'sucursal' => $facturador->sucursal,
-                'recolectores' => Recolector::all(),
-                'centro_origen' => true,
-                'edit' => true,
-            ]);
-        } else {
-            return view('sucursal.closed');
-        }
     }
 
     /**

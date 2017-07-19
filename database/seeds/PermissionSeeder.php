@@ -75,6 +75,11 @@ class PermissionSeeder extends Seeder
                 'description' => 'Registra facturas en la sucursal correspondiente'
             ],
             [
+                'name' => 'credito_fiscal',
+                'display_name' => 'Crédito Fiscal',
+                'description' => 'Otorga créditos fiscales'
+            ],
+            [
                 'name' => 'admin_perfiles',
                 'display_name' => 'Administrar Perfiles',
                 'description' => 'Registra y modifica los perfiles de examenes'

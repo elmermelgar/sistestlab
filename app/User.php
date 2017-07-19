@@ -20,7 +20,7 @@ class User extends Authenticatable implements CanResetPassword
      * @var array
      */
     protected $fillable = [
-        'name', 'surname','email', 'password', 'sucursal_id'
+        'name', 'surname', 'email', 'password', 'sucursal_id'
     ];
 
     /**
@@ -38,8 +38,8 @@ class User extends Authenticatable implements CanResetPassword
      */
     public function getFullName()
     {
-        if($this->surname){
-            return $this->name.' '.$this->surname;
+        if ($this->surname) {
+            return $this->name . ' ' . $this->surname;
         }
         return $this->name;
     }
@@ -69,6 +69,14 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
+     * Obtiene los créditos fiscales otorgados por el usuario.
+     */
+    public function tax_credits()
+    {
+        return $this->hasMany('App\TaxCredit');
+    }
+
+    /**
      * Obtiene, si corresponde, los examenes validados por un profesional
      */
     public function examen_paciente()
@@ -79,7 +87,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
+     * @param  string $token
      * @return void
      */
     public function sendPasswordResetNotification($token)

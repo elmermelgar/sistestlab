@@ -8,7 +8,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li>Facturas</li>
+            <li>Créditos Fiscales</li>
         </ol>
     </div>
 
@@ -24,10 +24,10 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h3>Facturas
-                <a href="{{ url('facturas/create') }}" title="Facturar" style="float: right">
+            <h3>Créditos Fiscales
+                <a href="{{ route('credito_fiscal_customers') }}" title="Otorgar Cŕedito Fiscal" style="float: right">
                     <div class="btn btn-primary">
-                        <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nueva Factura
+                        <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nuevo Crédito Fiscal
                     </div>
                 </a>
             </h3>
@@ -41,29 +41,28 @@
                     <thead>
                     <tr>
                         <th data-field="id" data-sortable="true">ID</th>
-                        <th data-field="name" data-sortable="true">Número</th>
+                        <th data-field="numero" data-sortable="true">Número</th>
                         <th data-field="cliente" data-sortable="true">Cliente</th>
-                        <th data-field="facturador" data-sortable="true">Facturado por</th>
-                        <th data-field="fecha" data-sortable="true">Fecha</th>
+                        <th data-field="facturador" data-sortable="true">Otorgado por</th>
                         <th data-field="estado" data-sortable="true">Estado</th>
-                        <th data-field="venta" data-sortable="true">Venta (USD)</th>
+                        <th data-field="monto" data-sortable="true">Monto (USD)</th>
                         <th data-field="actions" data-sortable="false">Acciones</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @foreach($facturas as $factura)
+                    @foreach($creditos_fiscales as $credito_fiscal)
                         <tr>
-                            <td>{{$factura->id}}</td>
-                            <td>{{$factura->numero}}</td>
-                            <td>{{$factura->cliente->razon_social}}</td>
-                            <td>{{$factura->user->getFullName()}}</td>
-                            <td>{{$factura->created_at}}</td>
-                            <td>{{$factura->estado->display_name}}</td>
-                            <td>{{$factura->total}}</td>
+                            <td>{{$credito_fiscal->id}}</td>
+                            <td>{{$credito_fiscal->numero}}</td>
+                            <td>{{$credito_fiscal->facturas()->first()->cliente->razon_social}}</td>
+                            <td>{{$credito_fiscal->user->getFullName()}}</td>
+                            <td>@if($credito_fiscal->closed) Cerrado @else Abierto @endif</td>
+                            <td>{{$credito_fiscal->total}}</td>
                             <td>
-                                <a href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
-                                   title="Ver Factura"><span class="fa fa-eye"></span></a>
+                                <a href="{{route('credito_fiscal_show',['id'=>$credito_fiscal->id])}}"
+                                   class="btn btn-success"
+                                   title="Ver Crédito Fiscal"><span class="fa fa-eye"></span></a>
                             </td>
                         </tr>
                     @endforeach

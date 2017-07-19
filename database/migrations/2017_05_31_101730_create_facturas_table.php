@@ -20,7 +20,8 @@ class CreateFacturasTable extends Migration
             $table->integer('user_id');
             $table->integer('recolector_id')->nullable();
             $table->integer('estado_id');
-            $table->string('numero',8)->nullable();
+            $table->integer('tax_credit_id')->nullable();
+            $table->string('numero', 8)->nullable();
             $table->decimal('total')->default(0);
             $table->boolean('credito_fiscal')->default(false);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
@@ -28,6 +29,7 @@ class CreateFacturasTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('recolector_id')->references('id')->on('recolectores');
             $table->foreign('estado_id')->references('id')->on('estados');
+            $table->foreign('tax_credit_id')->references('id')->on('tax_credits');
             $table->timestamps();
         });
     }

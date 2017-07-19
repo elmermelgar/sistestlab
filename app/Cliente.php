@@ -31,7 +31,7 @@ class Cliente extends Model
     }
 
     /**
-     * Obtiene, si corresponde, el registro de cliente del usuario.
+     * Obtiene, si corresponde, las facturas del cliente.
      */
     public function facturas()
     {

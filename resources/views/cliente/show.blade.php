@@ -33,7 +33,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="col-md-6 col-sm-6 col-xs-12 profile_left">
+                <div class="col-md-4 col-sm-4 col-xs-12 profile_left">
                     <div class="profile_img">
                         <div id="crop-avatar">
                             <!-- Current avatar -->

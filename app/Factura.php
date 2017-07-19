@@ -80,4 +80,12 @@ class Factura extends Model
         return $this->belongsTo('App\Estado');
     }
 
+    /**
+     * Credito fiscal de la factura
+     */
+    public function tax_credit()
+    {
+        return $this->belongsTo('App\TaxCredit');
+    }
+
 }
