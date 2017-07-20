@@ -12,8 +12,8 @@ $cuenta = count($result);
                 <tr>
 
                     <th>PROTOZOARIO</th>
-                    <th style="text-align: center">ACTIVOS</th>
                     <th style="text-align: center">QUISTES</th>
+                    <th style="text-align: center">ACTIVOS</th>
                 </tr>
                 </thead>
                 <tbody>

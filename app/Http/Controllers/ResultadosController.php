@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Antibiotico;
+use App\Antibiotico_type;
 use App\Estado;
 use App\Exam_detail;
 use App\ExamenPaciente;
 use App\Exam;
 use App\Protozoarios;
+use App\Register_antibiotico;
 use App\Spermogram;
 use App\Sucursal;
 use App\User;
@@ -36,9 +39,10 @@ class ResultadosController extends Controller
     public function index()
     {
         $denegado = Estado::where('name','denegado')->first();
+        $facturado = Estado::where('name','facturado')->first();
 
         return view('examen.resultados.exams_paciente', [
-            'examenes' => ExamenPaciente::where('estado_id', '=', null)->orWhere(
+            'examenes' => ExamenPaciente::where('estado_id', '=', $facturado->id)->orWhere(
                 'estado_id', '=', $denegado->id)->get()
         ]);
     }
@@ -143,7 +147,10 @@ class ResultadosController extends Controller
             'proto_types' => Protozoarios::all(),
             'proto_nin' => Protozoarios::where('name', 'Ninguno')->first(),
             'sperm_types' => Spermogram::all(),
+            'antibioticos' => Antibiotico::all(),
+            'antibiotico_types' => Antibiotico_type::all(),
             'sperm_nin' => Spermogram::where('name', 'Ninguno')->first(),
+            'registro_antibioticos' => Register_antibiotico::where('examen_paciente_id', $id_xp)->get(),
             'examen_paciente' => ExamenPaciente::find($id_xp),
             'groupings' => Grouping::where(['exam_id' => $id_ex])->get()
         ]);

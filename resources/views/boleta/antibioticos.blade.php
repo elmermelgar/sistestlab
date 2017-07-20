@@ -1,6 +1,6 @@
-<div class="col-md-12" >
+<div class="col-md-12" id="antibioticos">
     <div style="border-bottom: 2px solid;padding-top:8px;border-color: silver;margin-bottom: 0px">
-        <small><b>Antibiotico</b></small>
+        <small><b>ANTIBIÓTICOS</b></small>
     </div>
     <div class="row">
         <table class="table ">
@@ -14,9 +14,27 @@
             </thead>
             <tbody>
             <tr>
-                <td style="text-align: center">Entamoeba histolyca</td>
-                <td style="text-align: center">++</td>
-                <td style="text-align: center">Amoxicilina + Acido Clavulamico</td>
+                <td style="text-align: center">
+                @foreach($registro_antibioticos as $registro_antibiotico)
+                        @if($registro_antibiotico->antibiotico_type->name=='Sensible')
+                            {{ $registro_antibiotico->antibiotico->name }}<br/>
+                        @endif
+                    @endforeach
+                </td>
+                <td style="text-align: center">
+                    @foreach($registro_antibioticos as $registro_antibiotico)
+                        @if($registro_antibiotico->antibiotico_type->name=='Intermedio')
+                           {{ $registro_antibiotico->antibiotico->name }}<br/>
+                        @endif
+                    @endforeach
+                </td>
+                <td style="text-align: center">
+                    @foreach($registro_antibioticos as $registro_antibiotico)
+                        @if($registro_antibiotico->antibiotico_type->name=='Resistente')
+                            {{ $registro_antibiotico->antibiotico->name }}<br/>
+                        @endif
+                    @endforeach
+                </td>
             </tr>
             </tbody>
         </table>

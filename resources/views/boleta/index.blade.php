@@ -1,60 +1,16 @@
 @extends('layouts.app')
 
 @section('imports')
-    <link href="{{url('gentallela/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{url('css/s2-docs.css')}}" rel="stylesheet" type="text/css"/>
-@endsection
-@section('styles')
-    <style type="text/css" media="print">
-        @media print {
-
-            #sidebar-menu, #profile, #top-nav, #footer, #miga {
-                display: none !important;
-            }
-            #titulo{
-                width: 400px;
-                float: left;
-            }
-            #logo_boleta{
-                width: 225px;
-                float: left;
-                padding-top: 20px;
-            }
-            #all{
-                font-size: 12px;
-            }
-            #panel{
-                margin-top: -10px;
-
-            }
-            #general{
-                width: 100%;
-            }
-            #resp{
-                width: 100%;
-                text-align: center;
-                margin-left: 25px;
-            }
-            #sin_val{
-                width: 50%;
-            }
-            #proto_panel{
-                width: 100%;
-            }
-            #group_name{
-                width: 100%;
-            }
-        }
-    </style>
+    <link href="{{url('css/imprimir_boleta.css')}}" rel="stylesheet" type="text/css" media="print"/>
 @endsection
 
 @section('content')
     <div class="row" id="miga">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('facturas')}}">Facturas</a></li>
-            <li><strong style="color: #0b97c4">Boleta ({{Auth::user()->sucursal->display_name}})</strong></li>
+            <li><a href="{{url('/results/invoice')}}">Boletas Pendientes</a></li>
+            <li><strong style="color: #0b97c4">Boleta N°{{ $examen_paciente->numero_boleta }} ({{Auth::user()->sucursal->display_name}})</strong></li>
         </ol>
     </div>
     @include('noscript')
@@ -122,11 +78,11 @@
                     @endforeach
                     <br/>
                 @endforeach
-
+                @if(count($registro_antibioticos)>0)
                 {{--Antibiotico--}}
-                    {{--@include('boleta.antibioticos')--}}
+                    @include('boleta.antibioticos')
                 {{--Fin antibiotico--}}
-
+                @endif
                 {{--Responsable--}}
                 <br/><br/><br/><br/><br/><br/>
                 <div class="col-md-12" style="margin-top: 20px" id="resp">
@@ -145,12 +101,13 @@
             </div>
         </div>
     </div>
-
-@endsection
-
-@section('scripts')
-    <script src="{{url('gentallela/vendors/select2/dist/js/select2.js')}}"></script>
-    <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-    <script src="{{url('js/facturar.js')}}"></script>
+    <div class="col-sm-2" id="botones">
+        <a href="javascript:window.print(); void 0;" class="btn bg-green" style="width: 100%"><i class="fa fa-print"></i> Imprimir Boleta</a>
+        <br/>
+        <a href="#" class="btn bg-orange" data-toggle="modal"
+           data-target=".bs-example-modal-sm" style="width: 100%"> Agregar Antibióticos</a>
+    </div>
+    {{--Modal de Antibioticos--}}
+    @include('boleta.antibioticos_modal')
+    {{--Fin Modal de Antibioticos--}}
 @endsection

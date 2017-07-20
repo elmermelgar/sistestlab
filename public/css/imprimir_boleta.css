@@ -1,0 +1,42 @@
+@media print {
+
+  #sidebar-menu, #profile, #top-nav, #footer, #miga, #botones {
+    display: none !important;
+  }
+  #titulo{
+    width: 400px;
+    float: left;
+  }
+  #logo_boleta{
+    width: 225px;
+    float: left;
+    padding-top: 20px;
+  }
+  #all{
+    font-size: 12px;
+  }
+  #panel{
+    margin-top: -10px;
+
+  }
+  #general{
+    width: 100%;
+  }
+  #resp{
+    width: 100%;
+    text-align: center;
+    margin-left: 25px;
+  }
+  #sin_val{
+    width: 50%;
+  }
+  #proto_panel{
+    width: 100%;
+  }
+  #group_name{
+    width: 100%;
+  }
+  #antibioticos{
+    width: 100%;
+  }
+}

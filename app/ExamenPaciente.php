@@ -68,5 +68,11 @@ class ExamenPaciente extends Model
     {
         return $this->belongsToMany('App\Exam_detail', 'results')->withPivot(['result', 'observation', 'protozoarios_type_id', 'spermogram_modality_id']);
     }
+    /**
+     * Registro de Antibioticos
+     */
+    public function registro_antibioticos(){
+        return $this->hasMany('App\Register_antibiotico');
+    }
 
 }

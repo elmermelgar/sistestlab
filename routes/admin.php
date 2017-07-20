@@ -144,5 +144,5 @@ Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes
     Route::get('{id_ex}/{id_xp}/complete', 'ResultadosController@complete');
     Route::post('store/results', 'ResultadosController@results');
     Route::get('/ticket/{id_ex}/{id_xp}', 'ResultadosController@ticket');
-
+    Route::post('storeantibiotico', 'AntibioticosController@storeantibiotico');
 });

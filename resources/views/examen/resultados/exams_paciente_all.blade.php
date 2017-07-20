@@ -8,7 +8,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('/results/invoice/')}}">Boletas Pendientes</a></li>
+            <li><strong style="color: #0b97c4">Todas las Boletas</strong></li>
             {{--<li>{{$detail? $detail->name_detail:'Nuevo'}}</li>--}}
         </ol>
         {{--<a href="{{ url('examenes/'.$examen->id) }}"--}}
@@ -33,9 +33,8 @@
             <h3>Boletas de Examenes de la Sucursal: {{ Auth::user()->sucursal->display_name }} </h3>
             {{--<h2>Null</h2>--}}
 
-            <a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" data-toggle="modal"
-               data-target=".bs-example-modal-sm">
-                [<i class="fa fa-print" aria-hidden="true"></i>] Boletas Listas
+            <a href="{{ url('/results/invoice')}}" style="float: right; margin-top: -35px" class="btn btn-sm bg-purple" >
+                <i class="fa fa-warning" aria-hidden="true"></i> Boletas Pendientes
             </a>
 
             <div class="clearfix"></div>
