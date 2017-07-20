@@ -94,4 +94,13 @@ class User extends Authenticatable implements CanResetPassword
     {
         $this->notify(new ResetPassword($token));
     }
+
+    //Busqueda de usuarios
+    public function scopeFilter($query, $email)
+    {
+        if (trim($email) != "") {
+            $query->where('email', "~*", $email);
+        }
+    }
+
 }

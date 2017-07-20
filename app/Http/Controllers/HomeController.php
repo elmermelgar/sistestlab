@@ -56,4 +56,14 @@ class HomeController extends Controller
         dump($request->all());
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function menu(Request $request)
+    {
+        session(['minimize' => $request->minimize === 'true' ? true : false]);
+        return response(['ok' => $request->minimize], 200);
+    }
+
 }

@@ -60,7 +60,7 @@
                         <td>{{$factura->total}}</td>
                         <td>
                             <a target="_blank" href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
-                               title="Ver Factura"><span class="fa fa-eye"></span></a>
+                               title="Ver Factura"><i class="fa fa-eye"></i></a>
                         </td>
                     </tr>
                 @endforeach

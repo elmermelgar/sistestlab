@@ -76,7 +76,7 @@
                             <td>
                                 <a href="{{route('credito_fiscal_show',['id'=>$credito_fiscal->id])}}"
                                    class="btn btn-success"
-                                   title="Ver Crédito Fiscal"><span class="fa fa-eye"></span></a>
+                                   title="Ver Crédito Fiscal"><i class="fa fa-eye"></i></a>
                             </td>
                         </tr>
                     @endforeach

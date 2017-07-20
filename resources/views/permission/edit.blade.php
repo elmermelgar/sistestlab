@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/home')}}"><span class="fa fa-home"></span></a></li>
+            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('permisos')}}">Permisos</a></li>
             <li>Editar Permiso</li>
         </ol>

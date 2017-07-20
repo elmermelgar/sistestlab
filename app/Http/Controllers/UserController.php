@@ -32,11 +32,12 @@ class UserController extends Controller
 
     /**
      * Lista de usuarios del sistema
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
+        $users = User::filter($request->email)->orderByRaw('last_login desc nulls last')->paginate(10);
         return view('user.index', ['users' => $users]);
     }
 
@@ -77,7 +78,7 @@ class UserController extends Controller
     {
         $id ? null : $id = Auth::id();
         if ($user = User::find($id)) {
-            if($user->cliente){
+            if ($user->cliente) {
                 Notify::warning('Este usuario pertenece a un cliente; 
                 para actualizar datos deberá editar el registro de cliente.');
                 return back();
@@ -101,8 +102,8 @@ class UserController extends Controller
         if ($request->id && $user = User::find($request->id)) {
             $user->update($request->except(['id', '_token']));
         } else {
-            $aleat=Uuid::uuid4();
-            $request->merge(['password'=>$aleat,'password_confirmation'=>$aleat]);
+            $aleat = Uuid::uuid4();
+            $request->merge(['password' => $aleat, 'password_confirmation' => $aleat]);
             $this->userService->validator($request->all())->validate();
             $user = User::create($request->except(['id', '_token']));
             $this->userService->sendResetLink($user);
@@ -113,7 +114,7 @@ class UserController extends Controller
         if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
             $this->userService->storageAvatar($request->file('avatar'), $user);
         }
-        return redirect()->action('UserController@show',['id'=>$user->id]);
+        return redirect()->action('UserController@show', ['id' => $user->id]);
     }
 
     /**
@@ -124,7 +125,7 @@ class UserController extends Controller
     public function disable(Request $request)
     {
         if ($request->user_id) {
-            if($this->userService->disable($request->user_id)){
+            if ($this->userService->disable($request->user_id)) {
                 Notify::success('Se deshabilitó al usuario');
                 return redirect()->back();
             }
@@ -141,7 +142,7 @@ class UserController extends Controller
     public function enable(Request $request)
     {
         if ($request->user_id) {
-            if($this->userService->enable($request->user_id)){
+            if ($this->userService->enable($request->user_id)) {
                 Notify::success('Se habilitó al usuario');
                 return redirect()->back();
             }

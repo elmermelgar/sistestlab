@@ -54,7 +54,7 @@
                         <td>{{$cliente->total}}</td>
                         <td>
                             <a href="{{ route('credito_fiscal_create',['cliente_id'=>$cliente->id] )}}"
-                               title="Otorgar Crédito Fiscal"><span class="fa fa-arrow-right fa-2x"></span></a>
+                               title="Otorgar Crédito Fiscal"><i class="fa fa-arrow-right fa-2x"></i></a>
                         </td>
                     </tr>
                 @endforeach

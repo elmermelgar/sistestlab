@@ -18,7 +18,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/inicio')}}">
-                    <span class="fa fa-home"></span>
+                    <i class="fa fa-home"></i>
                 </a></li>
             <li>Inventario</li>
             <li>Activos</li>

@@ -104,7 +104,7 @@
                             <input class="form-control has-feedback-left" id="fecha_nacimiento" name="fecha_nacimiento"
                                    placeholder="Fecha de nacimiento" required
                                    value="{{$paciente? $paciente->fecha_nacimiento:old('fecha_nacimiento')}}">
-                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                            <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
                         </div>
                     </div>
                     <div class="form-group">

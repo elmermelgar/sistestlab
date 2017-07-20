@@ -71,11 +71,11 @@
                         <td>{{$paciente->telefono}}</td>
                         <td>
                             <a href="{{ url('pacientes/'.$paciente->id )}}"
-                               class="btn btn-success btn-sm" title="Ver Paciente"><span
-                                        class="fa fa-eye"></span></a>
+                               class="btn btn-success btn-sm" title="Ver Paciente"><i
+                                        class="fa fa-eye"></i></a>
                             <a href="{{ url('pacientes/'. $paciente->id.'/edit' )  }}"
-                               class="btn btn-primary btn-sm" title="Editar Paciente"><span
-                                        class="fa fa-edit"></span></a>
+                               class="btn btn-primary btn-sm" title="Editar Paciente"><i
+                                        class="fa fa-edit"></i></a>
                         </td>
                     </tr>
                 @endforeach

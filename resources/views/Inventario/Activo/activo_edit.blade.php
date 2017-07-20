@@ -15,7 +15,7 @@
                 <div class="title_left">
                     <ol class="breadcrumb">
                         <li><a href="{{ url('/inicio')}}">
-                                <span class="fa fa-home"></span>
+                                <i class="fa fa-home"></i>
                             </a></li>
                         <li><a href="{{ route('activo.index')}}">Activos
                             </a></li></li>

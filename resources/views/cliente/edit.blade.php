@@ -223,7 +223,7 @@
                                        name="fecha_nacimiento"
                                        placeholder="Fecha de nacimiento" required disabled
                                        value="{{$paciente? $paciente->fecha_nacimiento:old('fecha_nacimiento')}}">
-                                <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                                <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
                             </div>
                         </div>
 

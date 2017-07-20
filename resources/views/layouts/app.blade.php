@@ -147,7 +147,7 @@
                                 {{url('/storage/photos/'. 'user.png')}}
                                 @endif "
                                      alt=""> {{Auth::user()->name.' '.Auth::user()->surname}}
-                                <span class=" fa fa-angle-down"></span>
+                                <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li><a href="{{url('usuario/perfil')}}"> Perfil</a></li>
@@ -260,6 +260,13 @@
 @yield('scripts')
 <!-- Custom Theme Scripts -->
 <script src="{{url('gentallela/build/js/custom.js')}}"></script>
+@if(session('minimize'))
+    <script>
+        $(document).ready(function () {
+            menu_minimize();
+        })
+    </script>
+@endif
 
 @yield('script-codigo')
 
