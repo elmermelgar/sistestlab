@@ -129,7 +129,7 @@
         </div>
 
         <!-- top navigation -->
-        <div class="top_nav">
+        <div class="top_nav" id="top-nav">
             <div class="nav_menu">
                 <nav class="" role="navigation">
                     <div class="nav toggle">
@@ -227,7 +227,7 @@
         <!-- /page content -->
 
         <!-- footer content -->
-        <footer>
+        <footer id="footer">
             <div class="pull-right">
                 Derechos reservados <a href="#" target="_blank">Testlab</a>
             </div>
