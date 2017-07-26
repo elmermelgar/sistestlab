@@ -57,11 +57,11 @@
                             <td>{{$recolector->apellido}}</td>
                             <td>
                                 <a href="{{ url('recolectores/'.$recolector->id )}}"
-                                   class="btn btn-success btn-sm" title="Ver Recolector"><span
-                                            class="fa fa-eye"></span></a>
+                                   class="btn btn-success btn-sm" title="Ver Recolector"><i
+                                            class="fa fa-eye"></i></a>
                                 <a href="{{ url('recolectores/'. $recolector->id.'/edit' )  }}"
-                                   class="btn btn-primary btn-sm" title="Editar Recolector"><span
-                                            class="fa fa-edit"></span></a>
+                                   class="btn btn-primary btn-sm" title="Editar Recolector"><i
+                                            class="fa fa-edit"></i></a>
                             </td>
                         </tr>
                     @endforeach

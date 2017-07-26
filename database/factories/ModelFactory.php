@@ -79,6 +79,6 @@ $factory->define(App\Paciente::class, function (Faker\Generator $faker) {
         'apellido' => $faker->lastName,
         'telefono' => $faker->randomNumber(8),
         'fecha_nacimiento' => $faker->date('Y-m-d', 'now'),
-        'genero' => $faker->randomElement(['M', 'F']),
+        'sexo' => $faker->randomElement(['M', 'F']),
     ];
 });

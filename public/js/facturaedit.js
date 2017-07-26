@@ -75,7 +75,7 @@ $(document).ready(function () {
 
         markup += "<div class='select2-result-repository__description'>";
         (repo.dui !== '') ? markup += "DUI: " + repo.dui + " " : null;
-        markup += "Genero: " + repo.genero + "</div>";
+        markup += "Sexo: " + repo.sexo + "</div>";
 
         return markup;
     }
@@ -83,7 +83,7 @@ $(document).ready(function () {
     function formatRepoSelectionPaciente(repo) {
         $('#modal_nombre').val(repo.full_name);
         $('#modal_edad').val(repo.edad);
-        $('#modal_genero').val(repo.genero);
+        $('#modal_sexo').val(repo.sexo);
         return repo.full_name || repo.text;
     }
 
@@ -91,7 +91,7 @@ $(document).ready(function () {
         placeholder: 'Seleccione un cliente',
         ajax: {
 //                    url: "https://api.github.com/search/repositories",
-            url: "/facturas/search/customer",
+            url: "/search/customer",
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -140,7 +140,7 @@ $(document).ready(function () {
         placeholder: 'Seleccione un examen o perfil',
         ajax: {
 //                    url: "https://api.github.com/search/repositories",
-            url: "/facturas/search/profile",
+            url: "/search/profile",
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -190,7 +190,7 @@ $(document).ready(function () {
         placeholder: 'Seleccione un paciente',
         ajax: {
 //                    url: "https://api.github.com/search/repositories",
-            url: "/facturas/search/paciente",
+            url: "/search/paciente",
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -243,7 +243,7 @@ $(document).ready(function () {
         var numero_boleta = $('#modal_numero_boleta').val();
         var nombre = $('#modal_nombre').val();
         var edad = $('#modal_edad').val();
-        var genero = $('#modal_genero').val();
+        var sexo = $('#modal_sexo').val();
         $('#modal_close').click();
 
         var profile = profile_name + " " + profile_display_name +
@@ -253,7 +253,7 @@ $(document).ready(function () {
             "<input name='numero_boleta[]' value='" + numero_boleta + "'>" +
             "<input name='paciente_nombre[]' value='" + nombre + "'>" +
             "<input name='paciente_edad[]' value='" + edad + "'>" +
-            "<input name='paciente_genero[]' value='" + genero + "'>";
+            "<input name='paciente_sexo[]' value='" + sexo + "'>";
         if (paciente_id) {
             profile += "<input name='paciente_id[]' value='" + paciente_id + "'>" + "</div>";
         }
@@ -261,7 +261,7 @@ $(document).ready(function () {
             profile += "<input name='paciente_id[]'>" + "</div>";
         }
 
-        var paciente = nombre + " " + edad + " " + genero + " Boleta: " + numero_boleta;
+        var paciente = nombre + " " + edad + " " + sexo + " Boleta: " + numero_boleta;
 
         var del = "<div class='btn btn-danger delete'><i class='fa fa-times'></i> </div>";
 
@@ -270,9 +270,9 @@ $(document).ready(function () {
         event.preventDefault();
     });
 
-    if ($("#modal_genero").is('select')) {
-        $("#modal_genero").select2({
-            placeholder: "Seleccione género",
+    if ($("#modal_sexo").is('select')) {
+        $("#modal_sexo").select2({
+            placeholder: "Seleccione sexo",
             minimumResultsForSearch: Infinity
         });
     }

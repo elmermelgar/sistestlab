@@ -31,7 +31,7 @@ class BoxRegistry extends Model
      * @var array
      */
     protected $fillable = [
-        'sucursal_id', 'user_id', 'state', 'cash', 'debit', 'debt'
+        'sucursal_id', 'user_id', 'state', 'cash', 'debit', 'debt', 'cost'
     ];
 
     /**

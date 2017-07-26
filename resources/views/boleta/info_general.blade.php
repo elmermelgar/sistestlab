@@ -12,7 +12,7 @@
             </tr>
             <tr>
                 <th style="line-height: 5px;">Sexo:</th>
-                <td style="line-height: 5px;">@if($examen_paciente->paciente_id==null) @if($examen_paciente->paciente_genero=='M')Masculino @else Femenino @endif @endif</td>
+                <td style="line-height: 5px;">@if($examen_paciente->paciente_id==null) @if($examen_paciente->paciente_sexo=='M')Masculino @else Femenino @endif @endif</td>
                 <th style="line-height: 5px;">N° Boleta:</th>
                 <td style="line-height: 5px;"> {{ $examen_paciente->numero_boleta }}</td>
             </tr>

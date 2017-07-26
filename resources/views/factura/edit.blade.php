@@ -57,13 +57,13 @@
                                             <input type="hidden" name='numero_boleta[]'>
                                             <input type="hidden" name='paciente_nombre[]'>
                                             <input type="hidden" name='paciente_edad[]'>
-                                            <input type="hidden" name='paciente_genero[]'>
+                                            <input type="hidden" name='paciente_sexo[]'>
                                         </div>
                                     </td>
                                     <td>
                                         {{$perfil->examen_paciente->first()->paciente_nombre}}
                                         {{$perfil->examen_paciente->first()->paciente_edad}}
-                                        {{$perfil->examen_paciente->first()->paciente_genero}}
+                                        {{$perfil->examen_paciente->first()->paciente_sexo}}
                                         Boleta: {{$perfil->examen_paciente->first()->numero_boleta}}
                                     </td>
                                     <td>{{$perfil->price}}</td>

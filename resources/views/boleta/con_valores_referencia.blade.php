@@ -31,7 +31,7 @@ $cuenta3 = count($result3);
                     @if($ref)
                         @foreach($ref as $r)
                             @if($examen_paciente->paciente_edad!=null)
-                                @if($examen_paciente->paciente_genero=='M')
+                                @if($examen_paciente->paciente_sexo=='M')
                                     @if($r->gender=='Masculino')
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->unidades }}
@@ -41,7 +41,7 @@ $cuenta3 = count($result3);
                                     @endif
                                 @endif
 
-                                @if($examen_paciente->paciente_genero=='F')
+                                @if($examen_paciente->paciente_sexo=='F')
                                     @if($r->gender=='Femenino')
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->unidades }}
@@ -65,7 +65,7 @@ $cuenta3 = count($result3);
                     @if($ref)
                         @foreach($ref as $r)
                             @if($examen_paciente->paciente_edad!=null)
-                                @if($examen_paciente->paciente_genero=='M')
+                                @if($examen_paciente->paciente_sexo=='M')
                                     @if($r->gender=='Masculino')
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->value }}
@@ -76,7 +76,7 @@ $cuenta3 = count($result3);
 
                                 @endif
 
-                                @if($examen_paciente->paciente_genero=='F')
+                                @if($examen_paciente->paciente_sexo=='F')
                                     @if($r->gender=='Femenino')
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->value }}

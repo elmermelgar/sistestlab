@@ -66,7 +66,7 @@ class ProfileController extends Controller
     {
         if ($perfil = Profile::find($id)) {
             if ($perfil->type == self::EXAMEN) {
-                Notify::warning('Esté es el perfil de un examen, para actualizalo edite el examen correspondiente');
+                Notify::warning('Esté es el perfil de un examen, para actualizarlo edite el examen correspondiente');
                 return back();
             }
             return view('perfil.edit', [

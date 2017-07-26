@@ -198,17 +198,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="genero" class="control-label col-md-4 col-sm-4 col-xs-12"> Género
+                            <label for="sexo" class="control-label col-md-4 col-sm-4 col-xs-12"> Sexo
                                 <span class="required">*</span>
                             </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <select id="genero" name="genero" class="form-control" required disabled>
+                                <select id="sexo" name="sexo" class="form-control" required disabled>
                                     <option value="Masculino"
-                                            @if($paciente? $paciente->genero=="Masculino":null) selected @endif>
+                                            @if($paciente? $paciente->sexo=="Masculino":null) selected @endif>
                                         Masculino
                                     </option>
                                     <option value="Femenino"
-                                            @if($paciente? $paciente->genero=="Femenino":null) selected @endif>Femenino
+                                            @if($paciente? $paciente->sexo=="Femenino":null) selected @endif>Femenino
                                     </option>
                                 </select>
                             </div>

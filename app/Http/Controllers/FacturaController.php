@@ -48,7 +48,7 @@ class FacturaController extends Controller
         if ($request->numero) {
             $query_factura = $query_factura->filter($request->get('numero'));
         } else {
-            $query_factura = $query_factura->orderBy('created_at', 'desc');
+            $query_factura = $query_factura->orderBy('date', 'desc')->orderBy('time', 'desc');
         }
         return view('factura.index', [
             'facturas' => $query_factura->paginate(10),
@@ -165,6 +165,8 @@ class FacturaController extends Controller
                 ->update(['estado_id' => $estado_facturado->id]);
 
             Payment::create($request->only(['sucursal_id', 'factura_id', 'amount', 'type']));
+            $factura->date = Carbon::now();
+            $factura->time = Carbon::now();
             $factura->update($request->all());
 
             Notify::success('Facturación completa');
@@ -204,7 +206,7 @@ class FacturaController extends Controller
             $numero_boletas = $request->numero_boleta;
             $paciente_nombres = $request->paciente_nombre;
             $paciente_edades = $request->paciente_edad;
-            $paciente_generos = $request->paciente_genero;
+            $paciente_sexos = $request->paciente_sexo;
 
             /**
              * Elimina de la base de datos los perfiles, asociados previamente,
@@ -244,11 +246,11 @@ class FacturaController extends Controller
                             $examen_paciente->paciente_id = $paciente->id;
                             $examen_paciente->paciente_nombre = $paciente->getFullName();
                             $examen_paciente->paciente_edad = Carbon::parse($paciente->fecha_nacimiento)->age;
-                            $examen_paciente->paciente_genero = $paciente->genero;
+                            $examen_paciente->paciente_sexo = $paciente->sexo;
                         } else {
                             $examen_paciente->paciente_nombre = $paciente_nombres[$key];
                             $examen_paciente->paciente_edad = $paciente_edades[$key];
-                            $examen_paciente->paciente_genero = $paciente_generos[$key];
+                            $examen_paciente->paciente_sexo = $paciente_sexos[$key];
                         }
                         $examen_paciente->save();
                     }
@@ -324,87 +326,6 @@ class FacturaController extends Controller
             return redirect()->action("FacturaController@show", ['id' => $request->factura_id]);
         }
         return abort(404);
-    }
-
-    /**
-     * Busca y retorna a los clientes que coincidan con la razon social especificada
-     * Retorna una cadena json para ser usada con Select2 AJAX
-     * @param Request $request
-     * @return string
-     */
-    public function searchCustomer(Request $request)
-    {
-        try {
-            //$razon_social = Input::get('razon_social');
-            $cliente = Cliente::where('razon_social', '~*', $request->razon_social)->get();
-            $resultado = [
-                "total_count" => count($cliente),
-                "incomplete_results" => false,
-                "items" => $cliente,
-            ];
-        } catch (\Exception $e) {
-            $resultado = [
-                "total_count" => 0,
-                "incomplete_results" => true,
-                "items" => [],
-            ];
-        }
-        return json_encode($resultado);
-    }
-
-    /**
-     * Busca y retorna a los perfiles de examenes que coincidan con nombre especificado
-     * Retorna una cadena json para ser usada con Select2 AJAX
-     * @param Request $request
-     * @return string
-     */
-    public function searchProfile(Request $request)
-    {
-        try {
-            $perfil = Profile::select(['id', 'name', 'display_name', 'type', 'description', 'price'])
-                ->where('display_name', '~*', $request->display_name)
-                ->where('sucursal_id', $request->sucursal_id)
-                ->where('enabled', true)
-                ->join('profile_sucursal', 'profiles.id', '=', 'profile_sucursal.profile_id')
-                ->get();
-            $resultado = [
-                "total_count" => count($perfil),
-                "incomplete_results" => false,
-                "items" => $perfil,
-            ];
-        } catch (\Exception $e) {
-            $resultado = [
-                "total_count" => 0,
-                "incomplete_results" => true,
-                "items" => [],
-            ];
-        }
-        return json_encode($resultado);
-    }
-
-    /**
-     * Busca y retorna a los clientes que coincidan con nombre especificado
-     * Retorna una cadena json para ser usada con Select2 AJAX
-     * @param Request $request
-     * @return string
-     */
-    public function searchPaciente(Request $request)
-    {
-        try {
-            $pacientes = DB::table('pacientes_vw')->where('full_name', '~*', $request->full_name)->get();
-            $resultado = [
-                "total_count" => count($pacientes),
-                "incomplete_results" => false,
-                "items" => $pacientes,
-            ];
-        } catch (\Exception $e) {
-            $resultado = [
-                "total_count" => 0,
-                "incomplete_results" => true,
-                "items" => [],
-            ];
-        }
-        return json_encode($resultado);
     }
 
 }

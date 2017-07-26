@@ -64,7 +64,7 @@ class ExamController extends Controller
 
     public function create()
     {
-        $estado = Estado::all();
+        $estado = Estado::where('tipo', 'examen')->get();
         $samples = Sample::all();
         $categories = Exam_category::all();
         return view('examen.edit', [

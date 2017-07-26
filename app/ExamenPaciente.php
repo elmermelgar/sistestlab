@@ -17,7 +17,7 @@ class ExamenPaciente extends Model
      * @var array
      */
     protected $fillable = [
-        'exam_id', 'invoice_profile_id', 'paciente_id', 'profesional_id', 'paciente_nombre', 'paciente_genero', 'paciente_edad',
+        'exam_id', 'invoice_profile_id', 'paciente_id', 'profesional_id', 'paciente_nombre', 'paciente_sexo', 'paciente_edad',
         'numero_boleta', 'medico', 'observacion',
     ];
 

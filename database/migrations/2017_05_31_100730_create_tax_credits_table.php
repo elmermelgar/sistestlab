@@ -19,7 +19,8 @@ class CreateTaxCreditsTable extends Migration
             $table->string('numero', 8);
             $table->decimal('total')->default(0);
             $table->boolean('closed')->default(false);
-            $table->timestamps();
+            $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

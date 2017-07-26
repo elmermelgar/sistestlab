@@ -48,9 +48,6 @@ Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], 
     Route::get('create/{origen?}', 'FacturaController@create')->where('origen', 'origen');
     Route::get('{id}', 'FacturaController@show');
     Route::get('{id}/edit', 'FacturaController@edit')->name('factura_edit');
-    Route::get('search/customer', 'FacturaController@searchCustomer');
-    Route::get('search/profile', 'FacturaController@searchProfile');
-    Route::get('search/paciente', 'FacturaController@searchPaciente');
     Route::post('store', 'FacturaController@store');
     Route::post('annul', 'FacturaController@annul')->name('factura_annul');
     Route::post('{id}/facturar', 'FacturaController@facturar');
@@ -65,4 +62,10 @@ Route::group(['prefix' => 'creditofiscal', 'middleware' => ['permission:credito_
     Route::get('{id}/edit', 'CreditoFiscalController@edit')->name('credito_fiscal_edit');
     Route::post('store', 'CreditoFiscalController@store')->name('credito_fiscal_store');
     Route::post('close', 'CreditoFiscalController@close')->name('credito_fiscal_close');
+});
+
+Route::group(['prefix' => 'search', 'middleware' => ['permission:facturar']], function () {
+    Route::get('customer', 'SearchController@searchCustomer');
+    Route::get('profile', 'SearchController@searchProfile');
+    Route::get('paciente', 'SearchController@searchPaciente');
 });

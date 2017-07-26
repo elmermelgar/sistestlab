@@ -42,6 +42,7 @@
                     <th data-field="efectivo" data-sortable="true">Efectivo</th>
                     <th data-field="debito" data-sortable="true">Débito</th>
                     <th data-field="credito" data-sortable="true">Deuda</th>
+                    <th data-field="costo" data-sortable="true">Cost</th>
                     <th data-field="user" data-sortable="true">Usuario</th>
                 </tr>
                 </thead>
@@ -50,7 +51,7 @@
                 @foreach($registros as $registro)
                     <tr>
                         <td rowspan="2">{{$registro['opening']->date}}</td>
-                        <td rowspan="2">{{number_format(0,2)}}</td>
+                        <td rowspan="2">{{number_format($registro['sale'],2)}}</td>
                         <td>{{$registro['opening']->time}}</td>
                         <td>
                             @if($registro['opening']->state) Abierta
@@ -60,6 +61,7 @@
                         <td>{{$registro['opening']->cash}}</td>
                         <td>{{$registro['opening']->debit}}</td>
                         <td>{{$registro['opening']->debt}}</td>
+                        <td>{{$registro['opening']->cost}}</td>
                         <td>{{$registro['opening']->user? $registro['opening']->user->getFullName():'Sistema'}}</td>
                     </tr>
 
@@ -74,10 +76,12 @@
                             <td>{{$registro['closing']->cash}}</td>
                             <td>{{$registro['closing']->debit}}</td>
                             <td>{{$registro['closing']->debt}}</td>
+                            <td>{{$registro['closing']->cost}}</td>
                             <td>{{$registro['closing']->user? $registro['closing']->user->getFullName():'Sistema'}}</td>
                         </tr>
                     @else
                         <tr>
+                            <td>--</td>
                             <td>--</td>
                             <td>--</td>
                             <td>--</td>

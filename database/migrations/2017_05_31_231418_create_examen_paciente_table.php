@@ -21,7 +21,7 @@ class CreateExamenPacienteTable extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('estado_id')->nullable();
             $table->string('paciente_nombre')->nullable();
-            $table->string('paciente_genero', 1)->nullable();
+            $table->string('paciente_sexo', 1)->nullable();
             $table->integer('paciente_edad')->nullable();
             $table->string('numero_boleta', 8);
             $table->string('medico')->nullable();

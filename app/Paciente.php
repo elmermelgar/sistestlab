@@ -14,7 +14,7 @@ class Paciente extends Model
      */
     protected $fillable = [
         'dui', 'nombre', 'apellido', 'fecha_nacimiento', 'direccion', 'telefono',
-        'genero', 'email', 'profesion', 'observacion', 'procedencia',
+        'sexo', 'email', 'profesion', 'observacion', 'procedencia',
     ];
 
     /**

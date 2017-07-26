@@ -60,7 +60,8 @@
         </div>
     </div>
     <div class="col-sm-offset-1 col-sm-3 factura-hora">
-        <p><strong>Fecha y Hora:</strong> {{$factura? $factura->created_at:\Carbon\Carbon::now()->toDateTimeString()}}
+        <p><strong>Fecha y Hora:</strong> {{$factura? $factura->date.' '.$factura->time:
+        \Carbon\Carbon::now()->toDateTimeString()}}
         </p>
         <p><strong>Condición de pago:</strong> {{$factura? $factura->condicion:null}}</p>
     </div>

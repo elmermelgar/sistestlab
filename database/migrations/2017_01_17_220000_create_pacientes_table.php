@@ -21,7 +21,7 @@ class CreatePacientesTable extends Migration
             $table->string('apellido');
             $table->date('fecha_nacimiento');
             $table->string('direccion')->nullable();
-            $table->string('genero', 12);
+            $table->string('sexo', 1);
             $table->string('telefono', 8);
             $table->string('email')->nullable();
             $table->string('profesion')->nullable();
@@ -42,7 +42,7 @@ class CreatePacientesTable extends Migration
 
         DB::statement('
         create or replace view pacientes_vw as
-        select p.id, p.nombre||\' \'||p.apellido full_name, p.dui, p.genero, 
+        select p.id, p.nombre||\' \'||p.apellido full_name, p.dui, p.sexo, 
         extract(year from age(fecha_nacimiento)) edad from pacientes p;
         ');
     }

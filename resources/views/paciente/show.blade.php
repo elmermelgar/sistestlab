@@ -45,7 +45,7 @@
                         Documento de identidad: <strong>{{$paciente->dui}}</strong>
                     </li>
                     <li><i class="fa fa-genderless fa-fw user-profile-icon"></i>
-                        Genero: <strong>{{$paciente->genero}}</strong>
+                        Sexo: <strong>{{$paciente->sexo}}</strong>
                     </li>
                     <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
                         Nacimiento: <strong>{{$paciente->fecha_nacimiento}}

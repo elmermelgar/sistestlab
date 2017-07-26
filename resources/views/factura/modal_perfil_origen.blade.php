@@ -41,10 +41,10 @@
                                min="0" max="120" style="width: 100%" required>
                     </div>
                     <div class="form-group">
-                        <label for="modal_genero">Género del paciente</label>
-                        <select id="modal_genero" name="modal_genero" class="form-control"
+                        <label for="modal_sexo">Sexo del paciente</label>
+                        <select id="modal_sexo" name="modal_sexo" class="form-control"
                                 style="width: 100%" required>
-                            <option value="" disabled selected>Seleccione género</option>
+                            <option value="" disabled selected>Seleccione sexo</option>
                             <option value="F">Femenino</option>
                             <option value="M">Masculino</option>
                         </select>

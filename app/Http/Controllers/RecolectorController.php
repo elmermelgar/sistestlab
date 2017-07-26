@@ -41,7 +41,7 @@ class RecolectorController extends Controller
         if ($recolector = Recolector::find($id)) {
             $mes = Carbon::now()->startOfMonth()->toDateString();
             $recolecciones = Factura::where('recolector_id', $recolector->id)
-                ->whereDate('created_at', Carbon::now())->get();
+                ->whereDate('date', Carbon::now()->toDateString())->get();
             $bonos_aplicados = $recolector->bonos()->where('date', '>=', $mes)->get();
             setlocale(LC_TIME, 'es_SV.UTF-8', 'es');
             return view('recolector.show', [

@@ -36,7 +36,7 @@ class SucursalSeeder extends Seeder
         $cliente_san_salvador=new \App\Cliente();
         $cliente_san_salvador->persona_juridica=true;
         $cliente_san_salvador->centro_origen=true;
-        $cliente_san_salvador->razon_social='TestLab S.A. de C.V.';
+        $cliente_san_salvador->razon_social='TestLab S.A. de C.V. (San Salvador)';
         $cliente_san_salvador->nit='10010105811024';
         $cliente_san_salvador->nrc='2393604';
         $cliente_san_salvador->telefono='22222222';
@@ -47,7 +47,7 @@ class SucursalSeeder extends Seeder
         $cliente_apastepeque=new \App\Cliente();
         $cliente_apastepeque->persona_juridica=true;
         $cliente_apastepeque->centro_origen=true;
-        $cliente_apastepeque->razon_social='TestLab S.A. de C.V.';
+        $cliente_apastepeque->razon_social='TestLab S.A. de C.V. (Apastepeque)';
         $cliente_apastepeque->nit='10010105811024';
         $cliente_apastepeque->nrc='2393604';
         $cliente_apastepeque->telefono='22222222';
@@ -57,7 +57,7 @@ class SucursalSeeder extends Seeder
         $cliente_santa_clara=new \App\Cliente();
         $cliente_santa_clara->persona_juridica=true;
         $cliente_santa_clara->centro_origen=true;
-        $cliente_santa_clara->razon_social='TestLab S.A. de C.V.';
+        $cliente_santa_clara->razon_social='TestLab S.A. de C.V. (Santa Clara)';
         $cliente_santa_clara->nit='10010105811024';
         $cliente_santa_clara->nrc='2393604';
         $cliente_santa_clara->telefono='22222222';

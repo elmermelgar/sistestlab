@@ -113,6 +113,10 @@
                         <td>{{isset($caja['debt'])? number_format($caja['debt'],2):'--'}}</td>
                     </tr>
                     <tr>
+                        <th>Costo (USD)</th>
+                        <td>{{isset($caja['cost'])? number_format($caja['cost'],2):'--'}}</td>
+                    </tr>
+                    <tr>
                         <th>Abierta en</th>
                         <td>{{$caja['opening']? $caja['opening']->time:'--'}}</td>
                     </tr>
@@ -165,6 +169,7 @@
                         <th data-field="efectivo" data-sortable="true">Efectivo</th>
                         <th data-field="debito" data-sortable="true">Débito</th>
                         <th data-field="credito" data-sortable="true">Deuda</th>
+                        <th data-field="costo" data-sortable="true">Costo</th>
                         <th data-field="user" data-sortable="true">Usuario</th>
                     </tr>
                     </thead>
@@ -183,6 +188,7 @@
                             <td>{{$registro['opening']->cash}}</td>
                             <td>{{$registro['opening']->debit}}</td>
                             <td>{{$registro['opening']->debt}}</td>
+                            <td>{{$registro['opening']->cost}}</td>
                             <td>{{$registro['opening']->user? $registro['opening']->user->getFullName():'Sistema'}}</td>
                         </tr>
 
@@ -197,10 +203,12 @@
                                 <td>{{$registro['closing']->cash}}</td>
                                 <td>{{$registro['closing']->debit}}</td>
                                 <td>{{$registro['closing']->debt}}</td>
+                                <td>{{$registro['closing']->cost}}</td>
                                 <td>{{$registro['closing']->user? $registro['closing']->user->getFullName():'Sistema'}}</td>
                             </tr>
                         @else
                             <tr>
+                                <td>--</td>
                                 <td>--</td>
                                 <td>--</td>
                                 <td>--</td>
@@ -271,6 +279,7 @@
                         <p><strong>Efectivo (USD): </strong>{{number_format($caja['cash'],2)}}</p>
                         <p><strong>Débito (USD): </strong>{{number_format($caja['debit'],2)}}</p>
                         <p><strong>Deuda (USD): </strong>{{number_format($caja['debt'],2)}}</p>
+                        <p><strong>Costo (USD): </strong>{{number_format($caja['cost'],2)}}</p>
                         <p>¿Está seguro de cerrar la caja?</p>
                     </div>
                     <div class="modal-footer">

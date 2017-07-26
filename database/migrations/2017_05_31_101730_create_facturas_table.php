@@ -24,13 +24,14 @@ class CreateFacturasTable extends Migration
             $table->string('numero', 8)->nullable();
             $table->decimal('total')->default(0);
             $table->boolean('credito_fiscal')->default(false);
+            $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('cliente_id')->references('id')->on('clientes');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('recolector_id')->references('id')->on('recolectores');
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('tax_credit_id')->references('id')->on('tax_credits');
-            $table->timestamps();
         });
     }
 

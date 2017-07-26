@@ -81,16 +81,16 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="genero" class="control-label col-md-3 col-sm-3 col-xs-12"> Género
+                        <label for="sexo" class="control-label col-md-3 col-sm-3 col-xs-12"> Sexo
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="genero" name="genero" class="form-control" required>
-                                <option value="Masculino"
-                                        @if($paciente? $paciente->genero=="Masculino":null) selected @endif>Masculino
+                            <select id="sexo" name="sexo" class="form-control" required>
+                                <option value="M"
+                                        @if($paciente? $paciente->sexo=="M":null) selected @endif>Masculino
                                 </option>
-                                <option value="Femenino"
-                                        @if($paciente? $paciente->genero=="Femenino":null) selected @endif>Femenino
+                                <option value="F"
+                                        @if($paciente? $paciente->sexo=="F":null) selected @endif>Femenino
                                 </option>
                             </select>
                         </div>
@@ -115,7 +115,8 @@
                             <select multiple id="cliente_id" name="cliente_id[]" class="form-control" required>
                                 @foreach($clientes as $cliente)
                                     <option value="{{$cliente->id}}"
-                                            @if($paciente? $paciente->clientes->find($cliente->id):null) selected @endif>{{$cliente->razon_social}}
+                                            @if($paciente? $paciente->clientes->find($cliente->id):null) selected
+                                            @endif>{{$cliente->razon_social}}
                                     </option>
                                 @endforeach
                             </select>
@@ -204,7 +205,7 @@
     <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
     <script type="application/javascript">
         moment.locale('es');
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('#cliente_id').SumoSelect({search: true, placeholder: 'Seleccione el cliente a asociar'});
             $('#fecha_nacimiento').daterangepicker({
                 singleDatePicker: true,

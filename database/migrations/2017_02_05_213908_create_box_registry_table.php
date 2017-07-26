@@ -22,6 +22,7 @@ class CreateBoxRegistryTable extends Migration
             $table->decimal('cash', 8, 2)->default(0);
             $table->decimal('debit', 8, 2)->default(0);
             $table->decimal('debt', 8, 2)->default(0);
+            $table->decimal('cost', 8, 2)->default(0);
             $table->primary(['sucursal_id', 'date', 'time']);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('user_id')->references('id')->on('users');

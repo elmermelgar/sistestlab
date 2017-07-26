@@ -31,7 +31,7 @@
                         <input type="hidden" id="modal_profile_price" name="modal_profile_price">
                         <input type="hidden" id="modal_nombre" name="modal_nombre">
                         <input type="hidden" id="modal_edad" name="modal_edad">
-                        <input type="hidden" id="modal_genero" name="modal_genero">
+                        <input type="hidden" id="modal_sexo" name="modal_sexo">
                     </div>
 
                     <div class="form-group">

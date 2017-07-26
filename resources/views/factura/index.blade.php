@@ -71,7 +71,7 @@
                             <td>{{$factura->numero}}</td>
                             <td>{{$factura->cliente->razon_social}}</td>
                             <td>{{$factura->user->getFullName()}}</td>
-                            <td>{{$factura->created_at}}</td>
+                            <td>{{$factura->date.' '.$factura->time}}</td>
                             <td>{{$factura->estado->display_name}}</td>
                             <td>{{$factura->total}}</td>
                             <td>

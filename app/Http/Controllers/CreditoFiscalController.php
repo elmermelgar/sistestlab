@@ -79,7 +79,8 @@ class CreditoFiscalController extends Controller
      */
     public function create($cliente_id)
     {
-        $facturas = Factura::where('tax_credit_id', null)->where('cliente_id', $cliente_id)->orderBy('created_at')->get();
+        $facturas = Factura::where('tax_credit_id', null)->where('cliente_id', $cliente_id)
+            ->orderBy('date')->orderBy('time')->get();
         return view('credito_fiscal.edit', [
             'credito_fiscal' => null,
             'sucursal' => Auth::user()->sucursal,
@@ -102,7 +103,7 @@ class CreditoFiscalController extends Controller
             }
             $cliente = $credito_fiscal->facturas()->first()->cliente;
             $facturas = Factura::where('tax_credit_id', null)->where('cliente_id', $cliente->id)
-                ->orWhere('tax_credit_id', $credito_fiscal->id)->orderBy('created_at')->get();
+                ->orWhere('tax_credit_id', $credito_fiscal->id)->orderBy('date')->orderBy('time')->get();
             return view('credito_fiscal.edit', [
                 'credito_fiscal' => $credito_fiscal,
                 'sucursal' => $credito_fiscal->user->sucursal,

@@ -15,7 +15,7 @@ $(document).ready(function () {
     var div_natural = $('#div_natural');
     var nombre = $('#nombre');
     var apellido = $('#apellido');
-    var genero = $('#genero');
+    var sexo = $('#sexo');
     var fecha_nacimiento = $('#fecha_nacimiento');
 
     fecha_nacimiento.daterangepicker({
@@ -49,22 +49,22 @@ $(document).ready(function () {
             div_paciente.removeClass('hidden');
             nombre.removeAttr('disabled');
             apellido.removeAttr('disabled');
-            genero.removeAttr('disabled');
+            sexo.removeAttr('disabled');
             fecha_nacimiento.removeAttr('disabled');
             nombre.attr('required', 'required');
             apellido.attr('required', 'required');
-            genero.attr('required', 'required');
+            sexo.attr('required', 'required');
             fecha_nacimiento.attr('required', 'required');
         }
         else {
             div_paciente.addClass('hidden');
             nombre.attr('disabled', 'disabled');
             apellido.attr('disabled', 'disabled');
-            genero.attr('disabled', 'disabled');
+            sexo.attr('disabled', 'disabled');
             fecha_nacimiento.attr('disabled', 'disabled');
             nombre.removeAttr('required');
             apellido.removeAttr('required');
-            genero.removeAttr('required');
+            sexo.removeAttr('required');
             fecha_nacimiento.removeAttr('required');
         }
     }

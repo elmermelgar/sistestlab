@@ -79,7 +79,8 @@ class SucursalService
                 'state' => self::CLOSED,
                 'cash' => $this->getCash($sucursal_id, $opening),
                 'debit' => $this->getDebit($sucursal_id, $opening),
-                'debt' => $this->getSale($sucursal_id, $opening) - $this->getPayment($sucursal_id, $opening)
+                'debt' => $this->getSale($sucursal_id, $opening) - $this->getPayment($sucursal_id, $opening),
+                'cost' => $this->getCost($sucursal_id, $opening)
             ]);
             return true;
         } else {
@@ -112,6 +113,7 @@ class SucursalService
             $caja['cash'] = $this->getCash($sucursal_id, $opening);
             $caja['debit'] = $this->getDebit($sucursal_id, $opening);
             $caja['debt'] = $caja['sale'] - $this->getPayment($sucursal_id, $opening);
+            $caja['cost'] = $this->getCost($sucursal_id, $opening);
         }
         return $caja;
     }
@@ -131,9 +133,11 @@ class SucursalService
             ->paginate($paginate, ['*'], 'page', $page)->all();
         $registro = [];
         $count = count($registros);
+
+//        DB::enableQueryLog();
+
         for ($i = 0; $i < $count; $i++) {
-            if ($i + 1 < $count && $registros[$i]->time > $registros[$i + 1]->time &&
-                $registros[$i]->state == \App\Services\SucursalService::CLOSED
+            if ($i + 1 < $count && $registros[$i]->state == \App\Services\SucursalService::CLOSED
             ) {
                 $registro[] = [
                     'closing' => $registros[$i],
@@ -148,6 +152,11 @@ class SucursalService
                 ];
             }
         }
+
+//        dump(
+//            DB::getQueryLog()
+//        );
+
         return $registro;
     }
 
@@ -194,8 +203,8 @@ class SucursalService
             ->where('time', '>=', $opening->time)
             ->where('time', '<=', $closing->time)
             ->where('type', Transaction::DEBIT)
-            ->selectRaw("sum(amount)")->first()->sum;
-        return $debit ? $debit : 0;
+            ->selectRaw("coalesce(sum(amount),0) debit")->first()->debit;
+        return $debit;
     }
 
     /**
@@ -213,11 +222,12 @@ class SucursalService
         }
         $payment = DB::table('transactions')
             ->where('sucursal_id', $sucursal_id)
+            ->where('amount', '>', 0)
             ->where('date', $opening->date)
             ->where('time', '>=', $opening->time)
             ->where('time', '<=', $closing->time)
-            ->selectRaw("sum(amount)")->first()->sum;
-        return $payment ? $payment : 0;
+            ->selectRaw("coalesce(sum(amount),0) payment")->first()->payment;
+        return $payment;
     }
 
     /**
@@ -229,19 +239,44 @@ class SucursalService
      */
     private function getSale($sucursal_id, BoxRegistry $opening, BoxRegistry $closing = null)
     {
-        $opening->time = Carbon::createFromFormat('Y-m-d H:i:s', "$opening->date $opening->time");
         if (is_null($closing)) {
             $closing = new BoxRegistry();
-            $closing->time = Carbon::now();
-        } else {
-            $closing->time = Carbon::createFromFormat('Y-m-d H:i:s', "$closing->date $closing->time");
+            $closing->date = Carbon::now()->toDateString();
+            $closing->time = Carbon::now()->toTimeString();
         }
         $sale = DB::table('facturas')
             ->where('sucursal_id', $sucursal_id)
-            ->where('updated_at', '>=', $opening->time)
-            ->where('updated_at', '<=', $closing->time)
-            ->selectRaw("sum(total)")->first()->sum;
-        return $sale ? $sale : 0;
+            ->where('date', '>=', $opening->date)
+            ->where('date', '<=', $closing->date)
+            ->where('time', '>=', $opening->time)
+            ->where('time', '<=', $closing->time)
+            ->selectRaw("coalesce(sum(total),0) sale")->first()->sale;
+        return $sale;
+    }
+
+    /**
+     * Obtiene el costo actual desde que la caja fue abierta
+     * @param $sucursal_id
+     * @param BoxRegistry $opening
+     * @param BoxRegistry $closing
+     * @return int
+     */
+    private function getCost($sucursal_id, BoxRegistry $opening, BoxRegistry $closing = null)
+    {
+        if (is_null($closing)) {
+            $closing = new BoxRegistry();
+            $closing->date = Carbon::now()->toDateString();
+            $closing->time = Carbon::now()->toTimeString();
+        }
+        $cost = DB::table('transactions')
+            ->where('sucursal_id', $sucursal_id)
+            ->where('amount', '<', 0)
+            ->where('date', '>=', $opening->date)
+            ->where('date', '<=', $closing->date)
+            ->where('time', '>=', $opening->time)
+            ->where('time', '<=', $closing->time)
+            ->selectRaw('coalesce(-1*sum(amount),0) "cost"')->first()->cost;
+        return $cost;
     }
 
 }

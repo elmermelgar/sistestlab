@@ -119,8 +119,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group" id="div_genero">
-                        <label for="genero" class="control-label col-md-3 col-sm-3 col-xs-12"> Tipo de Muestra
+                    <div class="form-group" id="div_sexo">
+                        <label for="sexo" class="control-label col-md-3 col-sm-3 col-xs-12"> Tipo de Muestra
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">

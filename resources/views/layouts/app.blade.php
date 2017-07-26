@@ -78,20 +78,8 @@
                         <h3>General</h3>
                         <ul class="nav side-menu">
                             <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Inicio</a></li>
-                            <li>
-                                <a>
-                                    <i class="fa fa-usd"></i>Facturar <span class="fa fa-chevron-down"></span>
-                                </a>
-                                <ul class="nav child_menu">
-                                    <li><a href="{{url('facturas/create')}}">Nueva Factura</a></li>
-                                    <li><a href="{{url('facturas/create/origen')}}">Nueva Factura
-                                            <br>(Centro de Origen)</a>
-                                    </li>
-                                    <li><a href="{{url('facturas')}}">Facturas</a></li>
-                                    <li><a href="{{route('credito_fiscal_customers')}}">Otorgar Crédito Fiscal</a></li>
-                                    <li><a href="{{route('credito_fiscal_index')}}">Crédito Fiscal</a></li>
-                                </ul>
-                            </li>
+                            @include('menu.transacciones')
+                            @include('menu.facturas')
                             {{--<li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>--}}
                             @include('menu.boletas')
                             @include('menu.laboratorio')
@@ -138,7 +126,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                            <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
                                 <img src="
                                 @if(Auth::user()->photo)
