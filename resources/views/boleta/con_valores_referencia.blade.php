@@ -5,29 +5,29 @@ $cuenta3 = count($result3);
 @endphp
 @if($con_v==1)
     <div class="row">
-        <table class="table table-striped">
+        <table class="table" id="imp_proto" style="margin-bottom: -23px; font-size: 12px">
             <thead>
-            <tr>
+            <tr id="tr_proto">
 
-                <th style="text-align: center">Parametro</th>
-                <th style="text-align: center">Resultado</th>
-                <th style="text-align: center">Unidades</th>
-                <th style="text-align: center">Valores de Referencia</th>
-                <th style="text-align: center">Observación</th>
+                <th style="line-height: 5px;">Parametro</th>
+                <th style="text-align: center; line-height: 0px;">Resultado</th>
+                <th style="text-align: center; line-height: 0px;">Unidades</th>
+                <th style="text-align: center; line-height: 0px;">Valores de Referencia</th>
+                <th style="text-align: center; line-height: 0px;">Observación</th>
             </tr>
             </thead>
             <tbody>
             @endif
-            <tr>
-                <td style="text-align: center">{{ $detail->name_detail }}</td>
+            <tr id="tr_proto" >
+                <td style="line-height: 0px; width: 25%;" id="imp_proto">{{ $detail->name_detail }}</td>
                 @php $result=DB::table('results')->where([
                                                                  ['exam_detail_id', '=', $detail->id],
                                                                     ['examen_paciente_id', '=', $examen_paciente->id],])->first();
                 $ref=DB::table('reference_values')->where([
                                                  ['exam_detail_id', '=', $detail->id],])->get();
                 @endphp
-                <td style="text-align: center">{{ $result->result }}</td>
-                <td style="text-align: center">
+                <td style="text-align: center; line-height: 0px;  width: 10%;" id="imp_proto">@if($result){{ $result->result }}@endif</td>
+                <td style="text-align: center; line-height: 0px;   width: 10%;" id="imp_proto">
                     @if($ref)
                         @foreach($ref as $r)
                             @if($examen_paciente->paciente_edad!=null)
@@ -36,6 +36,8 @@ $cuenta3 = count($result3);
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->unidades }}
                                         @endif
+                                    @else
+                                        {{ $r->unidades }}
                                     @endif
                                 @endif
 
@@ -44,7 +46,9 @@ $cuenta3 = count($result3);
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->unidades }}
                                         @endif
-                                    @endif
+                                        @else
+                                            {{ $r->unidades }}
+                                        @endif
                                 @endif
 
                             @else
@@ -57,7 +61,7 @@ $cuenta3 = count($result3);
                         ---
                     @endif
                 </td>
-                <td style="text-align: center">
+                <td style="text-align: center; line-height: 0px; width: 18%;" id="imp_proto">
                     @if($ref)
                         @foreach($ref as $r)
                             @if($examen_paciente->paciente_edad!=null)
@@ -66,7 +70,10 @@ $cuenta3 = count($result3);
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->value }}
                                         @endif
+                                    @else
+                                        {{ $r->value }}
                                     @endif
+
                                 @endif
 
                                 @if($examen_paciente->paciente_genero=='F')
@@ -74,12 +81,14 @@ $cuenta3 = count($result3);
                                         @if(($examen_paciente->paciente_edad)<=($r->edad_mayor) and ($examen_paciente->paciente_edad)>=($r->edad_menor))
                                             {{ $r->value }}
                                         @endif
+                                    @else
+                                        {{ $r->value }}
                                     @endif
                                 @endif
 
                             @else
                                 @if($r->gender=='Default')
-                                    {{ $r->value }}
+                                {{ $r->value }}
                                 @endif
                             @endif
                         @endforeach
@@ -87,7 +96,7 @@ $cuenta3 = count($result3);
                         No posee Valores de referencia
                     @endif
                 </td>
-                <td style="text-align: center">{{ $result->observation }}</td>
+                <td style="text-align: center; line-height: 0px;" id="imp_proto">{{ $result->observation }}</td>
             </tr>
             @if($con_v==$cuenta3)
             </tbody>

@@ -13,6 +13,7 @@ use App\Reference_value;
 use App\ReferenceType;
 use App\Sample;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Jleon\LaravelPnotify\Notify;
 
 use Illuminate\Validation\ValidationException;
@@ -297,12 +298,19 @@ class ExamController extends Controller
     {
         $examen = Exam::find($exam_id);
         $reference = Reference_value::where(['exam_detail_id' => $exam_detail_id])->first();
-        if ($reference != null) {
-            Notify::error('No se puede eliminar este registro, porque tiene asosiados', 'Error!!');
-        } else {
-            Exam_detail::destroy($exam_detail_id);
-            Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
+        $result=DB::table('results')->where([
+            ['exam_detail_id', '=', $exam_detail_id],])->first();
+        if ($result != null){
+            Notify::error('No se puede eliminar este registro, porque tiene valores asosiados', 'Error!!');
+        }else{
+            if ($reference != null) {
+                Notify::error('No se puede eliminar este registro, porque tiene asosiados', 'Error!!');
+            } else {
+                Exam_detail::destroy($exam_detail_id);
+                Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
+            }
         }
+
         return redirect('examenes/' . $examen->id);
     }
 

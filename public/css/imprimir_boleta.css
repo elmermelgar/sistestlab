@@ -1,6 +1,6 @@
 @media print {
 
-  #sidebar-menu, #profile, #top-nav, #footer, #miga, #botones {
+  #sidebar-menu, #profile, #top-nav, #footer, #miga, #botones, #rem_ant {
     display: none !important;
   }
   #titulo{
@@ -17,7 +17,6 @@
   }
   #panel{
     margin-top: -10px;
-
   }
   #general{
     width: 100%;
@@ -29,14 +28,34 @@
   }
   #sin_val{
     width: 50%;
+    margin: -5px;
+    font-size: 10px;
   }
   #proto_panel{
     width: 100%;
+    margin-bottom: -5px;
   }
   #group_name{
     width: 100%;
   }
   #antibioticos{
     width: 100%;
+  }
+  #imp_proto{
+    line-height: -5px;
+    font-size: 8px;
+    border-collapse: collapse;
+  }
+  #tr_proto{
+    font-size: 8px;
+  }
+  #panel_comp{
+    width: 100%;
+  }
+  #serv{
+    font-size: 8px;
+  }
+  #test{
+    font-size: 12px;
   }
 }

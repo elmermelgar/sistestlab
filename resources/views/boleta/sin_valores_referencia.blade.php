@@ -8,17 +8,18 @@
             <li>
                 <p>
                     <span class="month"><b>{{ $detail->name_detail }}:</b></span>
-                    <span class="count">{{ $result->result }}</span>
+                    <span class="count">@if($result){{ $result->result }}@endif</span>
                 </p>
             </li>
+            @if($result)
             @if($result->observation!='')
             <li>
                 <p>
-                    <span class="obs">Observación: {{ $result->observation }}</span>
+                    <span class="obs">Observación: @if($result) {{ $result->observation }}@endif</span>
                 </p>
             </li>
                 @endif
-
+            @endif
 
         </ul>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exam_detail;
 use App\Register_antibiotico;
 use Illuminate\Http\Request;
 use Jleon\LaravelPnotify\Notify;
@@ -95,6 +96,8 @@ class AntibioticosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Register_antibiotico::destroy($id);
+        Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
+        return back();
     }
 }

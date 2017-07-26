@@ -9,17 +9,17 @@ $cuenta = count($result);
         <div class="row">
             <table class="table ">
                 <thead>
-                <tr>
+                <tr id="tr_proto">
 
-                    <th>PROTOZOARIO</th>
-                    <th style="text-align: center">QUISTES</th>
-                    <th style="text-align: center">ACTIVOS</th>
+                    <th  style="line-height: 5px;">PROTOZOARIO</th>
+                    <th  style="text-align: center; line-height: 5px;">QUISTES</th>
+                    <th  style="text-align: center; line-height: 5px;">ACTIVOS</th>
                 </tr>
                 </thead>
                 <tbody>
     @endif
-                <tr>
-                    <td>{{ $detail->name_detail }}</td>
+                <tr >
+                    <td  style="line-height: 0px;">{{ $detail->name_detail }}</td>
                     @foreach($proto_types as $type)
                         @if($type->name != 'Ninguno')
                             @php $result=DB::table('results')->where([
@@ -29,7 +29,7 @@ $cuenta = count($result);
                             @endphp
 
 
-                            <td style="text-align: center">{{ $result->result }}</td>
+                            <td  style="text-align: center; line-height: 0px;">@if($result){{ $result->result }}@endif</td>
                             {{--<td style="text-align: center">No se observan</td>--}}
 
                         @endif

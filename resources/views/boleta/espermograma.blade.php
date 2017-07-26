@@ -28,7 +28,7 @@ $cuenta2 = count($result2);
                                                                     ['examen_paciente_id', '=', $examen_paciente->id],
                                                                     ['spermogram_modality_id', '=', $type->id],])->first();
                         @endphp
-                <td style="text-align: center">{{ $result->result }}</td>
+                <td style="text-align: center">@if($result){{ $result->result }}@endif</td>
                     @endif
                 @endforeach
             </tr>

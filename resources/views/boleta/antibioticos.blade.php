@@ -17,21 +17,21 @@
                 <td style="text-align: center">
                 @foreach($registro_antibioticos as $registro_antibiotico)
                         @if($registro_antibiotico->antibiotico_type->name=='Sensible')
-                            {{ $registro_antibiotico->antibiotico->name }}<br/>
+                            {{ $registro_antibiotico->antibiotico->name }} <a href="{{url('results/antibiotico/'.$registro_antibiotico->id)}}" id="rem_ant"><i class="fa fa-remove" title="Eliminar Antibiótico"></i></a><br/>
                         @endif
                     @endforeach
                 </td>
                 <td style="text-align: center">
                     @foreach($registro_antibioticos as $registro_antibiotico)
                         @if($registro_antibiotico->antibiotico_type->name=='Intermedio')
-                           {{ $registro_antibiotico->antibiotico->name }}<br/>
+                           {{ $registro_antibiotico->antibiotico->name }} <a href="{{url('results/antibiotico/'.$registro_antibiotico->id)}}" id="rem_ant"><i class="fa fa-remove" title="Eliminar Antibiótico"></i></a><br/>
                         @endif
                     @endforeach
                 </td>
                 <td style="text-align: center">
                     @foreach($registro_antibioticos as $registro_antibiotico)
                         @if($registro_antibiotico->antibiotico_type->name=='Resistente')
-                            {{ $registro_antibiotico->antibiotico->name }}<br/>
+                            {{ $registro_antibiotico->antibiotico->name }} <a href="{{url('results/antibiotico/'.$registro_antibiotico->id)}}" id="rem_ant"><i class="fa fa-remove" title="Eliminar Antibiótico"></i></a><br/>
                         @endif
                     @endforeach
                 </td>

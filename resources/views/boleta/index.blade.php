@@ -23,7 +23,7 @@
         </ul>
     @endif
 
-    <div class="col-sm-10">
+    <div class="col-sm-10" id="panel_comp">
         <div class="x_panel" style="border-radius: 5px; border-style: solid; border-color: silver" id="panel">
 
             <div class="x_content" id="all">
@@ -32,18 +32,19 @@
                 {{--<div style="z-index: -100000; width: 500px; height: 500px; margin-top: -600px; margin-left: auto;margin-right: auto">--}}
                     {{--<img src="{{url('/storage/images/'. 'gota.png')}}" style="opacity: 0.10;z-index: -100000;">--}}
                 {{--</div>--}}
-                <?php
-                $ind=0;
-                $esp=0;
-                $con_v=0;
-                ?>
-                @foreach($groupings as $group)
 
-                    <div class="col-sm-12"
-                         style="border-bottom: 2px solid;padding-top:8px;border-color: silver;margin-bottom: 0px" id="group_name">
+                @foreach($groupings as $group)
+                    <?php
+                    $ind=0;
+                    $esp=0;
+                    $con_v=0;
+                    ?>
+                    <div class="col-md-12"
+                         style="border-bottom: 2px solid;padding-top:8px;border-color: silver;margin-bottom: 5px" id="group_name">
                         <small><b>{{ $group->name }}</b></small>
                     </div>
-                    <br/><br/>
+
+                    {{--<br/><br/>--}}
                     @foreach($details as $detail)
                         @if($detail->grouping_id == $group->id)
                             @if($detail->referenceType->name == 'default')
@@ -84,8 +85,8 @@
                 {{--Fin antibiotico--}}
                 @endif
                 {{--Responsable--}}
-                <br/><br/><br/><br/><br/><br/>
-                <div class="col-md-12" style="margin-top: 20px" id="resp">
+                {{--<br/><br/><br/><br/><br/><br/>--}}
+                <div class="col-md-12" style="margin-top: 10px" id="resp">
                     <div class="col-sm-3" style="text-align: center">
                         -------------------------------------------
                     </div>

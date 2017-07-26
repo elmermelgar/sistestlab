@@ -20,7 +20,7 @@ class ReferenceTypeSeeder extends Seeder
 
         $rf2=new ReferenceType();
         $rf2->name='default';
-        $rf2->display_name='Normal';
+        $rf2->display_name='Con Valor de Referencia';
         $rf2->save();
 
         $rf3=new ReferenceType();

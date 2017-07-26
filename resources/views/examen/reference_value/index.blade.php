@@ -142,7 +142,7 @@
                                     </label>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
-                                        <input type="number" name="edad_mayor" value="0"
+                                        <input type="number" name="edad_mayor" value="100"
                                                class="form-control col-md-8 col-xs-12"
                                                placeholder="Edad Mayor" required>
                                     </div>
