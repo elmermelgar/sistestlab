@@ -35,6 +35,13 @@ class UserService
     private $avatarPath = 'photos';
 
     /**
+     * Ruta donde se almacenan los sellos, relativo al directorio de almacenamiento publico
+     * /storage/app/public/
+     * @var string
+     */
+    private $sealPath = 'seals';
+
+    /**
      * Valida los datos y crea un nuevo usuario
      * @param array $data
      * @return User
@@ -87,6 +94,21 @@ class UserService
         Storage::disk('public')->putFileAs($this->avatarPath, $file, $filename);
         $user->photo ? Storage::disk('public')->delete($this->avatarPath . '/' . $user->photo) : null;
         $user->photo = $filename;
+        $user->save();
+    }
+
+    /**
+     * Almacena la imagen del sello como un archivo imagen
+     * @param UploadedFile $file
+     * @param User $user
+     */
+    public function storageSeal(UploadedFile $file, User $user)
+    {
+        $extension = $file->getClientOriginalExtension();
+        $filename = 'seal-'.$user->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
+        Storage::disk('public')->putFileAs($this->sealPath, $file, $filename);
+        $user->seal ? Storage::disk('public')->delete($this->sealPath . '/' . $user->seal) : null;
+        $user->seal = $filename;
         $user->save();
     }
 

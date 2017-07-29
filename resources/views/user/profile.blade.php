@@ -19,7 +19,28 @@
                          {{url('/storage/photos/'. 'user.png')}}
                          @endif ">
                 </div>
-            </div>
+            </div><br/>
+            @php $rol=DB::table('roles')->where([
+                                            ['name', '=', 'profesional'],])->first();
+                         $rol_user=DB::table('role_user')->where([
+                                                 ['user_id', '=', $user? $user->id:old('id')],
+                                                 ['role_id', '=', $rol->id],])->first();
+            @endphp
+            @if($rol_user)
+                <div class="profile_img">
+                    <div id="crop-seal">
+                        <!-- Current avatar -->
+                        <img class="img-responsive seal-view" alt="Seal" title="Change the seal"
+                             style="max-height: 200px"
+                             src="
+                            @if($user->sale)
+                             {{url('/storage/seals/'.$user->seal)}}
+                             @else
+                             {{url('/storage/seals/'. 'seal.jpg')}}
+                             @endif ">
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="col-md-9 col-sm-9 col-xs-12">
             <h3>{{$user->getFullName()}}</h3>

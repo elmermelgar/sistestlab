@@ -62,6 +62,36 @@
                             <p>*Resolución recomendada: 200x200</p>
                         </div>
                     </div>
+                    @php $rol=DB::table('roles')->where([
+                                            ['name', '=', 'profesional'],])->first();
+                         $rol_user=DB::table('role_user')->where([
+                                                 ['user_id', '=', $user? $user->id:old('id')],
+                                                 ['role_id', '=', $rol->id],])->first();
+                    @endphp
+                    @if($rol_user)
+                    <div class="profile_img">
+                        <div id="crop-seal">
+                            <!-- Current avatar -->
+                            <img class="img-responsive seal-view" alt="Seal" title="Change the seal"
+                                 style="max-height: 200px"
+                                 src="
+                            @if($user? $user->seal:null)
+                                 {{url('/storage/seals/'.$user->seal)}}
+                                 @else
+                                 {{url('/storage/seals/'. 'seal.jpg')}}
+                                 @endif
+                                         ">
+
+                            <br>
+                            <label for="seal" id="labelSeal" class="btn btn-success" style="margin-bottom: 1em">
+                                Cambiar Sello
+                            </label>
+                            <input type="file" id="seal" name="seal" maxlength="255" accept=".png,.jpg,.jpeg"
+                                   style="display: none">
+                            <p>*Resolución recomendada: 400x200</p>
+                        </div>
+                    </div>
+                        @endif
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="form-group hidden">
@@ -170,6 +200,7 @@
 
 @section('scripts')
     <script src="{{url('/js/avatar.js')}}"></script>
+    <script src="{{url('/js/seal.js')}}"></script>
     <script src="{{url("/js/sumoselect.min.js")}}"></script>
     <script>
         $(document).ready(function () {

@@ -20,7 +20,7 @@
                 <th style="line-height: 5px;"> @if($examen_paciente->invoices->factura->cliente->centro_origen==true)Centro de Origen:@else Cliente: @endif</th>
                 <td style="line-height: 5px;">{{ $examen_paciente->invoices->factura->cliente->razon_social }}</td>
                 <th style="line-height: 5px;">Fecha:</th>
-                <td style="line-height: 5px;">{{ $examen_paciente->fecha_validado }}</td>
+                <td style="line-height: 5px;"> {{ \Carbon\Carbon::parse($examen_paciente->fecha_validado)->format('d/m/Y')}} </td>
             </tr>
             <tr>
                 <th style="line-height: 5px;">Prueba Realizada:</th>

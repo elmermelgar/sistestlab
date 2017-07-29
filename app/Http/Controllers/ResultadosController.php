@@ -76,12 +76,19 @@ class ResultadosController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeaprobar($id)
     {
-        //
+//        dd($id);
+        $exam_p = ExamenPaciente::find($id);
+        $estado = Estado::where('name', 'validado')->first();
+        $exam_p->user_id = auth()->user()->id;
+        $exam_p->estado_id = $estado->id;
+        $exam_p->fecha_validado = Carbon::now();
+        $exam_p->save();
+        Notify::success('Boleta de resultados aprobada correctamente');
+        return back();
     }
 
     /**
@@ -163,9 +170,16 @@ class ResultadosController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function storedenegar(Request $request, $id)
     {
-        //
+        $exam_p = ExamenPaciente::find($id);
+        $estado = Estado::where('name', 'denegado')->first();
+        $exam_p->user_id = auth()->user()->id;
+        $exam_p->estado_id = $estado->id;
+        $exam_p->observacion = $request->observacion;
+        $exam_p->save();
+        Notify::warning('La boleta de resultados a sido denegada');
+        return back();
     }
 
     /**
