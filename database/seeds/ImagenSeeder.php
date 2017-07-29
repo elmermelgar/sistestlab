@@ -16,13 +16,19 @@ class ImagenSeeder extends Seeder
         $categoria_sucursal = New ImagenCategoria();
         $categoria_sucursal->name = 'categoria_sucursal';
         $categoria_sucursal->display_name = 'Sucursales';
-        $categoria_sucursal->description = 'Imagenes para sucursales';
+        $categoria_sucursal->description = 'Imágenes para sucursales';
         $categoria_sucursal->save();
+
+        $categoria_publicidad = New ImagenCategoria();
+        $categoria_publicidad->name = 'categoria_publicidad';
+        $categoria_publicidad->display_name = 'Publicidad';
+        $categoria_publicidad->description = 'Imágenes publicitarias';
+        $categoria_publicidad->save();
 
         $categoria_otra = New ImagenCategoria();
         $categoria_otra->name = 'categoria_otra';
         $categoria_otra->display_name = 'Otras';
-        $categoria_otra->description = 'Otras imagenes';
+        $categoria_otra->description = 'Otras imágenes';
         $categoria_otra->save();
 
         $testlab = New Imagen();
@@ -46,5 +52,12 @@ class ImagenSeeder extends Seeder
         $inventrario->description = 'Imagen para inventario';
         $inventrario->imagen_categoria_id = $categoria_otra->id;
         $inventrario->save();
+
+        $publicidad = New Imagen();
+        $publicidad->title = 'Publicidad';
+        $publicidad->file_name = 'publicidad.png';
+        $publicidad->description = 'Imagen para publicidad';
+        $publicidad->imagen_categoria_id = $categoria_publicidad->id;
+        $publicidad->save();
     }
 }

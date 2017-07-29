@@ -50,9 +50,7 @@
                                  {{url('/storage/photos/'.$user->photo)}}
                                  @else
                                  {{url('/storage/photos/'. 'user.png')}}
-                                 @endif
-                                         ">
-
+                                 @endif ">
                             <br>
                             <label for="avatar" id="labelAvatar" class="btn btn-success" style="margin-bottom: 1em">
                                 Cambiar Foto
@@ -62,13 +60,7 @@
                             <p>*Resolución recomendada: 200x200</p>
                         </div>
                     </div>
-                    @php $rol=DB::table('roles')->where([
-                                            ['name', '=', 'profesional'],])->first();
-                         $rol_user=DB::table('role_user')->where([
-                                                 ['user_id', '=', $user? $user->id:old('id')],
-                                                 ['role_id', '=', $rol->id],])->first();
-                    @endphp
-                    @if($rol_user)
+                    @role('profesional')
                     <div class="profile_img">
                         <div id="crop-seal">
                             <!-- Current avatar -->
@@ -79,9 +71,7 @@
                                  {{url('/storage/seals/'.$user->seal)}}
                                  @else
                                  {{url('/storage/seals/'. 'seal.jpg')}}
-                                 @endif
-                                         ">
-
+                                 @endif ">
                             <br>
                             <label for="seal" id="labelSeal" class="btn btn-success" style="margin-bottom: 1em">
                                 Cambiar Sello
@@ -91,7 +81,7 @@
                             <p>*Resolución recomendada: 400x200</p>
                         </div>
                     </div>
-                        @endif
+                    @endrole
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="form-group hidden">
@@ -142,15 +132,16 @@
                                     @foreach($sucursales as $sucursal)
                                         <option value="{{$sucursal->id}}"
                                                 @if($user? $user->sucursal:null)
-                                                    @if($user->sucursal->name==$sucursal->name) selected
-                                                    @endif
+                                                @if($user->sucursal->name==$sucursal->name) selected
+                                                @endif
                                                 @endif>
                                             {{$sucursal->display_name}}</option>
                                     @endforeach
                                 </select>
                             @else
                                 <input id="sucursal" name="sucursal" class="form-control" placeholder="Surcursal"
-                                       value="{{$user? $user->sucursal? $user->sucursal->display_name:null:null}}" required readonly>
+                                       value="{{$user? $user->sucursal? $user->sucursal->display_name:null:null}}"
+                                       required readonly>
                             @endif
                         </div>
                     </div>
@@ -170,8 +161,8 @@
                             @else
                                 <input id="role" name="role" class="form-control" placeholder="Roles"
                                        value="@forelse($user->roles as $rol){{$rol->display_name}}
-                                            @if(!$loop->last) {{', '}} @endif
-                                            @empty Sin roles!
+                                       @if(!$loop->last) {{', '}} @endif
+                                       @empty Sin roles!
                                             @endforelse " readonly>
                             @endif
                         </div>

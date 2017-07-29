@@ -17,8 +17,8 @@ class ExamenPaciente extends Model
      * @var array
      */
     protected $fillable = [
-        'exam_id', 'invoice_profile_id', 'user_id', 'profesional_id', 'paciente_nombre', 'paciente_sexo', 'paciente_edad',
-        'numero_boleta', 'medico', 'observacion', 'fecha_validado','estado_id',
+        'exam_id', 'invoice_profile_id', 'paciente_id', 'user_id', 'profesional_id', 'paciente_nombre', 'paciente_sexo', 'paciente_edad',
+        'numero_boleta', 'medico', 'observacion', 'fecha_validado', 'estado_id',
     ];
 
     /**
@@ -68,10 +68,12 @@ class ExamenPaciente extends Model
     {
         return $this->belongsToMany('App\Exam_detail', 'results')->withPivot(['result', 'observation', 'protozoarios_type_id', 'spermogram_modality_id']);
     }
+
     /**
      * Registro de Antibioticos
      */
-    public function registro_antibioticos(){
+    public function registro_antibioticos()
+    {
         return $this->hasMany('App\Register_antibiotico');
     }
 

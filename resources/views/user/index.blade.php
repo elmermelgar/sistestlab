@@ -29,7 +29,7 @@
             <div class="alignright">
                 <a href="{{ url('usuarios/create') }}" title="Crear Nuevo Usuario" style="float: right">
                     <div class="btn btn-primary">
-                        <i class="fa fa-user-plus" aria-hidden="true"></i> Nuevo Usuario
+                        <i class="fa fa-user-plus"></i> Nuevo Usuario
                     </div>
                 </a>
             </div>
@@ -39,7 +39,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" name="email" placeholder="Buscar por email...">
                             <span class="input-group-btn">
-                      <button class="btn btn-default" type="submit">Buscar</button>
+                      <button class="btn btn-default">Buscar</button>
                     </span>
                         </div>
                     </form>
@@ -74,11 +74,11 @@
                         <td>{{$user->last_login}}</td>
                         <td>
                             <a href="{{ url('usuarios/'.$user->id )}}"
-                               class="btn btn-success btn-sm" title="Ver Usuario"><span
-                                        class="fa fa-eye"></span></a>
+                               class="btn btn-success btn-sm" title="Ver Usuario">
+                                <i class="fa fa-eye"></i></a>
                             <a href="{{ url('usuarios/'. $user->id.'/edit' )  }}"
-                               class="btn btn-primary btn-sm" title="Editar Usuario"><span
-                                        class="fa fa-edit"></span></a>
+                               class="btn btn-primary btn-sm" title="Editar Usuario">
+                                <i class="fa fa-edit"></i></a>
                         </td>
                     </tr>
                 @endforeach

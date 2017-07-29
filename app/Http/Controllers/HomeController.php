@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imagen;
 use Illuminate\Http\Request;
 use Jleon\LaravelPnotify\Notify;
 
@@ -24,7 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $publicidades = Imagen::
+        join('imagen_categoria', 'imagenes.imagen_categoria_id', 'imagen_categoria.id')
+            ->where('imagen_categoria.name', 'categoria_publicidad')->get();
+        return view('home', ['publicidades' => $publicidades]);
     }
 
     /**
