@@ -8,7 +8,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{route('credito_fiscal_index')}}">Créditos Fiscales</a></li>
+            <li><a href="{{route('credito_fiscal.index')}}">Créditos Fiscales</a></li>
             <li>@if($credito_fiscal) Modificar Crédito Fiscal @else Nuevo Crédito Fiscal @endif</li>
         </ol>
     </div>
@@ -68,7 +68,7 @@
             </table>
             <br><br>
             <form id="credito_fiscal_form" class="form form-inline" method="post"
-                  action="{{route('credito_fiscal_store')}}">
+                  action="{{route('credito_fiscal.store')}}">
                 {{csrf_field()}}
                 <div class="form-group hidden">
                     @if($credito_fiscal)
@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alignleft">
-                            <a class="btn btn-default" href="{{route('credito_fiscal_index')}}">
+                            <a class="btn btn-default" href="{{route('credito_fiscal.index')}}">
                                 <i class="fa fa-arrow-left fa-fw"></i>Regresar</a>
                         </div>
                         <div class="alignright">

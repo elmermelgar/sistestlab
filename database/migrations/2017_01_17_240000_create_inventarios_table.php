@@ -14,16 +14,17 @@ class CreateInventariosTable extends Migration
     public function up()
     {
         Schema::create('inventarios', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('cod_inventario');
-            $table->integer('existencia')->nullable();
-            $table->integer('cantidad_minima')->nullable();
-            $table->integer('cantidad_maxima')->nullable();
-            $table->date('fecha_cargado')->nullable();
-            $table->date('fecha_vencimiento')->nullable();
-            $table->integer('activo_id')->nullable();
+            $table->integer('sucursal_id');
+            $table->integer('activo_id');
+            $table->integer('estado_id');
+            $table->string('codigo');
+            $table->integer('minimo')->nullable();
+            $table->integer('maximo')->nullable();
+            $table->string('ubicacion')->nullable();
+            $table->primary(['sucursal_id', 'activo_id']);
+            $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('activo_id')->references('id')->on('activos');
-            $table->timestamps();
+            $table->foreign('estado_id')->references('id')->on('estados');
         });
     }
 

@@ -106,14 +106,15 @@ Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_examene
     Route::get('/', 'ExamController@index');
     Route::get('create', 'ExamController@create');
     Route::get('{id}', 'ExamController@detail');
-    Route::get('{id}/edit', ['uses' => 'ExamController@edit', 'as' => 'examenes.edit']);
-    Route::get('{id}/create_detail', ['uses' => 'ExamController@create_detail', 'as' => 'examenes.create_detail']);
-    Route::get('{id}/create_resources', ['uses' => 'ExamController@create_resources', 'as' => 'examenes.create_resources']);
-    Route::get('{exam_id}/edit_detail/{exam_detail_id}', ['uses' => 'ExamController@edit_detail', 'as' => 'examenes.edit_detail']);
-    Route::get('{exam_id}/delete_detail/{exam_detail_id}', ['uses' => 'ExamController@destroy_detail', 'as' => 'examenes.destroy_detail']);
-    Route::get('{exam_id}/reference_value/{exam_detail_id}', ['uses' => 'ExamController@reference_detail', 'as' => 'examenes.reference_value']);
-    Route::get('{exam_id}/delete_group/{grouping_id}', ['uses' => 'ExamController@destroy_group', 'as' => 'examenes.destroy_group']);
-    Route::get('{exam_id}/{exam_detail_id}/delete_reference/{reference_values_id}', ['uses' => 'ExamController@destroy_reference', 'as' => 'examenes.destroy_reference']);
+    Route::get('{id}/edit', 'ExamController@edit')->name('examenes.edit');
+    Route::get('{id}/create_detail', 'ExamController@create_detail')->name('examenes.create_detail');
+    Route::get('{id}/create_resources', 'ExamController@create_resources')->name('examenes.create_resources');
+    Route::get('{exam_id}/edit_detail/{exam_detail_id}', 'ExamController@edit_detail')->name('examenes.edit_detail');
+    Route::get('{exam_id}/delete_detail/{exam_detail_id}', 'ExamController@destroy_detail')->name('examenes.destroy_detail');
+    Route::get('{exam_id}/reference_value/{exam_detail_id}', 'ExamController@reference_detail')->name('examenes.reference_value');
+    Route::get('{exam_id}/delete_group/{grouping_id}', 'ExamController@destroy_group')->name('examenes.destroy_group');
+    Route::get('{exam_id}/{exam_detail_id}/delete_reference/{reference_values_id}', 'ExamController@destroy_reference')
+        ->name('examenes.destroy_reference');
     Route::post('store', 'ExamController@store');
     Route::post('storegrupo', 'ExamController@storegroup');
     Route::post('storedetail', 'ExamController@storedetail');
@@ -148,4 +149,29 @@ Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes
     Route::get('antibiotico/{id}', 'AntibioticosController@destroy');
     Route::get('{id}/storeaprobar', 'ResultadosController@storeaprobar');
     Route::post('{id}/storedenegar', 'ResultadosController@storedenegar');
+});
+
+
+Route::group(['namespace' => 'Inventario', 'prefix' => 'inventario', 'middleware' => 'auth'], function () {
+
+//    Route::get('/proveedores', 'InventarioController@index');
+    Route::resource('proveedores', 'ProveedoresController');
+
+    Route::get('proveedores', 'ProveedoresController@destroy')->name('proveedores.index');
+    Route::get('proveedores/{id}', 'ProveedoresController@show')->name('proveedores.show');
+    Route::get('proveedores/{id}/destroy', 'ProveedoresController@destroy')->name('proveedores.destroy');
+    Route::post('proveedores/{id}/update', 'ProveedoresController@update')->name('proveedores.update');
+    Route::post('proveedores', 'ProveedoresController@store')->name('proveedores.store');
+
+    Route::resource('activo', 'ActivoController');
+    Route::get('activo/{id}/destroy', 'ActivoController@destroy')->name('activo.destroy');
+    Route::post('activo/{id}/update', 'ActivoController@update')->name('activo.update');
+
+    Route::get('activo/{id1}/{id2}', 'ActivoController@editinventario')->name('activo.editinventario');
+    Route::post('activo/{id1}/{id2}/updateinventario', 'ActivoController@updateinventario')->name('activo.updateinventario');
+    Route::post('cargar/{id1}/{id2}/updateinventario', 'ActivoController@cargarinventario')->name('cargar.updateinventario');
+
+    Route::get('reactivos', 'ActivoController@consumir')->name('activo.reactivo');
+    Route::get('reactivos/edit', 'ActivoController@consumiredit')->name('activo.reactivo.edit');
+    Route::post('consumir/{id}/updateinventario', 'ActivoController@consumirupdate')->name('consumir.updateinventario');
 });

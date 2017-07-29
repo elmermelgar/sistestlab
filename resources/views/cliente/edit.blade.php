@@ -290,12 +290,6 @@
     <script src="{{url('/js/avatar.js')}}"></script>
     <script src="{{url('/js/cliente.js')}}"></script>
     <script src="{{url('/js/moment-with-locales.min.js')}}"></script>
-    <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
-    <script type="application/javascript">
-        moment.locale('es');
-        $(document).ready(function(){
-            Inputmask().mask(document.querySelectorAll("input"));
-        });
-    </script>
     <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
 @endsection

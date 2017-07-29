@@ -42,7 +42,7 @@
                     <th data-field="efectivo" data-sortable="true">Efectivo</th>
                     <th data-field="debito" data-sortable="true">Débito</th>
                     <th data-field="credito" data-sortable="true">Deuda</th>
-                    <th data-field="costo" data-sortable="true">Cost</th>
+                    <th data-field="costo" data-sortable="true">Costo</th>
                     <th data-field="user" data-sortable="true">Usuario</th>
                 </tr>
                 </thead>

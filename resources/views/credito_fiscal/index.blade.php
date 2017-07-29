@@ -26,7 +26,7 @@
         <div class="x_title">
             <h3 class="alignleft">Créditos Fiscales</h3>
             <div class="alignright">
-                <a href="{{ route('credito_fiscal_customers') }}" title="Otorgar Cŕedito Fiscal" style="float: right">
+                <a href="{{ route('credito_fiscal.customers') }}" title="Otorgar Cŕedito Fiscal" style="float: right">
                     <div class="btn btn-primary">
                         <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nuevo Crédito Fiscal
                     </div>
@@ -34,7 +34,7 @@
             </div>
             <div class="alignright">
                 <div class="form-group pull-right top_search" style="margin-right: 5%">
-                    <form class="form-group" action="{{ route('credito_fiscal_index') }}" method="GET">
+                    <form class="form-group" action="{{ route('credito_fiscal.index') }}" method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control" name="numero"
                                    placeholder="Buscar por número...">
@@ -74,7 +74,7 @@
                             <td>@if($credito_fiscal->closed) Cerrado @else Abierto @endif</td>
                             <td>{{$credito_fiscal->total}}</td>
                             <td>
-                                <a href="{{route('credito_fiscal_show',['id'=>$credito_fiscal->id])}}"
+                                <a href="{{route('credito_fiscal.show',['id'=>$credito_fiscal->id])}}"
                                    class="btn btn-success"
                                    title="Ver Crédito Fiscal"><i class="fa fa-eye"></i></a>
                             </td>

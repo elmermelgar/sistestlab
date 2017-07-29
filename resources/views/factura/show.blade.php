@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             @if(isset($credito_fiscal))
-                <li><a href="{{route('credito_fiscal_index')}}">Créditos Fiscales</a></li>
+                <li><a href="{{route('credito_fiscal.index')}}">Créditos Fiscales</a></li>
             @else
                 <li><a href="{{url('facturas')}}">Facturas</a></li>
             @endif
@@ -87,11 +87,11 @@
                     @elseif(isset($credito_fiscal)&&!$factura->closed)
                         <div class="alignleft">
                             <a class="btn btn-info btn-lg"
-                               href="{{route('credito_fiscal_edit', ['id' => $factura->id])}}">
+                               href="{{route('credito_fiscal.edit', ['id' => $factura->id])}}">
                                 <i class="fa fa-edit fa-fw"></i>Modificar</a>
                         </div>
                         <div class="alignright">
-                            <form class="form" method="post" action="{{route('credito_fiscal_close')}}">
+                            <form class="form" method="post" action="{{route('credito_fiscal.close')}}">
                                 {{csrf_field()}}
                                 <div class="form-group">
                                     <input type="hidden" name="tax_credit_id" value="{{$factura->id}}">

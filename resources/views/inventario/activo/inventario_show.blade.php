@@ -11,7 +11,8 @@
             <li><a href="{{ route('activo.index')}}">Activos</a></li>
             <li>{{$activo->nombre_activo}}</li>
         </ol>
-        <a href="{{route('activo.index')}}" style="float: right; margin-top: -50px; margin-right: 20px; font-size: 9px" class="btn btn-dark"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
+        <a href="{{route('activo.index')}}" style="float: right; margin-top: -50px; margin-right: 20px; font-size: 9px"
+           class="btn btn-dark"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
 
     </div>
 
@@ -45,7 +46,8 @@
                     </div>
                     <br/>
                     <a class="btn btn-primary" style="width: 100%" href="{{route('activo.edit',$activo->id)}}">
-                        <i class="fa fa-edit m-right-xs"></i> Editar @if($activo->tipo == "reactivo")Reactivo @else Activo @endif</a>
+                        <i class="fa fa-edit m-right-xs"></i> Editar @if($activo->tipo == "reactivo")Reactivo @else
+                            Activo @endif</a>
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <h4>{{$activo->nombre_activo}}</h4>
@@ -65,15 +67,16 @@
                             Ubicación: <strong>{{$activo->ubicacion}}</strong>
                         </li>
                         <li><i class="fa fa-chevron-right user-profile-icon"></i>
-                            Tipo: <strong>@if($activo->tipo == "reactivo")Reactivo @else Moviliario y Equipo @endif</strong>
+                            Tipo: <strong>@if($activo->tipo == "reactivo")Reactivo @else Moviliario y
+                                Equipo @endif</strong>
                         </li>
                         <li><i class="fa fa-male user-profile-icon"></i>
                             Proveedor: <strong>{{$activo->proveedor->nombre}}</strong>
                         </li>
                         @if($activo->tipo == "reactivo")
-                        <li><i class="fa fa-thermometer-half user-profile-icon"></i>
-                            Unidades: <strong>{{$activo->unidades}}</strong>
-                        </li>
+                            <li><i class="fa fa-thermometer-half user-profile-icon"></i>
+                                Unidades: <strong>{{$activo->unidades}}</strong>
+                            </li>
                         @endif
                         <li><i class=" user-profile-icon"></i>
                             Marca: <strong>{{$activo->marca}}</strong>
@@ -108,13 +111,15 @@
                     <tbody>
                     <tr>
                         <th><i class="fa fa-lock user-profile-icon"></i>
-                            Código de inventario: </th>
+                            Código de inventario:
+                        </th>
                         <td><strong>{{$activo->cod_inventario}}</strong></td>
                     </tr>
                     <tr>
                         <th>Estado:</th>
                         <td>
-                            <span class="badge bg-info">@if($activo->estado_id){{$activo->estado->display_name}}@else Sin Estado @endif</span>
+                            <span class="badge bg-info">@if($activo->estado_id){{$activo->estado->display_name}}@else
+                                    Sin Estado @endif</span>
                         </td>
                     </tr>
                     <tr>
@@ -134,10 +139,10 @@
                         <td>{{$carga}}</td>
                     </tr>
                     @if($activo->tipo == "reactivo")
-                    <tr>
-                        <th>Fecha de Vencimiento:</th>
-                        <td>{{$vence}}</td>
-                    </tr>
+                        <tr>
+                            <th>Fecha de Vencimiento:</th>
+                            <td>{{$vence}}</td>
+                        </tr>
                     @endif
                     <tr>
                         <th>Última actualización:</th>
@@ -146,9 +151,13 @@
                     </tbody>
                 </table>
                 @if($activo->tipo == "reactivo")
-                <button  class="btn btn-round btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i class="fa fa-upload" aria-hidden="true"> </i> Cargar Inventario</button>
+                    <button class="btn btn-round btn-success" data-toggle="modal" data-target=".bs-example-modal-sm"><i
+                                class="fa fa-upload" aria-hidden="true"> </i> Cargar Inventario
+                    </button>
                 @endif
-                    <a href="{{route('activo.editinventario',[$inventario->id,$activo->id])}}" style="float: right; " class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar Inventario</a>
+                <a href="{{route('activo.editinventario',[$inventario->id,$activo->id])}}" style="float: right; "
+                   class="btn btn-round btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar
+                    Inventario</a>
 
             </div>
         </div>
@@ -173,11 +182,13 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">×</span>
                     </button>
                     <h4 class="modal-title" id="myModalLabel2">Cargar Existencias</h4>
                 </div>
-                <form class="form-horizontal form-label-left" action="{{route('cargar.updateinventario',[$inventario->id,$activo->id])}}" method="POST">
+                <form class="form-horizontal form-label-left"
+                      action="{{route('cargar.updateinventario',[$inventario->id,$activo->id])}}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-body">
 
@@ -186,7 +197,7 @@
                             <legend class="text-danger" style="text-align: center">{{$activo->nombre_activo}}</legend>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Cantidad a cargar:
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Cantidad a cargar:
                                     </label>
                                     <br/>
 
@@ -196,12 +207,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4 col-sm-3 col-xs-12" >Fecha Vencimiento:
+                                    <label class="control-label col-md-4 col-sm-3 col-xs-12">Fecha Vencimiento:
                                     </label>
                                     <br/>
 
                                     <div class="col-md-8 col-sm-6 col-xs-12">
-                                        <input type="text" id="vencimiento" name="fecha_vencimiento" class="date-picker form-control col-md-7 col-xs-12" placeholder="00/00/0000">
+                                        <input type="text" id="vencimiento" name="fecha_vencimiento"
+                                               class="date-picker form-control col-md-7 col-xs-12"
+                                               placeholder="00/00/0000">
                                     </div>
                                 </div>
                             </div>

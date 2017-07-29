@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Cliente;
 use App\Estado;
 use App\ExamenPaciente;
 use App\Factura;

@@ -7,39 +7,41 @@ use Illuminate\Database\Eloquent\Model;
 class Activo extends Model
 {
     /**
-     * @var string
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
      */
-    protected $table='activos';
+    public $timestamps = false;
 
     /**
      *
      * @var array
      */
-    protected $fillable = ['nombre_activo', 'fecha_adq', 'precio', 'num_lote', 'ubicacion','tipo','marca','modelo','serie','unidades','observacion','proveedor_id','sucursal_id','estado_id'];
+    protected $fillable = [
+        'nombre', 'tipo', 'marca', 'modelo', 'serie', 'unidades', 'observacion', 'proveedor_id'
+    ];
 
     /**
-     * @var boolean
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public $timestamps=true;
-
-
-    public function proveedor(){
+    public function proveedor()
+    {
         return $this->belongsTo('App\Proveedor');
     }
 
-    public function estado(){
-        return $this->belongsTo('App\Estado');
-    }
-
-    public function sucursal(){
-        return $this->belongsTo('App\Sucursal');
-    }
-
-    public function inventario(){
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function inventario()
+    {
         return $this->hasOne('App\Inventario');
     }
 
-    public function exams(){
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function exams()
+    {
         return $this->belongsToMany('App\Exam', 'exam_activo');
     }
 

@@ -55,13 +55,13 @@ Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], 
 });
 
 Route::group(['prefix' => 'creditofiscal', 'middleware' => ['permission:credito_fiscal']], function () {
-    Route::get('/', 'CreditoFiscalController@index')->name('credito_fiscal_index');
-    Route::get('clientes', 'CreditoFiscalController@customers')->name('credito_fiscal_customers');
-    Route::get('create/{cliente_id}', 'CreditoFiscalController@create')->name('credito_fiscal_create');
-    Route::get('{id}', 'CreditoFiscalController@show')->name('credito_fiscal_show');
-    Route::get('{id}/edit', 'CreditoFiscalController@edit')->name('credito_fiscal_edit');
-    Route::post('store', 'CreditoFiscalController@store')->name('credito_fiscal_store');
-    Route::post('close', 'CreditoFiscalController@close')->name('credito_fiscal_close');
+    Route::get('/', 'CreditoFiscalController@index')->name('credito_fiscal.index');
+    Route::get('clientes', 'CreditoFiscalController@customers')->name('credito_fiscal.customers');
+    Route::get('create/{cliente_id}', 'CreditoFiscalController@create')->name('credito_fiscal.create');
+    Route::get('{id}', 'CreditoFiscalController@show')->name('credito_fiscal.show');
+    Route::get('{id}/edit', 'CreditoFiscalController@edit')->name('credito_fiscal.edit');
+    Route::post('store', 'CreditoFiscalController@store')->name('credito_fiscal.store');
+    Route::post('close', 'CreditoFiscalController@close')->name('credito_fiscal.close');
 });
 
 Route::group(['prefix' => 'search', 'middleware' => ['permission:facturar']], function () {

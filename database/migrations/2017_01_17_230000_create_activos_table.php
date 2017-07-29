@@ -15,26 +15,16 @@ class CreateActivosTable extends Migration
     {
         Schema::create('activos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('cod_inventario');
-            $table->string('nombre_activo');
-            $table->date('fecha_adq');
-            $table->decimal('precio',10,2);
-            $table->string('num_lote')->nullable();
-            $table->string('ubicacion')->nullable();
-            $table->string('tipo',50);
-            $table->string('marca')->nullable();
+            $table->string('nombre');
+            $table->string('tipo', 50);
+            $table->string('marca');
             $table->string('modelo')->nullable();
             $table->string('serie')->nullable();
             $table->string('unidades')->nullable();
             $table->string('observacion')->nullable();
-            $table->string('photo')->nullable();
+            $table->string('foto')->nullable();
             $table->integer('proveedor_id')->nullable();
-            $table->integer('sucursal_id')->nullable();
-            $table->integer('estado_id')->nullable();
             $table->foreign('proveedor_id')->references('id')->on('proveedors');
-            $table->foreign('sucursal_id')->references('id')->on('sucursales');
-            $table->foreign('estado_id')->references('id')->on('estados');
-            $table->timestamps();
         });
     }
 

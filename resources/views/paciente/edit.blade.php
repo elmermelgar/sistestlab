@@ -200,19 +200,21 @@
 
 @section('scripts')
     <script src="{{url("/js/sumoselect.min.js")}}"></script>
-    <script src="{{url('gentallela/vendors/iCheck/icheck.min.js')}}"></script>
     <script src="{{url('js/moment-with-locales.min.js')}}"></script>
+    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
     <script type="application/javascript">
         moment.locale('es');
         $(document).ready(function () {
             $('#cliente_id').SumoSelect({search: true, placeholder: 'Seleccione el cliente a asociar'});
             $('#fecha_nacimiento').daterangepicker({
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
                 singleDatePicker: true,
                 showDropdowns: true
             });
             Inputmask().mask(document.querySelectorAll("input"));
         });
     </script>
-    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 @endsection

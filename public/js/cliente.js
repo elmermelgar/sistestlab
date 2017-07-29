@@ -18,7 +18,13 @@ $(document).ready(function () {
     var sexo = $('#sexo');
     var fecha_nacimiento = $('#fecha_nacimiento');
 
+    moment.locale('es');
+    Inputmask().mask(document.querySelectorAll("input"));
+
     fecha_nacimiento.daterangepicker({
+        locale: {
+            format: 'DD/MM/YYYY'
+        },
         singleDatePicker: true,
         showDropdowns: true
     });

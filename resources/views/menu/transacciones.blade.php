@@ -8,7 +8,7 @@
                 <br>(Centro de Origen)</a>
         </li>
         @if(Auth::user()->can('credito_fiscal'))
-            <li><a href="{{route('credito_fiscal_customers')}}">Otorgar Crédito Fiscal</a></li>
+            <li><a href="{{route('credito_fiscal.customers')}}">Otorgar Crédito Fiscal</a></li>
         @endif
         <li><a href="{{url('clientes/create')}}">Registrar Cliente</a></li>
         <li><a href="{{url('pacientes/create')}}">Registrar Paciente</a></li>

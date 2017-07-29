@@ -95,7 +95,7 @@ class SucursalService
      */
     public function getCaja($sucursal_id)
     {
-        $caja = ['opening' => null, 'closing' => null, 'sale' => null, 'cash' => null, 'debit' => null, 'debt' => null];
+        $caja = ['opening' => null, 'closing' => null, 'sale' => null, 'cash' => null, 'debit' => null, 'debt' => null, 'cost' => null];
         $opening = BoxRegistry::where('sucursal_id', $sucursal_id)
             //->whereDate('date', Carbon::now()->toDateString())
             ->where('state', self::OPEN)

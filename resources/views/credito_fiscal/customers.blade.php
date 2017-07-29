@@ -8,7 +8,7 @@
     <div class="row">
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{route('credito_fiscal_index')}}">Créditos Fiscales</a></li>
+            <li><a href="{{route('credito_fiscal.index')}}">Créditos Fiscales</a></li>
             <li>Clientes</li>
         </ol>
     </div>
@@ -53,7 +53,7 @@
                         <td>{{$cliente->cantidad_facturas}}</td>
                         <td>{{$cliente->total}}</td>
                         <td>
-                            <a href="{{ route('credito_fiscal_create',['cliente_id'=>$cliente->id] )}}"
+                            <a href="{{ route('credito_fiscal.create',['cliente_id'=>$cliente->id] )}}"
                                title="Otorgar Crédito Fiscal"><i class="fa fa-arrow-right fa-2x"></i></a>
                         </td>
                     </tr>
