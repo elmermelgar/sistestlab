@@ -69,10 +69,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="rubro" class="control-label col-md-4 col-sm-3 col-xs-12">Rubro: </label>
+                                <label for="rubro" class="control-label col-md-4 col-sm-3 col-xs-12">Rubro:
+                                    <span class="required">*</span></label>
                                 <div class="col-md-8 col-sm-6 col-xs-12">
                                     <input name="rubro" class="form-control col-md-7 col-xs-12" placeholder="Rubro"
-                                           maxlength="255" value="{{$proveedor? $proveedor->rubro:old('rubro')}}">
+                                           required maxlength="255"
+                                           value="{{$proveedor? $proveedor->rubro:old('rubro')}}">
                                 </div>
                             </div>
                         </div>
@@ -84,7 +86,7 @@
                                 </label>
                                 <div class="col-md-8 col-sm-6 col-xs-12">
                                     <input id="ubicacion" name="ubicacion" class="form-control col-md-7 col-xs-12"
-                                           maxlength="255"
+                                           maxlength="255" required
                                            value="{{$proveedor? $proveedor->ubicacion:old('ubicacion')}}">
                                 </div>
                             </div>

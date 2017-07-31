@@ -18,8 +18,17 @@ class Activo extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre', 'tipo', 'marca', 'modelo', 'serie', 'unidades', 'observacion', 'proveedor_id'
+        'proveedor_id', 'nombre', 'tipo', 'marca', 'modelo', 'serie', 'unidades', 'observacion',
     ];
+
+    /**
+     * Código del activo
+     * @return string
+     */
+    public function codigo()
+    {
+        return $this->id . ' - ' . \Carbon\Carbon::createFromFormat('Y-m-d', $this->fecha)->format('d/m/Y');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -30,11 +39,11 @@ class Activo extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function inventario()
+    public function inventarios()
     {
-        return $this->hasOne('App\Inventario');
+        return $this->hasMany('App\Inventario');
     }
 
     /**

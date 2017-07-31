@@ -32,7 +32,7 @@ class Inventario extends Model
      * @var array
      */
     protected $fillable = [
-        'sucursal_id', 'activo_id', 'codigo', 'minimo', 'maximo', 'ubicacion'
+        'sucursal_id', 'activo_id', 'estado_id', 'ubicacion', 'minimo', 'maximo'
     ];
 
     /**
@@ -49,6 +49,45 @@ class Inventario extends Model
     public function activo()
     {
         return $this->belongsTo('App\Activo');
+    }
+
+    /**
+     * Estado del activo en la sucursal correspondiente
+     */
+    public function estado()
+    {
+        return $this->belongsTo('App\Estado');
+    }
+
+    /**
+     * Estado del activo en la sucursal correspondiente
+     */
+    public function existencias()
+    {
+        return \App\Existencia::where('sucursal_id', $this->sucursal_id)
+            ->where('activo_id', $this->activo_id)->orderBy('fecha_adquisicion')->get();
+    }
+
+    /**
+     * Asigna las llaves para guardar una consulta de actualizacion
+     * Esto es una correción para las tablas con llaves compuestas
+     * TODO: Investigar esto más adelante
+     * https://github.com/laravel/framework/issues/5355
+     * https://github.com/laravel/framework/issues/5517
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    protected function setKeysForSaveQuery(\Illuminate\Database\Eloquent\Builder $query)
+    {
+        if (is_array($this->primaryKey)) {
+            foreach ($this->primaryKey as $pk) {
+                $query->where($pk, '=', $this->original[$pk]);
+            }
+            return $query;
+        } else {
+            return parent::setKeysForSaveQuery($query);
+        }
     }
 
 }

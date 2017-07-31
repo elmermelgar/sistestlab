@@ -19,7 +19,16 @@ class Existencia extends Model
      * @var array
      */
     protected $fillable = [
-        'sucursal_id', 'activo_id', 'fecha_adquisicion', 'fecha_vencimiento', 'cantidad', 'lote', 'precio'
+        'sucursal_id', 'activo_id', 'cantidad', 'precio', 'lote', 'fecha_adquisicion', 'fecha_vencimiento'
     ];
+
+    /**
+     * Inventario correspondiente
+     */
+    public function inventario()
+    {
+        return \App\Inventario::where('sucursal_id', $this->sucursal_id)
+            ->where('activo_id', $this->activo_id)->first();
+    }
 
 }

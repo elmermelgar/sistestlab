@@ -17,7 +17,6 @@
             <li><a href="{{ url('/inicio')}}">
                     <i class="fa fa-home"></i>
                 </a></li>
-            <li>Inventario</li>
             <li>Activos</li>
         </ol>
     </div>
@@ -41,18 +40,16 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h3>Activos
+                        <h3 class="alignleft">Activos</h3>
+                        <div class="alignright">
                             <ul class="nav navbar-right panel_toolbox">
                                 <li style="float: right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
                             </ul>
-                            <a href="{{route('activo.create')}}" title="Crear Nuevo Activo" style="float: right">
-                                <div class="btn btn-success">
-                                    <i class="fa fa-plus" aria-hidden="true"></i> Nuevo Activo
-                                </div>
+                            <a href="{{route('activo.create')}}" title="Crear Nuevo Activo">
+                                <div class="btn btn-success"><i class="fa fa-plus fa-fw"></i>Nuevo Activo</div>
                             </a>
-                        </h3>
-
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -60,6 +57,7 @@
                         <table id="datatable-buttons" class="table table-striped table-hover">
                             <thead>
                             <tr>
+                                <th>Código</th>
                                 <th>Nombre</th>
                                 <th>Tipo</th>
                                 <th>Marca</th>
@@ -75,6 +73,7 @@
                             <tbody>
                             @foreach($activos as $activo)
                                 <tr>
+                                    <td>{{$activo->codigo()}}</td>
                                     <td>{{$activo->nombre}}</td>
                                     <td>@if($activo->tipo=='reactivo') Recurso @else Mobiliario y Equipo @endif</td>
                                     <td>{{$activo->marca}}</td>
@@ -109,7 +108,6 @@
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js')}}"></script>
-    <script src="{{url('gentallela/vendors/datatables.net-buttons/js/buttons.flash.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
 @endsection
@@ -156,32 +154,11 @@
                 };
             }();
 
-            $('#datatable').dataTable();
-            $('#datatable-keytable').DataTable({
-                keys: true
-            });
-
-            $('#datatable-responsive').DataTable();
-
-            $('#datatable-scroller').DataTable({
-                ajax: "js/datatables/json/scroller-demo.json",
-                deferRender: true,
-                scrollY: 380,
-                scrollCollapse: true,
-                scroller: true
-            });
-
-            var table = $('#datatable-fixed-header').DataTable({
-                fixedHeader: true
-            });
-
             TableManageButtons.init();
         });
-    </script>
-    <script>
+
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
-    </script>
-    <script>
+
         $('#flash-overlay-modal').modal();
 
         function eliminar_activo(id) {

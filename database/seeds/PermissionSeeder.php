@@ -88,6 +88,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'admin_examenes',
                 'display_name' => 'Administrar Exámenes',
                 'description' => 'Registra y modifica exámenes'
+            ],
+            [
+                'name' => 'admin_inventario',
+                'display_name' => 'Administrar Inventario',
+                'description' => 'Registra y modifica activos. Realizar cargar y descargas de inventario'
             ]
         ];
 

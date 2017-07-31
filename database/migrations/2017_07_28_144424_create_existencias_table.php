@@ -17,11 +17,11 @@ class CreateExistenciasTable extends Migration
             $table->increments('id');
             $table->integer('sucursal_id');
             $table->integer('activo_id');
+            $table->integer('cantidad');
+            $table->decimal('precio', 10, 2);
+            $table->string('lote')->nullable();
             $table->date('fecha_adquisicion');
             $table->date('fecha_vencimiento');
-            $table->integer('cantidad');
-            $table->string('lote');
-            $table->decimal('precio', 10, 2);
             $table->foreign(['sucursal_id', 'activo_id'])->references(['sucursal_id', 'activo_id'])->on('inventarios');
         });
     }

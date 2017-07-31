@@ -20,7 +20,7 @@ class ProveedoresController extends Controller
         $proveedores = Proveedor::all();
         $activos = Activo::all();
         $valor = false;
-        return view('inventario.proveedores.proveedores_index', [
+        return view('inventario.proveedores.index', [
             'proveedores' => $proveedores, 'activos' => $activos, 'valor' => $valor
         ]);
     }
@@ -32,7 +32,7 @@ class ProveedoresController extends Controller
      */
     public function create()
     {
-        return view('inventario.proveedores.proveedores_edit', ['proveedor' => null]);
+        return view('inventario.proveedores.edit', ['proveedor' => null]);
     }
 
     /**
@@ -44,7 +44,7 @@ class ProveedoresController extends Controller
     public function edit($id)
     {
         $proveedor = Proveedor::find($id);
-        return view('inventario.proveedores.proveedores_edit')->with('proveedor', $proveedor);
+        return view('inventario.proveedores.edit')->with('proveedor', $proveedor);
     }
 
     /**

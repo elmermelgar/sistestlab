@@ -152,26 +152,31 @@ Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes
 });
 
 
-Route::group(['namespace' => 'Inventario', 'prefix' => 'inventario', 'middleware' => 'auth'], function () {
+Route::group(['namespace' => 'Inventario', 'prefix' => 'inventario', 'middleware' => ['permission:admin_examenes']],
+    function () {
 
-//    Route::get('/proveedores', 'InventarioController@index');
-    Route::resource('proveedores', 'ProveedoresController');
+        Route::get('proveedores', 'ProveedoresController@index')->name('proveedores.index');
+        Route::get('proveedores/create', 'ProveedoresController@create')->name('proveedores.create');
+        Route::get('proveedores/{id}', 'ProveedoresController@show')->name('proveedores.show');
+        Route::get('proveedores/{id}/edit', 'ProveedoresController@edit')->name('proveedores.edit');
+        Route::get('proveedores/{id}/destroy', 'ProveedoresController@destroy')->name('proveedores.destroy');
+        Route::post('proveedores/{id}/update', 'ProveedoresController@update')->name('proveedores.update');
+        Route::post('proveedores', 'ProveedoresController@store')->name('proveedores.store');
 
-    Route::get('proveedores', 'ProveedoresController@destroy')->name('proveedores.index');
-    Route::get('proveedores/{id}', 'ProveedoresController@show')->name('proveedores.show');
-    Route::get('proveedores/{id}/destroy', 'ProveedoresController@destroy')->name('proveedores.destroy');
-    Route::post('proveedores/{id}/update', 'ProveedoresController@update')->name('proveedores.update');
-    Route::post('proveedores', 'ProveedoresController@store')->name('proveedores.store');
+        Route::get('activo/', 'ActivoController@index')->name('activo.index');
+        Route::get('activo/create', 'ActivoController@create')->name('activo.create');
+        Route::get('activo/{id}', 'ActivoController@show')->name('activo.show');
+        Route::get('activo/{id}/edit', 'ActivoController@edit')->name('activo.edit');
+        Route::get('activo/{id}/destroy', 'ActivoController@destroy')->name('activo.destroy');
+        Route::post('activo/{id}/update', 'ActivoController@update')->name('activo.update');
+        Route::post('activo', 'ActivoController@store')->name('activo.store');
 
-    Route::resource('activo', 'ActivoController');
-    Route::get('activo/{id}/destroy', 'ActivoController@destroy')->name('activo.destroy');
-    Route::post('activo/{id}/update', 'ActivoController@update')->name('activo.update');
+        Route::get('activo/{id}/inventario', 'InventarioController@edit')->name('activo.edit_inventario');
+        Route::post('activo/{id}/inventario', 'InventarioController@update')->name('activo.update_inventario');
+        Route::post('activo/{id}/inventario/cargar', 'InventarioController@cargar')->name('activo.cargar');
+        Route::post('activo/{id}/inventario/descargar', 'InventarioController@descargar')->name('activo.descargar');
 
-    Route::get('activo/{id1}/{id2}', 'ActivoController@editinventario')->name('activo.editinventario');
-    Route::post('activo/{id1}/{id2}/updateinventario', 'ActivoController@updateinventario')->name('activo.updateinventario');
-    Route::post('cargar/{id1}/{id2}/updateinventario', 'ActivoController@cargarinventario')->name('cargar.updateinventario');
-
-    Route::get('reactivos', 'ActivoController@consumir')->name('activo.reactivo');
-    Route::get('reactivos/edit', 'ActivoController@consumiredit')->name('activo.reactivo.edit');
-    Route::post('consumir/{id}/updateinventario', 'ActivoController@consumirupdate')->name('consumir.updateinventario');
-});
+        Route::get('reactivos', 'InventarioController@existencia')->name('activo.reactivo');
+        Route::get('reactivos/edit', 'InventarioController@existencia_edit')->name('activo.reactivo.edit');
+        Route::post('consumir/{id}/updateinventario', 'InventarioController@existencia_update')->name('consumir.updateinventario');
+    });

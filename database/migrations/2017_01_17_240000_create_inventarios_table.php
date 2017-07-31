@@ -17,10 +17,9 @@ class CreateInventariosTable extends Migration
             $table->integer('sucursal_id');
             $table->integer('activo_id');
             $table->integer('estado_id');
-            $table->string('codigo');
-            $table->integer('minimo')->nullable();
-            $table->integer('maximo')->nullable();
-            $table->string('ubicacion')->nullable();
+            $table->string('ubicacion');
+            $table->integer('minimo');
+            $table->integer('maximo');
             $table->primary(['sucursal_id', 'activo_id']);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('activo_id')->references('id')->on('activos');

@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers\Inventario;
 
-use Illuminate\Http\Request;
-use App\Proveedor;
-use App\Http\Controllers\Controller;
 use App\Activo;
-use App\Inventario;
 use App\Estado;
+use App\Existencia;
+use App\Inventario;
+use App\Proveedor;
 use App\Sucursal;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Jleon\LaravelPnotify\Notify;
+use Carbon\Carbon;
 
 class ActivoController extends Controller
 {
+    /**
+     * ActivoController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Lista de activos registrados.
      *
@@ -22,7 +31,7 @@ class ActivoController extends Controller
     public function index()
     {
         $activos = Activo::all();
-        return view('inventario.activo.activo_index')->with('activos', $activos);
+        return view('inventario.activo.index')->with('activos', $activos);
     }
 
     /**
@@ -34,25 +43,13 @@ class ActivoController extends Controller
     public function show($id)
     {
         $activo = Activo::find($id);
-        $inventario = Inventario::where(['activo_id' => $id])->first();
-        Carbon::setLocale('es');
-        $carga = Carbon::parse($inventario->fecha_cargado)->format('l j \\of F Y ');
-
-        if ($inventario->fecha_vencimiento) {
-
-            $vence = Carbon::parse($inventario->fecha_vencimiento)->format('l j \\of F Y ');
-            $today = Carbon::today();
-            $venimiento = Carbon::createFromFormat('Y-m-d', $inventario->fecha_vencimiento)->subMonth();
-
-            if ($venimiento <= $today) {
-                Notify::error('Reactivo "' . $inventario->activo->nombre_activo . '" próximo a vencerse', 'Próximo a vencerse');
-            }
-        } else {
-            $vence = 'No existe ninguna fecha de vencimiento';
-        }
-//        dd(Carbon::createFromFormat('Y-m-d',$inventario->fecha_vencimiento));
-        return view('inventario.activo.inventario_show', [
-            'activo' => $activo, 'inventario' => $inventario, 'carga' => $carga, 'vence' => $vence
+        $sucursales = Sucursal::whereIn('id', $activo->inventarios()
+            ->pluck('sucursal_id')->all())->get();
+        $existencias = Existencia::where('activo_id', $activo->id)->get()->groupBy('sucursal_id');
+        return view('inventario.activo.show', [
+            'sucursales' => $sucursales,
+            'activo' => $activo,
+            'existencias' => $existencias
         ]);
     }
 
@@ -66,7 +63,7 @@ class ActivoController extends Controller
         $proveedores = Proveedor::all();
         $estado = Estado::all();
         $sucursales = Sucursal::all();
-        return view('inventario.activo.activo_edit', [
+        return view('inventario.activo.edit', [
             'activo' => null,
             'proveedores' => $proveedores,
             'estados' => $estado,
@@ -86,7 +83,7 @@ class ActivoController extends Controller
         $proveedores = Proveedor::all();
         $sucursales = Sucursal::all();
         $estados = Estado::all();
-        return view('inventario.activo.activo_edit', [
+        return view('inventario.activo.edit', [
             'activo' => $activo,
             'proveedores' => $proveedores,
             'estados' => $estados,
@@ -105,8 +102,8 @@ class ActivoController extends Controller
     {
         $activo = Activo::find($id);
         $activo->update($request->all());
-        Notify::warning('activo ' . $activo->nombre_activo . ' se actualizó correctamente', 'Actualización');
-        return redirect()->route('activo.index');
+        Notify::warning('activo ' . $activo->nombre . ' se actualizó correctamente', 'Actualización');
+        return redirect()->route('activo.show', [$activo->id]);
     }
 
     /**
@@ -121,12 +118,11 @@ class ActivoController extends Controller
         $inventario = Inventario::where(['activo_id' => $id])->first();
         if ($inventario) {
             Notify::danger('El activo "' . $activo->nombre_activo . '" no puede ser eliminado porque posee registro asociado', 'Error!!');
-            return redirect()->route('activo.index');
         } else {
             $activo->delete();
             Notify::warning('El activo "' . $activo->nombre_activo . '" ha sido eliminado correctamente', 'Eliminación');
-            return redirect()->route('activo.index');
         }
+        return redirect()->route('activo.index');
     }
 
     /**

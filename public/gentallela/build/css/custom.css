@@ -3076,17 +3076,20 @@ ul.widget_tally li {
 
 ul.widget_tally .month {
     width: 50%;
-    float: left; }
+    float: left;
+}
 
 ul.widget_tally .count {
     width: 50%;
     float: left;
-    text-align: right; }
+    text-align: right;
+}
 
 ul.widget_tally .obs {
     width: 100%;
     float: left;
-    text-align: left; }
+    text-align: left;
+}
 
 .pie_bg {
     border-bottom: 1px solid rgba(101, 204, 182, 0.16);
@@ -5159,4 +5162,8 @@ ul.notifications {
 .logo {
     height: 65px;
     margin: 0 auto;
+}
+
+.no-before::before {
+    content: none !important;
 }

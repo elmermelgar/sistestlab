@@ -6,23 +6,16 @@
 
 @section('content')
 
-    <div class="page-title">
-        <div class="title_left">
-            <ol class="breadcrumb">
-                <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
-                <li><a href="{{ route('activo.index')}}">Activos</a></li>
-                <li>@if($activo) Actualizando un activo @else Nuevo activo @endif</li>
-            </ol>
-        </div>
-
-        <div class="title_right">
-            <div class="form-group pull-right">
-                <div class="input-group" style="">
-                    <a href="{{route('activo.index')}}" style="float: right;" class="btn btn-danger"><i
-                                class="fa fa-reply-all"></i> Regresar</a>
-                </div>
-            </div>
-        </div>
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
+            <li><a href="{{ route('activo.index')}}">Activos</a></li>
+            <li>@if($activo) Actualizando un activo @else Nuevo activo @endif</li>
+            <li class="alignright no-before">
+                <a href="{{URL::previous()}}" class="btn btn-danger btn-sm">
+                    <i class="fa fa-reply-all fa-fw"></i>Regresar</a>
+            </li>
+        </ol>
     </div>
 
     <div class="clearfix"></div>
@@ -123,8 +116,17 @@
                                     <label class="control-label col-md-4 col-sm-3 col-xs-12">Unidades:</label>
                                     <div class="col-md-8 col-sm-6 col-xs-12">
                                         <input name="unidades" placeholder="mm/ml/m/gal"
-                                               class="form-control col-md-7 col-xs-12"
+                                               class="form-control col-md-7 col-xs-12" maxlength="255"
                                                value="{{$activo? $activo->unidades:old('unidades')}}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="observacion" class="control-label col-md-4 col-sm-3 col-xs-12">
+                                        Observación:</label>
+                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                        <input id="observacion" name="observacion"
+                                               class="form-control col-md-7 col-xs-12" maxlength="255"
+                                               value="{{$activo? $activo->observacion:old('observacion')}}">
                                     </div>
                                 </div>
                             </div>

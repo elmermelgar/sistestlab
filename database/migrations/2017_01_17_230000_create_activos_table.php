@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -22,6 +23,7 @@ class CreateActivosTable extends Migration
             $table->string('serie')->nullable();
             $table->string('unidades')->nullable();
             $table->string('observacion')->nullable();
+            $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('foto')->nullable();
             $table->integer('proveedor_id')->nullable();
             $table->foreign('proveedor_id')->references('id')->on('proveedors');
