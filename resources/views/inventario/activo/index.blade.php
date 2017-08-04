@@ -75,7 +75,7 @@
                                 <tr>
                                     <td>{{$activo->codigo()}}</td>
                                     <td>{{$activo->nombre}}</td>
-                                    <td>@if($activo->tipo=='reactivo') Recurso @else Mobiliario y Equipo @endif</td>
+                                    <td>@if($activo->tipo=='recurso') Recurso @else Mobiliario y Equipo @endif</td>
                                     <td>{{$activo->marca}}</td>
                                     <td>{{$activo->modelo}}</td>
                                     <td>{{$activo->serie}}</td>

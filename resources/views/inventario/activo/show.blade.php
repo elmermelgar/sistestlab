@@ -54,13 +54,13 @@
                                     Código: <strong>{{$activo->codigo()}}</strong></h4>
                             </li>
                             <li><i class="fa fa-chevron-right user-profile-icon"></i>
-                                Tipo: <strong>@if($activo->tipo == "reactivo")Reactivo @else Mobiliario y
+                                Tipo: <strong>@if($activo->tipo == "recurso")Reactivo @else Mobiliario y
                                     Equipo @endif</strong>
                             </li>
                             <li><i class="fa fa-male user-profile-icon"></i>
                                 Proveedor: <strong>{{$activo->proveedor->nombre}}</strong>
                             </li>
-                            @if($activo->tipo == "reactivo")
+                            @if($activo->tipo == "recurso")
                                 <li><i class="fa fa-thermometer-half user-profile-icon"></i>
                                     Unidades: <strong>{{$activo->unidades}}</strong>
                                 </li>
@@ -81,7 +81,7 @@
 
                     </div>
                     <a class="btn btn-primary" href="{{route('activo.edit',$activo->id)}}">
-                        <i class="fa fa-edit m-right-xs"></i> Editar @if($activo->tipo == "reactivo")Reactivo @else
+                        <i class="fa fa-edit m-right-xs"></i> Editar @if($activo->tipo == "recurso")Reactivo @else
                             Activo @endif</a>
                 </div>
             </div>
@@ -132,7 +132,7 @@
     </div>
 
     <div class="row">
-        @if(count($activo->inventarios)>0&&$activo->tipo == "reactivo")
+        @if(count($activo->inventarios)>0&&$activo->tipo == "recurso")
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">

@@ -52,7 +52,6 @@ class ExamController extends Controller
         return view('examen.exam_detail.detail', [
             'examen' => $examen,
             'grupos' => Grouping::where(['exam_id' => $id])->get(),
-            'activos' => Activo::all(),
             'details' => Exam_detail::all()]);
     }
 
@@ -191,14 +190,21 @@ class ExamController extends Controller
      */
     public function store_examen_activo(Request $request)
     {
-        if ($request->exam_id && $examen = Exam::find($request->exam_id)) {
-            $examen->activos()->sync($request->activo_id);
+        if ($examen = Exam::find($request->exam_id)) {
+            $activo_ids = $request->activo_id;
+            $cantidades = $request->cantidad;
+            $recursos = [];
+            if (count($activo_ids) == count($cantidades)) {
+                foreach ($activo_ids as $key => $activo_id) {
+                    $recursos[$activo_id] = ['cantidad' => $cantidades[$key]];
+                }
+                $examen->activos()->sync($recursos);
+            }
+            Notify::success('Guardado correctamente', 'Exito!!');
+            return redirect('examenes/' . $examen->id);
         }
-
-//        $activos = Activo::where(array('id' => $request->activo_id))->get();
-//        $activos->exams()->sync($request->exam_id);
-        Notify::success('Guardado correctamente', 'Exito!!');
-        return redirect('examenes/' . $examen->id);
+        Notify::error('No existe el examen especificado', 'Error!!');
+        return redirect()->back();
     }
 
     /**
@@ -248,10 +254,12 @@ class ExamController extends Controller
     public function create_resources($id)
     {
         $examen = Exam::find($id);
+        $activos = Activo::where('tipo', 'recurso')->get();
+        $selected = $examen->activos()->pluck('id')->all();
         return view('examen.asignar_recursos.edit', [
-            'examen_activo' => null,
             'examen' => $examen,
-            'activos' => Activo::all()
+            'activos' => $activos,
+            'selected' => $selected,
         ]);
     }
 
@@ -298,11 +306,11 @@ class ExamController extends Controller
     {
         $examen = Exam::find($exam_id);
         $reference = Reference_value::where(['exam_detail_id' => $exam_detail_id])->first();
-        $result=DB::table('results')->where([
+        $result = DB::table('results')->where([
             ['exam_detail_id', '=', $exam_detail_id],])->first();
-        if ($result != null){
+        if ($result != null) {
             Notify::error('No se puede eliminar este registro, porque tiene valores asosiados', 'Error!!');
-        }else{
+        } else {
             if ($reference != null) {
                 Notify::error('No se puede eliminar este registro, porque tiene asosiados', 'Error!!');
             } else {

@@ -148,16 +148,16 @@
                         <a href="{{url('examenes/'.$examen->id.'/create_resources')}}"
                            style="float: right; margin-top: -35px" class="btn btn-sm btn-primary"
                            title="Asignar Recursos">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            <i class="fa fa-plus"></i>
                         </a>
                         <div class="panel-body">
                             <ul class="to_do">
-                                @foreach($activos as $activo)
-                                    @if($examen? $examen->activos->find($activo->id):null)
-                                        <li style="background: #9DF8A2; "><span class="label label-default"
-                                                                                style="background: #9DF8A2; font-size: 13px; color: #2A3F54">{{ $activo->nombre_activo }}</span>
-                                        </li>
-                                    @endif
+                                @foreach($examen->activos as $activo)
+                                    <li style="background: #9DF8A2; ">
+                                            <span class="label label-default"
+                                                  style="background: #9DF8A2; font-size: 13px; color: #2A3F54"
+                                            >{{$activo->nombre.' ( '.$activo->pivot->cantidad.' )'}}</span>
+                                    </li>
                                 @endforeach
                             </ul>
                             <br>

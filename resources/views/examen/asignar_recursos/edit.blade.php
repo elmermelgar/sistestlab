@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
 @section('imports')
-    <link rel="stylesheet" type="text/css" href="{{url("/css/sumoselect.css")}}">
-    <link rel="stylesheet" type="text/css" href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}">
+    <link href="{{url('gentallela/vendors/select2/dist/css/select2.min.css')}}" rel="stylesheet" type="text/css"/>
+    <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            {{--<li><a href="">Examenes</a></li>--}}
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
+            <li><a href="{{url('examenes')}}">Exámenes</a></li>
+            <li><a href="{{url('examenes/'.$examen->id)}}">{{$examen->name.' - '.$examen->display_name}}</a></li>
+            <li>Recursos</li>
         </ol>
     </div>
 
@@ -25,66 +27,67 @@
     <div class="x_panel">
 
         <div class="x_title">
-
-            @if($examen_activo)
-                <h2>Editar Recursos</h2>
-            @else
-                <h2>Registrar Recursos</h2>
-            @endif
+            <h2>Asignar recursos a examen <i style="color: #761c19">{{$examen->name.' - '.$examen->display_name}}</i>
+            </h2>
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{url('examenes/store_examen_activo')}}">
-                {{csrf_field()}}
-
-                <div class="col-md-9 col-sm-9 col-xs-12" style="margin: 0 auto;float: none">
-                    <div class="form-group hidden">
-                        <label for="id" class="control-label col-md-3 col-sm-3 col-xs-12"> Id
-                            <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="id" name="id" class="form-control" placeholder="ID"
-                                   value="{{$examen_activo? $examen_activo->id:old('id')}}" >
-                        </div>
-                    </div>
-                    <div class="form-group hidden">
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="exam_id" name="exam_id" class="form-control" placeholder="ID"
-                                   value="{{$examen? $examen->id:old('id')}}" >
-                        </div>
-                    </div>
-
+            <form id="add" class="form form-inline">
+                <div class="col-sm-8 col-xs-12" style="margin-bottom: 1em">
                     <div class="form-group">
-                        <label for="cliente_id" class="control-label col-md-3 col-sm-3 col-xs-12"> Recurso
-                            <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select multiple id="activo_id" name="activo_id[]" class="form-control" required>
-                                @foreach($activos as $activo)
-                                    <option value="{{$activo->id}}"
-                                            @if($examen? $examen->activos->find($activo->id):null) selected @endif>{{$activo->nombre_activo}}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <label for="activo_add">Recurso:</label>
+                        <select id="activo_add" name="activo_add" class="form-control" required>
+                            @foreach($activos as $activo)
+                                <option value="{{$activo->id}}"
+                                        @if(in_array($activo->id,$selected)) disabled
+                                        @endif>{{$activo->nombre}}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-
+                    <input type="submit" class="btn btn-default" style="margin: 0" value="Agregar">
                 </div>
+            </form>
 
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="ln_solid"></div>
+            <form class="form form-inline" method="POST" action="{{url('examenes/store_examen_activo')}}">
+                {{ csrf_field() }}
+                <div class="form-group hidden">
+                    <input type="hidden" readonly required name="exam_id" value="{{$examen->id}}">
+                </div>
+                <table id="recursos" class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>Activo</th>
+                        <th>Cantidad</th>
+                        <th data-sorting="false">Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($examen->activos as $activo)
+                        <tr>
+                            <td>{{$activo->nombre}}
+                                <input type="hidden" name="activo_id[]" class="activo" required
+                                       value="{{$activo->id}}">
+                            </td>
+                            <td>
+                                <input type="number" name="cantidad[]" class="form-control" style="width: 100%"
+                                       placeholder="0" required min="1" value="{{$activo->pivot->cantidad}}">
+                            </td>
+                            <td>
+                                <div class='btn btn-danger delete'><i class='fa fa-times'></i></div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="ln_solid"></div>
+                <div class="col-md-12" style="text-align: center">
                     <div class="form-group">
-
-                        <div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-12">
-                            <a href="{{url()->previous()}}" class="form-control btn btn-default">Cancelar</a>
-                        </div>
-                        <div class="col-md-2 col-sm-2 col-xs-12">
-                            <input type="submit" class="form-control btn btn-primary" value="Guardar">
-                        </div>
+                        <a class="btn btn-default" href="{{URL::previous()}}">Cancelar</a>
+                        <button class="btn btn-success">Guardar</button>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -92,14 +95,8 @@
 @endsection
 
 @section('scripts')
-    <script src="{{url("/js/sumoselect.min.js")}}"></script>
-    <script src="{{url('gentallela/vendors/iCheck/icheck.min.js')}}"></script>
-    <script src="{{url('js/moment-with-locales.min.js')}}"></script>
-    <script type="application/javascript">
-        moment.locale('es');
-        $(document).ready(function(){
-            $('#activo_id').SumoSelect({search: true, placeholder: 'Seleccione el recurso a asociar'});
-            Inputmask().mask(document.querySelectorAll("input"));
-        });
-    </script>
+    <script src="{{url('gentallela/vendors/select2/dist/js/select2.js')}}"></script>
+    <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{url('js/recurso.js')}}"></script>
 @endsection

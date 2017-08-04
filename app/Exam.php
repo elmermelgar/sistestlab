@@ -61,7 +61,7 @@ class Exam extends Model
      */
     public function activos()
     {
-        return $this->belongsToMany('App\Activo', 'exam_activo');
+        return $this->belongsToMany('App\Activo', 'exam_activo')->withPivot(['cantidad']);
     }
 
     //Busqueda de Examenes

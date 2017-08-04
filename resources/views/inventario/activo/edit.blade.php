@@ -61,7 +61,7 @@
                                         <span class="required">*</span></label>
                                     <div class="col-md-8 col-sm-6 col-xs-12">
                                         <select class="form-control" id="tipo" name="tipo">
-                                            <option value="reactivo"
+                                            <option value="recurso"
                                                     @if($activo? $activo->tipo=='reactivo':false) selected @endif>
                                                 Recurso
                                             </option>
