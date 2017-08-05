@@ -48,25 +48,24 @@
 
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     @foreach($imagenes as $imagen)
-
-                        <div class="col-md-4 col-sm-4 col-xs-12" >
-                            <div class="form-group" style="border:dashed">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="form-group"
+                                 style="border-radius: 5px;border-style: solid;border-color: silver;">
                                 <label for="image"></label>
                                 <img src="{{$imagen? '/storage/images/'.$imagen->file_name:null}}"
-                                     class="img-responsive avatar-view"
-                                     style="max-height: 250px; margin-bottom: 1em">
+                                     class="img-responsive"
+                                     style="max-height: 150px; margin: 0 auto;">
                                 <input type="radio" id="image" name="image" class="form-control" required
                                        value="{{$imagen->id}}">
                             </div>
                         </div>
-
                     @endforeach
                 </div>
 
                 <div class="col-md-12">
                     <div class="ln_solid"></div>
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-2 col-sm-2 col-xs-12">
+                        <div class="col-md-offset-4 col-md-2 col-sm-2 col-xs-12">
                             <a href="{{url()->previous()}}" class="form-control btn btn-default">Cancelar</a>
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-12">

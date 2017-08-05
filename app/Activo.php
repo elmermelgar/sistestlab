@@ -54,4 +54,12 @@ class Activo extends Model
         return $this->belongsToMany('App\Exam', 'exam_activo');
     }
 
+    //Busqueda de activoss
+    public function scopeFilter($query, $nombre)
+    {
+        if (trim($nombre) != "") {
+            $query->where('nombre', "~*", $nombre);
+        }
+    }
+
 }

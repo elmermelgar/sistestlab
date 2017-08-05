@@ -159,28 +159,16 @@ class InventarioController extends Controller
 
     /**
      * Muestra la existencia .
-     *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function existencia()
+    public function existencias(Request $request)
     {
-        $inventario = Inventario::all();
-        $nom = '';
-        foreach ($inventario as $inv) {
-            if ($inv->fecha_vencimiento) {
-                $today = Carbon::today();
-                $venimiento = Carbon::createFromFormat('Y-m-d', $inv->fecha_vencimiento)->subMonth();
-                if ($venimiento <= $today) {
-                    $nom = $nom . '<br/>' . '-' . $inv->activo->nombre_activo;
-                }
-            }
-        }
-        if ($nom == '') {
-
-        } else {
-            Notify::error('Lista de rectivos próximo a vencerse' . $nom . '', 'Próximo a vencerse')->sticky();
-        }
-        return view('inventario.reactivos', ['inventario' => $inventario]);
+        $recursos = Activo::where('tipo', 'recurso')->filter($request->nombre)->paginate(9);
+        $this->vencimiento();
+        return view('inventario.existencias', [
+            'recursos' => $recursos
+        ]);
     }
 
     /**
@@ -188,10 +176,11 @@ class InventarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function existencia_edit()
+    public function existencias_edit()
     {
-        $inventario = Inventario::all();
-        return view('inventario.reactivos_edit', ['inventario' => $inventario]);
+        $recursos = Activo::where('tipo', 'recurso')->pluck('id')->all();
+        $inventarios = Inventario::whereIn('activo_id', $recursos)->get();
+        return view('inventario.existencias_edit', ['inventarios' => $inventarios]);
     }
 
     /**
@@ -201,7 +190,7 @@ class InventarioController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function existencia_update(Request $request, $id)
+    public function existencias_update(Request $request, $id)
     {
         $inventario = Inventario::find($id);
         if ($request->valor <= ($inventario->cantidad_maxima - $inventario->existencia)) {
@@ -211,7 +200,23 @@ class InventarioController extends Controller
             $inventario->save();
             Notify::warning('inventario del activo ' . $inventario->activo->nombre_activo . ' actualizado', 'Actualización');
         }
-        return redirect()->route('activo.reactivo.edit');
+        return redirect()->route('activo.existencias.edit');
+    }
+
+    public static function vencimiento()
+    {
+        $inventarioService = \App::make(InventarioService::class);
+        $inventarios = $inventarioService->verificar_vencimiento();
+        $vencimientos = '';
+        foreach ($inventarios as $inventario) {
+            $activo = $inventario->activo->nombre;
+            $sucursal = $inventario->sucursal->display_name;
+            $vencimientos = "$vencimientos<br/>- $activo ($sucursal)";
+        }
+        if ($vencimientos != '') {
+            Notify::error('Lista de recursos próximos a vencerse:' . $vencimientos, 'Próximo a vencerse')->sticky();
+        }
+
     }
 
 }

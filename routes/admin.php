@@ -163,20 +163,20 @@ Route::group(['namespace' => 'Inventario', 'prefix' => 'inventario', 'middleware
         Route::post('proveedores/{id}/update', 'ProveedoresController@update')->name('proveedores.update');
         Route::post('proveedores', 'ProveedoresController@store')->name('proveedores.store');
 
-        Route::get('activo/', 'ActivoController@index')->name('activo.index');
-        Route::get('activo/create', 'ActivoController@create')->name('activo.create');
-        Route::get('activo/{id}', 'ActivoController@show')->name('activo.show');
-        Route::get('activo/{id}/edit', 'ActivoController@edit')->name('activo.edit');
-        Route::get('activo/{id}/destroy', 'ActivoController@destroy')->name('activo.destroy');
-        Route::post('activo/{id}/update', 'ActivoController@update')->name('activo.update');
-        Route::post('activo', 'ActivoController@store')->name('activo.store');
+        Route::get('activos/', 'ActivoController@index')->name('activo.index');
+        Route::get('activos/create', 'ActivoController@create')->name('activo.create');
+        Route::get('activos/{id}', 'ActivoController@show')->name('activo.show');
+        Route::get('activos/{id}/edit', 'ActivoController@edit')->name('activo.edit');
+        Route::get('activos/{id}/destroy', 'ActivoController@destroy')->name('activo.destroy');
+        Route::post('activos/{id}/update', 'ActivoController@update')->name('activo.update');
+        Route::post('activos', 'ActivoController@store')->name('activo.store');
 
         Route::get('activo/{id}/inventario', 'InventarioController@edit')->name('activo.edit_inventario');
         Route::post('activo/{id}/inventario', 'InventarioController@update')->name('activo.update_inventario');
         Route::post('activo/{id}/inventario/cargar', 'InventarioController@cargar')->name('activo.cargar');
         Route::post('activo/{id}/inventario/descargar', 'InventarioController@descargar')->name('activo.descargar');
 
-        Route::get('reactivos', 'InventarioController@existencia')->name('activo.reactivo');
-        Route::get('reactivos/edit', 'InventarioController@existencia_edit')->name('activo.reactivo.edit');
-        Route::post('consumir/{id}/updateinventario', 'InventarioController@existencia_update')->name('consumir.updateinventario');
+        Route::get('existencias', 'InventarioController@existencias')->name('activo.existencias');
+        Route::get('existencias/edit', 'InventarioController@existencias_edit')->name('activo.existencias.edit');
+        Route::post('existencias/{id}/updateinventario', 'InventarioController@existencias_update')->name('activo.existencias.update');
     });

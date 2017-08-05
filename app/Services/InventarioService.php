@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Existencia;
 use App\Inventario;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -116,9 +117,19 @@ class InventarioService
     /**
      * @return array
      */
-    private function verificar_vencimiento()
+    public function verificar_vencimiento()
     {
-        return [];
+        $ids = DB::select(
+            DB::raw('select distinct i.activo_id, i.sucursal_id from inventarios i join existencias e 
+            on (i.activo_id,i.sucursal_id)=(e.activo_id,e.sucursal_id) 
+            where (fecha_vencimiento-current_date)<=30;'
+            ));
+        $inventarios = [];
+        foreach ($ids as $id) {
+            $inventarios[] = Inventario::where('sucursal_id', $id->sucursal_id)
+                ->where('activo_id', $id->activo_id)->first();
+        }
+        return $inventarios;
     }
 
     /**

@@ -138,7 +138,7 @@
 
 .img-sucursal {
     margin: 0 auto;
-    max-height: 200px;
+    max-height: 150px;
 }
 
 .img-circle.profile_img {
@@ -1716,6 +1716,7 @@ ul.quick-list li i {
 .widget_summary .w_left {
     float: left;
     text-align: left;
+    font-size: 12px;
 }
 
 .widget_summary .w_center {
@@ -1728,19 +1729,19 @@ ul.quick-list li i {
 }
 
 .widget_summary .w_right span {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .w_20 {
     width: 20%;
 }
 
-.w_25 {
-    width: 25%;
+.w_30 {
+    width: 30%;
 }
 
-.w_55 {
-    width: 55%;
+.w_50 {
+    width: 50%;
 }
 
 h5.graph_title {
@@ -4591,6 +4592,15 @@ fieldset {
 /** bootstrap-progressbar  **/
 .progress {
     border-radius: 0;
+    position:relative;
+}
+.progress span {
+    color: black;
+    position:absolute;
+    left:0;
+    width:100%;
+    text-align:center;
+    z-index:2;
 }
 
 .progress-bar-info {

@@ -40,7 +40,7 @@
         <li style="float: right">
             <a href="{{ url('clientes/create') }}" title="Registrar Nuevo Cliente" style="padding: 0">
                 <div class="btn btn-primary" style="margin: 0">
-                    <i class="fa fa-user-plus" aria-hidden="true"></i> Registrar Nuevo Cliente
+                    <i class="fa fa-user-plus"></i> Registrar Nuevo Cliente
                 </div>
             </a>
         </li>
@@ -51,7 +51,7 @@
                         <input type="text" class="form-control" name="razon_social"
                                placeholder="Buscar por razon social...">
                         <span class="input-group-btn">
-                      <button class="btn btn-default" type="submit">Buscar</button>
+                      <button class="btn btn-default">Buscar</button>
                     </span>
                     </div>
                 </form>
@@ -101,10 +101,9 @@
                                          alt="cliente" class="img-circle img-responsive">
                                 </div>
                             </div>
-                            <div class="col-xs-12 bottom text-center">
-                                <div class="col-xs-12 col-sm-7 emphasis"></div>
-                                <div class="col-xs-12 col-sm-5 emphasis">
-                                    <a class="btn btn-primary btn-xs" href="{{url('clientes/'.$cliente->id)}}">
+                            <div class="col-xs-12 bottom" style="text-align: center">
+                                <div class="col-xs-12 emphasis">
+                                    <a class="btn btn-primary" href="{{url('clientes/'.$cliente->id)}}">
                                         <i class="fa fa-eye fa-fw"></i> Ver Perfil
                                     </a>
                                 </div>

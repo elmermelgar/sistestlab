@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BoxRegistry;
 use App\Imagen;
+use App\ImagenCategoria;
 use App\Services\SucursalService;
 use App\Sucursal;
 use Illuminate\Http\Request;
@@ -175,10 +176,13 @@ class SucursalController extends Controller
      */
     public function image($id)
     {
+        $imagenes = Imagen::
+        join('imagen_categoria', 'imagenes.imagen_categoria_id', 'imagen_categoria.id')
+            ->where('imagen_categoria.name', 'categoria_sucursal')->get();
         if ($sucursal = Sucursal::find($id)) {
             return view('sucursal.image', [
                 'sucursal' => $sucursal,
-                'imagenes' => Imagen::all(),
+                'imagenes' => $imagenes,
             ]);
         }
         return response()->view('errors.404', [], 404);

@@ -43,7 +43,7 @@
         <div class="x_content">
             <div class="row">
                 @foreach($sucursales as $sucursal)
-                    <div class="col-md-3 col-sm-4 col-xs-12 profile_details">
+                    <div class="col-lg-3 col-md-4 col-xs-12 profile_details">
                         <div class="well profile_view col-md-12">
                             <div class="col-sm-12">
                                 <h4 class="brief"><i>Sucursal</i></h4>
@@ -64,9 +64,9 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-xs-12 bottom ">
-                                <div class="col-xs-12 emphasis">
-                                    <a class="btn btn-primary btn-xs" href="{{url('sucursales/'.$sucursal->id)}}">
+                            <div class="col-xs-12 bottom">
+                                <div class="col-xs-12 emphasis" style="text-align: center">
+                                    <a class="btn btn-primary" href="{{url('sucursales/'.$sucursal->id)}}">
                                         <i class="fa fa-eye"> </i> Ver Sucursal
                                     </a>
                                 </div>

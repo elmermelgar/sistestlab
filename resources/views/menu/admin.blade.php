@@ -29,6 +29,6 @@
     <ul class="nav child_menu">
         <li><a href="{{route('proveedores.index')}}">Proveedores</a></li>
         <li><a href="{{route('activo.index')}}">Activos</a></li>
-        <li><a href="{{route('activo.reactivo')}}">Reactivos</a></li>
+        <li><a href="{{route('activo.existencias')}}">Existencias</a></li>
     </ul>
 </li>
