@@ -25,7 +25,7 @@
         </ul>
     @endif
 
-    <div class="x_panel">
+    <div class="x_panel2">
 
         <div class="x_title">
             <h3>Perfiles de exámenes
@@ -33,15 +33,15 @@
                 <a href="{{ url('perfiles/create') }}" title="Crear Nuevo Perfil"
                    style="float: right">
                     <div class="btn btn-primary">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Nuevo Perfil
+                        <i class="fa fa-plus"></i> Nuevo Perfil
                     </div>
                 </a>
                 <div class="col-md-3 col-sm-4 col-xs-12 form-group pull-right top_search" style="margin-right: 5%">
                     <form class="form-group" action="{{ url('perfiles') }}" method="GET">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="display_name" placeholder="Buscar perfil...">
+                            <input class="form-control" name="display_name" placeholder="Buscar perfil...">
                             <span class="input-group-btn">
-                      <button class="btn btn-default" type="submit">Buscar</button>
+                      <button class="btn btn-default">Buscar</button>
                     </span>
                         </div>
                     </form>

@@ -11,6 +11,12 @@ $(document).ready(function () {
         }
     });
 
+    $('#nivel').slider({
+        formatter: function (value) {
+            return Math.round(value * 100) + '%';
+        }
+    });
+
     var total = parseFloat($('#facturar_total').val());
 
     function suma() {
@@ -52,26 +58,27 @@ $(document).ready(function () {
     var credito_fiscal = $('#credito_fiscal');
     var numero_factura = $('#numero');
 
-    function creditoFiscalClick() {
-        if (credito_fiscal[0].checked) {
-            numero_factura.removeAttr('required');
+    if (credito_fiscal[0]) {
+        function creditoFiscalClick() {
+            if (credito_fiscal[0].checked) {
+                numero_factura.removeAttr('required');
+            }
+            else {
+                numero_factura.attr('required', 'required');
+            }
         }
-        else {
-            numero_factura.attr('required', 'required');
-        }
-    }
 
-    creditoFiscalClick();
-    credito_fiscal.change(function () {
         creditoFiscalClick();
-    });
+        credito_fiscal.change(function () {
+            creditoFiscalClick();
+        });
+    }
 
 });
 
-var anular_modal = $('#annulModal');
-var anular_factura_id = document.getElementById('anular_factura_id');
-
-function Anular(id, name) {
+function Anular(id) {
+    var anular_modal = $('#annulModal');
+    var anular_factura_id = document.getElementById('anular_factura_id');
     anular_factura_id.value = id;
     anular_modal.modal('show');
 }

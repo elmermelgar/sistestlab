@@ -176,8 +176,8 @@ class SucursalController extends Controller
      */
     public function image($id)
     {
-        $imagenes = Imagen::
-        join('imagen_categoria', 'imagenes.imagen_categoria_id', 'imagen_categoria.id')
+        $imagenes = Imagen::select(['imagenes.id', 'imagenes.file_name'])
+            ->join('imagen_categoria', 'imagenes.imagen_categoria_id', 'imagen_categoria.id')
             ->where('imagen_categoria.name', 'categoria_sucursal')->get();
         if ($sucursal = Sucursal::find($id)) {
             return view('sucursal.image', [

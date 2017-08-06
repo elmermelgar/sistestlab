@@ -52,6 +52,7 @@ Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], 
     Route::post('annul', 'FacturaController@annul')->name('factura_annul');
     Route::post('{id}/facturar', 'FacturaController@facturar');
     Route::post('{id}/payment', 'FacturaController@payment');
+    Route::post('{id}/nivel', 'FacturaController@nivel');
 });
 
 Route::group(['prefix' => 'creditofiscal', 'middleware' => ['permission:credito_fiscal']], function () {

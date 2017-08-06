@@ -23,80 +23,83 @@
         </ul>
     @endif
 
-    <div class="col-sm-10">
-        <div class="x_panel">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="x_panel">
 
-            <div class="x_content">
+                <div class="x_content">
 
-                <form id="form" class="form-horizontal" method="post" action="{{url('/facturas/store')}}">
-                    {{csrf_field()}}
-                    @include('factura.encabezado')
-                    @include('factura.cliente')
+                    <form id="form" class="form-horizontal" method="post" action="{{url('/facturas/store')}}">
+                        {{csrf_field()}}
+                        @include('factura.encabezado')
+                        @include('factura.cliente')
 
-                    <div class="row">
-                        <table id="factura" class="table table-hover">
-                            <thead>
-                            <tr>
-                                <th data-field="id" data-sortable="false">#</th>
-                                <th data-field="examen" data-sortable="true">Examen(es)&emsp;</th>
-                                <th data-field="paciente" data-sortable="true">Paciente&emsp;&emsp;</th>
-                                <th data-field="surname" data-sortable="true">Precio (USD)</th>
-                                <th data-field="actions" data-sortable="false">Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody id="factura_body">
-                            @foreach($perfiles as $perfil)
+                        <div class="row">
+                            <table id="factura" class="table table-hover">
+                                <thead>
                                 <tr>
-                                    <td></td>
-                                    <td>
-                                        {{$perfil->profile->name.' '.$perfil->profile->display_name}}
-                                        <div class="form-group hidden">
-                                            <input type="hidden" name="invoice_profile_id[]" required
-                                                   value="{{$perfil->id}}">
-                                            <input type="hidden" name='profile_id[]'>
-                                            <input type="hidden" name='numero_boleta[]'>
-                                            <input type="hidden" name='paciente_nombre[]'>
-                                            <input type="hidden" name='paciente_edad[]'>
-                                            <input type="hidden" name='paciente_sexo[]'>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        {{$perfil->examen_paciente->first()->paciente_nombre}}
-                                        {{$perfil->examen_paciente->first()->paciente_edad}}
-                                        {{$perfil->examen_paciente->first()->paciente_sexo}}
-                                        Boleta: {{$perfil->examen_paciente->first()->numero_boleta}}
-                                    </td>
-                                    <td>{{$perfil->price}}</td>
-                                    <td>
-                                        <div class='btn btn-danger delete'><i class='fa fa-times'></i></div>
-                                    </td>
+                                    <th data-field="id" data-sortable="false">#</th>
+                                    <th data-field="examen" data-sortable="true">Examen(es)&emsp;</th>
+                                    <th data-field="paciente" data-sortable="true">Paciente&emsp;&emsp;</th>
+                                    <th data-field="surname" data-sortable="true">Precio (USD)</th>
+                                    <th data-field="actions" data-sortable="false">Acciones</th>
                                 </tr>
-                            @endforeach
+                                </thead>
+                                <tbody id="factura_body">
+                                @foreach($perfiles as $perfil)
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            {{$perfil->profile->name.' '.$perfil->profile->display_name}}
+                                            <div class="form-group hidden">
+                                                <input type="hidden" name="invoice_profile_id[]" required
+                                                       value="{{$perfil->id}}">
+                                                <input type="hidden" name='profile_id[]'>
+                                                <input type="hidden" name='numero_boleta[]'>
+                                                <input type="hidden" name='paciente_nombre[]'>
+                                                <input type="hidden" name='paciente_edad[]'>
+                                                <input type="hidden" name='paciente_sexo[]'>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{$perfil->examen_paciente->first()->paciente_nombre}}
+                                            {{$perfil->examen_paciente->first()->paciente_edad}}
+                                            {{$perfil->examen_paciente->first()->paciente_sexo}}
+                                            Boleta: {{$perfil->examen_paciente->first()->numero_boleta}}
+                                        </td>
+                                        <td>{{$perfil->price}}</td>
+                                        <td>
+                                            <div class='btn btn-danger delete'><i class='fa fa-times'></i></div>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
 
-                    </div>
-
-                    <div class="alignleft">
-                        <a class="btn btn-default btn-lg" href="{{URL::previous()}}">Cancelar</a>
-                    </div>
-                    <div class="form-group alignright">
-                        <div class="btn btn-success btn-lg" data-toggle="modal"
-                             data-target="#modal_profile"><i class="fa fa-plus fa-fw"></i>Agregar exámen o perfil
                         </div>
-                        <input id="submit" type="submit" class="btn btn-primary btn-lg" value="Continuar">
-                    </div>
 
-                </form>
-                <br>
+                        <div class="alignleft">
+                            <a class="btn btn-default btn-lg" href="{{URL::previous()}}">Cancelar</a>
+                        </div>
+                        <div class="form-group alignright">
+                            <div class="btn btn-success btn-lg" data-toggle="modal"
+                                 data-target="#modal_profile"><i class="fa fa-plus fa-fw"></i>Agregar exámen o perfil
+                            </div>
+                            <input id="submit" type="submit" class="btn btn-primary btn-lg" value="Continuar">
+                        </div>
 
+                    </form>
+                    <br>
+
+                </div>
             </div>
         </div>
     </div>
 
-
     <!-- Examen Modal -->
+    {{-- Si factura a un centro de origen, agregará exámenes especificando los datos del paciente,
+    de lo contrario solo seleccionará al cliente desde una lista--}}
     @if($centro_origen)
         @include('factura.modal_perfil_origen')
     @else

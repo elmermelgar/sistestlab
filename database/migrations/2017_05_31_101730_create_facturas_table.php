@@ -22,6 +22,7 @@ class CreateFacturasTable extends Migration
             $table->integer('estado_id');
             $table->integer('tax_credit_id')->nullable();
             $table->string('numero', 8)->nullable();
+            $table->decimal('nivel', 3, 2)->default(0);
             $table->decimal('total')->default(0);
             $table->boolean('credito_fiscal')->default(false);
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -22,124 +22,129 @@
         </ul>
     @endif
 
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
 
-            <div class="x_title">
-                <h3>{{$role->display_name}} (Rol)</h3>
+                <div class="x_title">
+                    <h3>{{$role->display_name}} (Rol)</h3>
 
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
 
-                <ul class="list-unstyled user_data">
-                    <li><i class="fa fa-id-card user-profile-icon"></i>
-                        Nombre: <strong>{{$role->name}}</strong>
-                    </li>
-                    <li><i class="fa fa-id-card user-profile-icon"></i>
-                        Nombre para mostrar: <strong>{{$role->display_name}}</strong>
-                    </li>
-                    <li><i class="fa fa-comment user-profile-icon"></i>
-                        Descripción: <strong>{{$role->description}}</strong>
-                    </li>
-                    <li><i class="fa fa-calendar user-profile-icon"></i>
-                        Creado en: <strong>{{$role->created_at}}</strong>
-                    </li>
-                    <li><i class="fa fa-calendar user-profile-icon"></i>
-                        Actualizado en: <strong>{{$role->updated_at}}</strong>
-                    </li>
-                </ul>
-
-                <a class="btn btn-primary" href="{{url('roles/'.$role->id.'/edit/')}}">
-                    <i class="fa fa-edit m-right-xs"></i> Editar Rol</a>
-                @if(!$role->locked)
-                <a class="btn btn-danger" data-toggle="modal"
-                   data-target="#deleteModal">
-                    <i class="fa fa-times m-right-xs"></i> Eliminar Rol</a>
-                @endif
-
-                <br/>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="x_panel">
-
-            <div class="x_title">
-                <h2>Usuarios</h2>
-
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <h4>Este rol ha sido asignado a los siguientes usuarios:</h4>
-
-                <table class="table table-striped " id="datatable">
-                    <thead>
-                    <tr>
-                        <th data-field="id" data-sortable="true">Id</th>
-                        <th data-field="name" data-sortable="true">Nombre</th>
-                        <th data-field="sucursal" data-sortable="true">Sucursal</th>
-                        <th data-field="actions" data-sortable="true">Acciones</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    @forelse($role->users as $user)
-                        <tr>
-                            <td>{{$user->id}}</td>
-                            <td>{{$user->getFullName()}}</td>
-                            <td>{{$user->sucursal->display_name}}</td>
-                            <td>
-                                <a class="btn btn-info btn-xs" title="Ver Usuario"
-                                   href="{{ url('usuarios/' . $user->getAttribute('id')) }}">
-                                    <i class="fa fa-eye"></i> Ver Usuario
-                                </a>
-                            </td>
-                        </tr>
-                    @empty
-                        <td colspan="4">Sin usuarios!</td>
-                    @endforelse
-                    </tbody>
-
-                </table>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="x_panel">
-
-            <div class="x_title">
-                <h2>Permisos</h2>
-
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <h4>Este rol tiene los siguientes permisos:</h4>
-
-                <ul class="list-unstyled user_data">
-                    @forelse($role->perms as $perm)
-                        <li>
-                            <i class="fa fa-circle user-profile-icon"></i> {{$perm->display_name}}
+                    <ul class="list-unstyled user_data">
+                        <li><i class="fa fa-id-card user-profile-icon"></i>
+                            Nombre: <strong>{{$role->name}}</strong>
                         </li>
-                    @empty
-                        Sin permisos!
-                    @endforelse
-                </ul>
-                @if(!$role->locked)
-                    <button type="button" class="fa fa-edit btn btn-primary btn-lg" data-toggle="modal"
-                            data-target="#permsModal">
-                        Editar Permisos
-                    </button>
-                @endif
-                <br/>
+                        <li><i class="fa fa-id-card user-profile-icon"></i>
+                            Nombre para mostrar: <strong>{{$role->display_name}}</strong>
+                        </li>
+                        <li><i class="fa fa-comment user-profile-icon"></i>
+                            Descripción: <strong>{{$role->description}}</strong>
+                        </li>
+                        <li><i class="fa fa-calendar user-profile-icon"></i>
+                            Creado en: <strong>{{$role->created_at}}</strong>
+                        </li>
+                        <li><i class="fa fa-calendar user-profile-icon"></i>
+                            Actualizado en: <strong>{{$role->updated_at}}</strong>
+                        </li>
+                    </ul>
 
+                    <a class="btn btn-primary" href="{{url('roles/'.$role->id.'/edit/')}}">
+                        <i class="fa fa-edit m-right-xs"></i> Editar Rol</a>
+                    @if(!$role->locked)
+                        <a class="btn btn-danger" data-toggle="modal"
+                           data-target="#deleteModal">
+                            <i class="fa fa-times m-right-xs"></i> Eliminar Rol</a>
+                    @endif
+
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="x_panel">
+
+                <div class="x_title">
+                    <h2>Usuarios</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li style="float: right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <h4>Este rol ha sido asignado a los siguientes usuarios:</h4>
+
+                    <table class="table table-striped " id="datatable">
+                        <thead>
+                        <tr>
+                            <th data-field="id" data-sortable="true">Id</th>
+                            <th data-field="name" data-sortable="true">Nombre</th>
+                            <th data-field="sucursal" data-sortable="true">Sucursal</th>
+                            <th data-field="actions" data-sortable="true">Acciones</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        @forelse($role->users as $user)
+                            <tr>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->getFullName()}}</td>
+                                <td>{{$user->sucursal->display_name}}</td>
+                                <td>
+                                    <a class="btn btn-info btn-xs" title="Ver Usuario"
+                                       href="{{ url('usuarios/' . $user->getAttribute('id')) }}">
+                                        <i class="fa fa-eye"></i> Ver Usuario
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <td colspan="4">Sin usuarios!</td>
+                        @endforelse
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="x_panel">
+
+                <div class="x_title">
+                    <h2>Permisos</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li style="float: right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <h4>Este rol tiene los siguientes permisos:</h4>
+
+                    <ul class="list-unstyled user_data">
+                        @forelse($role->perms as $perm)
+                            <li>
+                                <i class="fa fa-circle user-profile-icon"></i> {{$perm->display_name}}
+                            </li>
+                        @empty
+                            Sin permisos!
+                        @endforelse
+                    </ul>
+                    @if(!$role->locked)
+                        <button type="button" class="fa fa-edit btn btn-primary btn-lg" data-toggle="modal"
+                                data-target="#permsModal">
+                            Editar Permisos
+                        </button>
+                    @endif
+                    <br/>
+
+                </div>
             </div>
         </div>
     </div>
-
 
 
     <!-- Permissions Modal -->

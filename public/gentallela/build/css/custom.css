@@ -891,6 +891,7 @@ footer {
 
 .tooltip {
     display: block !important;
+    font-size: 14px;
 }
 
 .tiles {
@@ -4592,15 +4593,16 @@ fieldset {
 /** bootstrap-progressbar  **/
 .progress {
     border-radius: 0;
-    position:relative;
+    position: relative;
 }
+
 .progress span {
     color: black;
-    position:absolute;
-    left:0;
-    width:100%;
-    text-align:center;
-    z-index:2;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
 }
 
 .progress-bar-info {

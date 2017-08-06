@@ -2,6 +2,7 @@
 
 @section('imports')
     <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{url('css/bootstrap-slider.min.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -54,16 +55,18 @@
                     @foreach($profiles as $profile)
                         <tr>
                             @php
-                                $subtotal=$profile->first()->price*$profile->count();
+                                $price=$profile->first()->price*(1+$factura->nivel);
+                                $subtotal=$price*$profile->count();
                                 $total+=$subtotal;
                             @endphp
                             <td>{{$profile->first()->profile->name}}</td>
                             <td>{{$profile->count()}}</td>
                             <td>{{$profile->first()->profile->display_name}}</td>
-                            <td>{{$profile->first()->price}}</td>
+                            <td>{{number_format($price,2)}}</td>
                             <td>{{number_format($subtotal,2)}}</td>
                         </tr>
                     @endforeach
+                    @php $total=round($total+0.004, 2)@endphp
                     </tbody>
                 </table>
                 <div class="col-sm-12">
@@ -71,19 +74,29 @@
                 </div>
                 <br><br>
                 <div class="col-sm-12">
+                    {{--cuando la factura sea un borrador, que pueda modificar, anular o facturar--}}
                     @if($factura->estado->name==\App\Factura::BORRADOR)
                         <div class="alignleft">
                             <a class="btn btn-info btn-lg" href="{{route('factura_edit', ['id' => $factura->id])}}">
-                                <i class="fa fa-edit"></i> Modificar</a>
-                            <a class="btn btn-danger btn-lg"
-                               onclick="Anular({{$factura->id}})">
-                                <i class="fa fa-times"></i> Anular</a>
+                                <i class="fa fa-edit fa-fw"></i>Modificar</a>
+                            <a class="btn btn-danger btn-lg" onclick="Anular({{$factura->id}})">
+                                <i class="fa fa-times fa-fw"></i>Anular</a>
+                            {{--si tiene permiso, que pueda aplicar un descuento o un recargo--}}
+                            @permission('admin_niveles')
+                            <a class="btn btn-default btn-lg" data-toggle="modal" data-target="#modal_nivel">
+                                <i class="fa fa-percent fa-fw"></i>
+                                @if($factura->nivel==0)Aplicar nivel @else Modificar nivel @endif</a>
+                            @endpermission
                         </div>
                         <div class="alignright">
                             <a class="btn btn-primary btn-lg" data-toggle="modal"
                                data-target="#modal_facturar"><i class="fa fa-clipboard"></i> FACTURAR
                             </a>
                         </div>
+
+                        {{--cuando sea un crédito fiscal y esté no esté cerrado, que se pueda modificar o cerrar.
+                         Los créditos fiscales, aunque se tratan como si fuesen una factura normal, no manejan los
+                         mismos estados, por lo que se revisan de la forma: $factura->closed --}}
                     @elseif(isset($credito_fiscal)&&!$factura->closed)
                         <div class="alignleft">
                             <a class="btn btn-info btn-lg"
@@ -106,6 +119,7 @@
         </div>
     </div>
 
+    {{--cuando la factura esté abierta o cerrada y además no sea un crédito fiscal, que muestre los pagos--}}
     @if(($factura->estado->name==\App\Factura::ABIERTA||$factura->estado->name==\App\Factura::CERRADA)
     &&!isset($credito_fiscal))
         <div class="row">
@@ -149,6 +163,7 @@
                         <div class="col-sm-12">
                             <div class="alignright"><h4>DEUDA USD: {{number_format($total-$suma,2)}} </h4></div>
                         </div>
+                        {{--cuando la factura esté abierta, que pueda realizar pagos--}}
                         @if($factura->estado->name==\App\Factura::ABIERTA)
                             <a class="alignright btn btn-primary" data-toggle="modal"
                                data-target="#modal_pago"><i class="fa fa-dollar fa-fw"></i>Registrar pago</a>
@@ -161,12 +176,18 @@
     @endif
 
     @if(!isset($credito_fiscal))
-        @if($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)
-            @include('factura.modal_facturar')
+        {{--cuando la factura esté abierta y no sea un crédito fiscal, que pueda realizar pagos--}}
+        @if($factura->estado->name==\App\Factura::ABIERTA)
             @include('factura.modal_pago')
         @endif
+        {{--cuando la factura sea un borrador y no sea un crédito fiscal, que pueda facturar o anular--}}
         @if($factura->estado->name==\App\Factura::BORRADOR)
+            @include('factura.modal_facturar')
             @include('factura.modal_anular')
+            {{--si tiene permiso, que pueda aplicar un descuento o un recargo--}}
+            @permission('admin_niveles')
+            @include('factura.modal_nivel')
+            @endpermission
         @endif
     @endif
 
@@ -175,6 +196,9 @@
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{url('js/bootstrap-slider.min.js')}}"></script>
+    {{--cuando la factura sea un borrador o esté abierta y además no sea un crédito fiscal, que cargue el script que
+    calcula la suma de los montos de pagos y la deuda--}}
     @if(($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)&&!isset($credito_fiscal))
         <script src="{{url('js/facturar.js')}}"></script>
     @endif

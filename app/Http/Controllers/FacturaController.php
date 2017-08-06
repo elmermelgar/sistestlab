@@ -64,6 +64,7 @@ class FacturaController extends Controller
         if ($factura = Factura::find($id)) {
             //profiles->profile_invoice
             $profiles = $factura->profiles()->get()->groupBy('profile_id');
+            $nivel_monto = round($factura->profiles()->sum('price') * $factura->nivel + 0.004, 2);
             if ($factura->credito_fiscal) {
                 Notify::info('Esta factura ha sido marcada como parte de un crédito fiscal');
             }
@@ -74,6 +75,7 @@ class FacturaController extends Controller
                 'profiles' => $profiles,
                 'centro_origen' => $factura->centro_origen,
                 'suma' => $factura->payments()->sum('amount'),
+                'nivel_monto' => $nivel_monto,
                 'edit' => false
             ]);
         }
@@ -149,8 +151,15 @@ class FacturaController extends Controller
                 return back();
             }
 
-            $total = $factura->profiles()->sum('price');
+            $suma = $factura->profiles()->sum('price');
+            $total = round($suma * (1 + $factura->nivel) + 0.004, 2);
             $request->merge(['total' => $total]);
+
+            if ($request->amount <= 0 || $request->amount > $total) {
+                Notify::error('No se puede facturar con monto cero o un pago mayor al total');
+                return redirect()->back();
+            }
+
             if ($request->amount == $total) {
                 $request->merge(['estado_id' => $estado_cerrada->id]);
             } else {
@@ -278,6 +287,37 @@ class FacturaController extends Controller
     }
 
     /**
+     * Aplicar un recargo o un descuento a la facturas
+     * @param $id
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function nivel($id, Request $request)
+    {
+        if ($id == $request->factura_id && $factura = Factura::find($id)) {
+            if ($factura->estado->name != Factura::BORRADOR) {
+                Notify::error('Esta factura no se le puede aplicar un descuento o recargo');
+                return back();
+            }
+            if ($request->nivel == 0) {
+                $mensaje = "Nivel removido correctamente";
+            } elseif ($request->nivel < 0 && $request->nivel >= -1) {
+                $mensaje = "Descuento aplicado correctamente";
+            } elseif ($request->nivel > 0 && $request->nivel <= 1) {
+                $mensaje = "Recargo aplicado correctamente";
+            } else {
+                Notify::error('Solo puede aplicarse un nivel entre -100% y 100%');
+                return back();
+            }
+            $factura->nivel = $request->nivel;
+            $factura->save();
+            Notify::success($mensaje);
+            return redirect()->action("FacturaController@show", ['id' => $request->factura_id]);
+        }
+        return abort(404);
+    }
+
+    /**
      * Anula una factura
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
@@ -316,8 +356,15 @@ class FacturaController extends Controller
                 Notify::warning('No se puede realizar un pago de una factura que no esté abierta');
                 return back();
             }
+            $suma = $factura->payments()->sum('amount');
+            $deuda = $factura->total - $suma;
+            if ($request->amount <= 0 || $request->amount > $deuda) {
+                Notify::error('No se puede realizar un pago con monto cero o un pago mayor a la deuda');
+                return redirect()->back();
+            }
             Payment::create($request->all());
-            if ($factura->payments()->sum('amount') == $factura->total) {
+            $suma = $suma + $request->amount;
+            if ($suma == $factura->total) {
                 $factura->estado()->associate($estado_cerrada);
                 $factura->save();
             }

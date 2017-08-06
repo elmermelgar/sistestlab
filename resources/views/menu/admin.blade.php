@@ -9,12 +9,12 @@
         <li><a href="{{url('roles')}}">Roles</a></li>
         <li><a href="{{url('permisos')}}">Permisos</a></li>
         <li><a href="{{url('bonos')}}">Bonos</a></li>
-        <li><a href="{{url('niveles')}}">Niveles (Ganancia)</a></li>
+        {{--<li><a href="{{url('niveles')}}">Niveles (Ganancia)</a></li>--}}
     </ul>
 </li>
 @include('menu.sucursal')
 <li>
-    <a><i class="fa fa-image fw"></i>Imagenes
+    <a><i class="fa fa-image fw"></i>Imágenes
         <span class="fa fa-chevron-down"></span>
     </a>
     <ul class="nav child_menu">
