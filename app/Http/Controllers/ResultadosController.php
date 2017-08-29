@@ -20,15 +20,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Jleon\LaravelPnotify\Notify;
 use Carbon\Carbon;
+use App\Services\InventarioService;
 
 class ResultadosController extends Controller
 {
     /**
-     * Create a new controller instance.
+    * @var InventarioService
+    */
+    private $inventarioService;
+
+    /**
+     * InventarioController constructor.
      */
-    public function __construct()
+    public function __construct(InventarioService $inventarioService)
     {
         $this->middleware('auth');
+        $this->inventarioService = $inventarioService;
     }
 
     /**
@@ -87,7 +94,17 @@ class ResultadosController extends Controller
         $exam_p->estado_id = $estado->id;
         $exam_p->fecha_validado = Carbon::now();
         $exam_p->save();
-        Notify::success('Boleta de resultados aprobada correctamente');
+        $exam_activo=DB::table('exam_activo')->where([
+            ['exam_id', '=', $exam_p->id],])->get();
+        if ($exam_activo){
+            foreach ($exam_activo as $item){
+                $resultado = $this->inventarioService->descargar(
+                    auth()->user()->sucursal_id, $item->activo_id, $item->cantidad);
+            }
+            Notify::success('Boleta de resultados aprobada correctamente');
+        }else{
+            Notify::danger($this->inventarioService->messages[$exam_activo], 'Error!!');
+        }
         return back();
     }
 

@@ -143,6 +143,8 @@
 
                             </td>
                             <td>
+                                <a href="{{url('results/ticket/'.$examen->exam->id.'/'.$examen->id.'')}}"
+                                   class="btn btn-primary bg-blue"><i class="fa fa-eye"></i> Ver</a>
                                 {{--@if($examen->estado_id == null)--}}
                                     {{--<a href="{{url('results/'.$examen->exam->id.'/'.$examen->id.'/complete')}}"--}}
                                        {{--class="btn btn-primary bg-purple"><i class="fa fa-pencil-square"></i> Llenar--}}
