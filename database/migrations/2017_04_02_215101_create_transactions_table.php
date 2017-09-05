@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('sucursal_id');
             $table->decimal('amount')->default(0);
-            $table->integer('type')->default(0);
+            $table->smallInteger('type')->default(0);
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('sucursal_id')->references('id')->on('sucursales');

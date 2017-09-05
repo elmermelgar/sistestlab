@@ -15,13 +15,13 @@ class CreateTaxCreditsTable extends Migration
     {
         Schema::create('tax_credits', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->string('numero', 8);
+            $table->integer('account_id');
+            $table->char('numero', 8);
             $table->decimal('total')->default(0);
             $table->boolean('closed')->default(false);
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 

@@ -31,7 +31,7 @@ class BoxRegistry extends Model
      * @var array
      */
     protected $fillable = [
-        'sucursal_id', 'user_id', 'state', 'cash', 'debit', 'debt', 'cost'
+        'sucursal_id', 'account_id', 'state', 'cash', 'debit', 'debt', 'cost'
     ];
 
     /**
@@ -48,11 +48,11 @@ class BoxRegistry extends Model
     }
 
     /**
-     * Obtiene el usuario correspondiente al registro.
+     * Obtiene la cuenta del usuario correspondiente al registro.
      */
-    public function user()
+    public function account()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Account');
     }
 
 }

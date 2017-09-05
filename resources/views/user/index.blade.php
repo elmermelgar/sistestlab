@@ -53,9 +53,8 @@
             <table class="table table-striped" id="datatable">
                 <thead>
                 <tr>
-                    <th data-field="id" data-sortable="true">Id</th>
+                    <th data-field="id" data-sortable="true">ID</th>
                     <th data-field="name" data-sortable="true">Nombre</th>
-                    <th data-field="surname" data-sortable="true">Apellido</th>
                     <th data-field="email" data-sortable="true">Email</th>
                     <th data-field="sucursal" data-sortable="true">Sucursal</th>
                     <th data-field="last_login" data-sortable="true">Ultimo Acceso</th>
@@ -68,9 +67,8 @@
                     <tr>
                         <td>{{$user->id}}</td>
                         <td>{{$user->name}}</td>
-                        <td>{{$user->surname}}</td>
                         <td>{{$user->email}}</td>
-                        <td>{{$user->sucursal? $user->sucursal->display_name:'--'}}</td>
+                        <td>{{$user->account->sucursal->display_name}}</td>
                         <td>{{$user->last_login}}</td>
                         <td>
                             <a href="{{ url('usuarios/'.$user->id )}}"

@@ -9,19 +9,21 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('/clientes')}}">Clientes</a></li>
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
+            <li><a href="{{route('customer')}}">Clientes</a></li>
             <li>{{$cliente? $cliente->razon_social:'Nuevo'}}</li>
         </ol>
     </div>
 
     @if ($errors->any())
-        <ul class="alert alert-danger">
-            @foreach ($errors->all() as $error)
+        <div class="alert alert-danger">
+            <ul>
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <div class="x_panel">
@@ -37,49 +39,68 @@
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{url('clientes/store')}}"
+            <form class="form-horizontal form-label-left" method="post" action="{{route('customer.store')}}"
                   enctype="multipart/form-data">
                 {{csrf_field()}}
 
                 <div class="col-md-8 col-sm-8 col-xs-12 col-sm-offset-1">
 
-                    <div class="form-group hidden">
-                        <label for="id" class="control-label col-md-4 col-sm-4 col-xs-12"> Id
+                    @if($cliente)
+                        <div class="form-group hidden">
+                            <label for="id" class="control-label col-md-4 col-sm-4 col-xs-12"> Id
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input type="hidden" id="id" name="id" class="form-control" placeholder="ID"
+                                       value="{{$cliente? $cliente->id:old('id')}}" required readonly>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="form-group">
+                        <label for="sucursal_id" class="control-label col-md-4 col-sm-4 col-xs-12"> Sucursal
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input id="id" name="id" class="form-control" placeholder="ID"
-                                   value="{{$cliente? $cliente->id:old('id')}}" @if($cliente) required @endif>
+                            <select id="sucursal_id" name="sucursal_id" class="sucursal form-control" required>
+                                @foreach($sucursales as $sucursal)
+                                    <option value="{{$sucursal->id}}"
+                                            @if($cliente? $cliente->account->sucursal_id==$sucursal->id:null)
+                                            selected
+                                            @endif>
+                                        {{$sucursal->display_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="centro_origen" class="control-label col-md-4 col-sm-4 col-xs-12">Registrar como
+                        <label for="origin_center" class="control-label col-md-4 col-sm-4 col-xs-12">Registrar como
                             Centro de Origen</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="checkbox" id="centro_origen" name="centro_origen" class="custom-check"
-                                   @if($cliente? $cliente->centro_origen:null) checked @endif>
+                            <input type="checkbox" id="origin_center" name="origin_center" class="custom-check"
+                                   @if($cliente? $cliente->origin_center:null) checked @endif>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="persona_juridica" class="control-label col-md-4 col-sm-4 col-xs-12">Persona</label>
+                        <label for="juridical_person" class="control-label col-md-4 col-sm-4 col-xs-12">Persona</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="radio" id="persona_natural" name="persona_juridica" class="custom-check"
-                                   value="false" @if($cliente? !$cliente->persona_juridica:true) checked @endif>
+                            <input type="radio" id="natural_person" name="juridical_person" class="custom-check"
+                                   value="0" @if($cliente? !$cliente->juridical_person:true) checked @endif>
                             Natural <br>
-                            <input type="radio" id="persona_juridica" name="persona_juridica" class="custom-check"
-                                   value="true" @if($cliente? $cliente->persona_juridica:null) checked @endif>
+                            <input type="radio" id="juridical_person" name="juridical_person" class="custom-check"
+                                   value="1" @if($cliente? $cliente->juridical_person:null) checked @endif>
                             Jurídica <br>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="razon_social" class="control-label col-md-4 col-sm-4 col-xs-12"> Razón Social
+                        <label for="name" class="control-label col-md-4 col-sm-4 col-xs-12"> Razón Social
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input id="razon_social" name="razon_social" class="form-control" placeholder="Razón Social"
-                                   maxlength="255" value="{{$cliente? $cliente->razon_social:old('razon_social')}}"
+                            <input id="name" name="name" class="form-control" placeholder="Razón Social"
+                                   maxlength="255" value="{{$cliente? $cliente->name:old('name')}}"
                                    required>
                         </div>
                     </div>
@@ -90,9 +111,9 @@
                                 DUI <span class="required">*</span>
                             </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="dui" name="dui" class="form-control" placeholder="DUI"
-                                       value="{{$cliente? $cliente->dui:old('dui')}}" maxlength="10"
-                                       data-inputmask="'mask': '99999999-9'">
+                                <input id="identity_document" name="identity_document" class="form-control"
+                                       placeholder="DUI" maxlength="10" data-inputmask="'mask': '99999999-9'"
+                                       value="{{$cliente? $cliente->identity_document:old('identity_document')}}">
                             </div>
                         </div>
                     </div>
@@ -119,23 +140,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="giro" class="control-label col-md-4 col-sm-4 col-xs-12"> Giro
+                            <label for="business" class="control-label col-md-4 col-sm-4 col-xs-12"> Giro
                                 <span class="required">*</span></label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="giro" name="giro" class="form-control" placeholder="Giro"
-                                       maxlength="255" value="{{$cliente? $cliente->giro:old('giro')}}">
+                                <input id="business" name="business" class="form-control" placeholder="Giro"
+                                       maxlength="255" value="{{$cliente? $cliente->business:old('business')}}">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="telefono" class="control-label col-md-4 col-sm-4 col-xs-12"> Teléfono
+                        <label for="phone_number" class="control-label col-md-4 col-sm-4 col-xs-12">Teléfono
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input id="telefono" name="telefono" class="form-control" placeholder="Teléfono"
+                            <input id="phone_number" name="phone_number" class="form-control" placeholder="Teléfono"
                                    data-inputmask="'mask': '9999-9999'"
-                                   value="{{$cliente? $cliente->telefono:old('telefono')}}" required>
+                                   value="{{$cliente? $cliente->phone_number:old('phone_number')}}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -144,85 +165,85 @@
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <input type="email" id="email" name="email" class="form-control" placeholder="Email"
                                    maxlength="255"
-                                   value=" @if(isset($cliente->user->email)) {{$cliente->user->email}}
+                                   value=" @if(isset($cliente->account->user->email)) {{$cliente->account->user->email}}
                                    @else {{old('email')}}
                                    @endif ">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="direccion" class="control-label col-md-4 col-sm-4 col-xs-12"> Dirección</label>
+                        <label for="address" class="control-label col-md-4 col-sm-4 col-xs-12"> Dirección</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <textarea id="direccion" name="direccion" class="form-control resize"
+                            <textarea id="address" name="address" class="form-control resize"
                                       placeholder="Dirección"
-                                      maxlength="255">{{$cliente? $cliente->direccion:old('direccion')}}</textarea>
+                                      maxlength="255">{{$cliente? $cliente->address:old('address')}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="descripcion" class="control-label col-md-4 col-sm-4 col-xs-12"> Descripción/Comentario</label>
+                        <label for="comment" class="control-label col-md-4 col-sm-4 col-xs-12">
+                            Descripción/Comentario</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <textarea id="descripcion" name="descripcion" class="form-control resize"
-                                      placeholder="Descripción"
-                                      maxlength="255">{{$cliente? $cliente->descripcion:old('descripcion')}}</textarea>
+                            <textarea id="comment" name="comment" class="form-control resize" placeholder="Descripción"
+                                      maxlength="255">{{$cliente? $cliente->comment:old('comment')}}</textarea>
                         </div>
                     </div>
 
                     <br>
                     <div class="form-group">
-                        <label for="paciente" class="control-label col-md-4 col-sm-4 col-xs-12">Registrar como
+                        <label for="patient" class="control-label col-md-4 col-sm-4 col-xs-12">Registrar como
                             paciente</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input type="checkbox" id="paciente" name="paciente" class="custom-check"
-                                   @if($cliente? $cliente->pacientes()->wherePivot('same_record',true)->first():null) checked @endif>
+                            <input type="checkbox" id="patient" name="patient" class="custom-check"
+                                   @if($paciente) checked @endif>
                         </div>
                     </div>
 
                     <div class="hidden" id="div_paciente">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-4 col-sm-4 col-xs-12"> Nombre
+                            <label for="first_name" class="control-label col-md-4 col-sm-4 col-xs-12"> Nombre
                                 <span class="required">*</span>
                             </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="nombre" name="nombre" class="form-control" placeholder="Nombre"
-                                       maxlength="255" value="{{$paciente? $paciente->nombre:old('nombre')}}" disabled>
+                                <input id="first_name" name="first_name" class="form-control" placeholder="Nombre"
+                                       maxlength="255" value="{{$paciente? $paciente->first_name:old('first_name')}}"
+                                       disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="apellido" class="control-label col-md-4 col-sm-4 col-xs-12"> Apellido
+                            <label for="last_name" class="control-label col-md-4 col-sm-4 col-xs-12"> Apellido
                                 <span class="required">*</span>
                             </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="apellido" name="apellido" class="form-control" placeholder="Apellido"
-                                       maxlength="255" value="{{$paciente? $paciente->apellido:old('apellido')}}"
+                                <input id="last_name" name="last_name" class="form-control" placeholder="Apellido"
+                                       maxlength="255" value="{{$paciente? $paciente->last_name:old('last_name')}}"
                                        disabled>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="sexo" class="control-label col-md-4 col-sm-4 col-xs-12"> Sexo
+                            <label for="sex" class="control-label col-md-4 col-sm-4 col-xs-12"> Sexo
                                 <span class="required">*</span>
                             </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <select id="sexo" name="sexo" class="form-control" required disabled>
-                                    <option value="Masculino"
+                                <select id="sex" name="sex" class="form-control" required disabled>
+                                    <option value="M"
                                             @if($paciente? $paciente->sexo=="Masculino":null) selected @endif>
                                         Masculino
                                     </option>
-                                    <option value="Femenino"
+                                    <option value="F"
                                             @if($paciente? $paciente->sexo=="Femenino":null) selected @endif>Femenino
                                     </option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="fecha_nacimiento" class="control-label col-md-4 col-sm-4 col-xs-12"> Fecha de
+                            <label for="birth_date" class="control-label col-md-4 col-sm-4 col-xs-12"> Fecha de
                                 nacimiento
                                 <span class="required">*</span>
                             </label>
                             <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input class="form-control has-feedback-left" id="fecha_nacimiento"
-                                       name="fecha_nacimiento"
+                                <input id="birth_date" name="birth_date" class="form-control has-feedback-left"
                                        placeholder="Fecha de nacimiento" required disabled
-                                       value="{{$paciente? $paciente->fecha_nacimiento:old('fecha_nacimiento')}}">
+                                       value="{{$paciente? $paciente->birth_date:old('birth_date')}}">
                                 <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -236,7 +257,7 @@
                             Usuario</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <input type="checkbox" id="user" name="user" class="custom-check"
-                                   @if(isset($cliente->user))
+                                   @if(isset($cliente->account->user))
                                    checked
                                     @endif >
                             <i>(Se le enviará un correo electrónico al usuario)</i>

@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/recolectores')}}">Recolectores</a></li>
-            <li>{{$recolector->getFullName()}}</li>
+            <li>{{$recolector->name()()}}</li>
         </ol>
     </div>
 
@@ -26,12 +26,12 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    <h3>Recolector {{$recolector->getFullName()}}</h3>
+                    <h3>Recolector {{$recolector->name()()}}</h3>
 
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <h4>{{$recolector->getFullName()}}</h4>
+                    <h4>{{$recolector->name()()}}</h4>
 
                     <ul class="list-unstyled user_data">
                         <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
@@ -90,11 +90,12 @@
                 <div class="x_content">
                     <h4>Recolecciones realizadas éste día</h4>
 
-                    <table class="table table-striped " id="datatable">
+                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th data-field="id" data-sortable="true"># Factura</th>
+                            <th data-field="id" data-sortable="true">ID Factura</th>
                             <th data-field="monto" data-sortable="true">Monto (USD)</th>
+                            <th data-field="accion" data-sortable="false">Acción</th>
                         </tr>
                         </thead>
 
@@ -102,13 +103,16 @@
                         @php $recoleccion_total=0 @endphp
                         @forelse($recolecciones as $recoleccion)
                             <tr>
-                                <td>{{$recoleccion->id.' - '.$recoleccion->numero}}</td>
+                                <td>{{$recoleccion->id}}</td>
                                 <td>$ {{$recoleccion->total}}</td>
+                                <td><a href="{{route('factura.show',$recoleccion->id)}}" class="btn btn-success btn-sm">
+                                        <i class="fa fa-eye"></i></a>
+                                </td>
                                 @php $recoleccion_total+=$recoleccion->total @endphp
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4">Sin recoleciones este día!</td>
+                                <td colspan="4">Sin recolecciones este día!</td>
                             </tr>
                         @endforelse
                         <tr>

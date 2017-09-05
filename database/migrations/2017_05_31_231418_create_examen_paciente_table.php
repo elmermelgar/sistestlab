@@ -16,9 +16,9 @@ class CreateExamenPacienteTable extends Migration
         Schema::create('examen_paciente', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('exam_id');
-            $table->integer('paciente_id')->nullable();
+            $table->integer('patient_id')->nullable();
             $table->integer('invoice_profile_id');
-            $table->integer('user_id')->nullable();
+            $table->integer('account_id')->nullable();
             $table->integer('estado_id')->nullable();
             $table->string('paciente_nombre')->nullable();
             $table->string('paciente_sexo', 1)->nullable();
@@ -29,10 +29,10 @@ class CreateExamenPacienteTable extends Migration
             $table->date('fecha_validado')->nullable();
             $table->string('observacion')->nullable();
             $table->foreign('exam_id')->references('id')->on('exams');
-            $table->foreign('paciente_id')->references('id')->on('pacientes');
+            $table->foreign('patient_id')->references('id')->on('patients');
             $table->foreign('invoice_profile_id')->references('id')->on('invoice_profile')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('account_id')->references('id')->on('accounts');
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->timestamps();
         });

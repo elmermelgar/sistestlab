@@ -28,13 +28,13 @@ $(document).ready(function () {
         if (repo.loading) return repo.text;
 
         var markup = "<div class='select2-result-repository clearfix'>" +
-//                    "<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
+            //"<div class='select2-result-repository__avatar'><img src='" + repo.owner.avatar_url + "' /></div>" +
             "<div class='select2-result-repository__avatar'><img src='" + "http://testlab.dev/storage/photos/user.png" + "' /></div>" +
             "<div class='select2-result-repository__meta'>" +
-            "<div class='select2-result-repository__title'>" + repo.razon_social + "</div>";
+            "<div class='select2-result-repository__title'>" + repo.name + "</div>";
 
-        if (repo.descripcion) {
-            markup += "<div class='select2-result-repository__description'>" + repo.descripcion + "</div>";
+        if (repo.nit) {
+            markup += "<div class='select2-result-repository__description'>" + "NIT: " + repo.nit + "</div>";
         }
 
         return markup;
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
     function formatRepoSelection(repo) {
         $("#nit").val(repo.nit);
-        return repo.razon_social || repo.text;
+        return repo.name;
     }
 
     function formatRepoProfile(repo) {
@@ -63,7 +63,7 @@ $(document).ready(function () {
         $('#modal_profile_name').val(repo.name);
         $('#modal_profile_display_name').val(repo.display_name);
         $('#modal_profile_price').val(repo.price);
-        return repo.display_name || repo.text;
+        return repo.display_name;
     }
 
     function formatRepoPaciente(repo) {
@@ -71,7 +71,7 @@ $(document).ready(function () {
 
         var markup = "<div class='select2-result-repository clearfix'>" +
             "<div class='select2-result-repository__meta'>" +
-            "<div class='select2-result-repository__title'>" + repo.full_name + "</div>";
+            "<div class='select2-result-repository__title'>" + repo.name + "</div>";
 
         markup += "<div class='select2-result-repository__description'>";
         (repo.dui !== '') ? markup += "DUI: " + repo.dui + " " : null;
@@ -81,10 +81,10 @@ $(document).ready(function () {
     }
 
     function formatRepoSelectionPaciente(repo) {
-        $('#modal_nombre').val(repo.full_name);
+        $('#modal_nombre').val(repo.name);
         $('#modal_edad').val(repo.edad);
         $('#modal_sexo').val(repo.sexo);
-        return repo.full_name || repo.text;
+        return repo.name;
     }
 
     $("#cliente_id").select2({
@@ -195,7 +195,7 @@ $(document).ready(function () {
             delay: 250,
             data: function (params) {
                 return {
-                    full_name: params.term, // search term
+                    name: params.term, // search term
                     page: params.page
                 };
             },

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 
-use App\Cliente;
+use App\Customer;
 use App\Profile;
 use Illuminate\Support\Facades\DB;
 
@@ -13,14 +13,14 @@ class SearchService
     /**
      * Busca y retorna a los clientes que coincidan con la razon social especificada
      * Retorna una cadena json para ser usada con Select2 AJAX
-     * @param string $razon_social
+     * @param string $name
      * @return string
      */
-    public function searchCustomer($razon_social)
+    public function searchCustomer($name)
     {
         try {
             //$razon_social = Input::get('razon_social');
-            $cliente = Cliente::where('razon_social', '~*', $razon_social)->get();
+            $cliente = Customer::select(['id', 'name', 'nit'])->where('name', '~*', $name)->get();
             $resultado = [
                 "total_count" => count($cliente),
                 "incomplete_results" => false,
@@ -70,13 +70,13 @@ class SearchService
     /**
      * Busca y retorna a los clientes que coincidan con nombre especificado
      * Retorna una cadena json para ser usada con Select2 AJAX
-     * @param string $full_name
+     * @param string $name
      * @return string
      */
-    public function searchPaciente($full_name)
+    public function searchPaciente($name)
     {
         try {
-            $pacientes = DB::table('pacientes_vw')->where('full_name', '~*', $full_name)->get();
+            $pacientes = DB::table('pacientes_search_vw')->where('name', '~*', $name)->get();
             $resultado = [
                 "total_count" => count($pacientes),
                 "incomplete_results" => false,

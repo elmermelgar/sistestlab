@@ -52,10 +52,10 @@
             <table class="table table-hover" id="datatable">
                 <thead>
                 <tr>
-                    <th data-field="id" data-sortable="true">Id</th>
+                    <th data-field="id" data-sortable="true">ID</th>
+                    <th data-field="identity_document" data-sortable="true">DUI</th>
                     <th data-field="name" data-sortable="true">Nombre</th>
                     <th data-field="surname" data-sortable="true">Apellido</th>
-                    <th data-field="email" data-sortable="true">Email</th>
                     <th data-field="telefono" data-sortable="true">Teléfono</th>
                     <th data-field="actions" data-sortable="false">Acciones</th>
                 </tr>
@@ -65,10 +65,10 @@
                 @foreach($pacientes as $paciente)
                     <tr>
                         <td>{{$paciente->id}}</td>
-                        <td>{{$paciente->nombre}}</td>
-                        <td>{{$paciente->apellido}}</td>
-                        <td>{{$paciente->email}}</td>
-                        <td>{{$paciente->telefono}}</td>
+                        <td>{{$paciente->identity_document}}</td>
+                        <td>{{$paciente->last_name}}</td>
+                        <td>{{$paciente->last_name}}</td>
+                        <td>{{$paciente->phone_number}}</td>
                         <td>
                             <a href="{{ url('pacientes/'.$paciente->id )}}"
                                class="btn btn-success btn-sm" title="Ver Paciente"><i

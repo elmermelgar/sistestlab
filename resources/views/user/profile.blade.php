@@ -13,8 +13,8 @@
                     <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
                          style="max-height: 200px"
                          src="
-                            @if($user->photo)
-                         {{url('/storage/photos/'.$user->photo)}}
+                            @if($user->account->photo)
+                         {{url('/storage/photos/'.$user->account->photo)}}
                          @else
                          {{url('/storage/photos/'. 'user.png')}}
                          @endif ">
@@ -28,8 +28,8 @@
                     <img class="img-responsive seal-view" alt="Seal" title="Change the seal"
                          style="max-height: 200px"
                          src="
-                            @if($user->seal)
-                         {{url('/storage/seals/'.$user->seal)}}
+                            @if($user->account->seal)
+                         {{url('/storage/seals/'.$user->account->seal)}}
                          @else
                          {{url('/storage/seals/'. 'seal.jpg')}}
                          @endif ">
@@ -38,11 +38,11 @@
             @endrole
         </div>
         <div class="col-md-9 col-sm-9 col-xs-12">
-            <h3>{{$user->getFullName()}}</h3>
+            <h3>{{$user->name}}</h3>
 
             <ul class="list-unstyled user_data">
-                <li><i class="fa fa-map-marker user-profile-icon"></i> Sucursal {{$user->sucursal?
-                $user->sucursal->display_name:'--'}}</li>
+                <li><i class="fa fa-map-marker user-profile-icon"></i>
+                    Sucursal {{$user->account->sucursal->display_name}}</li>
                 <li>
                     <i class="fa fa-briefcase user-profile-icon"></i>
                     @forelse($user->roles as $rol)

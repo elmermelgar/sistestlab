@@ -39,8 +39,8 @@
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="{{url('/home')}}" class="site_title">
                         <img alt="TestLab" class=" img-responsive logo" src="
-                        @if(Auth::user()->sucursal? Auth::user()->sucursal->imagen:null)
-                        {{url('/storage/images/'.Auth::user()->sucursal->imagen->file_name)}}
+                        @if(Auth::user()->account->sucursal? Auth::user()->account->sucursal->imagen:null)
+                        {{url('/storage/images/'.Auth::user()->account->sucursal->imagen->file_name)}}
                         @else
                         {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}
                         @endif ">
@@ -57,15 +57,15 @@
                 <div class="profile">
                     <div class="profile_pic">
                         <img src="
-                        @if(Auth::user()->photo)
-                        {{url('/storage/photos/'.Auth::user()->photo)}}
+                        @if(Auth::user()->account->photo)
+                        {{url('/storage/photos/'.Auth::user()->account->photo)}}
                         @else
                         {{url('/storage/photos/'. 'user.png')}}
                         @endif " alt="avatar" class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>Bienvenido,</span>
-                        <h2>{{Auth::user()->name.' '.Auth::user()->surname}}</h2>
+                        <h2>{{Auth::user()->name}}</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -113,23 +113,22 @@
                             <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown"
                                aria-expanded="false">
                                 <img src="
-                                @if(Auth::user()->photo)
-                                {{url('/storage/photos/'.Auth::user()->photo)}}
+                                @if(Auth::user()->account->photo)
+                                {{url('/storage/photos/'.Auth::user()->account->photo)}}
                                 @else
                                 {{url('/storage/photos/'. 'user.png')}}
-                                @endif "
-                                     alt=""> {{Auth::user()->name.' '.Auth::user()->surname}}
+                                @endif " alt=""> {{Auth::user()->name}}
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
                                 <li><a href="{{url('usuario/perfil')}}"> Perfil</a></li>
                                 <li><a href="{{url('ayuda')}}">Ayuda</a></li>
                                 <li>
-                                    <a href="{{ url('/logout') }}" onclick="event.preventDefault();
+                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         <i class="fa fa-sign-out pull-right"></i> Salir
                                     </a>
-                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                           style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
@@ -170,18 +169,18 @@
                             </ul>
                         </li>
 
-                        @if(Auth::user()->sucursal)
-                            <li>
-                                <a href="{{url('sucursal')}}">
-                                    <span>Sucursal {{Auth::user()->sucursal->display_name}}</span>
-                                    @if(\App\Services\SucursalService::isOpen(Auth::user()->sucursal->id))
-                                        <span style="margin: 5px 10px" class="badge bg-green pull-right">Abierta</span>
-                                    @else
-                                        <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
-                                    @endif
-                                </a>
-                            </li>
-                        @endif
+                        @permission('admin_caja')
+                        <li>
+                            <a href="{{url('sucursal')}}">
+                                <span>Sucursal {{Auth::user()->account->sucursal->display_name}}</span>
+                                @if(\App\Services\SucursalService::isOpen(Auth::user()->account->sucursal->id))
+                                    <span style="margin: 5px 10px" class="badge bg-green pull-right">Abierta</span>
+                                @else
+                                    <span style="margin: 5px 10px" class="badge bg-red pull-right">Cerrada</span>
+                                @endif
+                            </a>
+                        </li>
+                        @endpermission
 
 
                     </ul>
@@ -210,11 +209,6 @@
 </div>
 
 <!-- Scripts -->
-<script>
-    window.Laravel = <?php echo json_encode([
-        'csrfToken' => csrf_token(),
-    ]); ?>
-</script>
 
 <!-- jQuery -->
 <script src="{{url('gentallela/vendors/jquery/dist/jquery.min.js')}}"></script>

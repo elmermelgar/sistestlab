@@ -23,8 +23,8 @@ class CreateActivosTable extends Migration
             $table->string('serie')->nullable();
             $table->string('unidades')->nullable();
             $table->string('observacion')->nullable();
-            $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('foto')->nullable();
+            $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('proveedor_id')->nullable();
             $table->foreign('proveedor_id')->references('id')->on('proveedores');
         });

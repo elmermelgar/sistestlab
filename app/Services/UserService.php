@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Account;
 use App\Role;
 use App\User;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -52,7 +53,7 @@ class UserService
         $data['password'] = $aleat;
         $data['password_confirmation'] = $aleat;
         $this->validator($data)->validate();
-        $user=User::create($data);
+        $user = User::create($data);
         return $user;
     }
 
@@ -85,16 +86,16 @@ class UserService
     /**
      * Almacena la foto del usuario como un archivo imagen
      * @param UploadedFile $file
-     * @param User $user
+     * @param Account $account
      */
-    public function storageAvatar(UploadedFile $file, User $user)
+    public function storageAvatar(UploadedFile $file, Account $account)
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = $user->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
+        $filename = $account->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
         Storage::disk('public')->putFileAs($this->avatarPath, $file, $filename);
-        $user->photo ? Storage::disk('public')->delete($this->avatarPath . '/' . $user->photo) : null;
-        $user->photo = $filename;
-        $user->save();
+        $account->photo ? Storage::disk('public')->delete($this->avatarPath . '/' . $account->photo) : null;
+        $account->photo = $filename;
+        $account->save();
     }
 
     /**
@@ -105,7 +106,7 @@ class UserService
     public function storageSeal(UploadedFile $file, User $user)
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = 'seal-'.$user->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
+        $filename = 'seal-' . $user->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
         Storage::disk('public')->putFileAs($this->sealPath, $file, $filename);
         $user->seal ? Storage::disk('public')->delete($this->sealPath . '/' . $user->seal) : null;
         $user->seal = $filename;
@@ -159,13 +160,10 @@ class UserService
      */
     public function userDataFromCustomer(array $data)
     {
-        if (array_has($data, 'nombre')) {
-            $data['name'] = $data['nombre'];
+        if (array_has($data, 'last_name')) {
+            $data['name'] = $data['first_name'] . ' ' . $data['last_name'];
         } else {
-            $data['name'] = $data['razon_social'];
-        }
-        if (array_has($data, 'apellido')) {
-            $data['surname'] = $data['apellido'];
+            $data['name'] = $data['first_name'];
         }
         return $data;
     }
@@ -178,6 +176,7 @@ class UserService
     public function validator(array $data)
     {
         return Validator::make($data, [
+            'account_id' => 'required|integer|min:1',
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',

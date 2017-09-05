@@ -7,11 +7,11 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
             @if(Auth::user()->can('admin_clientes'))
-                <li><a href="{{url('/clientes')}}">Clientes</a></li>
+                <li><a href="{{route('customer')}}">Clientes</a></li>
             @endif
-            <li>{{$cliente->razon_social}}</li>
+            <li>{{$cliente->name}}</li>
         </ol>
     </div>
 
@@ -28,7 +28,7 @@
         <div class="x_panel">
 
             <div class="x_title">
-                <h3>@if($cliente->centro_origen) Centro de Origen @else Cliente @endif {{$cliente->razon_social}}</h3>
+                <h3>@if($cliente->origin_center) Centro de Origen @else Cliente @endif {{$cliente->name}}</h3>
 
                 <div class="clearfix"></div>
             </div>
@@ -48,9 +48,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
-                    <h4>{{$cliente->razon_social}}</h4>
-                    <p style="color: #0b97c4"><strong>{{$cliente->descripcion}}</strong></p>
+                <div class="col-md-8 col-sm-8 col-xs-12">
+                    <h4>{{$cliente->name}}</h4>
+                    <p style="color: #0b97c4"><strong>{{$cliente->comment}}</strong></p>
                     <ul class="list-unstyled user_data">
 
                         <li>
@@ -70,7 +70,7 @@
                         </li>
 
                         <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
-                            DUI: <strong>{{$cliente->dui}}</strong>
+                            DUI: <strong>{{$cliente->identity_document}}</strong>
                         </li>
                         <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
                             NIT: <strong>{{$cliente->nit}}</strong>
@@ -79,28 +79,26 @@
                             DUI: <strong>{{$cliente->nrc}}</strong>
                         </li>
                         <li><i class="fa fa-briefcase fa-fw user-profile-icon"></i>
-                            Giro: <strong>{{$cliente->giro}}</strong>
+                            Giro: <strong>{{$cliente->business}}</strong>
                         </li>
                         <li><i class="fa fa-envelope fa-fw user-profile-icon"></i>
-                            Email: <strong>{{$cliente->user? $cliente->user->email:'--'}}</strong>
+                            Email: <strong>{{$cliente->account->user? $cliente->account->user->email:'--'}}</strong>
                         </li>
                         <li><i class="fa fa-phone fa-fw user-profile-icon"></i>
-                            Telefono: <strong>{{$cliente->telefono}}</strong>
+                            Telefono: <strong>{{$cliente->phone_number}}</strong>
                         </li>
                         <li><i class="fa fa-building fa-fw user-profile-icon"></i>
-                            Dirección: <strong>{{$cliente->direccion}}</strong>
+                            Dirección: <strong>{{$cliente->address}}</strong>
                         </li>
                         <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
                             Registrado en: <strong>{{$cliente->created_at}}</strong>
                         </li>
                     </ul>
 
-                    <a class="btn btn-primary" href="
-            @if(Auth::user()->can('admin_clientes'))
-                    {{url('clientes/'.$cliente->id.'/edit')}}
-                    @else
-                    {{url('cliente/editar/')}}
-                    @endif "><i class="fa fa-edit m-right-xs"></i>Editar Cliente</a>
+                    @permission('admin_clientes')
+                    <a class="btn btn-primary" href="{{route('customer.edit',$cliente->id)}}">
+                        <i class="fa fa-edit m-right-xs"></i>Editar Cliente</a>
+                    @endpermission
                     <br/>
                 </div>
             </div>
@@ -188,18 +186,16 @@
                         <th data-field="dui" data-sortable="true">Documento de identidad</th>
                         <th data-field="nombre" data-sortable="true">Nombre</th>
                         <th data-field="telefono" data-sortable="true">Teléfono</th>
-                        <th data-field="email" data-sortable="true">Email</th>
                         <th data-field="actions" data-sortable="true">Acciones</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    @forelse($cliente->pacientes as $paciente)
+                    @forelse($cliente->patients as $paciente)
                         <tr>
-                            <td>{{$paciente->dui }}</td>
-                            <td>{{$paciente->getFullName()}}</td>
-                            <td>{{$paciente->telefono}}</td>
-                            <td>{{$paciente->email}}</td>
+                            <td>{{$paciente->identity_document }}</td>
+                            <td>{{$paciente->name}}</td>
+                            <td>{{$paciente->phone_number}}</td>
                             <td>
                                 <a class="btn btn-info btn-xs" title="Ver Paciente"
                                    href="{{ url('pacientes/' . $paciente->id) }}">

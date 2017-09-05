@@ -51,34 +51,40 @@ $factory->define(App\Recolector::class, function (Faker\Generator $faker) {
     return [
         'nombre' => $faker->firstName,
         'apellido' => $faker->lastName,
-        'dui' => $faker->randomNumber(9),
-        'nit' => $faker->randomNumber(9) . $faker->randomNumber(5),
+        'dui' => $faker->randomNumber(9, true),
+        'nit' => $faker->randomNumber(9, true) . $faker->randomNumber(5, true),
         'activo' => true,
     ];
 });
 
-$factory->define(App\Cliente::class, function (Faker\Generator $faker) {
+$factory->define(App\Customer::class, function (Faker\Generator $faker) {
 
     $juridica = $faker->boolean;
+    $sucursales = \App\Sucursal::pluck('id')->all();
     return [
-        'persona_juridica' => $juridica,
-        'centro_origen' => $juridica && $faker->boolean,
-        'razon_social' => $faker->name,
-        'dui' => $faker->randomNumber(9),
-        'nit' => $faker->randomNumber(9) . $faker->randomNumber(5),
-        'telefono' => $faker->randomNumber(8),
-        'descripcion' => $faker->sentence(3),
+        'sucursal_id' => $faker->randomElement($sucursales),
+        'identity_document' => $faker->randomNumber(9, true),
+        'first_name' => $faker->firstName(),
+        'last_name' => $faker->lastName,
+        'phone_number' => $faker->randomNumber(8, true),
+        'address' => $faker->sentence(6),
+        'juridical_person' => $juridica,
+        'origin_center' => $juridica && $faker->boolean,
+        'nit' => $faker->randomNumber(9, true) . $faker->randomNumber(5, true),
+        'comment' => $faker->sentence(3),
     ];
 });
 
-$factory->define(App\Paciente::class, function (Faker\Generator $faker) {
+$factory->define(App\Patient::class, function (Faker\Generator $faker) {
 
+    $sucursales = \App\Sucursal::pluck('id')->all();
     return [
-        'dui' => $faker->randomNumber(9),
-        'nombre' => $faker->firstName,
-        'apellido' => $faker->lastName,
-        'telefono' => $faker->randomNumber(8),
-        'fecha_nacimiento' => $faker->date('Y-m-d', 'now'),
-        'sexo' => $faker->randomElement(['M', 'F']),
+        'sucursal_id' => $faker->randomElement($sucursales),
+        'identity_document' => $faker->randomNumber(9, true),
+        'first_name' => $faker->firstName(),
+        'last_name' => $faker->lastName,
+        'phone_number' => $faker->randomNumber(8, true),
+        'birth_date' => $faker->date('Y-m-d', 'now'),
+        'sex' => $faker->randomElement(['M', 'F']),
     ];
 });

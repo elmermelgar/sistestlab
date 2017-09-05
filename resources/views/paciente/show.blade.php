@@ -11,7 +11,7 @@
             @if(Auth::user()->can('admin_pacientes'))
                 <li><a href="{{url('/pacientes')}}">Pacientes</a></li>
             @endif
-            <li>{{$paciente->getFullName()}}</li>
+            <li>{{$paciente->name()}}</li>
         </ol>
     </div>
 
@@ -28,12 +28,12 @@
         <div class="x_panel">
 
             <div class="x_title">
-                <h3>Paciente {{$paciente->getFullName()}}</h3>
+                <h3>Paciente {{$paciente->name()}}</h3>
 
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <h4>{{$paciente->getFullName()}}</h4>
+                <h4>{{$paciente->name()}}</h4>
 
                 <ul class="list-unstyled user_data">
 

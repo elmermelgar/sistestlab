@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Role;
 use App\Services\UserService;
 use App\Sucursal;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Jleon\LaravelPnotify\Notify;
 use Ramsey\Uuid\Uuid;
+use Swift_TransportException;
 
 class UserController extends Controller
 {
@@ -99,24 +103,51 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->id && $user = User::find($request->id)) {
-            $user->update($request->except(['id', '_token']));
-        } else {
-            $aleat = Uuid::uuid4();
-            $request->merge(['password' => $aleat, 'password_confirmation' => $aleat]);
-            $this->userService->validator($request->all())->validate();
-            $user = User::create($request->except(['id', '_token']));
-            $this->userService->sendResetLink($user);
+        //Empieza la transacción
+        DB::beginTransaction();
+
+        try {
+            $request->merge(['phone_number' => str_replace('-', '', $request->phone_number)]);
+            $this->validate($request, $this->rules());
+
+            if ($request->id && $user = User::find($request->id)) {
+                $user->account->update($request->all());
+                $user->update($request->only(['email']));
+            } else {
+                $account = Account::create($request->all());
+                $request->merge(['account_id' => $account->id]);
+                $request->merge(['name' => $request->first_name . ' ' . $request->last_name]);
+                $user = $this->userService->createUser($request->all());
+                $this->userService->sendResetLink($user);
+            }
+            if ($roles = $request->input('roles')) {
+                $this->userService->assignRoles($roles, $user);
+            }
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $this->userService->storageAvatar($request->file('avatar'), $user->account);
+            }
+            if ($request->hasFile('seal') && $request->file('seal')->isValid()) {
+                $this->userService->storageSeal($request->file('seal'), $user->account);
+            }
+
+            //Exito, hace efectivos todos los cambios en la base de datos
+            DB::commit();
+        } catch (\Exception $e) {
+            //Ocurre algun error, deshace los todos los cambios en la base de datos y responde con un mensaje
+            DB::rollBack();
+            if ($e instanceof ValidationException) {
+                return back()->withInput()->withErrors($e->validator->errors());
+            }
+            Notify::error('Ha ocurrido un error al registrar al cliente');
+            if ($e instanceof Swift_TransportException) {
+                Notify::error('No se ha podido enviar el email con los datos de la cuenta al usuario');
+            }
+            \Log::error($e);
+            return back()->withInput();
         }
-        if ($roles = $request->input('roles')) {
-            $this->userService->assignRoles($roles, $user);
-        }
-        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-            $this->userService->storageAvatar($request->file('avatar'), $user);
-        }
-        if ($request->hasFile('seal') && $request->file('seal')->isValid()) {
-            $this->userService->storageSeal($request->file('seal'), $user);
-        }
+
+        //Se completó el registro del cliente exitosamente
+        Notify::success('Usuario registrado correctamente');
         return redirect()->action('UserController@show', ['id' => $user->id]);
     }
 
@@ -152,6 +183,22 @@ class UserController extends Controller
         }
         Notify::warning('No se habilitó al usuario');
         return redirect()->back();
+    }
+
+    /**
+     * Reglas para validar la petición
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'sucursal_id' => 'required|integer|min:1',
+            'first_name' => 'required|max:127',
+            'last_name' => 'max:127',
+            'phone_number' => 'required|max:8',
+            'address' => 'max:255',
+            'comment' => 'max:255',
+        ];
     }
 
 }

@@ -9,7 +9,6 @@
         <li><a href="{{url('roles')}}">Roles</a></li>
         <li><a href="{{url('permisos')}}">Permisos</a></li>
         <li><a href="{{url('bonos')}}">Bonos</a></li>
-        {{--<li><a href="{{url('niveles')}}">Niveles (Ganancia)</a></li>--}}
     </ul>
 </li>
 @include('menu.sucursal')

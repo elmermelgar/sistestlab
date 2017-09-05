@@ -77,7 +77,7 @@
                     {{--cuando la factura sea un borrador, que pueda modificar, anular o facturar--}}
                     @if($factura->estado->name==\App\Factura::BORRADOR)
                         <div class="alignleft">
-                            <a class="btn btn-info btn-lg" href="{{route('factura_edit', ['id' => $factura->id])}}">
+                            <a class="btn btn-info btn-lg" href="{{route('factura.edit', ['id' => $factura->id])}}">
                                 <i class="fa fa-edit fa-fw"></i>Modificar</a>
                             <a class="btn btn-danger btn-lg" onclick="Anular({{$factura->id}})">
                                 <i class="fa fa-times fa-fw"></i>Anular</a>

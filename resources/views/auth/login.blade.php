@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -26,7 +26,7 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form role="form" method="POST" action="{{ url('/login') }}">
+                <form method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}
                     <h1>Iniciar Sesión</h1>
 

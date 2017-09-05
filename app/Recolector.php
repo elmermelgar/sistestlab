@@ -24,7 +24,7 @@ class Recolector extends Model
      * Devuelve el nombre completo del paciente
      * @return string
      */
-    public function getFullName()
+    public function name()
     {
         return $this->nombre . ' ' . $this->apellido;
     }

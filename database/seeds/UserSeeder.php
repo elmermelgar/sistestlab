@@ -1,5 +1,6 @@
 <?php
 
+use App\Account;
 use App\Role;
 use App\User;
 use App\Sucursal;
@@ -16,21 +17,31 @@ class UserSeeder extends Seeder
     {
         $san_salvador = Sucursal::where('name', 'san_salvador')->get()->first();
 
-        $nelson = new User();
-        $nelson->name = 'Nelson';
-        $nelson->surname = 'Rivera';
-        $nelson->email = 'rd12004@ues.edu.sv';
-        $nelson->password = bcrypt('asdasd');
-        $nelson->sucursal()->associate($san_salvador);
-        $nelson->save();
+        $nelson_account = Account::create([
+            'sucursal_id' => $san_salvador->id,
+            'first_name' => 'Nelson',
+            'last_name' => 'Rivera',
+            'phone_number' => '78688304'
+        ]);
+        $nelson = User::create([
+            'account_id' => $nelson_account->id,
+            'name' => $nelson_account->name(),
+            'email' => 'rd12004@ues.edu.sv',
+            'password' => bcrypt('asdasd'),
+        ]);
 
-        $elmer = new User();
-        $elmer->name = 'Elmer';
-        $elmer->surname = 'Melgar';
-        $elmer->email = 'elmermelgar999@gmail.com';
-        $elmer->password = bcrypt('123456');
-        $elmer->sucursal()->associate($san_salvador);
-        $elmer->save();
+        $elmer_account = Account::create([
+            'sucursal_id' => $san_salvador->id,
+            'first_name' => 'Elmer',
+            'last_name' => 'Melgar',
+            'phone_number' => '77777777'
+        ]);
+        $elmer = User::create([
+            'account_id' => $elmer_account->id,
+            'name' => $elmer_account->name(),
+            'email' => 'elmermelgar999@gmail.com',
+            'password' => bcrypt('123456'),
+        ]);
 
         $admin = Role::where('name', 'admin')->first();
 

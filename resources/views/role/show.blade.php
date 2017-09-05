@@ -91,7 +91,7 @@
                         @forelse($role->users as $user)
                             <tr>
                                 <td>{{$user->id}}</td>
-                                <td>{{$user->getFullName()}}</td>
+                                <td>{{$user->name}}</td>
                                 <td>{{$user->sucursal->display_name}}</td>
                                 <td>
                                     <a class="btn btn-info btn-xs" title="Ver Usuario"

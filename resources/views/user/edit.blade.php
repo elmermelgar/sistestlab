@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/usuarios')}}">Usuarios</a></li>
-            <li>{{$user?$user->getFullName():'Nuevo'}}</li>
+            <li>{{$user?$user->name:'Nuevo'}}</li>
         </ol>
     </div>
 
@@ -94,21 +94,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="name" class="control-label col-md-2 col-sm-2 col-xs-12"> Nombre
+                        <label for="first_name" class="control-label col-md-2 col-sm-2 col-xs-12"> Nombre
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="name" name="name" class="form-control" placeholder="Nombre"
-                                   value="{{$user? $user->name:old('name')}}" required>
+                            <input id="first_name" name="first_name" class="form-control" placeholder="Nombre"
+                                   value="{{$user? $user->account->first_name:old('first_name')}}" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="surname" class="control-label col-md-2 col-sm-2 col-xs-12"> Apellido
-                            <span class="required">*</span>
-                        </label>
+                        <label for="last_name" class="control-label col-md-2 col-sm-2 col-xs-12"> Apellido</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="surname" name="surname" class="form-control" placeholder="Apellido"
-                                   value="{{$user? $user->surname:old('surname')}}">
+                            <input id="last_name" name="last_name" class="form-control" placeholder="Apellido"
+                                   value="{{$user? $user->account->last_name:old('last_name')}}">
                         </div>
                     </div>
 
@@ -119,6 +117,33 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="email" id="email" name="email" class="form-control" placeholder="Email"
                                    value="{{$user? $user->email:old('email')}}" required @if($user) readonly @endif>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone_number" class="control-label col-md-2 col-sm-2 col-xs-12">Teléfono
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="phone_number" name="phone_number" class="form-control" placeholder="Teléfono"
+                                   data-inputmask="'mask': '9999-9999'"
+                                   value="{{$user? $user->account->phone_number:old('phone_number')}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="control-label col-md-2 col-sm-2 col-xs-12"> Dirección</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <textarea id="address" name="address" class="form-control resize"
+                                      placeholder="Dirección"
+                                      maxlength="255">{{$user? $user->account->address:old('address')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment" class="control-label col-md-2 col-sm-2 col-xs-12">
+                            Comentario</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <textarea id="comment" name="comment" class="form-control resize" placeholder="Commentario"
+                                      maxlength="255">{{$user? $user->account->comment:old('comment')}}</textarea>
                         </div>
                     </div>
 
@@ -196,7 +221,7 @@
     <script>
         $(document).ready(function () {
             $('.sucursal').SumoSelect({placeholder: 'Seleccione la sucursal a asignar'});
-            $('.role').SumoSelect({placeholder: 'Seleccione los roles a asignar'});
+            $('.role').SumoSelect({placeholder: 'Seleccione los roles a asignar', okCancelInMulti: true});
         });
     </script>
 @endsection

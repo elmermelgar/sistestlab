@@ -92,14 +92,6 @@ Route::group(['prefix' => 'bonos', 'middleware' => ['permission:admin_bonos']], 
     Route::post('store', 'BonoController@store');
 });
 
-Route::group(['prefix' => 'niveles', 'middleware' => ['permission:admin_niveles']], function () {
-
-    Route::get('/', 'NivelController@index');
-    Route::get('create', 'NivelController@create');
-    Route::get('{id}/edit', 'NivelController@edit');
-    Route::post('delete', 'NivelController@delete');
-    Route::post('store', 'NivelController@store');
-});
 
 Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_examenes']], function () {
 

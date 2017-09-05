@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClientePacienteTable extends Migration
+class CreateCustomerPatientTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +14,14 @@ class CreateClientePacienteTable extends Migration
     public function up()
     {
         // Create table for associating permissions to roles (Many-to-Many)
-        Schema::create('cliente_paciente', function (Blueprint $table) {
-            $table->integer('cliente_id')->unsigned();
-            $table->integer('paciente_id')->unsigned();
-            $table->boolean('same_record')->default(false);
-
-            $table->foreign('cliente_id')->references('id')->on('clientes')
+        Schema::create('customer_patient', function (Blueprint $table) {
+            $table->integer('customer_id')->unsigned();
+            $table->integer('patient_id')->unsigned();
+            $table->foreign('customer_id')->references('id')->on('customers')
                 ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('paciente_id')->references('id')->on('pacientes')
+            $table->foreign('patient_id')->references('id')->on('patients')
                 ->onUpdate('cascade')->onDelete('cascade');
-
-            $table->primary(['cliente_id', 'paciente_id']);
+            $table->primary(['customer_id', 'patient_id']);
         });
     }
 
@@ -35,6 +32,6 @@ class CreateClientePacienteTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cliente_paciente');
+        Schema::drop('customer_patient');
     }
 }

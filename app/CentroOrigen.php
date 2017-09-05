@@ -25,6 +25,6 @@ class CentroOrigen extends Model
      */
     public function cliente()
     {
-        return $this->belongsTo('App\Cliente','id');
+        return $this->belongsTo('App\Customer','id');
     }
 }

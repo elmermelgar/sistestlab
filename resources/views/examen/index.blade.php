@@ -61,7 +61,7 @@
                     <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 " style="height: 200px">
                         <a href="{{ url('examenes/'.$examen->id )}}">
                             <div class="tile-stats" style="background: #FFFFFF;">
-                                <div class="icon"><i class="fa fa-newspaper-o"></i>
+                                <div class="icon"><i class="fa fa-file-text-o"></i>
                                 </div>
                                 <div class="count">{{$examen->name}}</div>
 

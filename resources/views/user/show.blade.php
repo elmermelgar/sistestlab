@@ -11,7 +11,7 @@
             @if(Auth::user()->can('admin_users'))
                 <li><a href="{{url('/usuarios')}}">Usuarios</a></li>
             @endif
-            <li>{{$user->getFullName()}}</li>
+            <li>{{$user->name}}</li>
         </ol>
     </div>
 

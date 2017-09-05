@@ -29,19 +29,11 @@ class Sucursal extends Model
     }
 
     /**
-     * Activos de la sucursal
+     * Inventarios de la sucursal
      */
-    public function activos()
+    public function inventarios()
     {
-        return $this->hasMany('App\Activo');
-    }
-
-    /**
-     * Examenes por sucursal
-     */
-    public function exams()
-    {
-        return $this->hasMany('App\Exam');
+        return $this->hasMany('App\Inventario');
     }
 
     /**

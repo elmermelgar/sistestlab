@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label for="facturar_total">TOTAL(USD): </label>
-                        <input id="facturar_total" class="input-readonly" disabled value="{{$total}}">
+                        <input id="facturar_total" class="input-readonly" disabled value="{{number_format($total,2)}}">
 
                     </div>
                 </div>

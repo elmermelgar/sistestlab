@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Cliente;
+use App\Customer;
 use App\Estado;
 use App\Factura;
 use App\InvoiceProfile;
@@ -30,7 +30,7 @@ class CreditoFiscalController extends Controller
      */
     public function customers()
     {
-        $clientes = Cliente::join('facturas', 'clientes.id', '=', 'facturas.cliente_id')
+        $clientes = Customer::join('facturas', 'clientes.id', '=', 'facturas.cliente_id')
             ->where('facturas.credito_fiscal', true)->where('facturas.tax_credit_id', null)
             ->select(DB::raw('clientes.id, clientes.nit, clientes.razon_social, 
             count(facturas) as cantidad_facturas, sum(facturas.total) as total'))
@@ -84,7 +84,7 @@ class CreditoFiscalController extends Controller
         return view('credito_fiscal.edit', [
             'credito_fiscal' => null,
             'sucursal' => Auth::user()->sucursal,
-            'cliente' => Cliente::find($cliente_id),
+            'cliente' => Customer::find($cliente_id),
             'facturas' => $facturas,
             'user' => Auth::user(),
         ]);
@@ -97,10 +97,10 @@ class CreditoFiscalController extends Controller
     public function edit($id)
     {
         if ($credito_fiscal = TaxCredit::find($id)) {
-            if ($credito_fiscal->closed) {
-                Notify::warning('Éste crédito fiscal no puede modificarse');
-                return back();
-            }
+//            if ($credito_fiscal->closed) {
+//                Notify::warning('Éste crédito fiscal no puede modificarse');
+//                return back();
+//            }
             $cliente = $credito_fiscal->facturas()->first()->cliente;
             $facturas = Factura::where('tax_credit_id', null)->where('cliente_id', $cliente->id)
                 ->orWhere('tax_credit_id', $credito_fiscal->id)->orderBy('date')->orderBy('time')->get();

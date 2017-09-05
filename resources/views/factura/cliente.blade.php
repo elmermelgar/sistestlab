@@ -26,11 +26,11 @@
                             @foreach($recolectores as $recolector)
                                 <option value="{{$recolector->id}}"
                                         @if($recolector->id==($factura? $factura->recolector_id:0)) selected @endif
-                                >{{$recolector->getFullName()}}</option>
+                                >{{$recolector->name()()}}</option>
                             @endforeach
                         </select>
                     @else
-                        {{$factura->recolector->getFullName()}}
+                        {{$factura->recolector->name()()}}
                     @endif
                 </div>
             </div>

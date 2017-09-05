@@ -33,7 +33,7 @@
             <p><strong>Sucursal: </strong>{{$sucursal->display_name}}</p>
             <p><strong>Cliente: </strong>{{$cliente->razon_social}}</p>
             <p><strong>NIT Cliente: </strong>{{$cliente->nit}}</p>
-            <p><strong>Entregado por: </strong>{{$user->getFullName()}}</p>
+            <p><strong>Entregado por: </strong>{{$user->name}}</p>
             <br>
             <p><strong>Facturas disponibles para crédito fiscal:</strong></p>
             <table id="facturas" data-classes="table table-hover table-no-bordered" data-icons-prefix="fa">
@@ -56,7 +56,7 @@
                         <td>{{ (int) $factura->id}}</td>
                         <td>{{$factura->created_at}}</td>
                         <td>{{$factura->estado->display_name}}</td>
-                        <td>{{$factura->user->getFullName()}}</td>
+                        <td>{{$factura->account->name()}}</td>
                         <td>{{$factura->total}}</td>
                         <td>
                             <a target="_blank" href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
@@ -87,7 +87,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alignleft">
-                            <a class="btn btn-default" href="{{route('credito_fiscal.index')}}">
+                            <a class="btn btn-default" href="{{URL::previous()}}">
                                 <i class="fa fa-arrow-left fa-fw"></i>Regresar</a>
                         </div>
                         <div class="alignright">

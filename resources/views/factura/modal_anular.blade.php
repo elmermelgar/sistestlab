@@ -6,7 +6,7 @@
                             aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="annulModalLabel">Anular Factura</h4>
             </div>
-            <form method="post" action="{{route('factura_annul')}}">
+            <form method="post" action="{{route('factura.annul')}}">
                 {{csrf_field()}}
 
                 <div class="modal-body">

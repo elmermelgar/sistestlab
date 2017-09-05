@@ -62,7 +62,7 @@
                         <td>{{$registro['opening']->debit}}</td>
                         <td>{{$registro['opening']->debt}}</td>
                         <td>{{$registro['opening']->cost}}</td>
-                        <td>{{$registro['opening']->user? $registro['opening']->user->getFullName():'Sistema'}}</td>
+                        <td>{{$registro['opening']->account? $registro['opening']->account->name():'Sistema'}}</td>
                     </tr>
 
                     @if(isset($registro['closing']))
@@ -77,7 +77,7 @@
                             <td>{{$registro['closing']->debit}}</td>
                             <td>{{$registro['closing']->debt}}</td>
                             <td>{{$registro['closing']->cost}}</td>
-                            <td>{{$registro['closing']->user? $registro['closing']->user->getFullName():'Sistema'}}</td>
+                            <td>{{$registro['closing']->account? $registro['closing']->account->name():'Sistema'}}</td>
                         </tr>
                     @else
                         <tr>

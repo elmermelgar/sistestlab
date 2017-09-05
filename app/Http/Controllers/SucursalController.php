@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\BoxRegistry;
 use App\Imagen;
-use App\ImagenCategoria;
 use App\Services\SucursalService;
 use App\Sucursal;
 use Illuminate\Http\Request;
@@ -55,7 +54,7 @@ class SucursalController extends Controller
     public function show($id = null)
     {
         if (is_null($id)) {
-            $id = Auth::user()->sucursal->id;
+            $id = Auth::user()->account->sucursal->id;
         }
         if ($sucursal = Sucursal::find($id)) {
             $caja = $this->sucursalService->getCaja($id);
@@ -122,7 +121,7 @@ class SucursalController extends Controller
     public function registry(Request $request, $id = null)
     {
         if (is_null($id)) {
-            $id = Auth::user()->sucursal->id;
+            $id = Auth::user()->account->sucursal->id;
         }
         $page = $request->page;
         if ($sucursal = Sucursal::find($id)) {
@@ -145,7 +144,7 @@ class SucursalController extends Controller
      */
     public function abrirCaja(Request $request)
     {
-        if ($this->sucursalService->abrirCaja($request->id, Auth::id(), $request->cash)) {
+        if ($this->sucursalService->abrirCaja($request->id, Auth::user()->account_id, $request->cash)) {
             Notify::success('La caja se ha abierto');
         } else {
             Notify::danger('Puede que la caja ya estuviese abierta');
@@ -160,8 +159,7 @@ class SucursalController extends Controller
      */
     public function cerrarCaja(Request $request)
     {
-
-        if ($this->sucursalService->cerrarCaja($request->id, Auth::id())) {
+        if ($this->sucursalService->cerrarCaja($request->id, Auth::user()->account_id)) {
             Notify::success('La caja se ha cerrado');
         } else {
             Notify::danger('Puede que la caja ya estuviese cerrada');

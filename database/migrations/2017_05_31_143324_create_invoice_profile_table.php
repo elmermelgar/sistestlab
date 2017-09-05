@@ -20,7 +20,6 @@ class CreateInvoiceProfileTable extends Migration
             $table->decimal('price', 8, 2)->default(0);
             $table->foreign('factura_id')->references('id')->on('facturas');
             $table->foreign('profile_id')->references('id')->on('profiles');
-            $table->timestamps();
         });
     }
 

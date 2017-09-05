@@ -17,7 +17,7 @@ class CreateBoxRegistryTable extends Migration
             $table->integer('sucursal_id');
             $table->date('date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->integer('user_id')->nullable();
+            $table->integer('account_id')->nullable();
             $table->integer('state')->default(0);
             $table->decimal('cash', 8, 2)->default(0);
             $table->decimal('debit', 8, 2)->default(0);
@@ -25,7 +25,7 @@ class CreateBoxRegistryTable extends Migration
             $table->decimal('cost', 8, 2)->default(0);
             $table->primary(['sucursal_id', 'date', 'time']);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('account_id')->references('id')->on('accounts');
         });
     }
 

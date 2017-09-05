@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Cliente;
-use App\Paciente;
+use App\Customer;
+use App\Patient;
 use App\Services\UserService;
 
 use Carbon\Carbon;
@@ -36,7 +36,7 @@ class PacienteController extends Controller
      */
     public function index(Request $request)
     {
-        return view('paciente.index', ['pacientes' => Paciente::filter($request->get('nombre'))->paginate(10)]);
+        return view('paciente.index', ['pacientes' => Patient::filter($request->get('nombre'))->paginate(10)]);
     }
 
     /**
@@ -46,7 +46,7 @@ class PacienteController extends Controller
      */
     public function show($id)
     {
-        if ($paciente = Paciente::find($id)) {
+        if ($paciente = Patient::find($id)) {
             return view('paciente.show', ['paciente' => $paciente]);
         }
         return response()->view('errors.404', [], 404);
@@ -58,7 +58,7 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        return view('paciente.edit', ['paciente' => null, 'clientes' => Cliente::all()]);
+        return view('paciente.edit', ['paciente' => null, 'clientes' => Customer::all()]);
     }
 
     /**
@@ -68,14 +68,17 @@ class PacienteController extends Controller
      */
     public function edit($id)
     {
-        if ($paciente = Paciente::find($id)) {
+        if ($paciente = Patient::find($id)) {
             $cliente = $paciente->clientes()->wherePivot('same_record', true)->first();
             if ($cliente) {
                 Notify::warning('Este paciente esta registrado como cliente; 
                 para actualizar datos deberá editar el registro de cliente.');
                 return back();
             }
-            return view('paciente.edit', ['paciente' => $paciente, 'clientes' => Cliente::all()]);
+            return view('paciente.edit', [
+                'paciente' => $paciente,
+                'clientes' => Customer::select(['id', 'razon_social', 'descripcion'])->all()
+            ]);
         }
         return response()->view('errors.404', [], 404);
     }
@@ -95,10 +98,10 @@ class PacienteController extends Controller
             $request->merge(['telefono' => str_replace('-', '', $request->telefono)]);
             $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento);
             $request->merge(['fecha_nacimiento' => $fecha_nacimiento]);
-            if ($request->id && $paciente = Paciente::find($request->id)) {
+            if ($request->id && $paciente = Patient::find($request->id)) {
                 $paciente->update($request->all());
             } else {
-                $paciente = Paciente::create($request->all());
+                $paciente = Patient::create($request->all());
             }
             $paciente->clientes()->sync($request->cliente_id);
 

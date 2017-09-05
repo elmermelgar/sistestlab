@@ -40,16 +40,16 @@ class SucursalService
     /**
      * Abre la caja de la sucursal especificada
      * @param $sucursal_id
-     * @param $user_id
+     * @param $account_id
      * @param $cash
      * @return bool
      */
-    public function abrirCaja($sucursal_id, $user_id, $cash = 0)
+    public function abrirCaja($sucursal_id, $account_id, $cash = 0)
     {
         if (!$this->isOpen($sucursal_id)) {
             BoxRegistry::create([
                 'sucursal_id' => $sucursal_id,
-                'user_id' => $user_id,
+                'account_id' => $account_id,
                 'state' => self::OPEN,
                 'cash' => $cash,
             ]);
@@ -62,10 +62,10 @@ class SucursalService
     /**
      * Cierra la caja de la sucursal especificada
      * @param $sucursal_id
-     * @param $user_id
+     * @param $account_id
      * @return bool
      */
-    public function cerrarCaja($sucursal_id, $user_id = null)
+    public function cerrarCaja($sucursal_id, $account_id = null)
     {
         if ($this->isOpen($sucursal_id)) {
             $opening = BoxRegistry::where('sucursal_id', $sucursal_id)
@@ -75,7 +75,7 @@ class SucursalService
                 ->latest('time')->first();
             BoxRegistry::create([
                 'sucursal_id' => $sucursal_id,
-                'user_id' => $user_id,
+                'account_id' => $account_id,
                 'state' => self::CLOSED,
                 'cash' => $this->getCash($sucursal_id, $opening),
                 'debit' => $this->getDebit($sucursal_id, $opening),

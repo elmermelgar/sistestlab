@@ -6,7 +6,7 @@ use App\Estado;
 use App\ExamenPaciente;
 use App\Factura;
 use App\InvoiceProfile;
-use App\Paciente;
+use App\Patient;
 use App\Payment;
 use App\Profile;
 use App\Recolector;
@@ -250,9 +250,9 @@ class FacturaController extends Controller
                         $examen_paciente->estado_id = $estado_sin_facturar->id;
                         $examen_paciente->numero_boleta = $numero_boletas[$key];
                         if (!is_null($paciente_ids[$key]) && $paciente_ids[$key] != '') {
-                            $paciente = Paciente::find($paciente_ids[$key]);
+                            $paciente = Patient::find($paciente_ids[$key]);
                             $examen_paciente->paciente_id = $paciente->id;
-                            $examen_paciente->paciente_nombre = $paciente->getFullName();
+                            $examen_paciente->paciente_nombre = $paciente->name();
                             $examen_paciente->paciente_edad = Carbon::parse($paciente->fecha_nacimiento)->age;
                             $examen_paciente->paciente_sexo = $paciente->sexo;
                         } else {
@@ -350,12 +350,18 @@ class FacturaController extends Controller
     {
         if ($id == $request->factura_id) {
             $factura = Factura::find($id);
-            $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
 
+            if(!SucursalService::isOpen($factura->sucursal->id)){
+                Notify::error('No se puede realizar un pago mientras la caja esté cerrada');
+                return back();
+            }
+
+            $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
             if ($factura->estado->name != Factura::ABIERTA) {
                 Notify::warning('No se puede realizar un pago de una factura que no esté abierta');
                 return back();
             }
+
             $suma = $factura->payments()->sum('amount');
             $deuda = $factura->total - $suma;
             if ($request->amount <= 0 || $request->amount > $deuda) {

@@ -73,7 +73,7 @@
                         <div class="well profile_view">
                             <div class="col-xs-12">
                                 <h4 class="brief">
-                                    <i>@if($cliente->centro_origen)
+                                    <i>@if($cliente->origin_center)
                                             Centro de Origen
                                         @else
                                             Cliente
@@ -81,20 +81,20 @@
                                     </i>
                                 </h4>
                                 <div class="left col-xs-8">
-                                    <h2>{{$cliente->razon_social}}</h2>
-                                    <p style="color: #0b97c4"><strong>{{$cliente->descripcion}}</strong></p>
+                                    <h2>{{$cliente->name}}</h2>
+                                    <p style="color: #0b97c4"><strong>{{$cliente->comment}}</strong></p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-envelope"></i>
-                                            {{$cliente->user?$cliente->user->email:'--'}}
+                                            {{$cliente->account->user?$cliente->account->user->email:'--'}}
                                         </li>
-                                        <li><i class="fa fa-building"></i> Dirección: {{$cliente->direccion}}</li>
-                                        <li><i class="fa fa-phone"></i> Télefono:{{$cliente->telefono}}</li>
+                                        <li><i class="fa fa-building"></i> Dirección: {{$cliente->address}}</li>
+                                        <li><i class="fa fa-phone"></i> Télefono:{{$cliente->phone_number}}</li>
                                     </ul>
                                 </div>
                                 <div class="right col-xs-4 text-center">
                                     <img src="
-                                    @if(isset($cliente->user->photo))
-                                    {{url('storage/photos/'. $cliente->user->photo)}}
+                                    @if(isset($cliente->account->photo))
+                                    {{url('storage/photos/'. $cliente->account->photo)}}
                                     @else
                                     {{url('storage/photos/user.png')}}
                                     @endif "
@@ -103,7 +103,7 @@
                             </div>
                             <div class="col-xs-12 bottom" style="text-align: center">
                                 <div class="col-xs-12 emphasis">
-                                    <a class="btn btn-primary" href="{{url('clientes/'.$cliente->id)}}">
+                                    <a class="btn btn-primary" href="{{route('customer.show',$cliente->id)}}">
                                         <i class="fa fa-eye fa-fw"></i> Ver Perfil
                                     </a>
                                 </div>

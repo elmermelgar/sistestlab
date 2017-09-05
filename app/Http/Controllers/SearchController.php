@@ -28,7 +28,8 @@ class SearchController extends Controller
      */
     public function searchCustomer(Request $request)
     {
-        return $this->searchService->searchCustomer($request->razon_social);
+        return response($this->searchService->searchCustomer($request->name))
+            ->header('Content-Type', 'application/json; charset=utf-8');
     }
 
     /**
@@ -39,7 +40,8 @@ class SearchController extends Controller
      */
     public function searchProfile(Request $request)
     {
-        return $this->searchService->searchProfile($request->display_name, $request->sucursal_id);
+        return response($this->searchService->searchProfile($request->display_name, $request->sucursal_id))
+            ->header('Content-Type', 'application/json; charset=utf-8');
     }
 
     /**
@@ -50,7 +52,8 @@ class SearchController extends Controller
      */
     public function searchPaciente(Request $request)
     {
-        return $this->searchService->searchPaciente($request->full_name);
+        return response($this->searchService->searchPaciente($request->name))
+            ->header('Content-Type', 'application/json; charset=utf-8');
     }
 
 }

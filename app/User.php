@@ -20,7 +20,7 @@ class User extends Authenticatable implements CanResetPassword
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'password', 'sucursal_id'
+        'name', 'email', 'password', 'account_id'
     ];
 
     /**
@@ -33,55 +33,11 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
     /**
-     * Devuelve el nombre completo del usuario
-     * @return string
+     * Obtiene la cuenta correspondiente al usuario.
      */
-    public function getFullName()
+    public function account()
     {
-        if ($this->surname) {
-            return $this->name . ' ' . $this->surname;
-        }
-        return $this->name;
-    }
-
-    /**
-     * Obtiene la sucursal a la que pertenece el usuario.
-     */
-    public function sucursal()
-    {
-        return $this->belongsTo('App\Sucursal');
-    }
-
-    /**
-     * Obtiene, si corresponde, el registro de cliente del usuario.
-     */
-    public function cliente()
-    {
-        return $this->hasOne('App\Cliente');
-    }
-
-    /**
-     * Obtiene las facturas realizadas por el usuario.
-     */
-    public function facturas()
-    {
-        return $this->hasMany('App\Factura');
-    }
-
-    /**
-     * Obtiene los créditos fiscales otorgados por el usuario.
-     */
-    public function tax_credits()
-    {
-        return $this->hasMany('App\TaxCredit');
-    }
-
-    /**
-     * Obtiene, si corresponde, los examenes validados por un profesional
-     */
-    public function examen_paciente()
-    {
-        return $this->hasMany('App\ExamenPaciente');
+        return $this->belongsTo('App\Account');
     }
 
     /**

@@ -68,8 +68,8 @@
 <div class="flex-center position-ref full-height">
     @if (Route::has('login'))
         <div class="top-right links">
-            <a href="{{ url('/login') }}">Iniciar Sesión</a>
-            {{--<a href="{{ url('/register') }}">Register</a>--}}
+            <a href="{{ route('login') }}">Iniciar Sesión</a>
+            {{--<a href="{{  route('register') }}">Register</a>--}}
         </div>
     @endif
 

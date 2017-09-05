@@ -8,16 +8,15 @@
 
 Route::group(['prefix' => 'clientes', 'middleware' => ['permission:admin_clientes']], function () {
 
-    Route::get('/', 'ClienteController@index');
-    Route::get('create', 'ClienteController@create');
-    Route::get('{id}', 'ClienteController@show');
-    Route::get('{id}/edit', 'ClienteController@edit');
-    Route::post('delete', 'ClienteController@delete');
-    Route::post('store', 'ClienteController@store');
+    Route::get('/', 'CustomerController@index')->name('customer');
+    Route::get('create', 'CustomerController@create')->name('customer.create');
+    Route::get('{id}', 'CustomerController@show')->name('customer.show');
+    Route::get('{id}/edit', 'CustomerController@edit')->name('customer.edit');
+    Route::post('store', 'CustomerController@store')->name('customer.store');
 });
 
 Route::group(['prefix' => 'origenes', 'middleware' => ['permission:admin_clientes']], function () {
-    Route::get('/', 'ClienteController@origenes');
+    Route::get('/', 'CustomerController@origenes');
 });
 
 Route::group(['prefix' => 'pacientes', 'middleware' => ['permission:admin_pacientes']], function () {
@@ -46,10 +45,10 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
 Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], function () {
     Route::get('/', 'FacturaController@index');
     Route::get('create/{origen?}', 'FacturaController@create')->where('origen', 'origen');
-    Route::get('{id}', 'FacturaController@show');
-    Route::get('{id}/edit', 'FacturaController@edit')->name('factura_edit');
+    Route::get('{id}', 'FacturaController@show')->name('factura.show');
+    Route::get('{id}/edit', 'FacturaController@edit')->name('factura.edit');
     Route::post('store', 'FacturaController@store');
-    Route::post('annul', 'FacturaController@annul')->name('factura_annul');
+    Route::post('annul', 'FacturaController@annul')->name('factura.annul');
     Route::post('{id}/facturar', 'FacturaController@facturar');
     Route::post('{id}/payment', 'FacturaController@payment');
     Route::post('{id}/nivel', 'FacturaController@nivel');

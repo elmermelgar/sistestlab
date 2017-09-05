@@ -1,22 +1,22 @@
 $(document).ready(function () {
 
-    var origen = $('#centro_origen');
-    var paciente = $('#paciente');
+    var origen = $('#origin_center');
+    var paciente = $('#patient');
     var user = $('#user');
-    var natural = $('#persona_natural');
-    var juridica = $('#persona_juridica');
-    var dui = $('#dui');
+    var natural = $('#natural_person');
+    var juridica = $('#juridical_person');
+    var dui = $('#identity_document');
     var nit = $('#nit');
     var nrc = $('#nrc');
-    var giro = $('#giro');
+    var giro = $('#business');
     var div_paciente = $('#div_paciente');
     var div_avatar = $('#crop-avatar');
     var div_juridica = $('#div_juridica');
     var div_natural = $('#div_natural');
-    var nombre = $('#nombre');
-    var apellido = $('#apellido');
-    var sexo = $('#sexo');
-    var fecha_nacimiento = $('#fecha_nacimiento');
+    var nombre = $('#first_name');
+    var apellido = $('#last_name');
+    var sexo = $('#sex');
+    var fecha_nacimiento = $('#birth_date');
 
     moment.locale('es');
     Inputmask().mask(document.querySelectorAll("input"));
