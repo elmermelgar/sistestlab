@@ -80,9 +80,14 @@ class UserController extends Controller
      */
     public function edit($id = null)
     {
-        $id ? null : $id = Auth::id();
+        if (is_null($id)) {
+            $id = Auth::id();
+            $own = true;
+        } else {
+            $own = false;
+        }
         if ($user = User::find($id)) {
-            if ($user->cliente) {
+            if (!$own && $user->account->cliente) {
                 Notify::warning('Este usuario pertenece a un cliente; 
                 para actualizar datos deberá editar el registro de cliente.');
                 return back();
@@ -91,6 +96,7 @@ class UserController extends Controller
                 'user' => $user,
                 'sucursales' => Sucursal::all(),
                 'roles' => Role::all(),
+                'own' => $own,
             ]);
         }
         return response()->view('errors.404', [], 404);
@@ -98,6 +104,49 @@ class UserController extends Controller
 
     /**
      * Almacena la informacion de un usuario
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(Request $request)
+    {
+        //Empieza la transacción
+        DB::beginTransaction();
+
+        try {
+            $request->merge(['phone_number' => str_replace('-', '', $request->phone_number)]);
+            $this->validate($request, $this->rules($own = true));
+
+            $user = Auth::user();
+            $user->account->update($request->all());
+            $user->update($request->only(['email']));
+
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $this->userService->storageAvatar($request->file('avatar'), $user->account);
+            }
+            if ($request->hasFile('seal') && $request->file('seal')->isValid()) {
+                $this->userService->storageSeal($request->file('seal'), $user->account);
+            }
+
+            //Exito, hace efectivos todos los cambios en la base de datos
+            DB::commit();
+        } catch (\Exception $e) {
+            //Ocurre algun error, deshace los todos los cambios en la base de datos y responde con un mensaje
+            DB::rollBack();
+            if ($e instanceof ValidationException) {
+                return back()->withInput()->withErrors($e->validator->errors());
+            }
+            Notify::error('Ha ocurrido un error al actualizar la cuenta');
+            \Log::error($e);
+            return back()->withInput();
+        }
+
+        //Se completó el registro del cliente exitosamente
+        Notify::success('Cuenta actualizada correctamente');
+        return redirect()->route('cuenta');
+    }
+
+    /**
+     * Almacena la información de un usuario
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -138,7 +187,7 @@ class UserController extends Controller
             if ($e instanceof ValidationException) {
                 return back()->withInput()->withErrors($e->validator->errors());
             }
-            Notify::error('Ha ocurrido un error al registrar al cliente');
+            Notify::error('Ha ocurrido un error al registrar al usuario');
             if ($e instanceof Swift_TransportException) {
                 Notify::error('No se ha podido enviar el email con los datos de la cuenta al usuario');
             }
@@ -146,9 +195,9 @@ class UserController extends Controller
             return back()->withInput();
         }
 
-        //Se completó el registro del cliente exitosamente
+        //Se completó el registro del usuario exitosamente
         Notify::success('Usuario registrado correctamente');
-        return redirect()->action('UserController@show', ['id' => $user->id]);
+        return redirect()->route('user.show', ['id' => $user->id]);
     }
 
     /**
@@ -187,18 +236,22 @@ class UserController extends Controller
 
     /**
      * Reglas para validar la petición
+     * @param bool $own
      * @return array
      */
-    public function rules()
+    public function rules($own = false)
     {
-        return [
-            'sucursal_id' => 'required|integer|min:1',
+        $rules = [
             'first_name' => 'required|max:127',
             'last_name' => 'max:127',
             'phone_number' => 'required|max:8',
             'address' => 'max:255',
             'comment' => 'max:255',
         ];
+        if (!$own) {
+            $rules['sucursal_id'] = 'required|integer|min:1';
+        }
+        return $rules;
     }
 
 }

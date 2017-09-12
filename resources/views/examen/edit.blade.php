@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="razon_social" class="control-label col-md-3 col-sm-3 col-xs-12"> Código
+                        <label for="name" class="control-label col-md-3 col-sm-3 col-xs-12"> Código
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">

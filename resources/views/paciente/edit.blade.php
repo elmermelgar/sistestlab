@@ -51,129 +51,130 @@
                                    value="{{$paciente? $paciente->id:old('id')}}" @if($paciente) required @endif>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="nombre" class="control-label col-md-3 col-sm-3 col-xs-12"> Nombre
+                        <label for="sucursal_id" class="control-label col-md-3 col-sm-3 col-xs-12"> Sucursal
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="nombre" name="nombre" class="form-control" placeholder="Nombre"
-                                   value="{{$paciente? $paciente->nombre:old('nombre')}}" required>
+                            <select id="sucursal_id" name="sucursal_id" class="sucursal form-control" required>
+                                @foreach($sucursales as $sucursal)
+                                    <option value="{{$sucursal->id}}"
+                                            @if($paciente? $paciente->account->sucursal_id==$sucursal->id:null)
+                                            selected
+                                            @endif>
+                                        {{$sucursal->display_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="apellido" class="control-label col-md-3 col-sm-3 col-xs-12"> Apellido
-                            <span class="required">*</span>
+                        <label for="identity_document" class="control-label col-md-3 col-sm-3 col-xs-12">DUI
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="apellido" name="apellido" class="form-control" placeholder="Apellido"
-                                   value="{{$paciente? $paciente->apellido:old('apellido')}}" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="dui" class="control-label col-md-3 col-sm-3 col-xs-12">
-                            DUI
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="dui" name="dui" class="form-control" placeholder="DUI"
-                                   value="{{$paciente? $paciente->dui:old('dui')}}" maxlength="10"
-                                   pattern="[0-9]{8}-([0-9])" title="Formato: 00000000-0"
+                            <input id="identity_document" name="identity_document" class="form-control"
+                                   placeholder="DUI"
+                                   value="{{$paciente? $paciente->identity_document:old('identity_document')}}"
+                                   maxlength="10" pattern="[0-9]{8}-([0-9])" title="Formato: 00000000-0"
                                    data-inputmask="'mask': '99999999-9'">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="sexo" class="control-label col-md-3 col-sm-3 col-xs-12"> Sexo
+                        <label for="first_name" class="control-label col-md-3 col-sm-3 col-xs-12">Nombre
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="sexo" name="sexo" class="form-control" required>
+                            <input id="first_name" name="first_name" class="form-control" placeholder="Nombre"
+                                   value="{{$paciente? $paciente->first_name:old('first_name')}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name" class="control-label col-md-3 col-sm-3 col-xs-12">Apellido
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input id="last_name" name="last_name" class="form-control" placeholder="Apellido"
+                                   value="{{$paciente? $paciente->last_name:old('last_name')}}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sex" class="control-label col-md-3 col-sm-3 col-xs-12"> Sexo
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select id="sex" name="sex" class="form-control" required>
                                 <option value="M"
-                                        @if($paciente? $paciente->sexo=="M":null) selected @endif>Masculino
+                                        @if($paciente? $paciente->sex=="M":null) selected @endif>Masculino
                                 </option>
                                 <option value="F"
-                                        @if($paciente? $paciente->sexo=="F":null) selected @endif>Femenino
+                                        @if($paciente? $paciente->sex=="F":null) selected @endif>Femenino
                                 </option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="fecha_nacimiento" class="control-label col-md-3 col-sm-3 col-xs-12"> Fecha de
+                        <label for="birth_date" class="control-label col-md-3 col-sm-3 col-xs-12"> Fecha de
                             nacimiento
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control has-feedback-left" id="fecha_nacimiento" name="fecha_nacimiento"
+                            <input class="form-control has-feedback-left" id="birth_date" name="birth_date"
                                    placeholder="Fecha de nacimiento" required
-                                   value="{{$paciente? $paciente->fecha_nacimiento:old('fecha_nacimiento')}}">
+                                   value="{{$paciente? $paciente->birth_date:old('birth_date')}}">
                             <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="cliente_id" class="control-label col-md-3 col-sm-3 col-xs-12"> Cliente
+                        <label for="customer_id" class="control-label col-md-3 col-sm-3 col-xs-12"> Cliente
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select multiple id="cliente_id" name="cliente_id[]" class="form-control" required>
+                            <select multiple id="customer_id" name="customer_id[]" class="form-control" required>
                                 @foreach($clientes as $cliente)
                                     <option value="{{$cliente->id}}"
-                                            @if($paciente? $paciente->clientes->find($cliente->id):null) selected
-                                            @endif>{{$cliente->razon_social}}
+                                            @if($paciente? $paciente->customers->find($cliente->id):null) selected
+                                            @endif>{{$cliente->name}}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="email" class="control-label col-md-3 col-sm-3 col-xs-12"> Email
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Email"
-                                   value="{{$paciente? $paciente->email:old('email')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="telefono" class="control-label col-md-3 col-sm-3 col-xs-12"> Teléfono
+                        <label for="phone_number" class="control-label col-md-3 col-sm-3 col-xs-12"> Teléfono
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="telefono" name="telefono" class="form-control" placeholder="Teléfono" required
-                                   data-inputmask="'mask': '9999-9999'"
-                                   value="{{$paciente? $paciente->telefono:old('telefono')}}">
+                            <input id="phone_number" name="phone_number" class="form-control" placeholder="Teléfono"
+                                   required data-inputmask="'mask': '9999-9999'"
+                                   value="{{$paciente? $paciente->phone_number:old('phone_number')}}">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="direccion" class="control-label col-md-3 col-sm-3 col-xs-12"> Dirección
+                        <label for="address" class="control-label col-md-3 col-sm-3 col-xs-12"> Dirección
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea id="direccion" name="direccion" class="form-control resize"
+                            <textarea id="address" name="address" class="form-control resize"
                                       placeholder="Dirección"
-                            >{{$paciente? $paciente->direccion:old('direccion')}}</textarea>
+                            >{{$paciente? $paciente->address:old('address')}}</textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="profesion" class="control-label col-md-3 col-sm-3 col-xs-12"> Profesión
+                        <label for="profession" class="control-label col-md-3 col-sm-3 col-xs-12"> Profesión
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="profesion" name="profesion" class="form-control" placeholder="Profesión"
-                                   value="{{$paciente? $paciente->profesion:old('profesion')}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="procedencia" class="control-label col-md-3 col-sm-3 col-xs-12"> Procedencia
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="procedencia" name="procedencia" class="form-control" placeholder="Procedencia"
-                                   value="{{$paciente? $paciente->procedencia:old('procedencia')}}">
+                            <input id="profession" name="profession" class="form-control" placeholder="Profesión"
+                                   value="{{$paciente? $paciente->profession:old('profession')}}">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="observacion" class="control-label col-md-3 col-sm-3 col-xs-12"> Observación
+                        <label for="comment" class="control-label col-md-3 col-sm-3 col-xs-12"> Observación
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea id="observacion" name="observacion" class="form-control resize"
-                                      placeholder="Observación"
-                            >{{$paciente? $paciente->observacion:old('observacion')}}</textarea>
+                            <textarea id="comment" name="comment" class="form-control resize" placeholder="Observación"
+                            >{{$paciente? $paciente->comment:old('comment')}}</textarea>
                         </div>
                     </div>
 
@@ -206,8 +207,12 @@
     <script type="application/javascript">
         moment.locale('es');
         $(document).ready(function () {
-            $('#cliente_id').SumoSelect({search: true, placeholder: 'Seleccione el cliente a asociar'});
-            $('#fecha_nacimiento').daterangepicker({
+            $('#customer_id').SumoSelect({
+                search: true,
+                placeholder: 'Seleccione el cliente a asociar',
+                okCancelInMulti: true
+            });
+            $('#birth_date').daterangepicker({
                 locale: {
                     format: 'DD/MM/YYYY'
                 },

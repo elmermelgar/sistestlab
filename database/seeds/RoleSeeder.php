@@ -46,6 +46,7 @@ class RoleSeeder extends Seeder
 
 
         $admin = Role::where('name', 'admin')->first();
+        $profesional = Role::where('name', 'profesional')->first();
 
         $administrar_permisos = Permission::where('name', 'admin_permissions')->first();
         $administrar_roles = Permission::where('name', 'admin_roles')->first();
@@ -63,6 +64,7 @@ class RoleSeeder extends Seeder
         $administrar_inventario = Permission::where('name', 'admin_inventario')->first();
         $facturar = Permission::where('name', 'facturar')->first();
         $credito_fiscal = Permission::where('name', 'credito_fiscal')->first();
+        $validar_examen = Permission::where('name', 'validar_examen')->first();
 
         $admin->attachPermission($administrar_permisos);
         $admin->attachPermission($administrar_roles);
@@ -80,5 +82,7 @@ class RoleSeeder extends Seeder
         $admin->attachPermission($administrar_inventario);
         $admin->attachPermission($facturar);
         $admin->attachPermission($credito_fiscal);
+
+        $profesional->attachPermission($validar_examen);
     }
 }

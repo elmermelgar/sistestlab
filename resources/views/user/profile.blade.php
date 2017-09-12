@@ -1,7 +1,7 @@
 <div class="x_panel">
 
     <div class="x_title">
-        <h2>Perfil de Usuario</h2>
+        <h2>Cuenta de Usuario</h2>
 
         <div class="clearfix"></div>
     </div>
@@ -10,8 +10,7 @@
             <div class="profile_img">
                 <div id="crop-avatar">
                     <!-- Current avatar -->
-                    <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
-                         style="max-height: 200px"
+                    <img class="img-responsive avatar-view" alt="Avatar" title="Avatar" style="max-height: 200px"
                          src="
                             @if($user->account->photo)
                          {{url('/storage/photos/'.$user->account->photo)}}
@@ -25,13 +24,12 @@
             <div class="profile_img">
                 <div id="crop-seal">
                     <!-- Current avatar -->
-                    <img class="img-responsive seal-view" alt="Seal" title="Change the seal"
-                         style="max-height: 200px"
+                    <img class="img-responsive seal-view" alt="Sello" title="Sello" style="max-height: 200px"
                          src="
                             @if($user->account->seal)
                          {{url('/storage/seals/'.$user->account->seal)}}
                          @else
-                         {{url('/storage/seals/'. 'seal.jpg')}}
+                         {{url('/storage/seals/'. 'seal.png')}}
                          @endif ">
                 </div>
             </div>
@@ -41,7 +39,7 @@
             <h3>{{$user->name}}</h3>
 
             <ul class="list-unstyled user_data">
-                <li><i class="fa fa-map-marker user-profile-icon"></i>
+                <li><i class="fa fa-building-o user-profile-icon"></i>
                     Sucursal {{$user->account->sucursal->display_name}}</li>
                 <li>
                     <i class="fa fa-briefcase user-profile-icon"></i>
@@ -54,10 +52,17 @@
                         Sin roles!
                     @endforelse
                 </li>
-
                 <li class="m-top-xs">
                     <i class="fa fa-envelope user-profile-icon"></i>
                     {{$user->email}}
+                </li>
+                <li class="m-top-xs">
+                    <i class="fa fa-phone user-profile-icon"></i>
+                    {{$user->account->phone_number}}
+                </li>
+                <li class="m-top-xs">
+                    <i class="fa fa-map-marker user-profile-icon"></i>
+                    {{$user->account->address}}
                 </li>
             </ul>
 
@@ -65,9 +70,8 @@
             @if(Auth::user()->can('admin_users'))
             {{url('usuarios/'.$user->id.'/edit')}}
             @else
-            {{url('usuario/editar/')}}
-            @endif "><i
-                        class="fa fa-edit m-right-xs"></i>Editar Perfil</a>
+            {{route('account.edit')}}
+            @endif "><i class="fa fa-edit fa-fw"></i>Editar Cuenta</a>
             <br/>
         </div>
     </div>

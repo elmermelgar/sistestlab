@@ -69,8 +69,8 @@
                         <tr>
                             <td>{{$credito_fiscal->id}}</td>
                             <td>{{$credito_fiscal->numero}}</td>
-                            <td>{{$credito_fiscal->facturas()->first()->cliente->razon_social}}</td>
-                            <td>{{$credito_fiscal->user->getFullName()}}</td>
+                            <td>{{$credito_fiscal->facturas()->first()->customer->name}}</td>
+                            <td>{{$credito_fiscal->account->name()}}</td>
                             <td>@if($credito_fiscal->closed) Cerrado @else Abierto @endif</td>
                             <td>{{$credito_fiscal->total}}</td>
                             <td>

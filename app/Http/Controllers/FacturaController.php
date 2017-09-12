@@ -38,7 +38,7 @@ class FacturaController extends Controller
     public function index(Request $request, $sucursal_id = null)
     {
         if (!$sucursal_id) {
-            $sucursal_id = Auth::user()->sucursal->id;
+            $sucursal_id = Auth::user()->account_id;
         }
         $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
         $query_factura = Factura::where('sucursal_id', $sucursal_id)
@@ -71,7 +71,7 @@ class FacturaController extends Controller
             return view('factura.show', [
                 'factura' => $factura,
                 'sucursal' => $factura->sucursal,
-                'user' => $factura->user,
+                'facturador' => $factura->facturador,
                 'profiles' => $profiles,
                 'centro_origen' => $factura->centro_origen,
                 'suma' => $factura->payments()->sum('amount'),
@@ -90,12 +90,12 @@ class FacturaController extends Controller
     public function create($centro_origen = false)
     {
         $centro_origen ? $centro_origen = true : $centro_origen = false;
-        if (Auth::user()->sucursal && SucursalService::isOpen(Auth::user()->sucursal->id)) {
-            $facturador = Auth::user();
+        if (SucursalService::isOpen(Auth::user()->account->sucursal_id)) {
+            $facturador = Auth::user()->account;
             return view('factura.edit', [
                 'factura' => null,
                 'sucursal' => $facturador->sucursal,
-                'user' => $facturador,
+                'facturador' => $facturador,
                 'recolectores' => Recolector::where('activo', true)->get(),
                 'perfiles' => [],
                 'centro_origen' => $centro_origen,
@@ -122,7 +122,7 @@ class FacturaController extends Controller
             return view('factura.edit', [
                 'factura' => $factura,
                 'sucursal' => $factura->sucursal,
-                'user' => $factura->user,
+                'facturador' => $factura->facturador,
                 'recolectores' => Recolector::where('activo', true)->get(),
                 'perfiles' => $perfiles,
                 'centro_origen' => $factura->recolector ? true : false,
@@ -210,7 +210,7 @@ class FacturaController extends Controller
             //obtiene los arreglos de parámetros desde la petición
             $invoice_profile_ids = $request->invoice_profile_id;
             $profile_ids = $request->profile_id;
-            $paciente_ids = $request->paciente_id;
+            $paciente_ids = $request->patient_id;
             $numero_boletas = $request->numero_boleta;
             $paciente_nombres = $request->paciente_nombre;
             $paciente_edades = $request->paciente_edad;
@@ -229,6 +229,7 @@ class FacturaController extends Controller
              * y se registra el respectivo precio
              */
             foreach ($invoice_profile_ids as $key => $ipi) {
+                //Una entrada de factura es nueva cuando no tiene id(invoice_profile_id=0), solo entonces es registrada
                 if ($ipi == 0) {
                     $profile = Profile::find($profile_ids[$key]);
                     $price = DB::table('profile_sucursal')
@@ -251,8 +252,8 @@ class FacturaController extends Controller
                         $examen_paciente->numero_boleta = $numero_boletas[$key];
                         if (!is_null($paciente_ids[$key]) && $paciente_ids[$key] != '') {
                             $paciente = Patient::find($paciente_ids[$key]);
-                            $examen_paciente->paciente_id = $paciente->id;
-                            $examen_paciente->paciente_nombre = $paciente->name();
+                            $examen_paciente->patient_id = $paciente->id;
+                            $examen_paciente->paciente_nombre = $paciente->name;
                             $examen_paciente->paciente_edad = Carbon::parse($paciente->fecha_nacimiento)->age;
                             $examen_paciente->paciente_sexo = $paciente->sexo;
                         } else {
@@ -351,7 +352,7 @@ class FacturaController extends Controller
         if ($id == $request->factura_id) {
             $factura = Factura::find($id);
 
-            if(!SucursalService::isOpen($factura->sucursal->id)){
+            if (!SucursalService::isOpen($factura->sucursal->id)) {
                 Notify::error('No se puede realizar un pago mientras la caja esté cerrada');
                 return back();
             }

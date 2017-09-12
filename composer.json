@@ -10,7 +10,8 @@
         "laravel/tinker": "~1.0",
         "laracasts/flash": "^2.0",
         "jorgejavierleon/laravelpnotify": "~1.0",
-        "zizaco/entrust": "1.8.0"
+        "zizaco/entrust": "1.8.0",
+        "cossou/jasperphp": "^2.3"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

@@ -33,15 +33,14 @@ class CreateCustomersTable extends Migration
         ');
 
         DB::statement('
-        create or replace view customers_nit_vw as select c.nit, c.nrc from customers c 
+        create or replace view customers_nit_vw as select c.id, c.nit, c.nrc from customers c 
         where c.nit is not null and c.nrc is not null;
         ');
 
+        //insert trigger
         DB::statement('
-        create or replace function customers_tg() returns trigger as
+        create or replace function customers_insert_tg() returns trigger as
         $tg_customer$
-        declare
-            account_id integer;
         begin
             insert into accounts(sucursal_id, first_name, last_name, identity_document, phone_number, 
                 address, comment, created_at, updated_at) values(new.sucursal_id, new.first_name, new.last_name, 
@@ -57,8 +56,29 @@ class CreateCustomersTable extends Migration
         ');
 
         DB::statement('
-        create trigger customers_tg instead of insert on customers_vw for each row
-        EXECUTE PROCEDURE customers_tg();
+        create trigger customers_insert_tg instead of insert on customers_vw for each row
+        EXECUTE PROCEDURE customers_insert_tg();
+        ');
+
+        //update trigger
+        DB::statement('
+        create or replace function customers_update_tg() returns trigger as
+        $tg_customer$
+        begin
+            update customers set (juridical_person, origin_center, nit, nrc, business) = (new.juridical_person, 
+            new.origin_center, new.nit, new.nrc, new.business) where id = old.id;
+            update accounts set (sucursal_id, first_name, last_name, identity_document, phone_number, address,
+            comment, updated_at) = (new.sucursal_id, new.first_name, new.last_name, new.identity_document, 
+            new.phone_number, new.address, new.comment, new.updated_at) where id = old.account_id;
+            return new;
+        end;
+        $tg_customer$ 
+        LANGUAGE plpgsql;
+        ');
+
+        DB::statement('
+        create trigger customers_update_tg instead of update on customers_vw for each row
+        EXECUTE PROCEDURE customers_update_tg();
         ');
 
     }

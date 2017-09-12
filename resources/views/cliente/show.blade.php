@@ -37,11 +37,11 @@
                     <div class="profile_img">
                         <div id="crop-avatar">
                             <!-- Current avatar -->
-                            <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
+                            <img class="img-responsive avatar-view" alt="Avatar" title="Avatar"
                                  style="max-height: 200px"
                                  src="
-                            @if(isset($cliente->user->photo))
-                                 {{url('/storage/photos/'.$cliente->user->photo)}}
+                            @if(isset($cliente->account->photo))
+                                 {{url('/storage/photos/'.$cliente->account->photo)}}
                                  @else
                                  {{url('/storage/photos/user.png')}}
                                  @endif ">
@@ -115,24 +115,24 @@
             </div>
             <div class="x_content">
 
-                @if($cliente->user)
+                @if($cliente->account->user)
                     <table class="table table-striped">
                         <tbody>
                         <tr>
                             <th>Email</th>
-                            <td>{{$cliente->user->email}}</td>
+                            <td>{{$cliente->account->user->email}}</td>
                         </tr>
                         <tr>
                             <th>Estado</th>
                             <td>
-                                @if($cliente->user->enabled) <span class="badge bg-green">Habilitado</span>
+                                @if($cliente->account->user->enabled) <span class="badge bg-green">Habilitado</span>
                                 @else <span class="badge bg-red">Deshabilitado</span>
                                 @endif
                             </td>
                         </tr>
                         <tr>
                             <th>Ultimo Acceso</th>
-                            <td>{{($cliente->user->last_login)?:'--'}}</td>
+                            <td>{{($cliente->account->user->last_login)?:'--'}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -140,17 +140,17 @@
                     @permission('admin_users')
 
                     <form method="post" action="
-                @if($cliente->user->enabled) {{url('usuarios/disable')}}
+                @if($cliente->account->user->enabled) {{url('usuarios/disable')}}
                     @else {{url('usuarios/enable')}}
                     @endif">
                         {{csrf_field()}}
 
                         <div class="form-group hidden">
                             <label for="user_id">ID</label>
-                            <input id="user_id" name="user_id" value="{{$cliente->user->id}}">
+                            <input id="user_id" name="user_id" value="{{$cliente->account->user->id}}">
                         </div>
 
-                        @if($cliente->user->enabled)
+                        @if($cliente->account->user->enabled)
                             <input type="submit" value="Deshabilitar" class="btn btn-danger">
                         @else
                             <input type="submit" value="Habilitar" class="btn btn-success">

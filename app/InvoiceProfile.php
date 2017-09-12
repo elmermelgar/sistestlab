@@ -13,6 +13,13 @@ class InvoiceProfile extends Model
     public $table = 'invoice_profile';
 
     /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

@@ -14,8 +14,8 @@ $(document).ready(function () {
     });
 
     $("#recolector_id").select2({
-        placeholder: "Seleccione un recolector",
-        minimumResultsForSearch: Infinity
+        placeholder: "Seleccione un recolector"
+        //minimumResultsForSearch: Infinity
     });
 
     t.on('order.dt search.dt', function () {
@@ -74,20 +74,20 @@ $(document).ready(function () {
             "<div class='select2-result-repository__title'>" + repo.name + "</div>";
 
         markup += "<div class='select2-result-repository__description'>";
-        (repo.dui !== '') ? markup += "DUI: " + repo.dui + " " : null;
-        markup += "Sexo: " + repo.sexo + "</div>";
+        (repo.identity_document !== '') ? markup += "DUI: " + repo.identity_document + " " : null;
+        markup += "Sexo: " + repo.sex + "</div>";
 
         return markup;
     }
 
     function formatRepoSelectionPaciente(repo) {
         $('#modal_nombre').val(repo.name);
-        $('#modal_edad').val(repo.edad);
-        $('#modal_sexo').val(repo.sexo);
+        $('#modal_edad').val(repo.age);
+        $('#modal_sexo').val(repo.sex);
         return repo.name;
     }
 
-    $("#cliente_id").select2({
+    $("#customer_id").select2({
         placeholder: 'Seleccione un cliente',
         ajax: {
 //                    url: "https://api.github.com/search/repositories",
@@ -96,7 +96,7 @@ $(document).ready(function () {
             delay: 250,
             data: function (params) {
                 return {
-                    razon_social: params.term, // search term
+                    name: params.term, // search term
                     page: params.page
                 };
             },
@@ -190,7 +190,7 @@ $(document).ready(function () {
         placeholder: 'Seleccione un paciente',
         ajax: {
 //                    url: "https://api.github.com/search/repositories",
-            url: "/search/paciente",
+            url: "/search/patient",
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -239,7 +239,7 @@ $(document).ready(function () {
         var profile_name = $('#modal_profile_name').val();
         var profile_display_name = $('#modal_profile_display_name').val();
         var profile_price = $('#modal_profile_price').val();
-        var paciente_id = $('#modal_paciente_id').val();
+        var patient_id = $('#modal_paciente_id').val();
         var numero_boleta = $('#modal_numero_boleta').val();
         var nombre = $('#modal_nombre').val();
         var edad = $('#modal_edad').val();
@@ -254,11 +254,11 @@ $(document).ready(function () {
             "<input name='paciente_nombre[]' value='" + nombre + "'>" +
             "<input name='paciente_edad[]' value='" + edad + "'>" +
             "<input name='paciente_sexo[]' value='" + sexo + "'>";
-        if (paciente_id) {
-            profile += "<input name='paciente_id[]' value='" + paciente_id + "'>" + "</div>";
+        if (patient_id) {
+            profile += "<input name='patient_id[]' value='" + patient_id + "'>" + "</div>";
         }
         else {
-            profile += "<input name='paciente_id[]'>" + "</div>";
+            profile += "<input name='patient_id[]'>" + "</div>";
         }
 
         var paciente = nombre + " " + edad + " " + sexo + " Boleta: " + numero_boleta;

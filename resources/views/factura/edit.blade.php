@@ -10,7 +10,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('facturas')}}">Facturas</a></li>
-            <li><strong style="color: #0b97c4">Nueva Factura ({{Auth::user()->sucursal->display_name}})</strong></li>
+            <li><strong style="color: #0b97c4">Nueva Factura ({{$sucursal->display_name}})</strong></li>
         </ol>
     </div>
     @include('noscript')
@@ -55,6 +55,7 @@
                                                 <input type="hidden" name="invoice_profile_id[]" required
                                                        value="{{$perfil->id}}">
                                                 <input type="hidden" name='profile_id[]'>
+                                                <input type="hidden" name='patient_id[]'>
                                                 <input type="hidden" name='numero_boleta[]'>
                                                 <input type="hidden" name='paciente_nombre[]'>
                                                 <input type="hidden" name='paciente_edad[]'>
@@ -108,7 +109,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{url('gentallela/vendors/select2/dist/js/select2.js')}}"></script>
+    <script src="{{url('gentallela/vendors/select2/dist/js/select2.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{url('js/facturaedit.js')}}"></script>

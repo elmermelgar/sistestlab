@@ -19,7 +19,7 @@ class SearchService
     public function searchCustomer($name)
     {
         try {
-            //$razon_social = Input::get('razon_social');
+            //$name = Input::get('name');
             $cliente = Customer::select(['id', 'name', 'nit'])->where('name', '~*', $name)->get();
             $resultado = [
                 "total_count" => count($cliente),
@@ -73,10 +73,10 @@ class SearchService
      * @param string $name
      * @return string
      */
-    public function searchPaciente($name)
+    public function searchPatient($name)
     {
         try {
-            $pacientes = DB::table('pacientes_search_vw')->where('name', '~*', $name)->get();
+            $pacientes = DB::table('patients_search_vw')->where('name', '~*', $name)->get();
             $resultado = [
                 "total_count" => count($pacientes),
                 "incomplete_results" => false,

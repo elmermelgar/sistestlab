@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->integer('account_id')->unique();
             $table->date('birth_date');
             $table->char('sex', 1);
-            $table->string('profession')->nullable();
+            $table->string('profession',127)->nullable();
             $table->foreign('account_id')->references('id')->on('accounts');
         });
 
@@ -33,15 +33,14 @@ class CreatePatientsTable extends Migration
 
         DB::statement('
         create or replace view patients_search_vw as
-        select p.id, a.first_name||\' \'||a.last_name as name, p.sex, 
+        select p.id, a.identity_document, a.first_name||\' \'||a.last_name as name, p.sex, 
         extract(year from age(birth_date)) age from patients p join accounts a on p.account_id = a.id;
         ');
 
+        //insert trigger
         DB::statement('
-        create or replace function patients_tg() returns trigger as
+        create or replace function patients_insert_tg() returns trigger as
         $tg_patients$
-        declare
-            account_id integer;
         begin
             if new.account_id is null then
             insert into accounts(sucursal_id, first_name, last_name, identity_document, phone_number, 
@@ -59,9 +58,33 @@ class CreatePatientsTable extends Migration
         ');
 
         DB::statement('
-        create trigger patients_tg instead of insert on patients_vw for each row
-        EXECUTE PROCEDURE patients_tg();
+        create trigger patients_insert_tg instead of insert on patients_vw for each row
+        EXECUTE PROCEDURE patients_insert_tg();
         ');
+
+        //update trigger
+        DB::statement('
+        create or replace function patients_update_tg() returns trigger as
+        $tg_patients$
+        begin
+            if new.account_id is not null then
+            update accounts set (sucursal_id, first_name, last_name, identity_document, phone_number, 
+                address, comment, updated_at) = (new.sucursal_id, new.first_name, new.last_name, new.identity_document, 
+                new.phone_number, new.address, new.comment, new.updated_at) where id = old.account_id;
+            end if;
+            update patients set (birth_date, sex, profession) = (new.birth_date, new.sex, new.profession) 
+                where id = old.id;
+            return new;
+        end;
+        $tg_patients$ 
+        LANGUAGE plpgsql;
+        ');
+
+        DB::statement('
+        create trigger patients_update_tg instead of update on patients_vw for each row
+        EXECUTE PROCEDURE patients_update_tg();
+        ');
+
     }
 
     /**

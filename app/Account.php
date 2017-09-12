@@ -46,7 +46,7 @@ class Account extends Model
     /**
      * Obtiene, si corresponde, el registro de cliente del usuario.
      */
-    public function cliente()
+    public function customer()
     {
         return $this->hasOne('App\Customer');
     }

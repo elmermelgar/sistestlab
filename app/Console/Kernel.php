@@ -15,20 +15,20 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\ReportCompile::class,
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            $sucursalService=App::make('SucursalService');
-            $sucusales=Sucursal::all();
+            $sucursalService = App::make('SucursalService');
+            $sucusales = Sucursal::all();
             \Log::info('Cerrando sucursales');
             foreach ($sucusales as $sucusal) {
                 $sucursalService->cerrarCaja($sucusal->id);

@@ -48,8 +48,8 @@
             <div class="pull-right top_search" style="margin-right: 5%">
                 <form action="@if(isset($origen)) {{url('origenes')}} @else {{url('clientes')}} @endif" method="GET">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="razon_social"
-                               placeholder="Buscar por razon social...">
+                        <input type="text" class="form-control" name="name"
+                               placeholder="Buscar por razón social...">
                         <span class="input-group-btn">
                       <button class="btn btn-default">Buscar</button>
                     </span>

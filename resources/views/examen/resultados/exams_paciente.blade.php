@@ -104,7 +104,7 @@
                                 {{ $examen->exam->name}} - <a>{{ $examen->exam->display_name}}</a>
                             </td>
                             <td>
-                                Cliente:<small>{{ $examen->invoices->factura->cliente->razon_social}}</small>
+                                Cliente:<small>{{ $examen->invoices->factura->cliente->name}}</small>
                                 <br/>
                                 Paciente:<small>{{ $examen->paciente_nombre}}</small>
                             </td>

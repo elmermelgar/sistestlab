@@ -66,7 +66,7 @@
                     <tr>
                         <td>{{$paciente->id}}</td>
                         <td>{{$paciente->identity_document}}</td>
-                        <td>{{$paciente->last_name}}</td>
+                        <td>{{$paciente->first_name}}</td>
                         <td>{{$paciente->last_name}}</td>
                         <td>{{$paciente->phone_number}}</td>
                         <td>

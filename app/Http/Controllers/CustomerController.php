@@ -11,6 +11,7 @@ use App\Sucursal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Jleon\LaravelPnotify\Notify;
 use Swift_TransportException;
@@ -40,7 +41,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $clientes = Customer::where('origin_center', false)->filter($request->razon_social)->paginate(9);
+        $clientes = Customer::where('origin_center', false)->filter($request->name)->paginate(9);
         return view('cliente.index', ['clientes' => $clientes]);
     }
 
@@ -51,7 +52,7 @@ class CustomerController extends Controller
      */
     public function origenes(Request $request)
     {
-        $clientes = Customer::where('origin_center', true)->filter($request->razon_social)->paginate(9);
+        $clientes = Customer::where('origin_center', true)->filter($request->name)->paginate(9);
         return view('cliente.index', ['clientes' => $clientes, 'origen' => true]);
     }
 
@@ -87,7 +88,7 @@ class CustomerController extends Controller
         if ($cliente = Customer::find($id)) {
             return view('cliente.edit', [
                 'cliente' => $cliente,
-                'paciente' => $cliente->patients()->first(),
+                'paciente' => $cliente->account->patient,
                 'sucursales' => Sucursal::all(),
             ]);
         }
@@ -111,13 +112,17 @@ class CustomerController extends Controller
             $request->merge(['phone_number' => str_replace('-', '', $request->phone_number)]);
             $request->origin_center ? $origin_center = true : $origin_center = false;
             $request->merge(['origin_center' => $origin_center]);
+            $request->juridical_person ? $juridical_person = true : $juridical_person = false;
+            $request->merge(['juridical_person' => $juridical_person]);
 
-            $this->validate($request, $this->rules());
+
             //Si el cliente ya esta registrado, lo actualiza, de lo contrario, registra al cliente
             if ($request->id && $cliente = Customer::find($request->id)) {
-                $cliente->update($request->only(['juridical_person', 'origin_center', 'nit', 'nrc', 'business']));
-                $cliente->account->update($request->all());
+                $this->validate($request, $this->rules($cliente->id, $cliente->account_id));
+                $cliente->update($request->all());
+                //$cliente->account->update($request->all());
             } else {
+                $this->validate($request, $this->rules());
                 $cliente = Customer::create($request->all());
             }
 
@@ -135,6 +140,7 @@ class CustomerController extends Controller
                 $request->merge(['birth_date' => Carbon::createFromFormat('d/m/Y', $request->birth_date)]);
                 $paciente = $cliente->account->patient;
                 if ($paciente) {
+                    $request->merge(['account_id' => null]);
                     $paciente->update($request->only(['birth_date', 'sex']));
                 } else {
                     $request->merge(['account_id' => $cliente->account->id]);
@@ -162,7 +168,7 @@ class CustomerController extends Controller
 
         //Se completó el registro del cliente exitosamente
         Notify::success('Cliente registrado correctamente');
-        return redirect()->action('ClienteController@show', ['cliente' => $cliente->id]);
+        return redirect()->action('CustomerController@show', ['cliente' => $cliente->id]);
     }
 
     /**
@@ -190,21 +196,25 @@ class CustomerController extends Controller
 
     /**
      * Reglas para validar la petición
+     * @param int $customer_id
+     * @param int $account_id
      * @return array
      */
-    private function rules()
+    private function rules($customer_id = null, $account_id = null)
     {
         return [
             'sucursal_id' => 'required|integer|min:1',
-            'identity_document' => 'max:9|unique:accounts',
+            'identity_document' => ['max:9', Rule::unique('accounts_dui_vw')->ignore($account_id)],
             'first_name' => 'required|max:127',
             'last_name' => 'max:127',
             'phone_number' => 'required|max:8',
             'address' => 'max:255',
+            'date' => 'date_formar:d/m/Y',
+            'sex' => 'max:1',
             'juridical_person' => 'boolean',
             'origin_center' => 'boolean',
-            'nit' => 'max:14|unique:customers_nit_vw',
-            'nrc' => 'max:7|unique:customers_nit_vw',
+            'nit' => ['max:14', Rule::unique('customers_nit_vw')->ignore($customer_id)],
+            'nrc' => ['max:7', Rule::unique('customers_nit_vw')->ignore($customer_id)],
             'business' => 'max:127',
             'comment' => 'max:255',
         ];

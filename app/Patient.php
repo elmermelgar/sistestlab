@@ -32,9 +32,9 @@ class Patient extends Model
     /**
      * Relacion de muchos a muchos con Cliente.
      */
-    public function clients()
+    public function customers()
     {
-        return $this->belongsToMany('App\Client');
+        return $this->belongsToMany('App\Customer');
     }
 
     /**

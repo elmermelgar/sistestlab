@@ -30,6 +30,11 @@ class CreateAccountsTable extends Migration
         });
 
         DB::statement('
+        create or replace view accounts_dui_vw as select a.id, a.identity_document from accounts a 
+        where a.identity_document is not null;
+        ');
+
+        DB::statement('
         create or replace function accounts_update_tg() returns trigger as
         $tg_accounts$
         begin
@@ -55,6 +60,7 @@ class CreateAccountsTable extends Migration
     {
         DB::statement('drop trigger accounts_update_tg on accounts;');
         DB::statement('drop function accounts_update_tg();');
+        DB::statement('drop view accounts_dui_vw;');
         Schema::drop('accounts');
     }
 }

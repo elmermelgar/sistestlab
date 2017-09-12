@@ -84,7 +84,8 @@
                 <div class="ln_solid"></div>
                 <div class="col-md-12" style="text-align: center">
                     <div class="form-group">
-                        <a class="btn btn-default" href="{{URL::previous()}}">Cancelar</a>
+                        <a class="btn btn-default"
+                           href="{{route('examenes.detail',$examen->id)}}">Cancelar</a>
                         <button class="btn btn-success">Guardar</button>
                     </div>
                 </div>

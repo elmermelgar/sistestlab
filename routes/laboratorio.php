@@ -16,17 +16,17 @@ Route::group(['prefix' => 'clientes', 'middleware' => ['permission:admin_cliente
 });
 
 Route::group(['prefix' => 'origenes', 'middleware' => ['permission:admin_clientes']], function () {
-    Route::get('/', 'CustomerController@origenes');
+    Route::get('/', 'CustomerController@origenes')->name('origin');
 });
 
 Route::group(['prefix' => 'pacientes', 'middleware' => ['permission:admin_pacientes']], function () {
 
-    Route::get('/', 'PacienteController@index');
-    Route::get('create', 'PacienteController@create');
-    Route::get('{id}', 'PacienteController@show');
-    Route::get('{id}/edit', 'PacienteController@edit');
-    Route::post('delete', 'PacienteController@delete');
-    Route::post('store', 'PacienteController@store');
+    Route::get('/', 'PatientController@index')->name('patient');
+    Route::get('create', 'PatientController@create')->name('patient.create');
+    Route::get('{id}', 'PatientController@show')->name('patient.show');
+    Route::get('{id}/edit', 'PatientController@edit')->name('patient.edit');
+    Route::post('delete', 'PatientController@delete')->name('patient.delete');
+    Route::post('store', 'PatientController@store')->name('patient.store');
 });
 
 Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_recolectores']], function () {
@@ -43,15 +43,15 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
 });
 
 Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], function () {
-    Route::get('/', 'FacturaController@index');
+    Route::get('/', 'FacturaController@index')->name('factura');
     Route::get('create/{origen?}', 'FacturaController@create')->where('origen', 'origen');
     Route::get('{id}', 'FacturaController@show')->name('factura.show');
     Route::get('{id}/edit', 'FacturaController@edit')->name('factura.edit');
-    Route::post('store', 'FacturaController@store');
+    Route::post('store', 'FacturaController@store')->name('factura.store');
     Route::post('annul', 'FacturaController@annul')->name('factura.annul');
-    Route::post('{id}/facturar', 'FacturaController@facturar');
-    Route::post('{id}/payment', 'FacturaController@payment');
-    Route::post('{id}/nivel', 'FacturaController@nivel');
+    Route::post('{id}/facturar', 'FacturaController@facturar')->name('factura.facturar');
+    Route::post('{id}/payment', 'FacturaController@payment')->name('factura.payment');
+    Route::post('{id}/nivel', 'FacturaController@nivel')->name('factura.nivel');
 });
 
 Route::group(['prefix' => 'creditofiscal', 'middleware' => ['permission:credito_fiscal']], function () {
@@ -67,5 +67,5 @@ Route::group(['prefix' => 'creditofiscal', 'middleware' => ['permission:credito_
 Route::group(['prefix' => 'search', 'middleware' => ['permission:facturar']], function () {
     Route::get('customer', 'SearchController@searchCustomer');
     Route::get('profile', 'SearchController@searchProfile');
-    Route::get('paciente', 'SearchController@searchPaciente');
+    Route::get('patient', 'SearchController@searchPatient');
 });

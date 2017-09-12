@@ -11,7 +11,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{route('customer')}}">Clientes</a></li>
-            <li>{{$cliente? $cliente->razon_social:'Nuevo'}}</li>
+            <li>{{$cliente? $cliente->name:'Nuevo'}}</li>
         </ol>
     </div>
 
@@ -95,17 +95,25 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="name" class="control-label col-md-4 col-sm-4 col-xs-12"> Razón Social
-                            <span class="required">*</span>
+                        <label id="first_name_label" for="first_name" class="control-label col-md-4 col-sm-4 col-xs-12">
+                            Nombre <span class="required">*</span>
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input id="name" name="name" class="form-control" placeholder="Razón Social"
-                                   maxlength="255" value="{{$cliente? $cliente->name:old('name')}}"
-                                   required>
+                            <input id="first_name" name="first_name" class="form-control" placeholder="Nombre"
+                                   maxlength="127" value="{{$cliente? $cliente->first_name:old('first_name')}}">
                         </div>
                     </div>
 
                     <div id="div_natural" class="hidden">
+                        <div class="form-group">
+                            <label for="last_name" class="control-label col-md-4 col-sm-4 col-xs-12"> Apellido
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <input id="last_name" name="last_name" class="form-control" placeholder="Apellido"
+                                       maxlength="127" value="{{$cliente? $cliente->last_name:old('last_name')}}">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="dui" class="control-label col-md-4 col-sm-4 col-xs-12">
                                 DUI <span class="required">*</span>
@@ -198,26 +206,6 @@
                     </div>
 
                     <div class="hidden" id="div_paciente">
-                        <div class="form-group">
-                            <label for="first_name" class="control-label col-md-4 col-sm-4 col-xs-12"> Nombre
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="first_name" name="first_name" class="form-control" placeholder="Nombre"
-                                       maxlength="255" value="{{$paciente? $paciente->first_name:old('first_name')}}"
-                                       disabled>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name" class="control-label col-md-4 col-sm-4 col-xs-12"> Apellido
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                <input id="last_name" name="last_name" class="form-control" placeholder="Apellido"
-                                       maxlength="255" value="{{$paciente? $paciente->last_name:old('last_name')}}"
-                                       disabled>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label for="sex" class="control-label col-md-4 col-sm-4 col-xs-12"> Sexo
@@ -226,11 +214,11 @@
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <select id="sex" name="sex" class="form-control" required disabled>
                                     <option value="M"
-                                            @if($paciente? $paciente->sexo=="Masculino":null) selected @endif>
+                                            @if($paciente? $paciente->sex=="M":null) selected @endif>
                                         Masculino
                                     </option>
                                     <option value="F"
-                                            @if($paciente? $paciente->sexo=="Femenino":null) selected @endif>Femenino
+                                            @if($paciente? $paciente->sex=="F":null) selected @endif>Femenino
                                     </option>
                                 </select>
                             </div>
@@ -243,7 +231,8 @@
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input id="birth_date" name="birth_date" class="form-control has-feedback-left"
                                        placeholder="Fecha de nacimiento" required disabled
-                                       value="{{$paciente? $paciente->birth_date:old('birth_date')}}">
+                                       value="{{$paciente? \Carbon\Carbon::createFromFormat('Y-m-d',$paciente->birth_date)
+                                       ->format('d/m/Y'):old('birth_date')}}">
                                 <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -257,9 +246,7 @@
                             Usuario</label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
                             <input type="checkbox" id="user" name="user" class="custom-check"
-                                   @if(isset($cliente->account->user))
-                                   checked
-                                    @endif >
+                                   @if(isset($cliente->account->user)) checked @endif >
                             <i>(Se le enviará un correo electrónico al usuario)</i>
                         </div>
                     </div>
@@ -268,13 +255,12 @@
                         <div id="crop-avatar" class="hidden" style="text-align: center">
                             <!-- Current avatar -->
                             <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
-                                 style="max-height: 200px; margin: 0 auto"
-                                 src="
-                            @if(isset($cliente->user->photo))
-                                 {{url('/storage/photos/'.$cliente->user->photo)}}
-                                 @else
-                                 {{url('/storage/photos/user.png')}}
-                                 @endif ">
+                                 style="max-height: 200px; margin: 0 auto" src="
+                            @if(isset($cliente->account->photo))
+                            {{url('/storage/photos/'.$cliente->account->photo)}}
+                            @else
+                            {{url('/storage/photos/user.png')}}
+                            @endif ">
 
                             <br>
                             <label for="avatar" id="labelAvatar" class="btn btn-success" style="margin-bottom: 1em">

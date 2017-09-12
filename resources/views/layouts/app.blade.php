@@ -121,7 +121,7 @@
                                 <i class="fa fa-angle-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="{{url('usuario/perfil')}}"> Perfil</a></li>
+                                <li><a href="{{route('account')}}"> Cuenta</a></li>
                                 <li><a href="{{url('ayuda')}}">Ayuda</a></li>
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault();

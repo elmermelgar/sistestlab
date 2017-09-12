@@ -31,9 +31,9 @@
 
         <div class="x_content">
             <p><strong>Sucursal: </strong>{{$sucursal->display_name}}</p>
-            <p><strong>Cliente: </strong>{{$cliente->razon_social}}</p>
+            <p><strong>Cliente: </strong>{{$cliente->name}}</p>
             <p><strong>NIT Cliente: </strong>{{$cliente->nit}}</p>
-            <p><strong>Entregado por: </strong>{{$user->name}}</p>
+            <p><strong>Entregado por: </strong>{{$user->name()}}</p>
             <br>
             <p><strong>Facturas disponibles para crédito fiscal:</strong></p>
             <table id="facturas" data-classes="table table-hover table-no-bordered" data-icons-prefix="fa">
@@ -54,9 +54,9 @@
                     <tr>
                         <td></td>
                         <td>{{ (int) $factura->id}}</td>
-                        <td>{{$factura->created_at}}</td>
+                        <td>{{$factura->date}}</td>
                         <td>{{$factura->estado->display_name}}</td>
-                        <td>{{$factura->account->name()}}</td>
+                        <td>{{$factura->facturador->name()}}</td>
                         <td>{{$factura->total}}</td>
                         <td>
                             <a target="_blank" href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
@@ -75,7 +75,7 @@
                         <input type="hidden" id="tax_credit_id" name="tax_credit_id" class="form-control" readonly
                                value="{{$credito_fiscal->id}}">
                     @endif
-                    <input type="hidden" id="user_id" name="user_id" class="form-control" required readonly
+                    <input type="hidden" id="account_id" name="account_id" class="form-control" required readonly
                            value="{{$user->id}}">
                 </div>
                 <div class="form-group">

@@ -11,7 +11,7 @@
             @if(Auth::user()->can('admin_pacientes'))
                 <li><a href="{{url('/pacientes')}}">Pacientes</a></li>
             @endif
-            <li>{{$paciente->name()}}</li>
+            <li>{{$paciente->name}}</li>
         </ol>
     </div>
 
@@ -28,43 +28,36 @@
         <div class="x_panel">
 
             <div class="x_title">
-                <h3>Paciente {{$paciente->name()}}</h3>
+                <h3>Paciente {{$paciente->name}}</h3>
 
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <h4>{{$paciente->name()}}</h4>
+                <h4>{{$paciente->name}}</h4>
 
                 <ul class="list-unstyled user_data">
 
-                    <li class="m-top-xs">
-                        <i class="fa fa-envelope fa-fw user-profile-icon"></i>
-                        Email: <strong>{{$paciente->email}}</strong>
-                    </li>
                     <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>
-                        Documento de identidad: <strong>{{$paciente->dui}}</strong>
+                        Documento de identidad: <strong>{{$paciente->identity_document}}</strong>
                     </li>
                     <li><i class="fa fa-genderless fa-fw user-profile-icon"></i>
-                        Sexo: <strong>{{$paciente->sexo}}</strong>
+                        Sexo: <strong>{{$paciente->sex}}</strong>
                     </li>
                     <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
-                        Nacimiento: <strong>{{$paciente->fecha_nacimiento}}
-                            ({{\Carbon\Carbon::parse($paciente->fecha_nacimiento)->age}} años)</strong>
+                        Nacimiento: <strong>{{$paciente->birth_date}}
+                            ({{\Carbon\Carbon::parse($paciente->birth_date)->age}} años)</strong>
                     </li>
                     <li><i class="fa fa-phone fa-fw user-profile-icon"></i>
-                        Telefono: <strong>{{$paciente->telefono}}</strong>
+                        Telefono: <strong>{{$paciente->phone_number}}</strong>
                     </li>
                     <li><i class="fa fa-bank fa-fw user-profile-icon"></i>
-                        Dirección: <strong>{{$paciente->direccion}}</strong>
+                        Dirección: <strong>{{$paciente->address}}</strong>
                     </li>
                     <li><i class="fa fa-briefcase fa-fw user-profile-icon"></i>
-                        Profesión: <strong>{{$paciente->profesion}}</strong>
-                    </li>
-                    <li><i class="fa fa-sticky-note fa-fw user-profile-icon"></i>
-                        Procedencia: <strong>{{$paciente->procedencia}}</strong>
+                        Profesión: <strong>{{$paciente->profession?:'--'}}</strong>
                     </li>
                     <li><i class="fa fa-comment fa-fw user-profile-icon"></i>
-                        Observación: <strong>{{$paciente->observacion}}</strong>
+                        Observación: <strong>{{$paciente->comment}}</strong>
                     </li>
                     <li><i class="fa fa-calendar fa-fw user-profile-icon"></i>
                         Registrado en: <strong>{{$paciente->created_at}}</strong>
@@ -86,7 +79,7 @@
         <div class="x_panel">
 
             <div class="x_title">
-                <h2>Clientes</h2>
+                <h2>Clientes Asociados</h2>
 
                 <div class="clearfix"></div>
             </div>
@@ -103,10 +96,10 @@
                     </thead>
 
                     <tbody>
-                    @forelse($paciente->clientes as $cliente)
+                    @forelse($paciente->customers as $cliente)
                         <tr>
                             <td>{{$cliente->id}}</td>
-                            <td>{{$cliente->razon_social}}</td>
+                            <td>{{$cliente->name}}</td>
                             <td>
                                 <a class="btn btn-info btn-xs" title="Ver Cliente"
                                    href="{{ url('clientes/' . $cliente->id) }}">

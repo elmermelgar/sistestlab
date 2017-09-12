@@ -110,8 +110,8 @@
                                         <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse"
                                            data-parent="#accordion{{ $grupo->id }}" href="#collapseOne{{ $grupo->id }}"
                                            aria-expanded="false" aria-controls="collapseOne">
-                                            <h4 class="panel-title"><b>{{ $grupo->name }}</b></h4>
-                                            @if(!$grupo->name == '')
+                                            <h4 class="panel-title"><b>{{ $grupo->display_name }}</b></h4>
+                                            @if(!($grupo->name == 'sin_agrupamiento'))
                                                 <a href="{{url('examenes/'.$examen->id.'/delete_group/'.$grupo->id)}}"
                                                    class="btn btn-sm btn-black"
                                                    style="float: right; margin-top: -35px; color: #942a25">

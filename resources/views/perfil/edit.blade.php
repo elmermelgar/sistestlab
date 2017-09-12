@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/perfiles')}}">Perfiles</a></li>
-            <li>{{$perfil? $perfil->razon_social:'Nuevo'}}</li>
+            <li>{{$perfil? $perfil->display_name:'Nuevo'}}</li>
         </ol>
     </div>
 

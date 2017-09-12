@@ -27,14 +27,14 @@ class Factura extends Model
      * @var array
      */
     protected $fillable = [
-        'sucursal_id', 'cliente_id', 'user_id', 'recolector_id', 'estado_id', 'centro_origen',
+        'sucursal_id', 'customer_id', 'account_id', 'recolector_id', 'estado_id', 'centro_origen',
         'numero', 'total', 'credito_fiscal'
     ];
 
     /**
      * Cliente de la factura
      */
-    public function cliente()
+    public function customer()
     {
         return $this->belongsTo('App\Customer');
     }
@@ -42,9 +42,9 @@ class Factura extends Model
     /**
      * Usuario que factura
      */
-    public function user()
+    public function facturador()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Account','account_id');
     }
 
     /**

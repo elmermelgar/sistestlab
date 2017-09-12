@@ -103,7 +103,7 @@ class ExamController extends Controller
             $examen->profiles()->attach($profile);
 
             $group = new Grouping();
-            $group->name = '';
+            $group->name = 'sin_agrupamiento';
             $group->display_name = 'Sin Agrupamiento';
             $group->exam_id = $examen->id;
             $group->save();
@@ -194,16 +194,18 @@ class ExamController extends Controller
             $activo_ids = $request->activo_id;
             $cantidades = $request->cantidad;
             $recursos = [];
-            if (count($activo_ids) == count($cantidades)) {
+            if (count($activo_ids) > 0 && (count($activo_ids) == count($cantidades))) {
                 foreach ($activo_ids as $key => $activo_id) {
                     $recursos[$activo_id] = ['cantidad' => $cantidades[$key]];
                 }
                 $examen->activos()->sync($recursos);
+                Notify::success('Guardado correctamente', 'Exito!!');
+                return redirect('examenes/' . $examen->id);
             }
-            Notify::success('Guardado correctamente', 'Exito!!');
-            return redirect('examenes/' . $examen->id);
+            Notify::error('No selecciono ningún activo', 'Error!!');
+        } else {
+            Notify::error('No existe el examen especificado', 'Error!!');
         }
-        Notify::error('No existe el examen especificado', 'Error!!');
         return redirect()->back();
     }
 
@@ -255,6 +257,11 @@ class ExamController extends Controller
     {
         $examen = Exam::find($id);
         $activos = Activo::where('tipo', 'recurso')->get();
+        if(count($activos)==0){
+            Notify::warning('No hay recursos registrados para poder asociarlos al examen. 
+            Dirigase a la sección de inventario para registrar recursos.');
+            return redirect()->back();
+        }
         $selected = $examen->activos()->pluck('id')->all();
         return view('examen.asignar_recursos.edit', [
             'examen' => $examen,

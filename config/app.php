@@ -170,6 +170,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        JasperPHP\JasperPHPServiceProvider::class,
         //Notificaciones
         Jleon\LaravelPnotify\NotifyServiceProvider::class,
 

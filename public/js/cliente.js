@@ -13,6 +13,7 @@ $(document).ready(function () {
     var div_avatar = $('#crop-avatar');
     var div_juridica = $('#div_juridica');
     var div_natural = $('#div_natural');
+    var nombre_label = $('#first_name_label');
     var nombre = $('#first_name');
     var apellido = $('#last_name');
     var sexo = $('#sex');
@@ -34,13 +35,10 @@ $(document).ready(function () {
             natural.attr('disabled', 'disabled');
             juridica.attr('disabled', 'disabled');
             juridica[0].checked = true;
-            paciente.attr('disabled', 'disabled');
-            paciente[0].checked = false;
         }
         else {
             natural.removeAttr('disabled');
             juridica.removeAttr('disabled');
-            paciente.removeAttr('disabled');
         }
         juridicaClick();
     }
@@ -53,23 +51,15 @@ $(document).ready(function () {
     function pacienteClick() {
         if (paciente[0].checked) {
             div_paciente.removeClass('hidden');
-            nombre.removeAttr('disabled');
-            apellido.removeAttr('disabled');
             sexo.removeAttr('disabled');
             fecha_nacimiento.removeAttr('disabled');
-            nombre.attr('required', 'required');
-            apellido.attr('required', 'required');
             sexo.attr('required', 'required');
             fecha_nacimiento.attr('required', 'required');
         }
         else {
             div_paciente.addClass('hidden');
-            nombre.attr('disabled', 'disabled');
-            apellido.attr('disabled', 'disabled');
             sexo.attr('disabled', 'disabled');
             fecha_nacimiento.attr('disabled', 'disabled');
-            nombre.removeAttr('required');
-            apellido.removeAttr('required');
             sexo.removeAttr('required');
             fecha_nacimiento.removeAttr('required');
         }
@@ -82,20 +72,32 @@ $(document).ready(function () {
 
     function juridicaClick() {
         if (juridica[0].checked) {
+            nombre_label.html('Razón Social');
+            nombre.attr('placeholder', 'Razón Social');
+            apellido.attr('disabled', 'disabled');
+            apellido.attr('disabled', 'disabled');
+            apellido.removeAttr('required');
             dui.removeAttr('required');
             nit.attr('required', 'required');
             nrc.attr('required', 'required');
             giro.attr('required', 'required');
             div_natural.addClass('hidden');
             div_juridica.removeClass('hidden');
+            paciente.attr('disabled', 'disabled');
+            paciente[0].checked = false;
         }
         else {
+            nombre_label.html('Nombre');
+            nombre.attr('placeholder', 'Nombre');
+            apellido.removeAttr('disabled');
+            apellido.attr('required', 'required');
             dui.attr('required', 'required');
             nit.removeAttr('required');
             nrc.removeAttr('required');
             giro.removeAttr('required');
             div_natural.removeClass('hidden');
             div_juridica.addClass('hidden');
+            paciente.removeAttr('disabled');
         }
     }
 

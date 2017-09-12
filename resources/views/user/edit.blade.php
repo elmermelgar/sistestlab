@@ -7,9 +7,14 @@
 @section('content')
     <div class="row">
         <ol class="breadcrumb">
-            <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
-            <li><a href="{{url('/usuarios')}}">Usuarios</a></li>
-            <li>{{$user?$user->name:'Nuevo'}}</li>
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
+            @if($own)
+                <li><a href="{{route('account')}}">{{$user->name}}</a></li>
+                <li>Actualizar Cuenta</li>
+            @else
+                <li><a href="{{route('user')}}">Usuarios</a></li>
+                <li>{{$user?$user->name:'Nuevo'}}</li>
+            @endif
         </ol>
     </div>
 
@@ -26,7 +31,9 @@
 
         <div class="x_title">
 
-            @if($user)
+            @if($own)
+                <h2>Actualizar Cuenta</h2>
+            @elseif($user)
                 <h2>Editar Usuario</h2>
             @else
                 <h2>Nuevo Usuario</h2>
@@ -35,7 +42,8 @@
         </div>
         <div class="x_content">
 
-            <form class="form-horizontal form-label-left" method="post" action="{{url('usuarios/store')}}"
+            <form class="form-horizontal form-label-left" method="post"
+                  action="{{$own? route('account.update') : route('user.store')}}"
                   enctype="multipart/form-data">
                 {{csrf_field()}}
 
@@ -44,13 +52,12 @@
                         <div id="crop-avatar">
                             <!-- Current avatar -->
                             <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
-                                 style="max-height: 200px"
-                                 src="
-                            @if($user? $user->photo:null)
-                                 {{url('/storage/photos/'.$user->photo)}}
-                                 @else
-                                 {{url('/storage/photos/'. 'user.png')}}
-                                 @endif ">
+                                 style="max-height: 200px" src="
+                            @if($user? $user->account->photo:null)
+                            {{url('/storage/photos/'.$user->account->photo)}}
+                            @else
+                            {{url('/storage/photos/'. 'user.png')}}
+                            @endif ">
                             <br>
                             <label for="avatar" id="labelAvatar" class="btn btn-success" style="margin-bottom: 1em">
                                 Cambiar Foto
@@ -67,10 +74,10 @@
                             <img class="img-responsive seal-view" alt="Seal" title="Change the seal"
                                  style="max-height: 200px"
                                  src="
-                            @if($user? $user->seal:null)
-                                 {{url('/storage/seals/'.$user->seal)}}
+                            @if($user? $user->account->seal:null)
+                                 {{url('/storage/seals/'.$user->account->seal)}}
                                  @else
-                                 {{url('/storage/seals/'. 'seal.jpg')}}
+                                 {{url('/storage/seals/'. 'seal.png')}}
                                  @endif ">
                             <br>
                             <label for="seal" id="labelSeal" class="btn btn-success" style="margin-bottom: 1em">
@@ -89,10 +96,22 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="id" name="id" class="form-control" placeholder="ID"
+                            <input type="hidden" id="id" name="id" class="form-control" placeholder="ID"
                                    value="{{$user? $user->id:old('id')}}" @if($user) required @endif>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label col-md-2 col-sm-2 col-xs-12"> Email
+                            <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Email"
+                                   value="{{$user? $user->email:old('email')}}" required
+                                   @if($user) readonly disabled @endif>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label for="first_name" class="control-label col-md-2 col-sm-2 col-xs-12"> Nombre
                             <span class="required">*</span>
@@ -111,16 +130,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="control-label col-md-2 col-sm-2 col-xs-12"> Email
-                            <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="email" id="email" name="email" class="form-control" placeholder="Email"
-                                   value="{{$user? $user->email:old('email')}}" required @if($user) readonly @endif>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label for="phone_number" class="control-label col-md-2 col-sm-2 col-xs-12">Teléfono
                             <span class="required">*</span>
                         </label>
@@ -131,13 +140,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="address" class="control-label col-md-2 col-sm-2 col-xs-12"> Dirección</label>
+                        <label for="address" class="control-label col-md-2 col-sm-2 col-xs-12">Dirección</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <textarea id="address" name="address" class="form-control resize"
                                       placeholder="Dirección"
                                       maxlength="255">{{$user? $user->account->address:old('address')}}</textarea>
                         </div>
                     </div>
+
+                    @permission('admin_users')
                     <div class="form-group">
                         <label for="comment" class="control-label col-md-2 col-sm-2 col-xs-12">
                             Comentario</label>
@@ -152,46 +163,29 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            @if(Auth::user()->can('admin_users'))
-                                <select id="sucursal_id" name="sucursal_id" class="sucursal form-control" required>
-                                    @foreach($sucursales as $sucursal)
-                                        <option value="{{$sucursal->id}}"
-                                                @if($user? $user->sucursal:null)
-                                                @if($user->sucursal->name==$sucursal->name) selected
-                                                @endif
-                                                @endif>
-                                            {{$sucursal->display_name}}</option>
-                                    @endforeach
-                                </select>
-                            @else
-                                <input id="sucursal" name="sucursal" class="form-control" placeholder="Surcursal"
-                                       value="{{$user? $user->sucursal? $user->sucursal->display_name:null:null}}"
-                                       required readonly>
-                            @endif
+                            <select id="sucursal_id" name="sucursal_id" class="sucursal form-control" required>
+                                @foreach($sucursales as $sucursal)
+                                    <option value="{{$sucursal->id}}"
+                                            @if($user && $user->account->sucursal_id==$sucursal->id) selected
+                                            @endif >{{$sucursal->display_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="roles" class="control-label col-md-2 col-sm-2 col-xs-12"> Roles
-                        </label>
+                        <label for="roles" class="control-label col-md-2 col-sm-2 col-xs-12">Roles</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            @if(Auth::user()->can('admin_users'))
-                                <select id="roles" name="roles[]" class="role form-control" multiple>
-                                    @foreach($roles as $rol)
-                                        <option value="{{$rol->id}}"
-                                                @if($user? $user->hasRole($rol->name):null) selected @endif>
-                                            {{$rol->display_name}}</option>
-                                    @endforeach
-                                </select>
-                            @else
-                                <input id="role" name="role" class="form-control" placeholder="Roles"
-                                       value="@forelse($user->roles as $rol){{$rol->display_name}}
-                                       @if(!$loop->last) {{', '}} @endif
-                                       @empty Sin roles!
-                                            @endforelse " readonly>
-                            @endif
+                            <select id="roles" name="roles[]" class="role form-control" multiple>
+                                @foreach($roles as $rol)
+                                    <option value="{{$rol->id}}"
+                                            @if($user? $user->hasRole($rol->name):null) selected @endif>
+                                        {{$rol->display_name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
+                    @endpermission
 
 
                 </div>
@@ -218,10 +212,12 @@
     <script src="{{url('/js/avatar.js')}}"></script>
     <script src="{{url('/js/seal.js')}}"></script>
     <script src="{{url("/js/sumoselect.min.js")}}"></script>
+    <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
     <script>
         $(document).ready(function () {
             $('.sucursal').SumoSelect({placeholder: 'Seleccione la sucursal a asignar'});
             $('.role').SumoSelect({placeholder: 'Seleccione los roles a asignar', okCancelInMulti: true});
+            Inputmask().mask(document.querySelectorAll("input"));
         });
     </script>
 @endsection

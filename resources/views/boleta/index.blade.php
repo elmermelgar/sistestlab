@@ -121,13 +121,7 @@
            data-target=".bs-example-modal-sm" style="width: 100%"> Agregar Antibióticos</a>
         @endif
 
-        @php $rol=DB::table('roles')->where([
-                                            ['name', '=', 'profesional'],])->first();
-                $rol_user=DB::table('role_user')->where([
-                                                 ['user_id', '=', Auth::User()->id],
-                                                 ['role_id', '=', $rol->id],])->first();
-        @endphp
-        @if($rol_user)
+        @permission('validar_examen')
             @if($examen_paciente->estado->name!='validado')
                     <a href="#" class="btn bg-red" data-toggle="modal"
                        data-target=".denegar" style="width: 100%"> Denegar</a>
@@ -136,7 +130,7 @@
                         style="width: 100%"> Aprobar
                 </button>
             @endif
-        @endif
+        @endpermission
 
     </div>
     {{--Modal de Antibioticos--}}

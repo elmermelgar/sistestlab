@@ -49,7 +49,7 @@
                     <tr>
                         <td>{{$cliente->id}}</td>
                         <td>{{$cliente->nit}}</td>
-                        <td>{{$cliente->razon_social}}</td>
+                        <td>{{$cliente->name}}</td>
                         <td>{{$cliente->cantidad_facturas}}</td>
                         <td>{{$cliente->total}}</td>
                         <td>

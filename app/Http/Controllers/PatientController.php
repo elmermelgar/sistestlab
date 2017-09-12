@@ -6,12 +6,15 @@ use App\Customer;
 use App\Patient;
 use App\Services\UserService;
 
+use App\Sucursal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Jleon\LaravelPnotify\Notify;
 
-class PacienteController extends Controller
+class PatientController extends Controller
 {
 
     /**
@@ -58,7 +61,11 @@ class PacienteController extends Controller
      */
     public function create()
     {
-        return view('paciente.edit', ['paciente' => null, 'clientes' => Customer::all()]);
+        return view('paciente.edit', [
+            'paciente' => null,
+            'clientes' => Customer::all(),
+            'sucursales' => Sucursal::all(),
+        ]);
     }
 
     /**
@@ -69,15 +76,15 @@ class PacienteController extends Controller
     public function edit($id)
     {
         if ($paciente = Patient::find($id)) {
-            $cliente = $paciente->clientes()->wherePivot('same_record', true)->first();
-            if ($cliente) {
+            if ($paciente->account->customer) {
                 Notify::warning('Este paciente esta registrado como cliente; 
                 para actualizar datos deberá editar el registro de cliente.');
                 return back();
             }
             return view('paciente.edit', [
                 'paciente' => $paciente,
-                'clientes' => Customer::select(['id', 'razon_social', 'descripcion'])->all()
+                'clientes' => Customer::select(['id', 'name', 'comment'])->get(),
+                'sucursales' => Sucursal::all(),
             ]);
         }
         return response()->view('errors.404', [], 404);
@@ -94,27 +101,49 @@ class PacienteController extends Controller
         DB::beginTransaction();
 
         try {
-            $request->merge(['dui' => str_replace('-', '', $request->dui)]);
-            $request->merge(['telefono' => str_replace('-', '', $request->telefono)]);
-            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->fecha_nacimiento);
-            $request->merge(['fecha_nacimiento' => $fecha_nacimiento]);
+            $request->merge(['identity_document' => str_replace('-', '', $request->identity_document)]);
+            $request->merge(['phone_number' => str_replace('-', '', $request->phone_number)]);
+            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->birth_date);
+            $request->merge(['birth_date' => $fecha_nacimiento]);
             if ($request->id && $paciente = Patient::find($request->id)) {
+                $this->validate($request, $this->rules($paciente->account_id));
                 $paciente->update($request->all());
             } else {
+                $this->validate($request, $this->rules());
                 $paciente = Patient::create($request->all());
             }
-            $paciente->clientes()->sync($request->cliente_id);
+            $paciente->customers()->sync($request->customer_id);
 
             DB::commit();
         } catch (\Exception $e) {
+            DB::rollBack();
+            if ($e instanceof ValidationException) {
+                return back()->withInput()->withErrors($e->validator->errors());
+            }
             \Log::error($e);
             Notify::error('No se ha registrado al paciente');
-            DB::rollBack();
             return back()->withInput();
         }
 
         Notify::success('Paciente registrado correctamente');
-        return redirect()->action('PacienteController@show', ['paciente' => $paciente->id]);
+        return redirect()->action('PatientController@show', ['paciente' => $paciente->id]);
     }
 
+    /**
+     * Reglas para validar la petición
+     * @return array
+     */
+    private function rules($account_id = null)
+    {
+        return [
+            'sucursal_id' => 'required|integer|min:1',
+            'identity_document' => ['max:9', Rule::unique('accounts_dui_vw')->ignore($account_id)],
+            'first_name' => 'required|max:127',
+            'last_name' => 'max:127',
+            'phone_number' => 'required|max:8',
+            'address' => 'max:255',
+            'profession' => 'max:127',
+            'comment' => 'max:255',
+        ];
+    }
 }

@@ -50,9 +50,9 @@ class SearchController extends Controller
      * @param Request $request
      * @return string
      */
-    public function searchPaciente(Request $request)
+    public function searchPatient(Request $request)
     {
-        return response($this->searchService->searchPaciente($request->name))
+        return response($this->searchService->searchPatient($request->name))
             ->header('Content-Type', 'application/json; charset=utf-8');
     }
 

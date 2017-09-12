@@ -30,11 +30,11 @@ class CreditoFiscalController extends Controller
      */
     public function customers()
     {
-        $clientes = Customer::join('facturas', 'clientes.id', '=', 'facturas.cliente_id')
+        $clientes = Customer::join('facturas', 'customers_vw.id', '=', 'facturas.customer_id')
             ->where('facturas.credito_fiscal', true)->where('facturas.tax_credit_id', null)
-            ->select(DB::raw('clientes.id, clientes.nit, clientes.razon_social, 
+            ->select(DB::raw('customers_vw.id, customers_vw.nit, customers_vw.name, 
             count(facturas) as cantidad_facturas, sum(facturas.total) as total'))
-            ->groupBy(['clientes.id', 'clientes.nit', 'clientes.razon_social'])->get();
+            ->groupBy(['customers_vw.id', 'customers_vw.nit', 'customers_vw.name'])->get();
         return view('credito_fiscal.customers', ['clientes' => $clientes]);
     }
 
@@ -49,7 +49,7 @@ class CreditoFiscalController extends Controller
     public function show($id)
     {
         if ($credito_fiscal = TaxCredit::find($id)) {
-            $credito_fiscal->cliente = $credito_fiscal->facturas()->first()->cliente;
+            $credito_fiscal->customer = $credito_fiscal->facturas()->first()->customer;
             /**
              * se debe asignar el estado de factura CERRADA para omitir los procesos inherentes a
              * una factura normal, así solo se cargarán los de modificar y terminar el crédito fiscal
@@ -61,8 +61,8 @@ class CreditoFiscalController extends Controller
             Notify::info('Usted está viendo un comprobante de crédito fiscal');
             return view('factura.show', [
                 'factura' => $credito_fiscal,
-                'sucursal' => $credito_fiscal->user->sucursal,
-                'user' => $credito_fiscal->user,
+                'sucursal' => $credito_fiscal->account->sucursal,
+                'facturador' => $credito_fiscal->account,
                 'centro_origen' => false,
                 'edit' => false,
                 'profiles' => $profiles,
@@ -79,11 +79,11 @@ class CreditoFiscalController extends Controller
      */
     public function create($cliente_id)
     {
-        $facturas = Factura::where('tax_credit_id', null)->where('cliente_id', $cliente_id)
+        $facturas = Factura::where('tax_credit_id', null)->where('customer_id', $cliente_id)
             ->orderBy('date')->orderBy('time')->get();
         return view('credito_fiscal.edit', [
             'credito_fiscal' => null,
-            'sucursal' => Auth::user()->sucursal,
+            'sucursal' => Auth::user()->account->sucursal,
             'cliente' => Customer::find($cliente_id),
             'facturas' => $facturas,
             'user' => Auth::user(),
@@ -101,15 +101,15 @@ class CreditoFiscalController extends Controller
 //                Notify::warning('Éste crédito fiscal no puede modificarse');
 //                return back();
 //            }
-            $cliente = $credito_fiscal->facturas()->first()->cliente;
-            $facturas = Factura::where('tax_credit_id', null)->where('cliente_id', $cliente->id)
+            $cliente = $credito_fiscal->facturas()->first()->customer;
+            $facturas = Factura::where('tax_credit_id', null)->where('customer_id', $cliente->id)
                 ->orWhere('tax_credit_id', $credito_fiscal->id)->orderBy('date')->orderBy('time')->get();
             return view('credito_fiscal.edit', [
                 'credito_fiscal' => $credito_fiscal,
-                'sucursal' => $credito_fiscal->user->sucursal,
+                'sucursal' => $credito_fiscal->account->sucursal,
                 'cliente' => $cliente,
                 'facturas' => $facturas,
-                'user' => $credito_fiscal->user,
+                'user' => $credito_fiscal->account,
             ]);
         }
         return abort(404);

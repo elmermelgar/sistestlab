@@ -101,16 +101,16 @@ class UserService
     /**
      * Almacena la imagen del sello como un archivo imagen
      * @param UploadedFile $file
-     * @param User $user
+     * @param Account $account
      */
-    public function storageSeal(UploadedFile $file, User $user)
+    public function storageSeal(UploadedFile $file, Account $account)
     {
         $extension = $file->getClientOriginalExtension();
-        $filename = 'seal-' . $user->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
+        $filename = 'seal-' . $account->id . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
         Storage::disk('public')->putFileAs($this->sealPath, $file, $filename);
-        $user->seal ? Storage::disk('public')->delete($this->sealPath . '/' . $user->seal) : null;
-        $user->seal = $filename;
-        $user->save();
+        $account->seal ? Storage::disk('public')->delete($this->sealPath . '/' . $account->seal) : null;
+        $account->seal = $filename;
+        $account->save();
     }
 
     /**

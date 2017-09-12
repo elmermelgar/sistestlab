@@ -8,17 +8,18 @@
 
 Route::group(['prefix' => 'usuarios', 'middleware' => ['permission:admin_users']], function () {
 
-    Route::get('/', 'UserController@index');
-    Route::post('enable', 'UserController@enable');
-    Route::post('disable', 'UserController@disable');
-    Route::get('create', 'UserController@create');
-    Route::get('{id}', 'UserController@show');
-    Route::get('{id}/edit', 'UserController@edit');
-    Route::post('store', 'UserController@store');
+    Route::get('/', 'UserController@index')->name('user');
+    Route::post('enable', 'UserController@enable')->name('user.enable');
+    Route::post('disable', 'UserController@disable')->name('user.disable');
+    Route::get('create', 'UserController@create')->name('user.create');
+    Route::get('{id}', 'UserController@show')->name('user.show');
+    Route::get('{id}/edit', 'UserController@edit')->name('user.edit');
+    Route::post('store', 'UserController@store')->name('user.store');
 });
 
-Route::get('/usuario/perfil', 'UserController@show');
-Route::get('/usuario/editar', 'UserController@edit');
+Route::get('cuenta', 'UserController@show')->name('account');
+Route::get('cuenta/editar', 'UserController@edit')->name('account.edit');
+Route::post('cuenta/actualizar', 'UserController@update')->name('account.update');
 
 Route::group(['prefix' => 'roles', 'middleware' => ['permission:admin_roles']], function () {
 
@@ -97,7 +98,7 @@ Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_examene
 
     Route::get('/', 'ExamController@index');
     Route::get('create', 'ExamController@create');
-    Route::get('{id}', 'ExamController@detail');
+    Route::get('{id}', 'ExamController@detail')->name('examenes.detail');
     Route::get('{id}/edit', 'ExamController@edit')->name('examenes.edit');
     Route::get('{id}/create_detail', 'ExamController@create_detail')->name('examenes.create_detail');
     Route::get('{id}/create_resources', 'ExamController@create_resources')->name('examenes.create_resources');

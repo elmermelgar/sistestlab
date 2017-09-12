@@ -90,7 +90,7 @@ class ResultadosController extends Controller
 //        dd($id);
         $exam_p = ExamenPaciente::find($id);
         $estado = Estado::where('name', 'validado')->first();
-        $exam_p->user_id = auth()->user()->id;
+        $exam_p->account_id = auth()->user()->account_id;
         $exam_p->estado_id = $estado->id;
         $exam_p->fecha_validado = Carbon::now();
         $exam_p->save();
@@ -191,7 +191,7 @@ class ResultadosController extends Controller
     {
         $exam_p = ExamenPaciente::find($id);
         $estado = Estado::where('name', 'denegado')->first();
-        $exam_p->user_id = auth()->user()->id;
+        $exam_p->account_id = auth()->user()->account_id;
         $exam_p->estado_id = $estado->id;
         $exam_p->observacion = $request->observacion;
         $exam_p->save();
