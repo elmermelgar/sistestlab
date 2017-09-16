@@ -41,7 +41,7 @@
                             @foreach($activos as $activo)
                                 <option value="{{$activo->id}}"
                                         @if(in_array($activo->id,$selected)) disabled
-                                        @endif>{{$activo->nombre}}
+                                        @endif>{{$activo->nombre}} ({{$activo->unidades}})
                                 </option>
                             @endforeach
                         </select>

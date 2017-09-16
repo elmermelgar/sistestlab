@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\ReportController;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
@@ -47,9 +49,11 @@ class ReportCompile extends Command
             $this->info('Compilando reportes...');
             $jasper = new \JasperPHP\JasperPHP;
 
-            $input_file = app_path('Reports/report.jrxml');
             $compiled_file = storage_path('app/reports/');
-            $jasper->compile($input_file, $compiled_file)->execute();
+            foreach (ReportController::$report_list as $report) {
+                $input_file = app_path("Reports/$report");
+                $jasper->compile($input_file, $compiled_file)->execute();
+            }
 
             $this->info('Los archivos para generar los reportes han sido compilados.');
         } catch (Exception $exception) {

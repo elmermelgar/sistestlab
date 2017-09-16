@@ -56,4 +56,16 @@ class SearchController extends Controller
             ->header('Content-Type', 'application/json; charset=utf-8');
     }
 
+    /**
+     * Busca y retorna a los examenes que coincidan con el nombre especificado
+     * Retorna una cadena json para ser usada con Select2 AJAX
+     * @param Request $request
+     * @return string
+     */
+    public function searchExam(Request $request)
+    {
+        return response($this->searchService->searchExam($request->display_name))
+            ->header('Content-Type', 'application/json; charset=utf-8');
+    }
+
 }

@@ -35,7 +35,7 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
     Route::get('create', 'RecolectorController@create');
     Route::get('{id}', 'RecolectorController@show');
     Route::get('{id}/edit', 'RecolectorController@edit');
-    Route::post('{id}/bonificar', 'RecolectorController@bonoficar');
+    Route::post('{id}/bonificar', 'RecolectorController@bonificar');
     Route::post('delete', 'RecolectorController@delete');
     Route::post('store', 'RecolectorController@store');
     Route::post('activar', 'RecolectorController@activar');
@@ -68,4 +68,5 @@ Route::group(['prefix' => 'search', 'middleware' => ['permission:facturar']], fu
     Route::get('customer', 'SearchController@searchCustomer');
     Route::get('profile', 'SearchController@searchProfile');
     Route::get('patient', 'SearchController@searchPatient');
+    Route::get('exam', 'SearchController@searchExam');
 });

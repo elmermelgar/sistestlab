@@ -70,6 +70,7 @@ class UserController extends Controller
             'user' => null,
             'sucursales' => Sucursal::all(),
             'roles' => Role::all(),
+            'own' => false,
         ]);
     }
 

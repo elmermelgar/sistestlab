@@ -92,7 +92,7 @@
                             <tr>
                                 <td>{{$user->id}}</td>
                                 <td>{{$user->name}}</td>
-                                <td>{{$user->sucursal->display_name}}</td>
+                                <td>{{$user->account->sucursal->display_name}}</td>
                                 <td>
                                     <a class="btn btn-info btn-xs" title="Ver Usuario"
                                        href="{{ url('usuarios/' . $user->getAttribute('id')) }}">
@@ -224,7 +224,7 @@
     <script src="{{url("/js/sumoselect.min.js")}}"></script>
     <script>
         $(document).ready(function () {
-            $('.perms').SumoSelect({placeholder: 'Seleccione los permisos a asignar'});
+            $('.perms').SumoSelect({placeholder: 'Seleccione los permisos a asignar', okCancelInMulti: true});
         });
     </script>
 @endsection

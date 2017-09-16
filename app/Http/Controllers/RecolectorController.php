@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Bono;
+use App\Estado;
 use App\Factura;
 use App\Recolector;
 use App\Transaction;
@@ -40,7 +41,11 @@ class RecolectorController extends Controller
     {
         if ($recolector = Recolector::find($id)) {
             $mes = Carbon::now()->startOfMonth()->toDateString();
+            $estado_ids = Estado::whereIn('name', [Factura::BORRADOR, Factura::ANULADA])
+                ->where('tipo', 'factura')->pluck('id');
+            //recolecciones que no han sido anuladas o son borradores
             $recolecciones = Factura::where('recolector_id', $recolector->id)
+                ->whereNotIn('estado_id', $estado_ids)
                 ->whereDate('date', Carbon::now()->toDateString())->get();
             $bonos_aplicados = $recolector->bonos()->where('date', '>=', $mes)->get();
             setlocale(LC_TIME, 'es_SV.UTF-8', 'es');
@@ -99,7 +104,7 @@ class RecolectorController extends Controller
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function bonoficar($id, Request $request)
+    public function bonificar($id, Request $request)
     {
         if ($id != $request->id || !$recolector = Recolector::find($request->id)) {
             Notify::danger('No se aplicó el bono');
@@ -108,7 +113,7 @@ class RecolectorController extends Controller
         try {
             $bono = Bono::find($request->bono_id);
             $recolector->bonos()->attach([$bono->id => [
-                'sucursal_id' => Auth::user()->sucursal->id,
+                'sucursal_id' => Auth::user()->account->sucursal->id,
                 'amount' => -$bono->monto,
                 'type' => Transaction::CASH,
             ]]);

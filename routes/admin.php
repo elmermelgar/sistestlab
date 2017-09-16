@@ -145,7 +145,7 @@ Route::group(['prefix' => 'results', 'middleware' => ['permission:admin_examenes
 });
 
 
-Route::group(['namespace' => 'Inventario', 'prefix' => 'inventario', 'middleware' => ['permission:admin_examenes']],
+Route::group(['namespace' => 'Inventario', 'prefix' => 'inventario', 'middleware' => ['permission:admin_inventario']],
     function () {
 
         Route::get('proveedores', 'ProveedoresController@index')->name('proveedores.index');

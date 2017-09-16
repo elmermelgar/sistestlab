@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('imports')
-    <link href="{{url('css/s2-docs.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{url('css/imprimir_boleta.css')}}" rel="stylesheet" type="text/css" media="print"/>
 @endsection
 
@@ -10,7 +9,8 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/results/invoice/process')}}">Boletas en Proceso</a></li>
-            <li><strong style="color: #0b97c4">Boleta N°{{ $examen_paciente->numero_boleta }} ({{Auth::user()->sucursal->display_name}})</strong></li>
+            <li><strong style="color: #0b97c4">Boleta N°{{ $examen_paciente->numero_boleta }}
+                    ({{Auth::user()->account->sucursal->display_name}})</strong></li>
         </ol>
         <a href="{{ url('/results/invoice/process') }}" style="float: right; margin-top: -50px; margin-right: 20px; font-size: 9px"
            class="btn btn-dark"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
@@ -96,7 +96,7 @@
                         <div class="col-md-6" style="text-align: center">
                             <h5>RESPONSABLE:</h5>
                             <small>
-                                <b>Lic. {{ $examen_paciente->profesional->name }} {{ $examen_paciente->profesional->surname }}</b>
+                                <b>Lic. {{ $examen_paciente->profesional->name() }}</b>
                             </small>
                         </div>
                         <div class="col-sm-3" style="text-align: center">

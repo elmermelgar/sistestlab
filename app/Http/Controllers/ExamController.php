@@ -48,11 +48,13 @@ class ExamController extends Controller
      */
     public function detail($id)
     {
-        $examen = Exam::find($id);
-        return view('examen.exam_detail.detail', [
-            'examen' => $examen,
-            'grupos' => Grouping::where(['exam_id' => $id])->get(),
-            'details' => Exam_detail::all()]);
+        if ($examen = Exam::find($id)) {
+            return view('examen.exam_detail.detail', [
+                'examen' => $examen,
+                'grupos' => Grouping::where(['exam_id' => $id])->get(),
+                'details' => Exam_detail::all()]);
+        }
+        return abort(404);
     }
 
     /**
@@ -257,7 +259,7 @@ class ExamController extends Controller
     {
         $examen = Exam::find($id);
         $activos = Activo::where('tipo', 'recurso')->get();
-        if(count($activos)==0){
+        if (count($activos) == 0) {
             Notify::warning('No hay recursos registrados para poder asociarlos al examen. 
             Dirigase a la sección de inventario para registrar recursos.');
             return redirect()->back();

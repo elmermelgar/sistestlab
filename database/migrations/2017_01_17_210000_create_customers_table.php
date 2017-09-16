@@ -90,8 +90,10 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
-        DB::statement('drop trigger customers_tg on customers_vw;');
-        DB::statement('drop function customers_tg();');
+        DB::statement('drop trigger customers_update_tg on customers_vw;');
+        DB::statement('drop function customers_update_tg();');
+        DB::statement('drop trigger customers_insert_tg on customers_vw;');
+        DB::statement('drop function customers_insert_tg();');
         DB::statement('drop view customers_nit_vw;');
         DB::statement('drop view customers_vw;');
         Schema::dropIfExists('customers');

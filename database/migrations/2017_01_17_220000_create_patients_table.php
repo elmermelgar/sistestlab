@@ -94,8 +94,10 @@ class CreatePatientsTable extends Migration
      */
     public function down()
     {
-        DB::statement('drop trigger patients_tg on patients_vw;');
-        DB::statement('drop function patients_tg();');
+        DB::statement('drop trigger patients_update_tg on patients_vw;');
+        DB::statement('drop function patients_update_tg();');
+        DB::statement('drop trigger patients_insert_tg on patients_vw;');
+        DB::statement('drop function patients_insert_tg();');
         DB::statement('drop view patients_search_vw;');
         DB::statement('drop view patients_vw;');
         Schema::dropIfExists('patients');

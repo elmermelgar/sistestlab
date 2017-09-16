@@ -12,7 +12,6 @@ use App\Protozoarios;
 use App\Register_antibiotico;
 use App\Spermogram;
 use App\Sucursal;
-use App\User;
 use App\Grouping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,8 +24,8 @@ use App\Services\InventarioService;
 class ResultadosController extends Controller
 {
     /**
-    * @var InventarioService
-    */
+     * @var InventarioService
+     */
     private $inventarioService;
 
     /**
@@ -45,12 +44,11 @@ class ResultadosController extends Controller
      */
     public function index()
     {
-        $denegado = Estado::where('name','denegado')->first();
-        $facturado = Estado::where('name','facturado')->first();
-
+        $denegado = Estado::where('name', 'denegado')->first();
+        $facturado = Estado::where('name', 'facturado')->first();
+        $examenes = ExamenPaciente::whereIn('estado_id', [$facturado->id, $denegado->id])->get();
         return view('examen.resultados.exams_paciente', [
-            'examenes' => ExamenPaciente::where('estado_id', '=', $facturado->id)->orWhere(
-                'estado_id', '=', $denegado->id)->get()
+            'examenes' => $examenes
         ]);
     }
 
@@ -73,8 +71,7 @@ class ResultadosController extends Controller
      */
     public function process()
     {
-        $estado = Estado::where('name','proceso')->first();
-//        dd($estado);
+        $estado = Estado::where('name', 'proceso')->first();
         return view('examen.resultados.exams_paciente_proceso', [
             'examenes' => ExamenPaciente::where('estado_id', $estado->id)->get()
         ]);
@@ -90,21 +87,20 @@ class ResultadosController extends Controller
 //        dd($id);
         $exam_p = ExamenPaciente::find($id);
         $estado = Estado::where('name', 'validado')->first();
+        $exam_activo = DB::table('exam_activo')->where('exam_id', '=', $exam_p->exam_id)->get();
+        foreach ($exam_activo as $item) {
+            $resultado = $this->inventarioService->descargar(
+                auth()->user()->sucursal_id, $item->activo_id, $item->cantidad);
+            if ($resultado != 0) {
+                Notify::danger($this->inventarioService->messages[$resultado], 'Error!!');
+                return back();
+            }
+        }
         $exam_p->account_id = auth()->user()->account_id;
         $exam_p->estado_id = $estado->id;
         $exam_p->fecha_validado = Carbon::now();
         $exam_p->save();
-        $exam_activo=DB::table('exam_activo')->where([
-            ['exam_id', '=', $exam_p->id],])->get();
-        if ($exam_activo){
-            foreach ($exam_activo as $item){
-                $resultado = $this->inventarioService->descargar(
-                    auth()->user()->sucursal_id, $item->activo_id, $item->cantidad);
-            }
-            Notify::success('Boleta de resultados aprobada correctamente');
-        }else{
-            Notify::danger($this->inventarioService->messages[$exam_activo], 'Error!!');
-        }
+        Notify::success('Boleta de resultados aprobada correctamente');
         return back();
     }
 
@@ -124,8 +120,8 @@ class ResultadosController extends Controller
                 if ($request->result[$index] != null)
                     $exam_paciente->detalles()->attach($exam_detail_id, ['result' => $request->result[$index], 'observation' => $request->observation[$index], 'protozoarios_type_id' => $request->protozoarios_type_id[$index], 'spermogram_modality_id' => $request->spermogram_type_id[$index]]);
             }
-            $estado=Estado::where('name','proceso')->first();
-            $exam_paciente->estado_id=$estado->id;
+            $estado = Estado::where('name', 'proceso')->first();
+            $exam_paciente->estado_id = $estado->id;
             $exam_paciente->fecha_resultado = Carbon::now();
             $exam_paciente->save();
             Notify::success('Resultados guardados correctamente');
@@ -165,7 +161,7 @@ class ResultadosController extends Controller
     {
 //        dd(Auth::user()->sucursal_id );
         return view('boleta.index', [
-            'sucursal' => Sucursal::where('id', Auth::user()->sucursal_id)->first(),
+            'sucursal' => Auth::user()->account->sucursal,
             'examen' => Exam::find($id_ex),
             'details' => Exam_detail::all(),
             'proto_types' => Protozoarios::all(),

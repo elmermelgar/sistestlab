@@ -38,7 +38,7 @@ class FacturaController extends Controller
     public function index(Request $request, $sucursal_id = null)
     {
         if (!$sucursal_id) {
-            $sucursal_id = Auth::user()->account_id;
+            $sucursal_id = Auth::user()->account->sucursal_id;
         }
         $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
         $query_factura = Factura::where('sucursal_id', $sucursal_id)
@@ -330,11 +330,15 @@ class FacturaController extends Controller
                 Notify::error('Esta factura no puede anularse');
                 return back();
             }
+            $suma = $factura->profiles()->sum('price');
+            $total = round($suma * (1 + $factura->nivel) + 0.004, 2);
+
             $estado_anulada = Estado::where('name', Factura::ANULADA)->where('tipo', 'factura')->first();
             $factura->estado()->associate($estado_anulada);
+            $factura->total = $total;
             $factura->save();
         } else {
-            Notify::error("Ninguna factura ha sido anulada");
+            Notify::error("La factura no ha sido anulada");
             return back();
         }
         Notify::warning("La factura ha sido anulada");

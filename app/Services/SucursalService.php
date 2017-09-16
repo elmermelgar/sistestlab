@@ -4,6 +4,8 @@ namespace App\Services;
 
 
 use App\BoxRegistry;
+use App\Estado;
+use App\Factura;
 use App\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -173,7 +175,9 @@ class SucursalService
             $closing = new BoxRegistry();
             $closing->time = Carbon::now()->toTimeString();
         }
+        //Efectivo al abrir caja
         $cash = $opening->cash;
+        //Más las ventas en efectivo
         $cash = $cash + DB::table('transactions')
                 ->where('sucursal_id', $sucursal_id)
                 ->where('date', $opening->date)
@@ -197,6 +201,7 @@ class SucursalService
             $closing = new BoxRegistry();
             $closing->time = Carbon::now()->toTimeString();
         }
+        //ventas en débito
         $debit = DB::table('transactions')
             ->where('sucursal_id', $sucursal_id)
             ->where('date', $opening->date)
@@ -208,7 +213,7 @@ class SucursalService
     }
 
     /**
-     * Obtiene los pagos actuales de la caja
+     * Obtiene los pagos actuales de la caja para calcular la deuda
      * @param $sucursal_id
      * @param BoxRegistry $opening
      * @param BoxRegistry $closing
@@ -244,12 +249,14 @@ class SucursalService
             $closing->date = Carbon::now()->toDateString();
             $closing->time = Carbon::now()->toTimeString();
         }
+        $estado_anulada = Estado::where('name', Factura::ANULADA)->where('tipo', 'factura')->first();
         $sale = DB::table('facturas')
             ->where('sucursal_id', $sucursal_id)
             ->where('date', '>=', $opening->date)
             ->where('date', '<=', $closing->date)
             ->where('time', '>=', $opening->time)
             ->where('time', '<=', $closing->time)
+            ->where('estado_id', '<>', $estado_anulada->id)
             ->selectRaw("coalesce(sum(total),0) sale")->first()->sale;
         return $sale;
     }

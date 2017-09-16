@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/recolectores')}}">Recolectores</a></li>
-            <li>{{$recolector->name()()}}</li>
+            <li>{{$recolector->name()}}</li>
         </ol>
     </div>
 
@@ -26,12 +26,12 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    <h3>Recolector {{$recolector->name()()}}</h3>
+                    <h3>Recolector {{$recolector->name()}}</h3>
 
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <h4>{{$recolector->name()()}}</h4>
+                    <h4>{{$recolector->name()}}</h4>
 
                     <ul class="list-unstyled user_data">
                         <li><i class="fa fa-address-card fa-fw user-profile-icon"></i>

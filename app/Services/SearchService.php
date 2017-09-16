@@ -4,6 +4,7 @@ namespace App\Services;
 
 
 use App\Customer;
+use App\Exam;
 use App\Profile;
 use Illuminate\Support\Facades\DB;
 
@@ -81,6 +82,33 @@ class SearchService
                 "total_count" => count($pacientes),
                 "incomplete_results" => false,
                 "items" => $pacientes,
+            ];
+        } catch (\Exception $e) {
+            $resultado = [
+                "total_count" => 0,
+                "incomplete_results" => true,
+                "items" => [],
+            ];
+        }
+        return json_encode($resultado);
+    }
+
+    /**
+     * Busca y retorna a los exámenes que coincidan con el nombre especificado
+     * Retorna una cadena json para ser usada con Select2 AJAX
+     * @param string $display_name
+     * @return string
+     */
+    public function searchExam($display_name)
+    {
+        try {
+            $exam = Exam::select(['id', 'name', 'display_name', 'observation', 'precio'])
+                ->where('display_name', '~*', $display_name)
+                ->get();
+            $resultado = [
+                "total_count" => count($exam),
+                "incomplete_results" => false,
+                "items" => $exam,
             ];
         } catch (\Exception $e) {
             $resultado = [

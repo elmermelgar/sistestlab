@@ -17,8 +17,8 @@
                 <td style="line-height: 5px;"> {{ $examen_paciente->numero_boleta }}</td>
             </tr>
             <tr>
-                <th style="line-height: 5px;"> @if($examen_paciente->invoices->factura->cliente->centro_origen==true)Centro de Origen:@else Cliente: @endif</th>
-                <td style="line-height: 5px;">{{ $examen_paciente->invoices->factura->cliente->name }}</td>
+                <th style="line-height: 5px;"> @if($examen_paciente->invoices->factura->customer->origin_center==true)Centro de Origen:@else Cliente: @endif</th>
+                <td style="line-height: 5px;">{{ $examen_paciente->invoices->factura->customer->name }}</td>
                 <th style="line-height: 5px;">Fecha:</th>
                 <td style="line-height: 5px;"> {{ \Carbon\Carbon::parse($examen_paciente->fecha_validado)->format('d/m/Y')}} </td>
             </tr>

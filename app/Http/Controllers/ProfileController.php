@@ -151,31 +151,4 @@ class ProfileController extends Controller
         return back();
     }
 
-    /**
-     * Busca y retorna a los exámenes que coincidan con el nombre especificado
-     * Retorna una cadena json para ser usada con Select2 AJAX
-     * @param Request $request
-     * @return string
-     */
-    public function searchExam(Request $request)
-    {
-        try {
-            $exam = Exam::select(['id', 'name', 'display_name', 'observation', 'precio'])
-                ->where('display_name', '~*', $request->display_name)
-                ->get();
-            $resultado = [
-                "total_count" => count($exam),
-                "incomplete_results" => false,
-                "items" => $exam,
-            ];
-        } catch (\Exception $e) {
-            $resultado = [
-                "total_count" => 0,
-                "incomplete_results" => true,
-                "items" => [],
-            ];
-        }
-        return json_encode($resultado);
-    }
-
 }
