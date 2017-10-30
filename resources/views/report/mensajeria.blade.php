@@ -28,11 +28,13 @@
         <div class="col-xs-8 col-xs-offset-2">
             <div class="x_panel">
                 <div class="x_title">
-                    <h3>Sucursales</h3>
+                    <h3>Mensajerías</h3>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form method="POST" action="{{route('report.recolector')}}">
+                    <p>Cantidad de recolecciones realizadas por mensajero y por centro de origen, ingresos y monto en
+                        bonos en un rango de fechas.</p>
+                    <form method="POST" action="{{route('report.mensajeria')}}">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="recolector_id">Recolector</label>

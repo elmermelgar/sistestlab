@@ -12,10 +12,10 @@
     <!-- Bootstrap -->
     <link href=" {{asset('gentallela/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{asset('gentallela/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{asset('gentallela/build/css/custom.min.css')}}" rel="stylesheet">
+    <link href="{{asset('gentallela/build/css/custom.css')}}" rel="stylesheet">
 </head>
 
 <body class="login">

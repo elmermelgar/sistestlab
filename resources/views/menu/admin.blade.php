@@ -13,6 +13,9 @@
 </li>
 @include('menu.sucursal')
 <li>
+    <a href="{{route('report')}}"><i class="fa fa-file-text"></i>Reportes</a>
+</li>
+<li>
     <a><i class="fa fa-image fw"></i>Imágenes
         <span class="fa fa-chevron-down"></span>
     </a>

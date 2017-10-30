@@ -9,6 +9,8 @@
 Route::group(['prefix' => 'reportes', 'middleware' => ['permission:admin_users']], function () {
 
     Route::get('/', 'ReportController@index')->name('report');
-    Route::get('recolector', 'ReportController@recolector')->name('report.recolector');
-    Route::post('recolector', 'ReportController@rpt_recolector')->name('report.recolector');
+    Route::get('mensajeria', 'ReportController@mensajeria')->name('report.mensajeria');
+    Route::post('mensajeria', 'ReportController@rpt_mensajeria')->name('report.mensajeria');
+    Route::get('referencia', 'ReportController@referencia')->name('report.referencia');
+    Route::post('referencia', 'ReportController@rpt_referencia')->name('report.referencia');
 });

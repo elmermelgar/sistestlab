@@ -16,6 +16,7 @@ class ReportController extends Controller
     public static $report_list = [
         'rpt_mensajero.jrxml',
         'rpt_mensajero_bonos.jrxml',
+        'rpt_referencia.jrxml',
     ];
 
     /**
@@ -43,10 +44,10 @@ class ReportController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function recolector()
+    public function mensajeria()
     {
         $recolectores = Recolector::where('activo', true)->get();
-        return view('report.recolector', [
+        return view('report.mensajeria', [
             'recolectores' => $recolectores
         ]);
     }
@@ -55,7 +56,7 @@ class ReportController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function rpt_recolector(Request $request)
+    public function rpt_mensajeria(Request $request)
     {
         $request->validate([
             'recolector_id' => 'required|integer|min:1',
@@ -94,6 +95,60 @@ class ReportController extends Controller
             'Content-Disposition' => "inline; filename='$file_name.$file_extension'"
         ]);
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function referencia()
+    {
+        $customers = \App\Customer::orderBy('name')->get();
+        return view('report.referencia', [
+            'customers' => $customers
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function rpt_referencia(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $customer_id = $request->customer_id;
+        $fecha_inicio = Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString();
+        $fecha_fin = Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString();
+
+        $jasper = new JasperPHP;
+        $compiled_file = $this->report_path . 'rpt_referencia.jasper';
+        $file_name = 'rpt_referencia_' . $customer_id . Carbon::now()->format('Ymd');
+        $file_extension = '.pdf';
+        $output_file = $this->report_path . $file_name;
+        $parameters = [
+            'customer_id' => $customer_id,
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin,
+            'LoggedInUsername' => "'" . \Auth::user()->name . "'",
+        ];
+
+        $jasper->process(
+            $compiled_file,
+            $output_file,
+            ["pdf"],
+            $parameters,
+            $this->db_connection()
+        )->execute();
+
+        return Response::make(file_get_contents($output_file . $file_extension), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "inline; filename='$file_name.$file_extension'"
+        ]);
+    }
+
 
     /**
      * Conexión a la base de datos

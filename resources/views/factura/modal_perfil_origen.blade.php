@@ -36,7 +36,7 @@
                                required>
                     </div>
                     <div class="form-group">
-                        <label for="modal_edad">Edad del paciente (años)</label>
+                        <label for="modal_edad">Edad del paciente (años). Digite 0 (cero) si no se conoce la edad.</label>
                         <input type="number" id="modal_edad" name="modal_edad" class="form-control"
                                min="0" max="120" style="width: 100%" required>
                     </div>
