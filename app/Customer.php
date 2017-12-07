@@ -18,8 +18,8 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'account_id','sucursal_id', 'identity_document', 'first_name', 'last_name', 'phone_number', 'address',
-        'juridical_person', 'origin_center', 'nit', 'nrc', 'business', 'comment',
+        'account_id', 'sucursal_id', 'identity_document', 'first_name', 'last_name', 'phone_number', 'address',
+        'juridical_person', 'origin_center', 'tradename', 'nit', 'nrc', 'business', 'comment',
     ];
 
     /**
@@ -36,6 +36,14 @@ class Customer extends Model
     public function facturas()
     {
         return $this->hasMany('App\Factura');
+    }
+
+    /**
+     * Obtiene los créditos fiscales que le han sido otorgados al cliente.
+     */
+    public function tax_credits()
+    {
+        return $this->hasMany('App\TaxCredit');
     }
 
     /**

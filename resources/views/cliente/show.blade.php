@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <h4>{{$cliente->name}}</h4>
-                    <p style="color: #0b97c4"><strong>{{$cliente->comment}}</strong></p>
+                    <p style="color: #0b97c4"><strong>{{$cliente->tradename}}</strong></p>
                     <ul class="list-unstyled user_data">
 
                         <li>
@@ -99,6 +99,12 @@
                     <a class="btn btn-primary" href="{{route('customer.edit',$cliente->id)}}">
                         <i class="fa fa-edit m-right-xs"></i>Editar Cliente</a>
                     @endpermission
+
+                    @if($cliente->account->patient)
+                        <a class="btn btn-default" href="{{route('patient.show',$cliente->account->patient->id)}}">
+                            <i class="fa fa-eye fa-fw"></i>Ver perfil de paciente</a>
+                    @endif
+
                     <br/>
                 </div>
             </div>
@@ -174,10 +180,18 @@
 
             <div class="x_title">
                 <h2>Pacientes</h2>
-
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                @if($cliente->account->patient)
+                    <h4 class="alignleft"><strong>Este cliente está registrado como paciente.</strong>
+                        <a href="{{route('patient.show',$cliente->account->patient->id)}}">Ver perfil de
+                            paciente.</a>
+                    </h4>
+                @endif
+                <a class="btn btn-primary alignright" href="{{route('patient.create',['cliente'=>$cliente->id])}}">
+                    Registrar paciente</a>
+                <div class="clearfix"></div>
                 <h4>A este cliente se han asociado los siguientes pacientes:</h4>
 
                 <table class="table table-striped " id="datatable">

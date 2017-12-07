@@ -44,7 +44,7 @@ class Factura extends Model
      */
     public function facturador()
     {
-        return $this->belongsTo('App\Account','account_id');
+        return $this->belongsTo('App\Account', 'account_id');
     }
 
     /**
@@ -96,10 +96,29 @@ class Factura extends Model
     }
 
     //Busqueda de facturas
-    public function scopeFilter($query, $numero)
+
+    /**
+     * @param $query
+     * @param array $params
+     */
+    public function scopeFilter($query, array $params)
     {
-        if (trim($numero) != "") {
-            $query->where('numero', "~*", $numero);
+        if (array_key_exists('fecha_inicio', $params) && array_key_exists('fecha_fin', $params)
+            && trim($params['fecha_inicio']) != "" && trim($params['fecha_fin']) != "") {
+            $query->whereBetween('date', [$params['fecha_inicio'], $params['fecha_fin']]);
+        } else {
+            $init_date = \Carbon\Carbon::now()->subDays(7)->toDateString();
+            $query->whereBetween('date', [$init_date, \Carbon\Carbon::now()->toDateString()]);
+        }
+        if (array_key_exists('numero', $params) && trim($params['numero']) != "") {
+            $query->where('numero', "~*", $params['numero']);
+        }
+        if (array_key_exists('estado', $params) && trim($params['estado']) != "") {
+            $estado = Estado::select('id')->where('name', $params['estado'])->where('tipo', 'factura')->first();
+            $query->where('estado_id', $estado->id);
+        } else {
+            $estado_cerrada = Estado::select('id')->where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
+            $query->orWhere('estado_id', '<>', $estado_cerrada->id);
         }
     }
 

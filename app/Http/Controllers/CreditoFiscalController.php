@@ -79,15 +79,20 @@ class CreditoFiscalController extends Controller
      */
     public function create($cliente_id)
     {
-        $facturas = Factura::where('tax_credit_id', null)->where('customer_id', $cliente_id)
-            ->orderBy('date')->orderBy('time')->get();
-        return view('credito_fiscal.edit', [
-            'credito_fiscal' => null,
-            'sucursal' => Auth::user()->account->sucursal,
-            'cliente' => Customer::find($cliente_id),
-            'facturas' => $facturas,
-            'user' => Auth::user(),
-        ]);
+        if ($cliente = Customer::find($cliente_id)) {
+            $facturas = Factura::where('tax_credit_id', null)
+                ->where('credito_fiscal', true)
+                ->where('customer_id', $cliente_id)
+                ->orderBy('date')->orderBy('time')->get();
+            return view('credito_fiscal.edit', [
+                'credito_fiscal' => null,
+                'sucursal' => Auth::user()->account->sucursal,
+                'cliente' => $cliente,
+                'facturas' => $facturas,
+                'user' => Auth::user()->account,
+            ]);
+        }
+        return abort(404);
     }
 
     /**
@@ -97,13 +102,14 @@ class CreditoFiscalController extends Controller
     public function edit($id)
     {
         if ($credito_fiscal = TaxCredit::find($id)) {
-//            if ($credito_fiscal->closed) {
-//                Notify::warning('Éste crédito fiscal no puede modificarse');
-//                return back();
-//            }
-            $cliente = $credito_fiscal->facturas()->first()->customer;
+            if ($credito_fiscal->closed) {
+                Notify::warning('Éste crédito fiscal no puede modificarse');
+                return redirect()->action('CreditoFiscalController@show', ['id' => $credito_fiscal->id]);
+            }
+            $cliente = $credito_fiscal->customer;
             $facturas = Factura::where('tax_credit_id', null)->where('customer_id', $cliente->id)
-                ->orWhere('tax_credit_id', $credito_fiscal->id)->orderBy('date')->orderBy('time')->get();
+                ->where('credito_fiscal', true)->orWhere('tax_credit_id', $credito_fiscal->id)
+                ->orderBy('date')->orderBy('time')->get();
             return view('credito_fiscal.edit', [
                 'credito_fiscal' => $credito_fiscal,
                 'sucursal' => $credito_fiscal->account->sucursal,
@@ -121,29 +127,58 @@ class CreditoFiscalController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'tax_credit_id' => 'integer',
+            'account_id' => 'required|integer|min:1',
+            'customer_id' => 'required|integer|min:1',
+            'factura_id' => 'required|array|min:1',
+        ]);
+
         if (count($request->factura_id) <= 0) {
             Notify::error('Debe seleccionar al menos una factura para registrar el crédito fiscal');
             return redirect()->back()->withInput();
         }
-        if ($credito_fiscal = TaxCredit::find($request->tax_credit_id)) {
-            $credito_fiscal->update($request->all());
-            foreach ($credito_fiscal->facturas as $factura) {
-                $factura->tax_credit()->dissociate();
-                $factura->save();
-            }
-        } else {
-            $credito_fiscal = TaxCredit::create($request->all());
+        $estado_cerrada = \App\Estado::select('id')->where('name', 'cerrada')->where('tipo', 'factura')->first();
+        $abiertas = \App\Factura::whereIn('id', $request->factura_id)
+            ->where('estado_id', '<>', $estado_cerrada->id)->pluck('id');
+        if (count($abiertas)) {
+            Notify::error('No puede agregar facturas pendientes o abiertas a un comprobante de crédito fiscal. 
+            Por favor cierre las facturas.');
+            return redirect()->back()->withInput();
         }
 
-        $total = 0;
-        foreach ($request->factura_id as $factura_id) {
-            $factura = Factura::find($factura_id);
-            $factura->tax_credit()->associate($credito_fiscal);
-            $factura->save();
-            $total += $factura->total;
+        DB::beginTransaction();
+        try {
+            if ($credito_fiscal = TaxCredit::find($request->tax_credit_id)) {
+                $credito_fiscal->update($request->all());
+                foreach ($credito_fiscal->facturas as $factura) {
+                    $factura->tax_credit()->dissociate();
+                    $factura->save();
+                }
+            } else {
+                $credito_fiscal = TaxCredit::create($request->all());
+            }
+
+            $total = 0;
+            $facturas = Factura::whereIn('id', $request->factura_id)->where('customer_id', $request->customer_id)->get();
+            foreach ($facturas as $factura) {
+                $factura->tax_credit()->associate($credito_fiscal);
+                $factura->save();
+                $total += $factura->total;
+            }
+            $credito_fiscal->total = $total;
+            $credito_fiscal->save();
+
+            //Exito, hace efectivos todos los cambios en la base de datos
+            DB::commit();
+
+        } catch (\Exception $e) {
+            //Ocurre algun error, revierte todos los cambios en la base de datos y responde con un mensaje
+            DB::rollBack();
+            \Log::error($e);
+            Notify::error("Ocurrió un error al registrar el crédito fiscal");
+            return back()->withInput();
         }
-        $credito_fiscal->total = $total;
-        $credito_fiscal->save();
 
         Notify::success('El crédito fiscal se guardó correctamente');
         return redirect()->action('CreditoFiscalController@show', ['id' => $credito_fiscal->id]);
@@ -155,13 +190,27 @@ class CreditoFiscalController extends Controller
      */
     public function close(Request $request)
     {
-        if ($credito_fiscal = TaxCredit::find($request->tax_credit_id)) {
-            $credito_fiscal->closed = true;
-            $credito_fiscal->save();
-        } else {
-            Notify::error('No se cerró ningun crédito fiscal');
-            return redirect()->back();
+        DB::beginTransaction();
+        try {
+            if ($credito_fiscal = TaxCredit::find($request->tax_credit_id)) {
+                $credito_fiscal->closed = true;
+                $credito_fiscal->save();
+            } else {
+                Notify::error('No se confirmó ningun crédito fiscal');
+                return redirect()->back();
+            }
+
+            //Exito, hace efectivos todos los cambios en la base de datos
+            DB::commit();
+
+        } catch (\Exception $e) {
+            //Ocurre algun error, revierte todos los cambios en la base de datos y responde con un mensaje
+            DB::rollBack();
+            \Log::error($e);
+            Notify::error("Ocurrió un error al confirmar el crédito fiscal");
+            return back()->withInput();
         }
+
         Notify::success('El crédito fiscal fue confirmado correctamente');
         return redirect()->action('CreditoFiscalController@show', ['id' => $credito_fiscal->id]);
     }

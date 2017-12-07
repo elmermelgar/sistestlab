@@ -130,6 +130,10 @@ class CustomerController extends Controller
             //Si el cliente tiene un usuario, lo actualiza, o se le habilita un usuario si se especificó
             if ($cliente->account->user) {
                 $cliente->account->user->update($request->only('email'));
+                //Almacena el avatar del cliente
+                if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                    $this->userService->storageAvatar($request->file('avatar'), $cliente->account);
+                }
             } else if ($request->user) {
                 $request->merge(['account_id' => $cliente->account_id]);
                 $user = $this->createUserForCustomer($request);
@@ -137,7 +141,6 @@ class CustomerController extends Controller
 
             //Crea y asocia al cliente como paciente
             if ($request->patient) {
-                $request->merge(['birth_date' => Carbon::createFromFormat('d/m/Y', $request->birth_date)]);
                 $paciente = $cliente->account->patient;
                 if ($paciente) {
                     $request->merge(['account_id' => null]);
@@ -209,10 +212,11 @@ class CustomerController extends Controller
             'last_name' => 'max:127',
             'phone_number' => 'required|max:8',
             'address' => 'max:255',
-            'date' => 'date_formar:d/m/Y',
+            'birth_date' => 'date_format:Y-m-d',
             'sex' => 'max:1',
             'juridical_person' => 'boolean',
             'origin_center' => 'boolean',
+            'tradename' => 'max:127',
             'nit' => ['max:14', Rule::unique('customers_nit_vw')->ignore($customer_id)],
             'nrc' => ['max:7', Rule::unique('customers_nit_vw')->ignore($customer_id)],
             'business' => 'max:127',

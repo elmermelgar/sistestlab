@@ -33,7 +33,7 @@
             <p><strong>Sucursal: </strong>{{$sucursal->display_name}}</p>
             <p><strong>Cliente: </strong>{{$cliente->name}}</p>
             <p><strong>NIT Cliente: </strong>{{$cliente->nit}}</p>
-            <p><strong>Entregado por: </strong>{{$user->name()}}</p>
+            <p><strong>Emitido por: </strong>{{$user->name()}}</p>
             <br>
             <p><strong>Facturas disponibles para crédito fiscal:</strong></p>
             <table id="facturas" data-classes="table table-hover table-no-bordered" data-icons-prefix="fa">
@@ -51,7 +51,7 @@
 
                 <tbody>
                 @foreach($facturas as $factura)
-                    <tr>
+                    <tr @if($factura->estado->name=='abierta') class="bg-danger" @endif>
                         <td></td>
                         <td>{{ (int) $factura->id}}</td>
                         <td>{{$factura->date}}</td>
@@ -77,6 +77,8 @@
                     @endif
                     <input type="hidden" id="account_id" name="account_id" class="form-control" required readonly
                            value="{{$user->id}}">
+                    <input type="hidden" id="customer_id" name="customer_id" class="form-control" required readonly
+                           value="{{$cliente->id}}">
                 </div>
                 <div class="form-group">
                     <label for="numero">Número de crédito fiscal:</label>

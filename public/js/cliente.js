@@ -24,8 +24,9 @@ $(document).ready(function () {
 
     fecha_nacimiento.daterangepicker({
         locale: {
-            format: 'DD/MM/YYYY'
+            format: 'YYYY-MM-DD'
         },
+        startDate: fecha_nacimiento.val() || new Date(),
         singleDatePicker: true,
         showDropdowns: true
     });
@@ -108,19 +109,5 @@ $(document).ready(function () {
         juridicaClick();
     });
     juridicaClick();
-
-    function userClick() {
-        if (user[0].checked) {
-            div_avatar.removeClass('hidden');
-        }
-        else {
-            div_avatar.addClass('hidden');
-        }
-    }
-
-    userClick();
-    user.change(function () {
-        userClick();
-    });
 
 });

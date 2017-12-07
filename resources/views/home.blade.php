@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('imports')
-    <link href="{{url('css/carousel.css')}}" rel="stylesheet">
 @endsection
+
 @section('content')
 
     <div class="row">

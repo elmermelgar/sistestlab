@@ -15,7 +15,7 @@
     <link href="{{asset('gentallela/vendors/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{asset('gentallela/build/css/custom.min.css')}}" rel="stylesheet">
+    <link href="{{asset('css/custom.css')}}" rel="stylesheet">
     <style>
         .login_content input[type=submit] {
             float: none !important;

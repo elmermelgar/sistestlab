@@ -6,7 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel2">Precios por sucusal</h4>
+                <h4 class="modal-title" id="myModalLabel2">Precios por sucursal</h4>
             </div>
             <form class="form-horizontal form-label-left" action="{{ url('perfiles/store/prices') }}"
                   method="POST">

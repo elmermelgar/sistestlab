@@ -21,7 +21,8 @@ class SearchService
     {
         try {
             //$name = Input::get('name');
-            $cliente = Customer::select(['id', 'name', 'nit'])->where('name', '~*', $name)->get();
+            $cliente = Customer::select(['id', 'name', 'tradename', 'nit', 'photo'])->where('name', '~*', $name)
+                ->orWhere('tradename', '~*', $name)->get();
             $resultado = [
                 "total_count" => count($cliente),
                 "incomplete_results" => false,

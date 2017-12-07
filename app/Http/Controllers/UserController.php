@@ -202,6 +202,51 @@ class UserController extends Controller
     }
 
     /**
+     * Muestra el formulario para cambiar el avatar o foto
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editAvatar()
+    {
+        return view('user.avatar', ['user' => Auth::user()]);
+    }
+
+    /**
+     * Almacena el avatar del usuario
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function storeAvatar(Request $request)
+    {
+        //Empieza la transacción
+        DB::beginTransaction();
+
+        try {
+            $this->validate($request, [
+                'avatar' => 'required|image|dimensions:min_width=100,min_height=200'
+            ]);
+            if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+                $this->userService->storageAvatar($request->file('avatar'), Auth::user()->account);
+            }
+
+            //Exito, hace efectivos todos los cambios en la base de datos
+            DB::commit();
+        } catch (\Exception $e) {
+            //Ocurre algun error, deshace los todos los cambios en la base de datos y responde con un mensaje
+            DB::rollBack();
+            if ($e instanceof ValidationException) {
+                return back()->withInput()->withErrors($e->validator->errors());
+            }
+            Notify::error('Ha ocurrido un error al guardar la foto');
+            \Log::error($e);
+            return back()->withInput();
+        }
+
+        //Se completó el registro del usuario exitosamente
+        Notify::success('Foto guardada correctamente');
+        return redirect()->route('account');
+    }
+
+    /**
      * Deshabilita el usuario espeficado
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse

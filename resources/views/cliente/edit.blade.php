@@ -104,6 +104,16 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="tradename" class="control-label col-md-4 col-sm-4 col-xs-12">
+                            Nombre Comercial / Marca
+                        </label>
+                        <div class="col-md-8 col-sm-8 col-xs-12">
+                            <input id="tradename" name="tradename" class="form-control" placeholder="Nombre comercial"
+                                   maxlength="127" value="{{$cliente? $cliente->tradename:old('tradename')}}">
+                        </div>
+                    </div>
+
                     <div id="div_natural" class="hidden">
                         <div class="form-group">
                             <label for="last_name" class="control-label col-md-4 col-sm-4 col-xs-12"> Apellido
@@ -231,8 +241,7 @@
                             <div class="col-md-8 col-sm-8 col-xs-12">
                                 <input id="birth_date" name="birth_date" class="form-control has-feedback-left"
                                        placeholder="Fecha de nacimiento" required disabled
-                                       value="{{$paciente? \Carbon\Carbon::createFromFormat('Y-m-d',$paciente->birth_date)
-                                       ->format('d/m/Y'):old('birth_date')}}">
+                                       value="{{$paciente? $paciente->birth_date:old('birth_date')}}">
                                 <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
                             </div>
                         </div>
@@ -252,7 +261,7 @@
                     </div>
 
                     <div class="profile_img">
-                        <div id="crop-avatar" class="hidden" style="text-align: center">
+                        <div id="crop-avatar" style="text-align: center">
                             <!-- Current avatar -->
                             <img class="img-responsive avatar-view" alt="Avatar" title="Change the avatar"
                                  style="max-height: 200px; margin: 0 auto" src="

@@ -8,7 +8,7 @@
             <input type="hidden" id="sucursal_id" name="sucursal_id" value="{{$sucursal->id}}" readonly required>
             <input type="hidden" id="account_id" name="account_id" value="{{$facturador->id}}" readonly required>
         </div>
-        <div class="form-group">
+        <div>
             <label for="user_name"
                    class="control-label col-md-2 col-sm-2 col-xs-12">Vendedor: </label>
             <div class="col-md-10 col-sm-10 col-xs-12">
@@ -16,7 +16,7 @@
             </div>
         </div>
         @if($centro_origen)
-            <div class="form-group">
+            <div>
                 <label for="recolector_id" class="control-label col-md-2 col-sm-2 col-xs-12">Recolector: </label>
                 <div class="col-md-10 col-sm-10 col-xs-12">
                     @if($edit)
@@ -35,7 +35,7 @@
                 </div>
             </div>
         @endif
-        <div class="form-group">
+        <div>
             <label for="customer_id" class="control-label col-md-2 col-sm-2 col-xs-12">Cliente: </label>
             <div class="col-md-10 col-sm-10 col-xs-12">
                 @if($edit)
@@ -50,7 +50,7 @@
                 @endif
             </div>
         </div>
-        <div class="form-group">
+        <div>
             <label for="nit" class="control-label col-md-2 col-sm-2 col-xs-12">NIT: </label>
             <div class="col-md-10 col-sm-10 col-xs-12">
                 <input id="nit" class="form-control input-readonly" disabled

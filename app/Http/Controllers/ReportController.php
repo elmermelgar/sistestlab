@@ -17,6 +17,7 @@ class ReportController extends Controller
         'rpt_mensajero.jrxml',
         'rpt_mensajero_bonos.jrxml',
         'rpt_referencia.jrxml',
+        'rpt_ref_especifica.jrxml',
     ];
 
     /**
@@ -149,6 +150,65 @@ class ReportController extends Controller
         ]);
     }
 
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function ref_especifica()
+    {
+        $customers = \App\Customer::orderBy('name')->get();
+        $profiles = \App\Profile::orderBy('name')->get();
+        return view('report.ref_especifica', [
+            'customers' => $customers,
+            'profiles' => $profiles
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function rpt_ref_especifica(Request $request)
+    {
+        $request->validate([
+            'customer_id' => 'required|integer|min:1',
+            'profile_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $customer_id = $request->customer_id;
+        $profile_id = $request->profile_id;
+        $fecha_inicio = Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString();
+        $fecha_fin = Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString();
+
+        $jasper = new JasperPHP;
+        $compiled_file = $this->report_path . 'rpt_ref_especifica.jasper';
+        $file_name = 'rpt_ref_especifica_' . $customer_id . Carbon::now()->format('Ymd');
+        $file_extension = '.pdf';
+        $output_file = $this->report_path . $file_name;
+        $parameters = [
+            'customer_id' => $customer_id,
+            'profile_id' => $profile_id,
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin,
+            'LoggedInUsername' => "'" . \Auth::user()->name . "'",
+        ];
+
+        $jasper->process(
+            $compiled_file,
+            $output_file,
+            ["pdf"],
+            $parameters,
+            $this->db_connection()
+        )->execute();
+
+        return Response::make(file_get_contents($output_file . $file_extension), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "inline; filename='$file_name.$file_extension'"
+        ]);
+    }
 
     /**
      * Conexión a la base de datos

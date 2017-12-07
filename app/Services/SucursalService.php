@@ -31,7 +31,6 @@ class SucursalService
     public static function isOpen($sucursal_id)
     {
         $caja = BoxRegistry::where('sucursal_id', $sucursal_id)
-            //->whereDate('date', Carbon::now()->toDateString())
             ->latest('date')->latest('time')->first();
         if ($caja && $caja->state == self::OPEN) {
             return true;
@@ -56,9 +55,8 @@ class SucursalService
                 'cash' => $cash,
             ]);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -71,7 +69,6 @@ class SucursalService
     {
         if ($this->isOpen($sucursal_id)) {
             $opening = BoxRegistry::where('sucursal_id', $sucursal_id)
-                //->whereDate('date', Carbon::now()->toDateString())
                 ->where('state', self::OPEN)
                 ->latest('date')
                 ->latest('time')->first();
@@ -85,9 +82,8 @@ class SucursalService
                 'cost' => $this->getCost($sucursal_id, $opening)
             ]);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -97,17 +93,23 @@ class SucursalService
      */
     public function getCaja($sucursal_id)
     {
-        $caja = ['opening' => null, 'closing' => null, 'sale' => null, 'cash' => null, 'debit' => null, 'debt' => null, 'cost' => null];
+        $caja = [
+            'opening' => null,
+            'closing' => null,
+            'sale' => null,
+            'cash' => null,
+            'debit' => null,
+            'debt' => null,
+            'cost' => null
+        ];
         $opening = BoxRegistry::where('sucursal_id', $sucursal_id)
-            //->whereDate('date', Carbon::now()->toDateString())
             ->where('state', self::OPEN)
             ->latest('date')
             ->latest('time')->first();
         if ($opening) {
             $closing = BoxRegistry::where('sucursal_id', $sucursal_id)
-                //->whereDate('date', Carbon::now()->toDateString())
                 ->where('state', self::CLOSED)
-                ->latest('date')
+                ->where('date', '>', $opening->date)
                 ->where('time', '>', $opening->time)->first();
             $caja['opening'] = $opening;
             $caja['closing'] = $closing;
@@ -181,8 +183,7 @@ class SucursalService
         $cash = $cash + DB::table('transactions')
                 ->where('sucursal_id', $sucursal_id)
                 ->where('date', $opening->date)
-                ->where('time', '>=', $opening->time)
-                ->where('time', '<=', $closing->time)
+                ->whereBetween('time', [$opening->time, $closing->time])
                 ->where('type', Transaction::CASH)
                 ->selectRaw("sum(amount)")->first()->sum;
         return $cash ? $cash : 0;
@@ -205,8 +206,7 @@ class SucursalService
         $debit = DB::table('transactions')
             ->where('sucursal_id', $sucursal_id)
             ->where('date', $opening->date)
-            ->where('time', '>=', $opening->time)
-            ->where('time', '<=', $closing->time)
+            ->whereBetween('time', [$opening->time, $closing->time])
             ->where('type', Transaction::DEBIT)
             ->selectRaw("coalesce(sum(amount),0) debit")->first()->debit;
         return $debit;
@@ -229,8 +229,7 @@ class SucursalService
             ->where('sucursal_id', $sucursal_id)
             ->where('amount', '>', 0)
             ->where('date', $opening->date)
-            ->where('time', '>=', $opening->time)
-            ->where('time', '<=', $closing->time)
+            ->whereBetween('time', [$opening->time, $closing->time])
             ->selectRaw("coalesce(sum(amount),0) payment")->first()->payment;
         return $payment;
     }
@@ -252,10 +251,8 @@ class SucursalService
         $estado_anulada = Estado::where('name', Factura::ANULADA)->where('tipo', 'factura')->first();
         $sale = DB::table('facturas')
             ->where('sucursal_id', $sucursal_id)
-            ->where('date', '>=', $opening->date)
-            ->where('date', '<=', $closing->date)
-            ->where('time', '>=', $opening->time)
-            ->where('time', '<=', $closing->time)
+            ->whereBetween('date', [$opening->date, $closing->date])
+            ->whereBetween('time', [$opening->time, $closing->time])
             ->where('estado_id', '<>', $estado_anulada->id)
             ->selectRaw("coalesce(sum(total),0) sale")->first()->sale;
         return $sale;
@@ -278,10 +275,8 @@ class SucursalService
         $cost = DB::table('transactions')
             ->where('sucursal_id', $sucursal_id)
             ->where('amount', '<', 0)
-            ->where('date', '>=', $opening->date)
-            ->where('date', '<=', $closing->date)
-            ->where('time', '>=', $opening->time)
-            ->where('time', '<=', $closing->time)
+            ->whereBetween('date', [$opening->date, $closing->date])
+            ->whereBetween('time', [$opening->time, $closing->time])
             ->selectRaw('coalesce(-1*sum(amount),0) "cost"')->first()->cost;
         return $cost;
     }

@@ -24,7 +24,7 @@ class TaxCredit extends Model
      * @var array
      */
     protected $fillable = [
-        'account_id', 'numero', 'total', 'closed',
+        'account_id', 'customer_id', 'numero', 'total', 'closed',
     ];
 
     /**
@@ -41,6 +41,14 @@ class TaxCredit extends Model
     public function account()
     {
         return $this->belongsTo('App\Account');
+    }
+
+    /**
+     * Cliente al que se le otorga el crédito fiscal
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer');
     }
 
     //Busqueda de créditos fiscales

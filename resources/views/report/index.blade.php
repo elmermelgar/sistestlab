@@ -58,6 +58,15 @@
                         <td><a href="{{route('report.referencia')}}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
                         </td>
                     </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>RPT_REF_ESPECIFICA</td>
+                        <td>Cantidad de prueba específica</td>
+                        <td>Cantidad de prueba especifíca por laboratorio de referencia e ingreso en un rango de fechas.
+                        </td>
+                        <td><a href="{{route('report.ref.especifica')}}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+                        </td>
+                    </tr>
                     </tbody>
 
                 </table>

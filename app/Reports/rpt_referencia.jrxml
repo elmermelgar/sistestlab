@@ -30,7 +30,8 @@
 		<defaultValueExpression><![CDATA[DATE(2017,12,31)]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select c.name nombre, count(ip.id) cantidad, p.name codigo, p.display_name prueba, ip.price precio, sum(ip.price) total
+		<![CDATA[select c.name nombre, count(ip.id) cantidad, p.name codigo, p.display_name prueba, 
+(ip.price*(1+f.nivel)) as precio, sum(ip.price*(1+f.nivel)) total
 from facturas f
 join customers_vw c on f.customer_id=c.id
 join invoice_profile ip on f.id=ip.factura_id
@@ -38,9 +39,9 @@ join profiles p on ip.profile_id=p.id
 where c.id=$P{customer_id}
 and f.estado_id in
 	(select id from estados e where e.name='abierta' or e.name='cerrada' and e.tipo='factura')
-and f.date > $P{fecha_inicio}
-and f.date < $P{fecha_fin}
-group by (c.name, p.name, p.display_name, ip.price);]]>
+and f.date >= $P{fecha_inicio}
+and f.date <= $P{fecha_fin}
+group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="cantidad" class="java.lang.Long"/>
@@ -248,14 +249,14 @@ group by (c.name, p.name, p.display_name, ip.price);]]>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="412" y="0" width="100" height="20" uuid="3bc89207-e280-4ded-bb89-5056b16236f9">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00">
 				<reportElement x="320" y="0" width="92" height="20" uuid="77fa8781-560b-4c5a-b0bb-1e940e5134af">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -290,13 +291,13 @@ group by (c.name, p.name, p.display_name, ip.price);]]>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{pruebas}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="372" y="30" width="140" height="20" uuid="184c635f-506f-44b8-a278-fe46d905929a">
+			<textField pattern="#,##0.00">
+				<reportElement x="372" y="30" width="108" height="20" uuid="184c635f-506f-44b8-a278-fe46d905929a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$V{ingresos}+" USD"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{ingresos}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="272" y="30" width="100" height="20" uuid="d21b7eff-b40e-4ecf-abcb-46a5cd65a020">
@@ -304,6 +305,11 @@ group by (c.name, p.name, p.display_name, ip.price);]]>
 				</reportElement>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<text><![CDATA[Total de ingresos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="30" width="32" height="20" uuid="9ff04760-b625-4a80-b274-2dc19148abf7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[ USD]]></text>
 			</staticText>
 		</band>
 	</summary>

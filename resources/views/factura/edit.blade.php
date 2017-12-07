@@ -35,7 +35,7 @@
                         @include('factura.cliente')
 
                         <div class="row">
-                            <table id="factura" class="table table-hover">
+                            <table id="factura" class="table table-condensed table-hover">
                                 <thead>
                                 <tr>
                                     <th data-field="id" data-sortable="false">#</th>

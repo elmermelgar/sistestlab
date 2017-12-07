@@ -39,7 +39,7 @@
                     </div>
                 </form>
 
-                <table class="table table-hover" id="factura">
+                <table class="table table-hover table-condensed" id="factura">
                     <thead>
                     <tr>
                         <th data-sortable="true">Código</th>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="x_content">
 
-                        <table class="table table-hover">
+                        <table class="table table-hover table-condensed">
                             <thead>
                             <tr>
                                 <th>#</th>

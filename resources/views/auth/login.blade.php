@@ -15,7 +15,7 @@
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{asset('gentallela/build/css/custom.css')}}" rel="stylesheet">
+    <link href="{{asset('css/custom.css')}}" rel="stylesheet">
 </head>
 
 <body class="login">

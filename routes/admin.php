@@ -18,8 +18,10 @@ Route::group(['prefix' => 'usuarios', 'middleware' => ['permission:admin_users']
 });
 
 Route::get('cuenta', 'UserController@show')->name('account');
-Route::get('cuenta/editar', 'UserController@edit')->name('account.edit');
-Route::post('cuenta/actualizar', 'UserController@update')->name('account.update');
+Route::get('cuenta/avatar', 'UserController@editAvatar')->name('account.avatar');
+Route::post('cuenta/avatar', 'UserController@storeAvatar')->name('account.avatar.store');
+//Route::get('cuenta/editar', 'UserController@edit')->name('account.edit');
+//Route::post('cuenta/actualizar', 'UserController@update')->name('account.update');
 
 Route::group(['prefix' => 'roles', 'middleware' => ['permission:admin_roles']], function () {
 

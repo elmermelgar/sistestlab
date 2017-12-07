@@ -18,6 +18,7 @@ class CreateCustomersTable extends Migration
             $table->integer('account_id')->unique();
             $table->boolean('juridical_person')->default(false);
             $table->boolean('origin_center')->default(false);
+            $table->string('tradename', 127)->nullable();
             $table->char('nit', 14)->unique()->nullable();
             $table->char('nrc', 7)->unique()->nullable();
             $table->string('business', 127)->nullable();
@@ -28,7 +29,7 @@ class CreateCustomersTable extends Migration
         create or replace view customers_vw as
         select c.id, c.account_id, a.sucursal_id, a.identity_document, a.first_name, a.last_name,
         a.first_name||\' \'||coalesce(a.last_name,\'\') as name, a.phone_number, a.address, c.juridical_person, 
-        c.origin_center, c.nit, c.nrc, c.business, a.comment, a.created_at, a.updated_at 
+        c.origin_center, c.tradename, c.nit, c.nrc, c.business, a.photo, a.comment, a.created_at, a.updated_at 
         from customers c join accounts a on c.account_id = a.id;
         ');
 
@@ -46,9 +47,9 @@ class CreateCustomersTable extends Migration
                 address, comment, created_at, updated_at) values(new.sucursal_id, new.first_name, new.last_name, 
                 new.identity_document, new.phone_number, new.address, new.comment, new.created_at, new.updated_at)
                 returning id into new.account_id;
-            insert into customers(account_id, juridical_person, origin_center, nit, nrc, business) 
-                values(new.account_id, new.juridical_person, new.origin_center, new.nit, new.nrc, new.business)
-                returning id into new.id;
+            insert into customers(account_id, juridical_person, origin_center, tradename, nit, nrc, business) 
+                values(new.account_id, new.juridical_person, new.origin_center, new.tradename, new.nit, new.nrc, 
+                new.business) returning id into new.id;
             return new;
         end;
         $tg_customer$ 
@@ -65,8 +66,8 @@ class CreateCustomersTable extends Migration
         create or replace function customers_update_tg() returns trigger as
         $tg_customer$
         begin
-            update customers set (juridical_person, origin_center, nit, nrc, business) = (new.juridical_person, 
-            new.origin_center, new.nit, new.nrc, new.business) where id = old.id;
+            update customers set (juridical_person, origin_center, tradename, nit, nrc, business) = 
+            (new.juridical_person, new.origin_center, new.tradename, new.nit, new.nrc, new.business) where id = old.id;
             update accounts set (sucursal_id, first_name, last_name, identity_document, phone_number, address,
             comment, updated_at) = (new.sucursal_id, new.first_name, new.last_name, new.identity_document, 
             new.phone_number, new.address, new.comment, new.updated_at) where id = old.account_id;

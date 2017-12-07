@@ -1,19 +1,16 @@
-<div class="row" style="border-bottom: solid;padding-bottom:10px;border-color: silver;margin-bottom: 10px">
+<div class="row factura-encabezado">
     <div class="col-sm-9">
-        <h3>TESTLAB <br>
-            <small>SERVICIOS DE ANÁLISIS Y ESTUDIOS DE DIAGNÓSTICO</small>
-            <br>
-            <small>SUCURSAL {{ strtoupper($sucursal->display_name)}}</small>
-        </h3>
+        <h3>TESTLAB</h3>
+        <p>SERVICIOS DE ANÁLISIS Y ESTUDIOS DE DIAGNÓSTICO</p>
+        <p>YASMIN ELIZABETH ARÉVALO LEMUS</p>
+        <p>SUCURSAL {{ strtoupper($sucursal->display_name)}}</p>
         <p>{{ strtoupper($sucursal->direccion)}}</p>
-        <p>TEL: (503) {{ $sucursal->telefono}} - CORREO ELECTRÓNICO:{{ $sucursal->email}} </p>
+        <p>TEL: (503) {{ $sucursal->telefono}} - CORREO ELECTRÓNICO:{{ $sucursal->email}}</p>
     </div>
-    <div class="col-sm-3"
-         style="margin-top: 2em;padding:5px 10px;border-radius: 5px;
-         border-style: solid; border-color: silver; text-align: center">
-        <p>@if(isset($factura)&&$factura->credito_fiscal) COMPROBANTE DE CRÉDITO FISCAL @else FACTURA @endif</p>
-        <p style="color: red; font-size: 20px">N° {{$factura?$factura->numero:null}}</p>
-        <p style="margin:0">NIT: {{ $sucursal->nit}}</p>
-        <p style="margin:0">NRC: {{ $sucursal->nrc}}</p>
+    <div class="col-sm-3 factura-fiscal">
+        <p>@if(isset($factura)&&$factura->credito_fiscal) CRÉDITO FISCAL @else FACTURA @endif</p>
+        <p class="factura-numero">N° {{$factura?$factura->numero:null}}</p>
+        <p>NIT: {{ $sucursal->nit}}</p>
+        <p>NRC: {{ $sucursal->nrc}}</p>
     </div>
 </div>

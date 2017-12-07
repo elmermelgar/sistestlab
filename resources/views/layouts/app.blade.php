@@ -24,7 +24,7 @@
     <link href="{{url('pnotify/pnotify.custom.min.css')}}" rel="stylesheet">
 @yield('styles')
 <!-- Custom Theme Style -->
-    <link href="{{url('gentallela/build/css/custom.css')}}" rel="stylesheet">
+    <link href="{{url('css/custom.css')}}" rel="stylesheet">
 
     @yield('imports')
 
@@ -79,9 +79,9 @@
                         <ul class="nav side-menu">
                             <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Inicio</a></li>
                             @include('menu.transacciones')
+                            @include('menu.boletas')
                             @include('menu.facturas')
                             {{--<li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>--}}
-                            @include('menu.boletas')
                             @include('menu.laboratorio')
                         </ul>
                     </div>
@@ -214,8 +214,6 @@
 <script src="{{url('gentallela/vendors/jquery/dist/jquery.min.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{url('gentallela/vendors/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-<!-- FastClick -->
-<script src="{{url('gentallela/vendors/fastclick/lib/fastclick.js')}}"></script>
 <!-- NProgress -->
 <script src="{{url('gentallela/vendors/nprogress/nprogress.js')}}"></script>
 <!-- jQuery custom content scroller -->
@@ -225,7 +223,7 @@
 @include('laravelPnotify::notify')
 @yield('scripts')
 <!-- Custom Theme Scripts -->
-<script src="{{url('gentallela/build/js/custom.js')}}"></script>
+<script src="{{url('js/custom.js')}}"></script>
 @if(session('minimize'))
     <script>
         $(document).ready(function () {

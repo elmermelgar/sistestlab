@@ -16,14 +16,14 @@ class BoxRegistry extends Model
      *
      * @var string
      */
-    protected $primaryKey = ['sucursal_id', 'date', 'time'];
+//    protected $primaryKey = ['sucursal_id', 'date', 'time'];
 
     /**
      * Indicates if the IDs are auto-incrementing.
      *
      * @var bool
      */
-    public $incrementing = false;
+//    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.

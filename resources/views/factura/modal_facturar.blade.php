@@ -6,7 +6,7 @@
                             aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="modal_label">Facturar</h4>
             </div>
-            <form id="modal_form" method="post" action="{{url("facturas/$factura->id/facturar")}}">
+            <form id="modal_form" method="post" action="{{route('factura.facturar')}}">
                 {{csrf_field()}}
                 <div class="modal-body">
                     <div class="form-group hidden">
@@ -15,7 +15,7 @@
                                value="{{$factura->id}}" required>
                     </div>
                     <div class="form-group hidden">
-                        <label for="sucursal_idfactura_id">Sucursal</label>
+                        <label for="sucursal_id">Sucursal</label>
                         <input type="hidden" id="sucursal_id" name="sucursal_id" class="form-control"
                                value="{{$factura->sucursal->id}}" required>
                     </div>

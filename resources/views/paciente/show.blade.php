@@ -65,11 +65,15 @@
                 </ul>
 
                 <a class="btn btn-primary" href="
-            @if(Auth::user()->can('admin_pacientes'))
+                @if(Auth::user()->can('admin_pacientes'))
                 {{url('pacientes/'.$paciente->id.'/edit')}}
                 @else
                 {{url('paciente/editar/')}}
-                @endif "><i class="fa fa-edit m-right-xs"></i>Editar Paciente</a>
+                @endif "><i class="fa fa-edit fa-fw m-right-xs"></i>Editar Paciente</a>
+                @if($paciente->account->customer)
+                    <a class="btn btn-default" href="{{route('customer.show',$paciente->account->customer->id)}}">
+                        <i class="fa fa-eye fa-fw"></i>Ver perfil de cliente</a>
+                @endif
                 <br/>
             </div>
         </div>
@@ -84,6 +88,11 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+                @if($paciente->account->customer)
+                    <h4><strong>Este paciente está registrado como cliente.</strong>
+                        <a href="{{route('customer.show',$paciente->account->customer->id)}}">Ver perfil de cliente.</a>
+                    </h4><hr>
+                @endif
                 <h4>Este paciente se ha asociado a los siguientes clientes:</h4>
 
                 <table class="table table-striped " id="datatable">

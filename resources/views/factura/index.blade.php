@@ -2,6 +2,8 @@
 
 @section('imports')
     <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+          href="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.css')}}">
 @endsection
 
 @section('content')
@@ -24,69 +26,79 @@
     <div class="x_panel">
 
         <div class="x_title">
-            <h3 class="alignleft">Facturas</h3>
+            <h3>Facturas</h3>
             <div class="alignright">
-                <a href="{{ url('facturas/create') }}" title="Facturar" style="float: right">
+                <a href="{{ route('factura.create') }}" title="Facturar">
                     <div class="btn btn-primary">
                         <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nueva Factura
                     </div>
                 </a>
+                <a href="{{ route('factura.create','origen') }}" title="Facturar">
+                    <div class="btn btn-info">
+                        <i class="fa fa-dollar fa-fw" aria-hidden="true"></i>Nueva Factura (Centro de Origen)
+                    </div>
+                </a>
             </div>
-            <div class="alignright">
-                <div class="form-group pull-right top_search" style="margin-right: 5%">
-                    <form class="form-group" action="{{ url('facturas') }}" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="numero" placeholder="Buscar por número...">
-                            <span class="input-group-btn">
-                      <button class="btn btn-default" type="submit">Buscar</button>
-                    </span>
-                        </div>
-                    </form>
+            <form class="form-inline" action="{{ url('facturas') }}" method="GET">
+                <div class="form-group">
+                    <input id="fecha_inicio" name="fecha_inicio" class="form-control" placeholder="Fecha inicio"
+                           value="{{ Request::get('fecha_inicio') }}">
+                    <input id="fecha_fin" name="fecha_fin" class="form-control" placeholder="Fecha inicio"
+                           value="{{ Request::get('fecha_fin') }}">
+                    <select id="estado" name="estado" class="form-control">
+                        <option value="">Seleccione estado</option>
+                        @foreach($estados as $estado)
+                            <option value="{{$estado->name}}"
+                                    @if($estado->name==Request::get('estado')) selected @endif>
+                                {{$estado->display_name}}</option>
+                        @endforeach
+                    </select>
+                    <input type="text" class="form-control" name="numero" placeholder="Buscar por número..."
+                           value="{{ Request::get('numero') }}">
                 </div>
-            </div>
+                <button type="submit" class="btn btn-default">Buscar</button>
+            </form>
 
             <div class="clearfix"></div>
         </div>
 
         <div class="x_content">
-            <div class="table">
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th data-field="id" data-sortable="true">ID</th>
-                        <th data-field="name" data-sortable="true">Número</th>
-                        <th data-field="cliente" data-sortable="true">Cliente</th>
-                        <th data-field="facturador" data-sortable="true">Facturado por</th>
-                        <th data-field="fecha" data-sortable="true">Fecha</th>
-                        <th data-field="estado" data-sortable="true">Estado</th>
-                        <th data-field="venta" data-sortable="true">Venta (USD)</th>
-                        <th data-field="actions" data-sortable="false">Acciones</th>
+            <table id="facturas" class="table table-hover">
+                <thead>
+                <tr>
+                    <th data-field="id" data-sortable="false">ID</th>
+                    <th data-field="name" data-sortable="true">Número</th>
+                    <th data-field="cliente" data-sortable="false">Cliente</th>
+                    <th data-field="facturador" data-sortable="false">Facturado por</th>
+                    <th data-field="fecha" data-sortable="true">Fecha</th>
+                    <th data-field="estado" data-sortable="true">Estado</th>
+                    <th data-field="venta" data-sortable="true">Venta (USD)</th>
+                    <th data-field="actions" data-sortable="false">Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                @foreach($facturas as $factura)
+                    <tr @if($factura->estado->name=='abierta') class="bg-warning" @endif>
+                        <td>{{$factura->id}}</td>
+                        <td>{{$factura->numero}}</td>
+                        <td>{{$factura->customer->name}}</td>
+                        <td>{{$factura->facturador->name()}}</td>
+                        <td>{{$factura->date.' '.$factura->time}}</td>
+                        <td>{{$factura->estado->display_name}}</td>
+                        <td>{{$factura->total}}</td>
+                        <td>
+                            <a href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
+                               title="Ver Factura"><i class="fa fa-eye"></i></a>
+                        </td>
                     </tr>
-                    </thead>
+                @endforeach
+                </tbody>
 
-                    <tbody>
-                    @foreach($facturas as $factura)
-                        <tr>
-                            <td>{{$factura->id}}</td>
-                            <td>{{$factura->numero}}</td>
-                            <td>{{$factura->customer->name}}</td>
-                            <td>{{$factura->facturador->name()}}</td>
-                            <td>{{$factura->date.' '.$factura->time}}</td>
-                            <td>{{$factura->estado->display_name}}</td>
-                            <td>{{$factura->total}}</td>
-                            <td>
-                                <a href="{{ url('facturas/'.$factura->id )}}" class="btn btn-success"
-                                   title="Ver Factura"><i class="fa fa-eye"></i></a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-
-                </table>
-                <div class="col-md-12" style="text-align: center">
-                    {{ $facturas->appends(Request::only(['numero']))->render() }}
-                </div>
-            </div>
+            </table>
+            {{--<div class="col-md-12" style="text-align: center">
+                {{ $facturas->appends(Request::only(['numero']))->render() }}
+            </div>--}}
         </div>
     </div>
 
@@ -95,4 +107,7 @@
 @section('scripts')
     <script src="{{url('gentallela/vendors/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{url('js/moment-with-locales.min.js')}}"></script>
+    <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{url('js/factura.js')}}"></script>
 @endsection

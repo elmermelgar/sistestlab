@@ -82,7 +82,7 @@
                                 </h4>
                                 <div class="left col-xs-8">
                                     <h2>{{$cliente->name}}</h2>
-                                    <p style="color: #0b97c4"><strong>{{$cliente->comment}}</strong></p>
+                                    <p style="color: #0b97c4"><strong>{{$cliente->tradename}}</strong></p>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-envelope"></i>
                                             {{$cliente->account->user?$cliente->account->user->email:'--'}}

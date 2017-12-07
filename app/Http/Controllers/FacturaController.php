@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Estado;
 use App\ExamenPaciente;
 use App\Factura;
+use App\Http\Requests\Billing;
 use App\InvoiceProfile;
 use App\Patient;
 use App\Payment;
@@ -26,7 +27,7 @@ class FacturaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['facturar']);
     }
 
     /**
@@ -37,20 +38,21 @@ class FacturaController extends Controller
      */
     public function index(Request $request, $sucursal_id = null)
     {
+        $this->validate($request, [
+            'fecha_inicio' => 'date_format:Y-m-d|nullable',
+            'fecha_fin' => 'date_format:Y-m-d|nullable',
+            'estado' => 'string|nullable',
+            'numero' => 'integer|nullable'
+        ]);
         if (!$sucursal_id) {
             $sucursal_id = Auth::user()->account->sucursal_id;
         }
-        $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
-        $query_factura = Factura::where('sucursal_id', $sucursal_id)
-            ->where('tax_credit_id', null)
-            ->orWhere('estado_id', '<>', $estado_cerrada->id);
-        if ($request->numero) {
-            $query_factura = $query_factura->filter($request->get('numero'));
-        } else {
-            $query_factura = $query_factura->orderBy('date', 'desc')->orderBy('time', 'desc');
-        }
+        $facturas = Factura::where('sucursal_id', $sucursal_id)->where('tax_credit_id', null)
+            ->filter($request->only(['fecha_inicio', 'fecha_fin', 'estado', 'numero']))
+            ->get();
         return view('factura.index', [
-            'facturas' => $query_factura->paginate(10),
+            'facturas' => $facturas,
+            'estados' => Estado::where('tipo', 'factura')->get(),
         ]);
     }
 
@@ -135,52 +137,72 @@ class FacturaController extends Controller
 
     /**
      * Registra, en caja, el total y los montos de la factura
-     * @param integer $id
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function facturar($id, Request $request)
+    public function facturar(Billing $request)
     {
-        if ($id == $request->factura_id) {
-            $factura = Factura::find($id);
-            $estado_abierta = Estado::where('name', Factura::ABIERTA)->where('tipo', 'factura')->first();
-            $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
-            $estado_facturado = Estado::where('name', 'facturado')->where('tipo', 'examen_paciente')->first();
-            if ($factura->estado->name != Factura::BORRADOR) {
-                Notify::warning('No se puede confirmar esta factura');
-                return back();
-            }
+        $factura = Factura::find($request->factura_id);
+        $estado_abierta = Estado::where('name', Factura::ABIERTA)->where('tipo', 'factura')->first();
+        $estado_cerrada = Estado::where('name', Factura::CERRADA)->where('tipo', 'factura')->first();
+        $estado_facturado = Estado::where('name', 'facturado')->where('tipo', 'examen_paciente')->first();
+        if ($factura->estado->name != Factura::BORRADOR) {
+            Notify::warning('Esta factura no se puede confirmar');
+            return back();
+        }
 
-            $suma = $factura->profiles()->sum('price');
-            $total = round($suma * (1 + $factura->nivel) + 0.004, 2);
-            $request->merge(['total' => $total]);
+        $suma = $factura->profiles()->sum('price');
+        /* se suman 4 milésimas y se redondea ya que php no puede truncar
+        asi el laboratorio se ahora, y no pierde, aproximadamente 1 USD por cada 200 descuentos
+        */
+        $total = round($suma * (1 + $factura->nivel) + 0.004, 2);
+        $request->merge(['total' => $total]);
 
-            if ($request->amount <= 0 || $request->amount > $total) {
-                Notify::error('No se puede facturar con monto cero o un pago mayor al total');
-                return redirect()->back();
-            }
+        //
+        if ($request->amount < 0 || $request->amount > $total) {
+            Notify::error('No se puede facturar con monto menor a cero o un pago mayor al total');
+            return redirect()->back();
+        }
 
-            if ($request->amount == $total) {
-                $request->merge(['estado_id' => $estado_cerrada->id]);
-            } else {
-                $request->merge(['estado_id' => $estado_abierta->id]);
-            }
+        if ($request->amount == $total) {
+            $request->merge(['estado_id' => $estado_cerrada->id]);
+        } else {
+            $request->merge(['estado_id' => $estado_abierta->id]);
+        }
 
-            $request->credito_fiscal ?
-                $request->merge(['credito_fiscal' => true]) : $request->merge(['credito_fiscal' => false]);
+        if ($request->credito_fiscal) {
+            //una factura marcada como credito fiscal no debe poseer número
+            $request->merge(['credito_fiscal' => true]);
+            $request->merge(['numero' => null]);
+        }
 
+        //Empieza la transacción
+        DB::beginTransaction();
+
+        try {
             DB::table('examen_paciente')->whereIn('invoice_profile_id', $factura->profiles->pluck('id')->all())
                 ->update(['estado_id' => $estado_facturado->id]);
 
-            Payment::create($request->only(['sucursal_id', 'factura_id', 'amount', 'type']));
-            $factura->date = Carbon::now();
-            $factura->time = Carbon::now();
+            if ($request->amount > 0) {
+                Payment::create($request->only(['sucursal_id', 'factura_id', 'amount', 'type']));
+            }
+
+            $factura->date = $factura->time = Carbon::now();
             $factura->update($request->all());
 
-            Notify::success('Facturación completa');
-            return redirect()->action("FacturaController@show", ['id' => $factura->id]);
+            //Exito, hace efectivos todos los cambios en la base de datos
+            DB::commit();
+        } catch (\Exception $e) {
+            //Ocurre algun error, revierte todos los cambios en la base de datos y responde con un mensaje
+            DB::rollBack();
+            \Log::error($e);
+            Notify::error("Ocurrió un error al facturar");
+            return back()->withInput();
         }
-        return abort(404);
+
+        Notify::success('Facturación completa');
+        return redirect()->action("FacturaController@show", ['id' => $factura->id]);
+
     }
 
     /**
@@ -353,8 +375,7 @@ class FacturaController extends Controller
      */
     public function payment($id, Request $request)
     {
-        if ($id == $request->factura_id) {
-            $factura = Factura::find($id);
+        if ($id == $request->factura_id && $factura = Factura::find($id)) {
 
             if (!SucursalService::isOpen($factura->sucursal->id)) {
                 Notify::error('No se puede realizar un pago mientras la caja esté cerrada');

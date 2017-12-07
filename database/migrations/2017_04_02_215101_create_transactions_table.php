@@ -23,6 +23,9 @@ class CreateTransactionsTable extends Migration
             $table->time('time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
         });
+
+        // Añade restricción
+        DB::statement('alter table transactions add constraint chk_transaction_amount check ( amount <> 0 );');
     }
 
     /**

@@ -119,7 +119,7 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control has-feedback-left" id="birth_date" name="birth_date"
+                            <input id="birth_date" name="birth_date" class="form-control has-feedback-left"
                                    placeholder="Fecha de nacimiento" required
                                    value="{{$paciente? $paciente->birth_date:old('birth_date')}}">
                             <i class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></i>
@@ -204,22 +204,5 @@
     <script src="{{url('js/moment-with-locales.min.js')}}"></script>
     <script src="{{url('gentallela/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
     <script src="{{url('gentallela/vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js')}}"></script>
-    <script type="application/javascript">
-        moment.locale('es');
-        $(document).ready(function () {
-            $('#customer_id').SumoSelect({
-                search: true,
-                placeholder: 'Seleccione el cliente a asociar',
-                okCancelInMulti: true
-            });
-            $('#birth_date').daterangepicker({
-                locale: {
-                    format: 'DD/MM/YYYY'
-                },
-                singleDatePicker: true,
-                showDropdowns: true
-            });
-            Inputmask().mask(document.querySelectorAll("input"));
-        });
-    </script>
+    <script src="{{url('js/paciente.js')}}"></script>
 @endsection

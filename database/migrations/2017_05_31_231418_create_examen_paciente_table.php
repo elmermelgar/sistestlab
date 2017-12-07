@@ -36,6 +36,9 @@ class CreateExamenPacienteTable extends Migration
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->timestamps();
         });
+
+        // Añade restricción
+        DB::statement('alter table examen_paciente add constraint chk_paciente_edad check ( paciente_edad >= 0 );');
     }
 
     /**

@@ -4,7 +4,7 @@
             <div class="modal-header">
                 <button type="button" id="modal_close" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="modal_label">Agregar un perfil a la factura</h4>
+                <h4 class="modal-title" id="modal_label">Agregar un perfil o examen a la factura</h4>
             </div>
             <form id="modal_form" method="post" action="">
 
@@ -14,7 +14,7 @@
                         <input id="id" name="id" class="form-control" value="">
                     </div>
                     <div class="form-group">
-                        <label for="modal_profile_id">Perfil</label>
+                        <label for="modal_profile_id">Perfil o examen</label>
                         <select id="modal_profile_id" name="modal_profile_id" class="form-control" required
                                 style="width: 100%">
                         </select>

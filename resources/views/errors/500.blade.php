@@ -7,5 +7,8 @@
     Error interno del servidor
 @endsection
 @section('error-description')
-    We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing. <a href="#">Report this?</a>
+    Intente más tarde. Si el error persiste, por favor contacte al administrador.
+    <br>
+    ¿Tal vez quiera regresar a la <a href="{{URL::previous()}}">página anterior</a> o la
+    <a href="{{route('home')}}">página de inicio</a>?
 @endsection

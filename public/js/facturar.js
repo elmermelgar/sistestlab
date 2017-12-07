@@ -62,8 +62,10 @@ $(document).ready(function () {
         function creditoFiscalClick() {
             if (credito_fiscal[0].checked) {
                 numero_factura.removeAttr('required');
+                numero_factura.attr('disabled', 'disabled');
             }
             else {
+                numero_factura.removeAttr('disabled');
                 numero_factura.attr('required', 'required');
             }
         }

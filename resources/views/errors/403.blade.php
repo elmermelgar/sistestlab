@@ -7,5 +7,6 @@
     Acceso denegado
 @endsection
 @section('error-description')
-    Full authentication is required to access this resource. <a href="#">Report this?
+    ¿Tal vez quiera regresar a la <a href="{{URL::previous()}}">página anterior</a> o la
+    <a href="{{route('home')}}">página de inicio</a>?
 @endsection

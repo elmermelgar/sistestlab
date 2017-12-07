@@ -44,12 +44,12 @@ Route::group(['prefix' => 'recolectores', 'middleware' => ['permission:admin_rec
 
 Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], function () {
     Route::get('/', 'FacturaController@index')->name('factura');
-    Route::get('create/{origen?}', 'FacturaController@create')->where('origen', 'origen');
+    Route::get('create/{origen?}', 'FacturaController@create')->where('origen', 'origen')->name('factura.create');
     Route::get('{id}', 'FacturaController@show')->name('factura.show');
     Route::get('{id}/edit', 'FacturaController@edit')->name('factura.edit');
     Route::post('store', 'FacturaController@store')->name('factura.store');
     Route::post('annul', 'FacturaController@annul')->name('factura.annul');
-    Route::post('{id}/facturar', 'FacturaController@facturar')->name('factura.facturar');
+    Route::post('facturar', 'FacturaController@facturar')->name('factura.facturar');
     Route::post('{id}/payment', 'FacturaController@payment')->name('factura.payment');
     Route::post('{id}/nivel', 'FacturaController@nivel')->name('factura.nivel');
 });

@@ -103,8 +103,6 @@ class PatientController extends Controller
         try {
             $request->merge(['identity_document' => str_replace('-', '', $request->identity_document)]);
             $request->merge(['phone_number' => str_replace('-', '', $request->phone_number)]);
-            $fecha_nacimiento = Carbon::createFromFormat('d/m/Y', $request->birth_date);
-            $request->merge(['birth_date' => $fecha_nacimiento]);
             if ($request->id && $paciente = Patient::find($request->id)) {
                 $this->validate($request, $this->rules($paciente->account_id));
                 $paciente->update($request->all());
@@ -141,6 +139,7 @@ class PatientController extends Controller
             'first_name' => 'required|max:127',
             'last_name' => 'max:127',
             'phone_number' => 'required|max:8',
+            'birth_date' => 'date_format:Y-m-d',
             'address' => 'max:255',
             'profession' => 'max:127',
             'comment' => 'max:255',

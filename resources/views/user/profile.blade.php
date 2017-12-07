@@ -18,6 +18,10 @@
                          {{url('/storage/photos/'. 'user.png')}}
                          @endif ">
                 </div>
+                <br>
+                @if(Auth::id()==$user->id)
+                    <a href="{{route('account.avatar')}}" class="btn btn-default">Cambiar Foto</a>
+                @endif
             </div>
             <br/>
             @role('profesional')
@@ -65,13 +69,10 @@
                     {{$user->account->address}}
                 </li>
             </ul>
-
-            <a class="btn btn-success" href="
             @if(Auth::user()->can('admin_users'))
-            {{url('usuarios/'.$user->id.'/edit')}}
-            @else
-            {{route('account.edit')}}
-            @endif "><i class="fa fa-edit fa-fw"></i>Editar Cuenta</a>
+                <a class="btn btn-success" href="{{url('usuarios/'.$user->id.'/edit')}}">
+                    <i class="fa fa-edit fa-fw"></i>Editar Cuenta</a>
+            @endif
             <br/>
         </div>
     </div>
