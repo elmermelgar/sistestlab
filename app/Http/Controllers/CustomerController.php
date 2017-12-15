@@ -216,7 +216,7 @@ class CustomerController extends Controller
             'sex' => 'max:1',
             'juridical_person' => 'boolean',
             'origin_center' => 'boolean',
-            'tradename' => 'max:127',
+            'trade_name' => 'max:127',
             'nit' => ['max:14', Rule::unique('customers_nit_vw')->ignore($customer_id)],
             'nrc' => ['max:7', Rule::unique('customers_nit_vw')->ignore($customer_id)],
             'business' => 'max:127',

@@ -12,10 +12,10 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fecha_inicio" class="java.sql.Date">
+	<parameter name="fecha_inicio" class="java.util.Date">
 		<defaultValueExpression><![CDATA[DATE(2017,1,1)]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fecha_fin" class="java.sql.Date">
+	<parameter name="fecha_fin" class="java.util.Date">
 		<defaultValueExpression><![CDATA[DATE(2017,12,31)]]></defaultValueExpression>
 	</parameter>
 	<queryString>

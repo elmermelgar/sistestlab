@@ -26,6 +26,7 @@ class CreateBoxRegistryTable extends Migration
             $table->decimal('cost', 8, 2)->default(0);
             $table->foreign('sucursal_id')->references('id')->on('sucursales');
             $table->foreign('account_id')->references('id')->on('accounts');
+            $table->index('date');
         });
 
         // Añade restricción
@@ -39,7 +40,8 @@ class CreateBoxRegistryTable extends Migration
         create or replace function chk_registry_state() returns trigger as $func$
         declare state integer;
          begin
-            select b.state from box_registry b order by date desc, time desc limit 1 into state;
+            select b.state from box_registry b where b.sucursal_id = new.sucursal_id order by date desc, time desc 
+                limit 1 into state;
             if new.state=state then 
                 raise exception \'No se puede registrar un estado de caja igual que el anterior: %\', new.state;
             end if;

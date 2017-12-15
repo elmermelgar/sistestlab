@@ -61,10 +61,19 @@
                     <tr>
                         <td>3</td>
                         <td>RPT_REF_ESPECIFICA</td>
-                        <td>Cantidad de prueba específica</td>
+                        <td>Cantidad de prueba específica por laboratorio de referencia</td>
                         <td>Cantidad de prueba especifíca por laboratorio de referencia e ingreso en un rango de fechas.
                         </td>
                         <td><a href="{{route('report.ref.especifica')}}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>RPT_SUC_ESPECIFICA</td>
+                        <td>Cantidad de prueba específica por sucursal</td>
+                        <td>Cantidad de prueba especifíca por sucursal e ingreso en un rango de fechas.
+                        </td>
+                        <td><a href="{{route('report.suc.especifica')}}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
                         </td>
                     </tr>
                     </tbody>

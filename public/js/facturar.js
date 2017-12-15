@@ -76,6 +76,15 @@ $(document).ready(function () {
         });
     }
 
+    var submit_numero = $('#submit_numero');
+    $('#check_numero').change(function () {
+        if (this.checked) {
+            submit_numero.removeAttr('disabled')
+        } else {
+            submit_numero.attr('disabled', 'disabled')
+        }
+    });
+
 });
 
 function Anular(id) {

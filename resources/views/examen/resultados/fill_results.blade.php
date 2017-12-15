@@ -8,7 +8,8 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/results/invoice/')}}">Boletas Pendientes</a></li>
-            <li><a href="{{url('results/'.$examen->id.'/'.$examen_paciente->id.'/complete')}}">Llenar Resultados</a></li>
+            <li><a href="{{url('results/'.$examen->id.'/'.$examen_paciente->id.'/complete')}}">Llenar Resultados</a>
+            </li>
             {{--<li>{{$detail? $detail->name_detail:'Nuevo'}}</li>--}}
         </ol>
         <a href="{{url('/results/invoice/')}}"
@@ -34,18 +35,20 @@
             <h2>{{ $examen->display_name }}</h2>
 
             {{--<a href="#" style="float: right; margin-top: -35px" class="btn btn-sm btn-primary" data-toggle="modal"--}}
-               {{--data-target=".bs-example-modal-sm">--}}
-                {{--[<i class="fa fa-plus" aria-hidden="true"></i>] Nuevo Valor de Referencia--}}
+            {{--data-target=".bs-example-modal-sm">--}}
+            {{--[<i class="fa fa-plus" aria-hidden="true"></i>] Nuevo Valor de Referencia--}}
             {{--</a>--}}
 
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
 
-            <form id="demo-form2" data-parsley-validate="" action="{{ url('results/store/results') }}" method="post" class="form-horizontal form-label-left" novalidate="">
+            <form id="demo-form2" data-parsley-validate="" action="{{ url('results/store/results') }}" method="post"
+                  class="form-horizontal form-label-left" novalidate="">
                 {{ csrf_field() }}
                 <input type="hidden" name="examen_paciente_id" value="{{ $examen_paciente->id }}" readonly required>
-                <p>Por favor complete todos los <code>resultados</code> antes de guardar. <code>{{ $examen_paciente->observacion }}</code></p>
+                <p>Por favor complete todos los <code>resultados</code> antes de guardar.
+                    <code>{{ $examen_paciente->observacion }}</code></p>
                 @foreach($groupings as $group)
                     <span class="section">{{ $group->name }}</span>
                     @foreach($details as $detail)
@@ -55,17 +58,22 @@
                             @else
                                 <input type="hidden" required readonly name="exam_detail_id[]"
                                        value="{{$detail->id}}">
-                                <input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>
-                                <input type="hidden" name="spermogram_type_id[]" value="{{ $sperm_nin->id }}" readonly required>
+                                <input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly
+                                       required>
+                                <input type="hidden" name="spermogram_type_id[]" value="{{ $sperm_nin->id }}" readonly
+                                       required>
                             @endif
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">{{ $detail->name_detail }}
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"
+                                       for="first-name">{{ $detail->name_detail }}
                                     <span
                                             class="required">*</span>
                                 </label>
                                 <div class="col-md-8 col-sm-6 col-xs-12">
                                     @if($detail->referenceType->name == 'protozoarios')
+
                                     @elseif($detail->referenceType->name == 'espermograma')
+
                                     @else
                                         @php $result=DB::table('results')->where([
                                                                  ['exam_detail_id', '=', $detail->id],
@@ -82,8 +90,9 @@
                                                 @endphp
                                                 <input type="hidden" required readonly name="exam_detail_id[]"
                                                        value="{{$detail->id}}">
-                                                 <input type="hidden" name="spermogram_type_id[]" value="{{ $sperm_nin->id }}" readonly required>
-                                                    {{--<input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>--}}
+                                                <input type="hidden" name="spermogram_type_id[]"
+                                                       value="{{ $sperm_nin->id }}" readonly required>
+                                                {{--<input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>--}}
                                                 <input type="hidden" name="protozoarios_type_id[]"
                                                        value="{{ $type->id }}" readonly required>
                                                 <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
@@ -110,7 +119,8 @@
                                                 @endphp
                                                 <input type="hidden" required readonly name="exam_detail_id[]"
                                                        value="{{$detail->id}}">
-                                                <input type="hidden" name="protozoarios_type_id[]" value="{{ $proto_nin->id }}" readonly required>
+                                                <input type="hidden" name="protozoarios_type_id[]"
+                                                       value="{{ $proto_nin->id }}" readonly required>
                                                 <input type="hidden" name="spermogram_type_id[]"
                                                        value="{{ $type->id }}" readonly required>
                                                 <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
@@ -131,9 +141,10 @@
                                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="result[]"
                                                    value="@if($result){{$result->result}}@endif"
-                                                   required="required" placeholder="@foreach($reference_values as $rf_v) @if($detail->id==$rf_v->value) {{$rf_v->value}} {{$rf_v->unidades}}@endif @endforeach"
+                                                   required="required"
+                                                   placeholder="@foreach($reference_values as $rf_v) @if($detail->id==$rf_v->value) {{$rf_v->value}} {{$rf_v->unidades}}@endif @endforeach"
                                                    class="form-control col-md-7 col-xs-12 parsley-success"
-                                                   data-parsley-id="5"  title="Valor del resultado obtenido">
+                                                   data-parsley-id="5" title="Valor del resultado obtenido">
                                             <ul class="parsley-errors-list" id="parsley-id-5"></ul>
                                             {{--<span class="fa  form-control-feedback right"--}}
                                             {{--aria-hidden="true"><b>ml-static</b></span>--}}
@@ -144,16 +155,18 @@
                                                    class="form-control"
                                                    placeholder="Observación">
                                         </div>
-                                            @if($detail->referenceType->name == 'default')
-                                                {{--@php(dump($result->out_range))--}}
+                                        @if($detail->referenceType->name == 'default')
+                                            {{--@php(dump($result->out_range))--}}
                                             <div class="col-md-1 col-sm-6 col-xs-12 form-group has-feedback">
-                                                <input type="checkbox" name="out_range[]" id="out_range{{$loop->iteration}}"
-                                                       value="1" @if($result? $result->out_range:false) checked @endif title="¿Fuera del rango de referencia?"
-                                                       class="form-control" style="width: 32px; margin-top: -1px"
-                                                >
-                                                <input type="hidden" id="out_range_x{{$loop->iteration}}" name="out_range[]" value="0">
+                                                <input type="checkbox" name="out_range[]"
+                                                       id="out_range_{{$loop->iteration}}"
+                                                       value="1" @if($result? $result->out_range:false) checked
+                                                       @endif title="¿Fuera del rango de referencia?"
+                                                       class="form-control" style="width: 32px; margin-top: -1px">
+                                                <input type="hidden" id="out_range_{{$loop->iteration}}x"
+                                                       name="out_range[]" value="0">
                                             </div>
-                                                @endif
+                                        @endif
                                     @endif
 
                                 </div>
@@ -181,5 +194,17 @@
     <script src="{{url('gentallela/vendors/parsleyjs/dist/parsley.min.js')}}"></script>
 @endsection
 @section('script-codigo')
-
+    <script>
+        $('#demo-form2').submit(function (e) {
+            // e.preventDefault();
+            var checkboxs = $("input[name='out_range[]'][type='checkbox']");
+            checkboxs.each(function () {
+                if ($(this)[0].checked) {
+                    var id = $(this)[0].id;
+                    $('#' + id + 'x').attr('disabled', 'disable');
+                }
+            });
+            // $('#demo-form2').submit();
+        });
+    </script>
 @endsection

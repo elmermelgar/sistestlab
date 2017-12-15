@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.4.1  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_referencia" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="512" leftMargin="50" rightMargin="50" topMargin="40" bottomMargin="40" uuid="d70a7d61-39d9-4cc8-a186-57327d6f6db3">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_ref_especifica" pageWidth="612" pageHeight="792" whenNoDataType="BlankPage" columnWidth="512" leftMargin="50" rightMargin="50" topMargin="40" bottomMargin="40" uuid="d70a7d61-39d9-4cc8-a186-57327d6f6db3">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -73,14 +73,14 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				<text><![CDATA[Servicios de Análisis y Estudios de Diagnóstico]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="24" width="200" height="20" uuid="62e465ad-1e4c-4ae8-a106-20b9c6791fc1">
+				<reportElement x="150" y="24" width="200" height="36" uuid="62e465ad-1e4c-4ae8-a106-20b9c6791fc1">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
+					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Laboratorios de referencia]]></text>
+				<text><![CDATA[Cantidad de prueba específica por laboratorio de referencia]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
 				<reportElement positionType="Float" x="0" y="20" width="100" height="20" uuid="e874660a-1989-49b4-998c-36f4994d311e"/>
@@ -173,11 +173,6 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="150" y="44" width="198" height="19" uuid="fd35ee86-0f16-48cf-8ec2-186b1d103996"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[Cantidad de prueba especifíca]]></text>
-			</staticText>
 		</band>
 	</title>
 	<pageHeader>

@@ -105,12 +105,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="tradename" class="control-label col-md-4 col-sm-4 col-xs-12">
+                        <label for="trade_name" class="control-label col-md-4 col-sm-4 col-xs-12">
                             Nombre Comercial / Marca
                         </label>
                         <div class="col-md-8 col-sm-8 col-xs-12">
-                            <input id="tradename" name="tradename" class="form-control" placeholder="Nombre comercial"
-                                   maxlength="127" value="{{$cliente? $cliente->tradename:old('tradename')}}">
+                            <input id="trade_name" name="trade_name" class="form-control" placeholder="Nombre comercial"
+                                   maxlength="127" value="{{$cliente? $cliente->trade_name:old('trade_name')}}">
                         </div>
                     </div>
 

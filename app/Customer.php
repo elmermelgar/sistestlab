@@ -19,7 +19,7 @@ class Customer extends Model
      */
     protected $fillable = [
         'account_id', 'sucursal_id', 'identity_document', 'first_name', 'last_name', 'phone_number', 'address',
-        'juridical_person', 'origin_center', 'tradename', 'nit', 'nrc', 'business', 'comment',
+        'juridical_person', 'origin_center', 'trade_name', 'nit', 'nrc', 'business', 'comment',
     ];
 
     /**

@@ -21,7 +21,7 @@ class CreateFacturasTable extends Migration
             $table->integer('recolector_id')->nullable();
             $table->integer('estado_id');
             $table->integer('tax_credit_id')->nullable();
-            $table->char('numero', 8)->nullable();
+            $table->integer('numero')->nullable()->unique();
             $table->decimal('nivel', 3, 2)->default(0);
             $table->decimal('total')->default(0);
             $table->boolean('credito_fiscal')->default(false);
@@ -34,6 +34,8 @@ class CreateFacturasTable extends Migration
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('tax_credit_id')->references('id')->on('tax_credits');
         });
+
+        DB::statement('alter table facturas add constraint chk_nivel CHECK (nivel > -1.00 and nivel < 1.00);');
     }
 
     /**

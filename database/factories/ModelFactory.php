@@ -70,7 +70,7 @@ $factory->define(App\Customer::class, function (Faker\Generator $faker) {
         'address' => $faker->sentence(6),
         'juridical_person' => $juridica,
         'origin_center' => $juridica && $faker->boolean,
-        'tradename' => $faker->sentence(1),
+        'trade_name' => $faker->sentence(1),
         'nit' => $faker->randomNumber(9, true) . $faker->randomNumber(5, true),
         'comment' => $faker->sentence(3),
     ];

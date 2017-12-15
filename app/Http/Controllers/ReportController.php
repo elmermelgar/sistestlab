@@ -18,6 +18,7 @@ class ReportController extends Controller
         'rpt_mensajero_bonos.jrxml',
         'rpt_referencia.jrxml',
         'rpt_ref_especifica.jrxml',
+        'rpt_suc_especifica.jrxml',
     ];
 
     /**
@@ -80,7 +81,7 @@ class ReportController extends Controller
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin' => $fecha_fin,
             'subreport' => $subreport_compiled_file,
-            'LoggedInUsername' => "'" . \Auth::user()->name . "'",
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
         ];
 
         $jasper->process(
@@ -133,7 +134,7 @@ class ReportController extends Controller
             'customer_id' => $customer_id,
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin' => $fecha_fin,
-            'LoggedInUsername' => "'" . \Auth::user()->name . "'",
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
         ];
 
         $jasper->process(
@@ -193,7 +194,66 @@ class ReportController extends Controller
             'profile_id' => $profile_id,
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin' => $fecha_fin,
-            'LoggedInUsername' => "'" . \Auth::user()->name . "'",
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        $jasper->process(
+            $compiled_file,
+            $output_file,
+            ["pdf"],
+            $parameters,
+            $this->db_connection()
+        )->execute();
+
+        return Response::make(file_get_contents($output_file . $file_extension), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => "inline; filename='$file_name.$file_extension'"
+        ]);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function suc_especifica()
+    {
+        $sucursales = \App\Sucursal::all();
+        $profiles = \App\Profile::orderBy('name')->get();
+        return view('report.suc_especifica', [
+            'sucursales' => $sucursales,
+            'profiles' => $profiles
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function rpt_suc_especifica(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+            'profile_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $sucursal_id = $request->sucursal_id;
+        $profile_id = $request->profile_id;
+        $fecha_inicio = Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString();
+        $fecha_fin = Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString();
+
+        $jasper = new JasperPHP;
+        $compiled_file = $this->report_path . 'rpt_suc_especifica.jasper';
+        $file_name = 'rpt_suc_especifica_' . $sucursal_id . Carbon::now()->format('Ymd');
+        $file_extension = '.pdf';
+        $output_file = $this->report_path . $file_name;
+        $parameters = [
+            'sucursal_id' => $sucursal_id,
+            'profile_id' => $profile_id,
+            'fecha_inicio' => $fecha_inicio,
+            'fecha_fin' => $fecha_fin,
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
         ];
 
         $jasper->process(

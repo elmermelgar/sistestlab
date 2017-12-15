@@ -114,14 +114,13 @@ class ResultadosController extends Controller
 //        dd($request->examen_paciente_id .'===='.$request->result.'===='.$request->observation);
 //        dd(count($request->exam_detail_id) . '========' . count($request->result));
 //        dd($request);
-        dump($request->all());
 
         if (($exam_paciente = ExamenPaciente::find($request->examen_paciente_id)) && (count($request->exam_detail_id) == count($request->result))) {
             $exam_paciente->detalles()->detach();
             foreach ($request->exam_detail_id as $index => $exam_detail_id) {
                 if ($request->result[$index] != null) {
                     //dd($request->out_range[$index]);
-                    if ($request->out_range[$index]!=null){
+                    if ($request->out_range[$index]){
                         $out_range = true;
                     }else{
                         $out_range = false;

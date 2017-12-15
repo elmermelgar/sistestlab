@@ -50,6 +50,7 @@ Route::group(['prefix' => 'facturas', 'middleware' => ['permission:facturar']], 
     Route::post('store', 'FacturaController@store')->name('factura.store');
     Route::post('annul', 'FacturaController@annul')->name('factura.annul');
     Route::post('facturar', 'FacturaController@facturar')->name('factura.facturar');
+    Route::post('numero', 'FacturaController@numero')->name('factura.numero');
     Route::post('{id}/payment', 'FacturaController@payment')->name('factura.payment');
     Route::post('{id}/nivel', 'FacturaController@nivel')->name('factura.nivel');
 });

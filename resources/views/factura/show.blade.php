@@ -70,7 +70,7 @@
                     </tbody>
                 </table>
                 <div class="col-sm-12">
-                    <div class="alignright"><h4>TOTAL USD: {{number_format($total,2)}} </h4></div>
+                    <div class="alignright"><h4>TOTAL USD: {{$factura->total?:number_format($total,2)}} </h4></div>
                 </div>
                 <br><br>
                 <div class="col-sm-12">
@@ -111,6 +111,12 @@
                                     <input type="submit" value="&#10004; TERMINAR" class="btn btn-primary btn-lg">
                                 </div>
                             </form>
+                        </div>
+                    @elseif(!$factura->credito_fiscal&&$factura->estado->name!=\App\Factura::ANULADA)
+                        <div class="alignright">
+                            <a class="btn btn-default btn-lg" data-toggle="modal"
+                               data-target="#modal_numero"><i class="fa fa-hashtag"></i> Cambiar número
+                            </a>
                         </div>
                     @endif
 
@@ -188,7 +194,11 @@
             @permission('admin_niveles')
             @include('factura.modal_nivel')
             @endpermission
+
+        @elseif($factura->estado->name!=\App\Factura::ANULADA)
+            @include('factura.modal_numero')
         @endif
+
     @endif
 
 @endsection
@@ -199,7 +209,7 @@
     <script src="{{url('js/bootstrap-slider.min.js')}}"></script>
     {{--cuando la factura sea un borrador o esté abierta y además no sea un crédito fiscal, que cargue el script que
     calcula la suma de los montos de pagos y la deuda--}}
-    @if(($factura->estado->name==\App\Factura::BORRADOR||$factura->estado->name==\App\Factura::ABIERTA)&&!isset($credito_fiscal))
+    @if(($factura->estado->name!=\App\Factura::ANULADA)&&!isset($credito_fiscal))
         <script src="{{url('js/facturar.js')}}"></script>
     @endif
 @endsection

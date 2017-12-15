@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-12">
                     <h4>{{$cliente->name}}</h4>
-                    <p style="color: #0b97c4"><strong>{{$cliente->tradename}}</strong></p>
+                    <p style="color: #0b97c4"><strong>{{$cliente->trade_name}}</strong></p>
                     <ul class="list-unstyled user_data">
 
                         <li>

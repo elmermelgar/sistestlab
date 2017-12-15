@@ -37,8 +37,8 @@ $(document).ready(function () {
         markup += "<div class='select2-result-repository__meta'>" +
             "<div class='select2-result-repository__title'>" + repo.name + "</div>";
 
-        if (repo.tradename) {
-            markup += "<div class='select2-result-repository__description'>" + repo.tradename + "</div>";
+        if (repo.trade_name) {
+            markup += "<div class='select2-result-repository__description'>" + repo.trade_name + "</div>";
         }
 
         if (repo.nit) {

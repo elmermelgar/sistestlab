@@ -27,7 +27,7 @@ class FacturaController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except(['facturar']);
+        $this->middleware('auth');
     }
 
     /**
@@ -404,6 +404,40 @@ class FacturaController extends Controller
             return redirect()->action("FacturaController@show", ['id' => $request->factura_id]);
         }
         return abort(404);
+    }
+
+    /**
+     * Actualiza el número de la factura especificada y anula la anterior
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function numero(Request $request)
+    {
+        $this->validate($request, [
+            'factura_id' => 'integer|required',
+            'numero' => 'integer|required'
+        ]);
+
+        $factura = Factura::find($request->factura_id);
+        if ($factura->estado->name != Factura::ABIERTA && $factura->estado->name != Factura::CERRADA) {
+            Notify::warning('Solo puede actualizarse el número de una factura confirmada (abierta o cerrada)');
+            return back();
+        }
+
+        if ($factura->credito_fiscal || is_null($factura->numero)) {
+            Notify::warning('No puede actualizar el número de esta factura');
+            return back();
+        }
+
+        $estado_anulada = Estado::where('name', Factura::ANULADA)->where('tipo', 'factura')->first();
+
+        $factura_anulada = new Factura($factura->getAttributes());
+        $factura_anulada->estado_id = $estado_anulada->id;
+        $factura_anulada->save();
+        $factura->update(['numero' => $request->numero]);
+
+        Notify::success('Se actualizó el número de la factura');
+        return redirect()->action("FacturaController@show", ['id' => $request->factura_id]);
     }
 
 }

@@ -36,11 +36,11 @@ class SucursalSeeder extends Seeder
         $cliente_san_salvador = new \App\Customer();
         $cliente_san_salvador->sucursal_id = $san_salvador->id;
         $cliente_san_salvador->first_name = 'Yasmin Elizabeth';
-        $cliente_san_salvador->last = 'Arévalo Lemus';
+        $cliente_san_salvador->last_name = 'Arévalo Lemus';
         $cliente_san_salvador->phone_number = '22255056';
         $cliente_san_salvador->juridical_person = false;
         $cliente_san_salvador->origin_center = true;
-        $cliente_san_salvador->tradename = 'TestLab';
+        $cliente_san_salvador->trade_name = 'TestLab';
         $cliente_san_salvador->nit = '10010105811024';
         $cliente_san_salvador->nrc = '2393604';
         $cliente_san_salvador->business = 'Servicios de análisis y estudios de diagnóstico';
