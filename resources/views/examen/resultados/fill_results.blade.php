@@ -131,19 +131,29 @@
                                         <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="result[]"
                                                    value="@if($result){{$result->result}}@endif"
-                                                   required="required" placeholder="{{ $detail->name_detail }}"
+                                                   required="required" placeholder="@foreach($reference_values as $rf_v) @if($detail->id==$rf_v->value) {{$rf_v->value}} {{$rf_v->unidades}}@endif @endforeach"
                                                    class="form-control col-md-7 col-xs-12 parsley-success"
-                                                   data-parsley-id="5">
+                                                   data-parsley-id="5"  title="Valor del resultado obtenido">
                                             <ul class="parsley-errors-list" id="parsley-id-5"></ul>
                                             {{--<span class="fa  form-control-feedback right"--}}
                                             {{--aria-hidden="true"><b>ml-static</b></span>--}}
                                         </div>
-                                        <div class="col-md-8 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-7 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="observation[]"
                                                    value="@if($result){{$result->observation}}@endif"
                                                    class="form-control"
-                                                   placeholder="Obervación">
+                                                   placeholder="Observación">
                                         </div>
+                                            @if($detail->referenceType->name == 'default')
+                                                {{--@php(dump($result->out_range))--}}
+                                            <div class="col-md-1 col-sm-6 col-xs-12 form-group has-feedback">
+                                                <input type="checkbox" name="out_range[]" id="out_range{{$loop->iteration}}"
+                                                       value="1" @if($result? $result->out_range:false) checked @endif title="¿Fuera del rango de referencia?"
+                                                       class="form-control" style="width: 32px; margin-top: -1px"
+                                                >
+                                                <input type="hidden" id="out_range_x{{$loop->iteration}}" name="out_range[]" value="0">
+                                            </div>
+                                                @endif
                                     @endif
 
                                 </div>

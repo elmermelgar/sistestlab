@@ -9,6 +9,7 @@ use App\Exam_detail;
 use App\ExamenPaciente;
 use App\Exam;
 use App\Protozoarios;
+use App\Reference_value;
 use App\Register_antibiotico;
 use App\Spermogram;
 use App\Sucursal;
@@ -113,12 +114,20 @@ class ResultadosController extends Controller
 //        dd($request->examen_paciente_id .'===='.$request->result.'===='.$request->observation);
 //        dd(count($request->exam_detail_id) . '========' . count($request->result));
 //        dd($request);
+        dump($request->all());
 
         if (($exam_paciente = ExamenPaciente::find($request->examen_paciente_id)) && (count($request->exam_detail_id) == count($request->result))) {
             $exam_paciente->detalles()->detach();
             foreach ($request->exam_detail_id as $index => $exam_detail_id) {
-                if ($request->result[$index] != null)
-                    $exam_paciente->detalles()->attach($exam_detail_id, ['result' => $request->result[$index], 'observation' => $request->observation[$index], 'protozoarios_type_id' => $request->protozoarios_type_id[$index], 'spermogram_modality_id' => $request->spermogram_type_id[$index]]);
+                if ($request->result[$index] != null) {
+                    //dd($request->out_range[$index]);
+                    if ($request->out_range[$index]!=null){
+                        $out_range = true;
+                    }else{
+                        $out_range = false;
+                    }
+                    $exam_paciente->detalles()->attach($exam_detail_id, ['result' => $request->result[$index], 'observation' => $request->observation[$index], 'protozoarios_type_id' => $request->protozoarios_type_id[$index], 'spermogram_modality_id' => $request->spermogram_type_id[$index], 'out_range' => $out_range]);
+                }
             }
             $estado = Estado::where('name', 'proceso')->first();
             $exam_paciente->estado_id = $estado->id;
@@ -147,7 +156,8 @@ class ResultadosController extends Controller
             'sperm_types' => Spermogram::all(),
             'sperm_nin' => Spermogram::where('name', 'Ninguno')->first(),
             'examen_paciente' => ExamenPaciente::find($id_xp),
-            'groupings' => Grouping::where(['exam_id' => $id_ex])->get()
+            'groupings' => Grouping::where(['exam_id' => $id_ex])->get(),
+            'reference_values' => Reference_value::all()
         ]);
     }
 

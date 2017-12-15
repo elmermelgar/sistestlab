@@ -63,7 +63,7 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="name" name="name" class="form-control" placeholder="Código"
-                                   value="{{$examen? $examen->name:old('name')}}" required @if($examen) readonly @endif>
+                                   value="{{$examen? $examen->name:old('name')}}" required @if($examen) @endif>
                         </div>
                     </div>
                     <div class="form-group">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="precio" class="control-label col-md-3 col-sm-3 col-xs-12"> Precio
+                        <label for="precio" class="control-label col-md-3 col-sm-3 col-xs-12"> Precio Sugerido
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">

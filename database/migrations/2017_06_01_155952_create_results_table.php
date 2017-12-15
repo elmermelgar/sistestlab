@@ -26,6 +26,7 @@ class CreateResultsTable extends Migration
             $table->integer('exam_detail_id');
             $table->integer('examen_paciente_id');
             $table->string('result');
+            $table->boolean('out_range')->default(false);
             $table->string('observation')->nullable();
             $table->integer('protozoarios_type_id')->nullable();
             $table->integer('spermogram_modality_id')->nullable();

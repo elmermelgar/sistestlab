@@ -17,7 +17,7 @@ class Results extends Model
      * @var array
      */
     protected $fillable = [
-        'exam_detail_id', 'examen_paciente_id', 'result', 'observation', 'protozoarios_type_id', 'spermogram_modality_id'
+        'exam_detail_id', 'examen_paciente_id', 'result', 'out_range', 'observation', 'protozoarios_type_id', 'spermogram_modality_id'
     ];
 
     /**
