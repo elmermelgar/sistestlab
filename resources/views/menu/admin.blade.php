@@ -9,6 +9,7 @@
         <li><a href="{{url('perfiles')}}">Perfiles</a></li>
         <li><a href="{{url('examenes')}}">Exámenes</a></li>
         <li><a href="{{url('bonos')}}">Bonos</a></li>
+        <li><a href="{{url('antibioticos')}}">Antibióticos</a></li>
     </ul>
 </li>
 @include('menu.sucursal')

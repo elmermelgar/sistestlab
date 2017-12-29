@@ -1,6 +1,6 @@
 @charset "UTF-8";
 .left_col {
-    background: #2A3F54;
+    background: #23527c;
 }
 
 .nav-sm .container.body .col-md-3.left_col {
@@ -263,7 +263,7 @@ body .container.body .right_col {
 .nav_title {
     width: 230px;
     float: left;
-    background: #2A3F54;
+    background: #23527c;
     border-radius: 0;
     height: 57px;
 }
@@ -2027,7 +2027,7 @@ h4.graph_title {
 .tile-stats .icon {
     width: 15px;
     height: 15px;
-    color: #26B99A;
+    color: #00acff;
     position: absolute;
     right: 53px;
     top: 12px;

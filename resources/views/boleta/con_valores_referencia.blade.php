@@ -9,11 +9,11 @@ $cuenta3 = count($result3);
             <thead>
             <tr id="tr_proto">
 
-                <th style="line-height: 5px;">Parametro</th>
-                <th style="text-align: center; line-height: 0px;">Resultado</th>
-                <th style="text-align: center; line-height: 0px;">Unidades</th>
-                <th style="text-align: center; line-height: 0px;">Valores de Referencia</th>
-                <th style="text-align: center; line-height: 0px;">Observación</th>
+                <th id="th_x" style="line-height: 5px;background:#e0e0e0">Parametro</th>
+                <th id="th_x" style="text-align: center; line-height: 1px;background:silver">Resultado</th>
+                <th id="th_x" style="text-align: center; line-height: 1px;background:#e0e0e0">Unidades</th>
+                <th id="th_x" style="text-align: center; line-height: 1px;background:#e0e0e0">Valores de Referencia</th>
+                <th id="th_x" style="text-align: center; line-height: 1px;background:#e0e0e0">Observación</th>
             </tr>
             </thead>
             <tbody>

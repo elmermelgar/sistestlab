@@ -66,8 +66,8 @@
                         <br/>
 
                         <div>
-                            <h1><i class="fa fa-flask"></i> TESTLAB</h1>
-                            <p>©2016 Todos los derechos reservados. SISTESTLAB</p>
+                            <h1><i class="fa fa-flask"></i> Systestlab </h1>
+                            <p>©2018 Todos los derechos reservados. Systestlab </p>
                         </div>
                     </div>
                 </form>

@@ -200,7 +200,7 @@
         <!-- footer content -->
         <footer id="footer">
             <div class="pull-right">
-                Derechos reservados <a href="#" target="_blank">Testlab</a>
+                Derechos reservados <a href="#" target="_blank">Systestlab </a>
             </div>
             <div class="clearfix"></div>
         </footer>

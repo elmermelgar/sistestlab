@@ -1,6 +1,6 @@
 @media print {
 
-  #sidebar-menu, #profile, #top-nav, #footer, #miga, #botones, #rem_ant {
+  #sidebar-menu, header, footer, #profile, #top-nav, #footer, #miga, #botones, #rem_ant {
     display: none !important;
   }
   #titulo{
@@ -8,9 +8,11 @@
     float: left;
   }
   #logo_boleta{
-    width: 225px;
-    float: left;
-    padding-top: 20px;
+    width: 100%;
+    background-color: #00b3ee;
+  }
+  #logo_boleta img{
+    margin: auto;
   }
   #all{
     font-size: 12px;
@@ -48,6 +50,7 @@
   }
   #tr_proto{
     font-size: 8px;
+    background: #E0E0E0;
   }
   #panel_comp{
     width: 100%;
@@ -57,5 +60,12 @@
   }
   #test{
     font-size: 12px;
+  }
+  table{
+    border-spacing: 0px;
+    border-collapse: separate;
+  }
+  #th_x{
+    background: #E0E0E0 !important;
   }
 }

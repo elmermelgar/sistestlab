@@ -95,6 +95,14 @@ Route::group(['prefix' => 'bonos', 'middleware' => ['permission:admin_bonos']], 
     Route::post('store', 'BonoController@store');
 });
 
+Route::group(['prefix' => 'antibioticos', 'middleware' => ['permission:admin_examenes']], function () {
+
+    Route::get('/', 'AntibioticosController@index');
+    Route::get('create', 'AntibioticosController@create');
+    Route::get('{id}/edit', 'AntibioticosController@edit');
+    Route::post('delete', 'AntibioticosController@delete');
+    Route::post('store', 'AntibioticosController@store');
+});
 
 Route::group(['prefix' => 'examenes', 'middleware' => ['permission:admin_examenes']], function () {
 

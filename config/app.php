@@ -163,6 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -234,6 +235,7 @@ return [
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Notify' => Jleon\LaravelPnotify\Notify::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

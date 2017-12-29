@@ -38,12 +38,22 @@
                         <i class="fa fa-user-plus"></i> Nuevo Exámen
                     </div>
                 </a>
-                <div class="col-md-3 col-sm-4 col-xs-12 form-group pull-right top_search" style="margin-right: 5%">
+                <div class="col-md-6  form-group pull-right top_search" style="margin-right: 12%; text-align: center">
                     <form class="form-group" action="{{ url('examenes') }}" method="GET">
-                        <div class="input-group">
-                            <input class="form-control" name="display_name" placeholder="Buscar examen...">
+                        <div class="input-group  col-md-6 " style="float: left">
+                            <select class="form-control" name="category" style="border-radius: 25px 0px 0px 25px;">
+                                <option value="0">Seleccione una categoría...</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="input-group col-md-6" style="float: right;">
+                            <input class="form-control" style="border-radius: 0px 0px 0px 0px;" name="display_name" placeholder="Buscar examen...">
+
                             <span class="input-group-btn">
-                      <button class="btn btn-default">Buscar</button>
+
+                      <button class="btn btn-default" style="background: #1ABB9C; color: #FFFFFF">Buscar</button>
                     </span>
                         </div>
                     </form>

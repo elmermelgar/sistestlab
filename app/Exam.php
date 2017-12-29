@@ -64,11 +64,18 @@ class Exam extends Model
         return $this->belongsToMany('App\Activo', 'exam_activo')->withPivot(['cantidad']);
     }
 
-    //Busqueda de Examenes
+    //Busqueda de Examenes por nombre
     public function scopeFilter($query, $name)
     {
         if (trim($name) != "") {
             $query->where('display_name', "~*", $name);
+        }
+    }
+    //Busqueda de Examenes por Categoria
+    public function scopeCategory($query, $cat)
+    {
+        if (trim($cat) != 0) {
+            $query->where('exam_category_id', "=", $cat);
         }
     }
 

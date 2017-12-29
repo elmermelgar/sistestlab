@@ -38,7 +38,8 @@ class ExamController extends Controller
      */
     public function index(Request $request)
     {
-        return view('examen.index', ['examenes' => Exam::filter($request->get('display_name'))->paginate(20)]);
+        return view('examen.index', ['examenes' => Exam::filter($request->get('display_name'))->category($request->get('category'))->paginate(20),
+            'categories' => Exam_category::all()]);
     }
 
     /**
