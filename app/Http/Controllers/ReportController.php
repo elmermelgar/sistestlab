@@ -131,7 +131,6 @@ class ReportController extends Controller
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
     }
 
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -144,7 +143,6 @@ class ReportController extends Controller
             'profiles' => $profiles
         ]);
     }
-
 
     /**
      * @param Request $request
@@ -188,7 +186,6 @@ class ReportController extends Controller
         ]);
     }
 
-
     /**
      * @param Request $request
      * @return mixed
@@ -212,6 +209,333 @@ class ReportController extends Controller
             'profile_id' => $request->profile_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function registro()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.registro', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_registro(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_registro.jasper';
+        $file_name = 'rpt_registro_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
+            'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function registro_detalle()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.registro_detalle', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_registro_detalle(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_registro_detalle.jasper';
+        $file_name = 'rpt_registro_detalle_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
+            'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lista_factura()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.lista_factura', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_lista_factura(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_lista_factura.jasper';
+        $file_name = 'rpt_lista_factura_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
+            'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lista_anulada()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.lista_anulada', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_lista_anulada(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_lista_anulada.jasper';
+        $file_name = 'rpt_lista_anulada_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
+            'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lista_niveles()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.lista_niveles', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_lista_niveles(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+            'fecha_inicio' => 'required|date_format:d/m/Y',
+            'fecha_fin' => 'required|date_format:d/m/Y',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_lista_niveles.jasper';
+        $file_name = 'rpt_lista_niveles_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
+            'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lista_examen()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.lista_examen', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_lista_examen(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_lista_examen.jasper';
+        $file_name = 'rpt_lista_examen_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lista_origen()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.lista_origen', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_lista_origen(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_lista_origen.jasper';
+        $file_name = 'rpt_lista_origen_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function lista_proveedor()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.lista_proveedor', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_lista_proveedor(Request $request)
+    {
+        $compiled_file = $this->report_path . 'rpt_lista_proveedor.jasper';
+        $file_name = 'rpt_lista_proveedor_' . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function existencias()
+    {
+        $sucursales = \App\Sucursal::all();
+        return view('report.existencias', ['sucursales' => $sucursales]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_existencias(Request $request)
+    {
+        $request->validate([
+            'sucursal_id' => 'required|integer|min:1',
+        ]);
+
+        $compiled_file = $this->report_path . 'rpt_existencias.jasper';
+        $file_name = 'rpt_existencias_' . $request->sucursal_id . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'sucursal_id' => $request->sucursal_id,
+            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+        ];
+
+        return $this->process($compiled_file, $output_file, $parameters, $file_name);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
+    public function rpt_factura(Request $request)
+    {
+        if (!$factura = \App\Factura::find($request->factura_id)) {
+            \Jleon\LaravelPnotify\Notify::danger('La factura especificada no existe');
+            return back();
+        }
+        $compiled_file = $this->report_path . 'rpt_factura.jasper';
+        $file_name = 'rpt_factura_' . ($factura->numero ?: $factura->id) . '_' . Carbon::now()->format('Ymd');
+        $output_file = $this->report_path . $file_name;
+
+        $parameters = [
+            'factura_id' => $request->factura_id,
             'LoggedInUsername' => '"' . \Auth::user()->name . '"',
         ];
 
@@ -257,7 +581,7 @@ class ReportController extends Controller
 
         return Response::make(file_get_contents($output_file . $file_extension), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => "inline; filename='$file_name.$file_extension'"
+            'Content-Disposition' => "inline; filename='$file_name$file_extension'"
         ]);
     }
 

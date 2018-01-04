@@ -17,8 +17,6 @@
                         <label for="modal_profile_id">Perfil o examen</label>
                         <select id="modal_profile_id" name="modal_profile_id" class="form-control"
                                 required style="width: 100%">
-                            <option value="1" selected="selected">prueba</option>
-                            <option value="2" selected="selected">prueba2</option>
                         </select>
                     </div>
                     <div class="form-group">

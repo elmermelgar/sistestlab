@@ -49,7 +49,7 @@ class SucursalController extends Controller
         }
         if ($sucursal = Sucursal::find($id)) {
             $end_date = \Carbon\Carbon::now()->toDateString();
-            $start_date = \Carbon\Carbon::now()->subDay(7)->toDateString();
+            $start_date = \Carbon\Carbon::now()->subDay(3)->toDateString();
             $caja = $this->sucursalService->getBox($id);
             $registro = $this->sucursalService->getRegistryByDate($id, $start_date, $end_date);
             setlocale(LC_TIME, 'es_SV.UTF-8', 'es');

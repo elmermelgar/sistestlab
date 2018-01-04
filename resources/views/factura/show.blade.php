@@ -113,10 +113,14 @@
                             </form>
                         </div>
                     @elseif(!$factura->credito_fiscal&&$factura->estado->name!=\App\Factura::ANULADA)
-                        <div class="alignright">
+                        <div class="alignleft">
                             <a class="btn btn-default btn-lg" data-toggle="modal"
                                data-target="#modal_numero"><i class="fa fa-hashtag"></i> Cambiar número
                             </a>
+                        </div>
+                        <div class="alignright">
+                            <a target="_blank" href="{{route('report.factura',$factura->id)}}"
+                               class="btn btn-primary btn-lg"><i class="fa fa-file-pdf-o"></i> PDF para imprimir</a>
                         </div>
                     @endif
 

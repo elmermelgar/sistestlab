@@ -114,12 +114,12 @@
                             <td>{{$caja? $caja->billing:'--'}}</td>
                         </tr>
                         <tr>
-                            <th>Abierta a las</th>
-                            <td>{{$caja? $caja->open_time:'--'}}</td>
+                            <th>Abierta el</th>
+                            <td>{{$caja? $caja->open_date.'  '.$caja->open_time:'--'}}</td>
                         </tr>
                         <tr>
-                            <th>Cerrada a las</th>
-                            <td>{{$caja? $caja->close_time:'--'}}</td>
+                            <th>Cerrada el</th>
+                            <td>{{$caja? $caja->close_date.'  '.$caja->close_time:'--'}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -146,7 +146,7 @@
             <div class="x_panel">
 
                 <div class="x_title">
-                    <h3>Registro
+                    <h3>Registro <small>últimos tres días</small>
                         <a href="{{ url("sucursales/$sucursal->id/registry") }}" title="Ver Registro"
                            style="float: right">
                             <div class="btn btn-primary">

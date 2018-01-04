@@ -33,7 +33,7 @@
                 </div>
                 <div class="x_content">
                     <p>Cantidad de prueba especifíca por laboratorio de referencia e ingreso en un rango de fechas.</p>
-                    <form method="POST" action="{{route('report.ref.especifica')}}">
+                    <form method="POST" action="{{route('report.ref_especifica')}}">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="customer_id">Centro de origen</label>

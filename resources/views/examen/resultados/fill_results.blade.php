@@ -69,7 +69,7 @@
                                     <span
                                             class="required">*</span>
                                 </label>
-                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                <div class="col-md-9 col-sm-6 col-xs-12">
                                     @if($detail->referenceType->name == 'protozoarios')
 
                                     @elseif($detail->referenceType->name == 'espermograma')
@@ -138,7 +138,7 @@
                                             @endif
                                         @endforeach
                                     @else
-                                        <div class="col-md-4 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="result[]"
                                                    value="@if($result){{$result->result}}@endif"
                                                    required="required"
@@ -149,7 +149,7 @@
                                             {{--<span class="fa  form-control-feedback right"--}}
                                             {{--aria-hidden="true"><b>ml-static</b></span>--}}
                                         </div>
-                                        <div class="col-md-7 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                             <input type="text" name="observation[]"
                                                    value="@if($result){{$result->observation}}@endif"
                                                    class="form-control"
@@ -157,12 +157,13 @@
                                         </div>
                                         @if($detail->referenceType->name == 'default')
                                             {{--@php(dump($result->out_range))--}}
-                                            <div class="col-md-1 col-sm-6 col-xs-12 form-group has-feedback">
-                                                <input type="checkbox" name="out_range[]"
-                                                       id="out_range_{{$loop->iteration}}"
-                                                       value="1" @if($result? $result->out_range:false) checked
-                                                       @endif title="¿Fuera del rango de referencia?"
-                                                       class="form-control" style="width: 32px; margin-top: -1px">
+                                            <div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">
+                                                <label><input type="checkbox" name="out_range[]"
+                                                              id="out_range_{{$loop->iteration}}"
+                                                              value="1" @if($result? $result->out_range:false) checked
+                                                              @endif title="¿Fuera del rango de referencia?"
+                                                              style="width: 32px; margin-top: -1px"> Fuera de
+                                                    rango</label>
                                                 <input type="hidden" id="out_range_{{$loop->iteration}}x"
                                                        name="out_range[]" value="0">
                                             </div>

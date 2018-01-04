@@ -8,6 +8,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{url('/examenes')}}">Exámenes</a></li>
+            <li><a href="{{route('examenes.detail',$examen->id)}}">{{$examen->name}}</a></li>
             <li>{{$detail? $detail->name_detail:'Nuevo'}}</li>
         </ol>
         <a href="{{ url('examenes/'.$examen->id) }}"

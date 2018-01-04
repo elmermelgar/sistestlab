@@ -42,7 +42,7 @@
 			<defaultValueExpression><![CDATA[DATE(2017,12,31)]]></defaultValueExpression>
 		</parameter>
 		<queryString language="SQL">
-			<![CDATA[select * from registry( $P{sucursal_id}, $P{fecha_inicio}, $P{fecha_fin} )]]>
+			<![CDATA[select * from get_registry_by_date( $P{sucursal_id}, $P{fecha_inicio}, $P{fecha_fin} )]]>
 		</queryString>
 		<field name="sucursal_id" class="java.lang.Integer"/>
 		<field name="date" class="java.sql.Date"/>

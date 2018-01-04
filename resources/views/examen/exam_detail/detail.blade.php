@@ -14,7 +14,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('/home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{ url('examenes') }}">Exámenes</a></li>
-            <li>Detalle de Examen</li>
+            <li>{{$examen->name}}</li>
         </ol>
         <a href="{{ url('examenes') }}" style="float: right; margin-top: -50px; margin-right: 20px; font-size: 9px"
            class="btn btn-dark"><i class="fa fa-reply-all" aria-hidden="true"></i> Regresar</a>
