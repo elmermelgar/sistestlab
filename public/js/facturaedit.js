@@ -193,6 +193,10 @@ $(document).ready(function () {
         templateSelection: formatRepoSelectionProfile
     });
 
+    $("#modal_profile_id").append('<option value="initial1" selected="selected">initial1</option>');
+    $("#modal_profile_id").append('<option value="initial2" selected="selected">initial2</option>');
+    $("#modal_profile_id").trigger('change');
+
 
     $("#modal_paciente_id").select2({
         placeholder: 'Seleccione un paciente',

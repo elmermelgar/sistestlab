@@ -26,18 +26,18 @@ class CreatePaymentsTable extends Migration
 
         DB::statement('
         create or replace view payments_vw as
-        select t.sucursal_id, t.id transaction_id, p.factura_id , t.amount, t.type from payments p join transactions t
-        on p.transaction_id=t.id;
+        select t.sucursal_id, t.id transaction_id, p.factura_id , t.amount, t.type, t.date, t.time from payments p 
+        join transactions t on p.transaction_id=t.id;
         ');
 
         DB::statement('
         create or replace function payments_tg() returns trigger as
         $tg_pago$
         declare
-        transaction_id integer;
+            transaction_id integer;
         begin
-            transaction_id=(select nextval(\'transactions_id_seq\'::regclass));
-            insert into transactions(id, sucursal_id, amount,type) values(transaction_id,new.sucursal_id,new.amount,new.type);
+            insert into transactions(sucursal_id,amount,type) 
+                values(new.sucursal_id,new.amount,new.type) returning id into transaction_id;
             insert into payments(transaction_id,factura_id) values(transaction_id,new.factura_id);
             return new;
         end;

@@ -11,7 +11,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
             <li><a href="{{ route('report') }}">Reportes</a></li>
-            <li>Laboratorios de referencia</li>
+            <li>Pruebas facturadas</li>
         </ol>
     </div>
 
@@ -28,18 +28,19 @@
         <div class="col-xs-8 col-xs-offset-2">
             <div class="x_panel">
                 <div class="x_title">
-                    <h3>Laboratorios de referencia</h3>
+                    <h3>Pruebas facturadas</h3>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <p>Lista de pruebas por laboratorio de referencia e ingresos en un rango de fechas.</p>
-                    <form method="POST" action="{{route('report.referencia')}}">
+                    <p>Lista de pruebas e ingresos por cliente o laboratorio de referencia en un rango de fechas.</p>
+                    <form method="POST" action="{{route('report.pruebas')}}">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="customer_id">Centro de origen</label>
                             <select id="customer_id" name="customer_id" class="form-control" required>
                                 @foreach($customers as $customer)
-                                    <option value="{{$customer->id}}">{{$customer->name}}</option>
+                                    <option value="{{$customer->id}}">{{$customer->name}}
+                                        {{$customer->trade_name? ' - '.$customer->trade_name:null}}</option>
                                 @endforeach
                             </select>
                         </div>

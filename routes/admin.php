@@ -46,15 +46,14 @@ Route::group(['prefix' => 'sucursal'], function () {
     Route::get('registry', 'SucursalController@registry');
 
     Route::group(['prefix' => 'caja', 'middleware' => ['permission:admin_caja']], function () {
-        Route::post('abrir', 'SucursalController@abrirCaja');
-        Route::post('cerrar', 'SucursalController@cerrarCaja');
+        Route::post('open', 'SucursalController@openBox')->name('sucursal.open_box');
+        Route::post('close', 'SucursalController@closeBox')->name('sucursal.close_box');
     });
 });
 
 Route::group(['prefix' => 'sucursales', 'middleware' => ['permission:admin_sucursales']], function () {
 
     Route::get('/', 'SucursalController@index');
-    Route::get('/view', 'SucursalController@view');
     Route::get('create', 'SucursalController@create');
     Route::get('{id}', 'SucursalController@show');
     Route::get('{id}/edit', 'SucursalController@edit');

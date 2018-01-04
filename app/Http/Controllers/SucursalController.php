@@ -38,15 +38,6 @@ class SucursalController extends Controller
     }
 
     /**
-     * Muestra una lista de las sucursales para la administración
-     * @return \Illuminate\Http\Response
-     */
-    public function view()
-    {
-        return view('sucursal.view', ['sucursales' => Sucursal::all()]);
-    }
-
-    /**
      * Muestra la sucursal especificada
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -57,8 +48,10 @@ class SucursalController extends Controller
             $id = Auth::user()->account->sucursal->id;
         }
         if ($sucursal = Sucursal::find($id)) {
-            $caja = $this->sucursalService->getCaja($id);
-            $registro = $this->sucursalService->getRegistro($id);
+            $end_date = \Carbon\Carbon::now()->toDateString();
+            $start_date = \Carbon\Carbon::now()->subDay(7)->toDateString();
+            $caja = $this->sucursalService->getBox($id);
+            $registro = $this->sucursalService->getRegistryByDate($id, $start_date, $end_date);
             setlocale(LC_TIME, 'es_SV.UTF-8', 'es');
             return view('sucursal.show', [
                 'sucursal' => $sucursal,
@@ -66,7 +59,7 @@ class SucursalController extends Controller
                 'registros' => $registro,
             ]);
         }
-        return response()->view('errors.404', [], 404);
+        return abort(404);
     }
 
     /**
@@ -110,7 +103,7 @@ class SucursalController extends Controller
             $sucursal = Sucursal::create($request->except(['id', '_token']));
         }
         Notify::success('Registro guardado correctamente');
-        return redirect('sucursales/' . $sucursal->id);
+        return redirect()->action('SucursalController@show', $sucursal->id);
     }
 
     /**
@@ -123,18 +116,18 @@ class SucursalController extends Controller
         if (is_null($id)) {
             $id = Auth::user()->account->sucursal->id;
         }
-        $page = $request->page;
         if ($sucursal = Sucursal::find($id)) {
+            $page = $request->page ?: 1;
             $count = BoxRegistry::where('sucursal_id', $id)->count();
-            $registro = $this->sucursalService->getRegistro($id, 10, $page);
-            $paginate = new LengthAwarePaginator($registro, $count, 10);
+            $registro = $this->sucursalService->getRegistry($id, 20, $page);
+            $paginate = new LengthAwarePaginator($registro, $count, 20);
             $paginate->setPath('');
             return view('sucursal.registry', [
                 'sucursal' => $sucursal,
                 'registros' => $paginate,
             ]);
         }
-        return response()->view('errors.404', [], 404);
+        return abort(404);
     }
 
     /**
@@ -142,9 +135,10 @@ class SucursalController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function abrirCaja(Request $request)
+    public function openBox(Request $request)
     {
-        if ($this->sucursalService->abrirCaja($request->id, Auth::user()->account_id, $request->cash)) {
+        $this->validate($request, ['id' => 'required|integer', 'cash' => 'nullable|numeric']);
+        if ($this->sucursalService->openBox($request->id, Auth::user()->account_id, $request->cash)) {
             Notify::success('La caja se ha abierto');
         } else {
             Notify::danger('Puede que la caja ya estuviese abierta');
@@ -157,8 +151,9 @@ class SucursalController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function cerrarCaja(Request $request)
+    public function closeBox(Request $request)
     {
+        $this->validate($request, ['id' => 'required|integer']);
         if ($this->sucursalService->cerrarCaja($request->id, Auth::user()->account_id)) {
             Notify::success('La caja se ha cerrado');
         } else {
@@ -174,19 +169,23 @@ class SucursalController extends Controller
      */
     public function image($id)
     {
-        $imagenes = Imagen::select(['imagenes.id', 'imagenes.file_name'])
-            ->join('imagen_categoria', 'imagenes.imagen_categoria_id', 'imagen_categoria.id')
-            ->where('imagen_categoria.name', 'categoria_sucursal')->get();
         if ($sucursal = Sucursal::find($id)) {
+            $imagenes = Imagen::select(['imagenes.id', 'imagenes.file_name'])
+                ->join('imagen_categoria', 'imagenes.imagen_categoria_id', 'imagen_categoria.id')
+                ->where('imagen_categoria.name', 'categoria_sucursal')->get();
             return view('sucursal.image', [
                 'sucursal' => $sucursal,
                 'imagenes' => $imagenes,
             ]);
         }
-        return response()->view('errors.404', [], 404);
+        return abort(404);
     }
 
-
+    /**
+     * Asocia una imagen a una sucursal
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function changeImage(Request $request)
     {
         if ($sucursal = Sucursal::find($request->id)) {

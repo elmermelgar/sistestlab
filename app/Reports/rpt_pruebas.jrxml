@@ -58,52 +58,52 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="90" splitType="Stretch">
+	<pageHeader>
+		<band height="136" splitType="Stretch">
 			<staticText>
-				<reportElement x="100" y="0" width="300" height="20" uuid="462f1024-b2d4-49b0-bb99-8b44b36fbaea"/>
+				<reportElement x="100" y="0" width="300" height="20" uuid="9869f8d6-a21f-46b4-8de7-e1e5779befa4"/>
 				<textElement textAlignment="Center">
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Servicios de Análisis y Estudios de Diagnóstico]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="24" width="200" height="20" uuid="62e465ad-1e4c-4ae8-a106-20b9c6791fc1">
+				<reportElement x="145" y="44" width="210" height="20" uuid="34c9bbda-13d7-44dd-b896-405e51a85091">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Laboratorios de referencia]]></text>
+				<text><![CDATA[Pruebas facturadas por cliente]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
-				<reportElement positionType="Float" x="0" y="20" width="100" height="20" uuid="e874660a-1989-49b4-998c-36f4994d311e"/>
+				<reportElement positionType="Float" x="0" y="20" width="100" height="20" uuid="2ca5668d-2af8-4fc6-9899-5b4715588742"/>
 				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="100" height="20" uuid="78d6d87e-6826-4188-a3c4-81fa5cba9489"/>
+				<reportElement x="0" y="0" width="100" height="20" uuid="7ebf8bb5-63a9-491b-a14d-52a54664e613"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Emisión:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="444" y="0" width="48" height="30" uuid="464e928f-8812-4859-aa20-c66f7ff3a891">
+				<reportElement x="444" y="0" width="48" height="30" uuid="6631cbe3-4a11-4275-b238-e83d0b50626c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="492" y="0" width="20" height="30" uuid="9205773d-6b2e-46a1-8557-ee45bc68599d">
+				<reportElement x="492" y="0" width="20" height="30" uuid="5afdc25e-9149-46f2-9021-799e80f2afbb">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA["/ " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="412" y="64" width="100" height="20" uuid="78e6eac4-b987-47db-acd9-32c17ae68c14">
+				<reportElement x="412" y="64" width="100" height="20" uuid="853291db-20e9-41f4-905d-928d172fd4d3">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -111,7 +111,7 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				<textFieldExpression><![CDATA[$P{LoggedInUsername}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="44" width="130" height="20" uuid="41f187e5-7e49-4a3d-9e79-6f127d86e57e"/>
+				<reportElement x="0" y="44" width="130" height="20" uuid="8d3914b5-0cd0-4a30-961a-ed1a6e9ef8ee"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -119,18 +119,18 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="64" width="130" height="20" uuid="9c4018d4-cfb1-49f0-b716-47f8a50efc03"/>
-				<text><![CDATA[RPT_REFERENCIA]]></text>
+				<reportElement x="0" y="64" width="130" height="20" uuid="c7fe1f48-d8a9-4eee-b8a4-89e91584a400"/>
+				<text><![CDATA[RPT_PRUEBAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="412" y="44" width="100" height="20" uuid="e8aa2584-9a43-4050-a80c-bf67fe0f72a7"/>
+				<reportElement x="412" y="44" width="100" height="20" uuid="376bcfd8-1f02-4095-891b-acb3cd7c30c1"/>
 				<textElement textAlignment="Right" markup="none">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Usuario:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="64" width="35" height="20" uuid="c9b5d2ab-72e1-4600-a1d3-8fa1bfd29978">
+				<reportElement x="150" y="64" width="35" height="20" uuid="b0087a7f-0dee-4126-ad90-5373c2f38386">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -140,7 +140,7 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				<text><![CDATA[Del ]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="185" y="64" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="3f425aeb-8aec-4c50-b983-b9813ae83857">
+				<reportElement x="185" y="64" width="70" height="20" isPrintWhenDetailOverflows="true" uuid="964f8a60-bd65-4d48-ad23-bb8c6dcd6976">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -150,7 +150,7 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="255" y="64" width="20" height="20" uuid="86a218c1-4707-4490-afb1-2872b8da080c">
+				<reportElement x="255" y="64" width="20" height="20" uuid="f602c923-b717-451c-a223-72376e5763cf">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top">
@@ -159,7 +159,7 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				<text><![CDATA[al]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="275" y="64" width="74" height="20" isPrintWhenDetailOverflows="true" uuid="7e0504a9-d337-423d-85ec-6bb71b1383f6">
+				<reportElement x="275" y="64" width="74" height="20" isPrintWhenDetailOverflows="true" uuid="5c22060b-1718-4fb1-a5d5-463485c01c9a">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -169,18 +169,24 @@ group by (c.name, p.name, p.display_name, ip.price, f.nivel);]]>
 				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="150" y="44" width="200" height="20" uuid="f85adbeb-7f3a-4d57-bc78-0c436c79ed06">
+				<reportElement x="202" y="100" width="310" height="20" uuid="d431e6c9-4e1f-4c18-915b-dd0111157f71">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 				</reportElement>
-				<textElement textAlignment="Center">
-					<font size="11" isBold="true"/>
+				<textElement textAlignment="Left">
+					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="100" width="202" height="20" uuid="c412be95-6d26-4c9e-a92e-e04892863d0b">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente o laboratorio de referencia:]]></text>
+			</staticText>
 		</band>
-	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">

@@ -17,6 +17,13 @@ class UserSeeder extends Seeder
     {
         $san_salvador = Sucursal::where('name', 'san_salvador')->get()->first();
 
+        $system_account = new Account();
+        $system_account->id = 0;
+        $system_account->sucursal_id = $san_salvador->id;
+        $system_account->first_name = 'System';
+        $system_account->phone_number = '00000000';
+        $system_account->save();
+
         $nelson_account = Account::create([
             'sucursal_id' => $san_salvador->id,
             'first_name' => 'Nelson',

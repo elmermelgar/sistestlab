@@ -83,9 +83,9 @@
                     <ul class="nav navbar-right panel_toolbox">
                         <li style="float: right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                     </ul>
-                    <h3 class="alignright">
+                    <h4 class="alignright" style="padding-top:5px">
                         <i style="float: right" class="fa fa-calendar"> {{strftime("%A, %d %B %Y")}}</i>
-                    </h3>
+                    </h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -95,49 +95,43 @@
                         <tr>
                             <th>Estado</th>
                             <td>
-                                @if(\App\Services\SucursalService::isOpen($sucursal->id))
+                                @if($caja? $caja->state:false)
                                     <span class="badge bg-green">Abierta</span>
                                 @else <span class="badge bg-red">Cerrada</span>
                                 @endif
                             </td>
                         </tr>
                         <tr>
-                            <th>Venta (USD)</th>
-                            <td>{{isset($caja['sale'])? number_format($caja['sale'],2):'--'}}</td>
-                        </tr>
-                        <tr>
                             <th>Efectivo (USD)</th>
-                            <td>{{isset($caja['cash'])? number_format($caja['cash'],2):'--'}}</td>
+                            <td>{{$caja? $caja->cash:'--'}}</td>
                         </tr>
                         <tr>
                             <th>Débito (USD)</th>
-                            <td>{{isset($caja['debit'])? number_format($caja['debit'],2):'--'}}</td>
+                            <td>{{$caja? $caja->debit:'--'}}</td>
                         </tr>
                         <tr>
-                            <th>Deuda (USD)</th>
-                            <td>{{isset($caja['debt'])? number_format($caja['debt'],2):'--'}}</td>
+                            <th>Facturación (USD)</th>
+                            <td>{{$caja? $caja->billing:'--'}}</td>
                         </tr>
                         <tr>
-                            <th>Costo (USD)</th>
-                            <td>{{isset($caja['cost'])? number_format($caja['cost'],2):'--'}}</td>
+                            <th>Abierta a las</th>
+                            <td>{{$caja? $caja->open_time:'--'}}</td>
                         </tr>
                         <tr>
-                            <th>Abierta en</th>
-                            <td>{{$caja['opening']? $caja['opening']->time:'--'}}</td>
-                        </tr>
-                        <tr>
-                            <th>Cerrada en</th>
-                            <td>{{$caja['closing']? $caja['closing']->time:'--'}}</td>
+                            <th>Cerrada a las</th>
+                            <td>{{$caja? $caja->close_time:'--'}}</td>
                         </tr>
                         </tbody>
                     </table>
 
                     @permission('admin_caja')
 
-                    @if(\App\Services\SucursalService::isOpen($sucursal->id))
-                        <a class="btn btn-danger" data-toggle="modal" data-target="#modal_cerrar">Cerrar Caja</a>
+                    @if($caja? $caja->state:false)
+                        <a class="btn btn-danger" data-toggle="modal" data-target="#modal_cerrar">
+                            <i class="fa fa-times fa-fw"></i>Cerrar Caja</a>
                     @else
-                        <a class="btn btn-success" data-toggle="modal" data-target="#modal_abrir">Abrir Caja</a>
+                        <a class="btn btn-success" data-toggle="modal" data-target="#modal_abrir">
+                            <i class="fa fa-check fa-fw"></i>Abrir Caja</a>
                     @endif
 
                     @endpermission
@@ -165,68 +159,7 @@
                 </div>
                 <div class="x_content">
 
-                    <table class="table table-hover table-striped" id="datatable">
-                        <thead>
-                        <tr>
-                            <th data-field="stamp" data-sortable="true">Fecha</th>
-                            <th data-field="venta" data-sortable="true">Venta (USD)</th>
-                            <th data-field="hora" data-sortable="true">Hora</th>
-                            <th data-field="estado" data-sortable="true">Estado</th>
-                            <th data-field="efectivo" data-sortable="true">Efectivo</th>
-                            <th data-field="debito" data-sortable="true">Débito</th>
-                            <th data-field="credito" data-sortable="true">Deuda</th>
-                            <th data-field="costo" data-sortable="true">Costo</th>
-                            <th data-field="user" data-sortable="true">Usuario</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        @foreach($registros as $registro)
-                            <tr>
-                                <td rowspan="2">{{$registro['opening']->date}}</td>
-                                <td rowspan="2">{{number_format($registro['sale'],2)}}</td>
-                                <td>{{$registro['opening']->time}}</td>
-                                <td>
-                                    @if($registro['opening']->state) Abierta
-                                    @else Cerrada
-                                    @endif
-                                </td>
-                                <td>{{$registro['opening']->cash}}</td>
-                                <td>{{$registro['opening']->debit}}</td>
-                                <td>{{$registro['opening']->debt}}</td>
-                                <td>{{$registro['opening']->cost}}</td>
-                                <td>{{$registro['opening']->account? $registro['opening']->account->name():'Sistema'}}</td>
-                            </tr>
-
-                            @if(isset($registro['closing']))
-                                <tr>
-                                    <td>{{$registro['closing']->time}}</td>
-                                    <td>
-                                        @if($registro['closing']->state) Abierta
-                                        @else Cerrada
-                                        @endif
-                                    </td>
-                                    <td>{{$registro['closing']->cash}}</td>
-                                    <td>{{$registro['closing']->debit}}</td>
-                                    <td>{{$registro['closing']->debt}}</td>
-                                    <td>{{$registro['closing']->cost}}</td>
-                                    <td>{{$registro['closing']->account? $registro['closing']->account->name():'Sistema'}}</td>
-                                </tr>
-                            @else
-                                <tr>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                </tr>
-                            @endif
-                        @endforeach
-                        </tbody>
-
-                    </table>
+                    @include('sucursal.registry_detail')
 
                 </div>
             </div>
@@ -243,7 +176,7 @@
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modal_label">Abrir Caja</h4>
                 </div>
-                <form class="form form-inline" method="post" action="{{url('sucursal/caja/abrir')}}">
+                <form class="form form-inline" method="post" action="{{route('sucursal.open_box')}}">
                     {{csrf_field()}}
                     <div class="modal-body">
                         <div class="form-group hidden">
@@ -274,7 +207,7 @@
                                 aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="modal_label">Cerrar Caja</h4>
                 </div>
-                <form method="post" action="{{url('sucursal/caja/cerrar')}}">
+                <form method="post" action="{{route('sucursal.close_box')}}">
                     {{csrf_field()}}
                     <div class="modal-body">
                         <div class="form-group hidden">
@@ -282,11 +215,13 @@
                             <input type="hidden" id="id" name="id" value="{{$sucursal->id}}" required readonly>
                         </div>
                         <p>Estado actual de la caja:</p>
-                        <p><strong>Venta (USD): </strong>{{number_format($caja['sale'],2)}}</p>
-                        <p><strong>Efectivo (USD): </strong>{{number_format($caja['cash'],2)}}</p>
-                        <p><strong>Débito (USD): </strong>{{number_format($caja['debit'],2)}}</p>
-                        <p><strong>Deuda (USD): </strong>{{number_format($caja['debt'],2)}}</p>
-                        <p><strong>Costo (USD): </strong>{{number_format($caja['cost'],2)}}</p>
+                        <p><strong>Facturación (USD): </strong>{{$caja? $caja->billing:null}}</p>
+                        <p><strong>Pagos (USD): </strong>{{$caja? $caja->payment:null}}</p>
+                        <p><strong>Cobros (USD): </strong>{{$caja? $caja->charge:null}}</p>
+                        <p><strong>Efectivo (USD): </strong>{{$caja? $caja->cash:null}}</p>
+                        <p><strong>Débito (USD): </strong>{{$caja? $caja->debit:null}}</p>
+                        <p><strong>Deuda (USD): </strong>{{$caja? $caja->debt:null}}</p>
+                        <p><strong>Costo (USD): </strong>{{$caja? $caja->cost:null}}</p>
                         <p>¿Está seguro de cerrar la caja?</p>
                     </div>
                     <div class="modal-footer">

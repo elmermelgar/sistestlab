@@ -44,11 +44,12 @@ class CreateBonosTable extends Migration
         create or replace function bono_recolector_tg() returns trigger as
         $BODY$
         declare
-        transaction_id integer;
+            transaction_id integer;
         begin
-            transaction_id=(select nextval(\'transactions_id_seq\'::regclass));
-            insert into transactions(id, sucursal_id, amount,type) values(transaction_id,new.sucursal_id,new.amount,new.type);
-            insert into bono_recolector(transaction_id,bono_id,recolector_id) values(transaction_id,new.bono_id,new.recolector_id);
+            insert into transactions(sucursal_id,amount,type) values(new.sucursal_id,new.amount,new.type) 
+                returning id into transaction_id;
+            insert into bono_recolector(transaction_id,bono_id,recolector_id) 
+                values(transaction_id,new.bono_id,new.recolector_id);
             return new;
         end;
         $BODY$ 

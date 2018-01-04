@@ -15,7 +15,7 @@ class EstadoSeeder extends Seeder
 
         $estados = [
             [
-                'name' => 'uso',
+                'name' => 'en_uso',
                 'display_name' => 'En uso',
                 'tipo' => 'activo',
             ],

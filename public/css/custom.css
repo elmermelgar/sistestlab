@@ -420,7 +420,7 @@ body .container.body .right_col {
 
 body {
     color: #2A3F54;
-    background: #2A3F54;
+    background: #23527c;
     font-family: Arial, "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
     font-size: 15px;
     font-weight: 400;
@@ -655,7 +655,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li:before {
-    background: #425668;
+    background: rgba(255, 255, 255, 0.75);
     bottom: auto;
     content: "";
     height: 8px;
@@ -669,7 +669,7 @@ a:hover, a:focus {
 }
 
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid #425668;
+    border-left: 1px solid rgba(255, 255, 255, 0.75);
     bottom: 0;
     content: "";
     left: 27px;
@@ -716,7 +716,7 @@ a:hover, a:focus {
 
 .nav.side-menu > li.active > a {
     text-shadow: rgba(0, 0, 0, 0.25) 0 -1px 0;
-    background: linear-gradient(#334556, #2C4257), #2A3F54;
+    background: linear-gradient(#334556, #2C4257), #23527c;
     box-shadow: rgba(0, 0, 0, 0.25) 0 1px 0, inset rgba(255, 255, 255, 0.16) 0 1px 0;
 }
 
@@ -1772,7 +1772,7 @@ span.right {
     padding: 5px 0 0 0;
     position: fixed;
     width: 230px;
-    background: #2A3F54;
+    background: #23527c;
 }
 
 .sidebar-footer a {

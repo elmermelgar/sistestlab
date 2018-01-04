@@ -51,11 +51,11 @@
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>RPT_REFERENCIA</td>
-                        <td>Laboratorios de referencia</td>
-                        <td>Lista de pruebas por laboratorio de referencia e ingresos en un rango de fechas.
+                        <td>RPT_PRUEBAS</td>
+                        <td>Pruebas facturadas</td>
+                        <td>Lista de pruebas e ingresos por cliente o laboratorio de referencia en un rango de fechas.
                         </td>
-                        <td><a href="{{route('report.referencia')}}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+                        <td><a href="{{route('report.pruebas')}}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
                         </td>
                     </tr>
                     <tr>

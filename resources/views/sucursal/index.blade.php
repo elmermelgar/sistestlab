@@ -2,7 +2,7 @@
 
 @section('styles')
     <style>
-        .profile_details{
+        .profile_details {
             clear: inherit !important;
         }
     </style>
@@ -47,17 +47,21 @@
                         <div class="well profile_view col-md-12">
                             <div class="col-sm-12">
                                 <h4 class="brief"><i>Sucursal</i></h4>
-
                                 <div class="col-xs-12">
                                     <img alt="TestLab" class="img-sucursal img-responsive" src="
                                     @if($sucursal->imagen)
                                     {{url('/storage/images/'.$sucursal->imagen->file_name)}}
                                     @else
                                     {{url('/storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}
-                                    @endif " >
+                                    @endif ">
                                 </div>
                                 <div class="left col-xs-12">
-                                    <h2>{{$sucursal->display_name}}</h2>
+                                    <h2>{{$sucursal->display_name}}
+                                        @if(\App\Services\SucursalService::isOpen($sucursal->id))
+                                            <span class="badge bg-green">Abierta</span>
+                                        @else <span class="badge bg-red">Cerrada</span>
+                                        @endif
+                                    </h2>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-building"></i> Dirección: {{$sucursal->direccion}}</li>
                                         <li><i class="fa fa-phone"></i> Telefono: {{$sucursal->telefono}}</li>

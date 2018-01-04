@@ -2,7 +2,6 @@
 
 @section('styles')
     <link href="{{url('gentallela/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
-    <link href="{{url('gentallela/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -49,7 +48,7 @@
                     </div>
                     <div class="x_content">
 
-                        <table id="datatable" class="table table-striped table-hover">
+                        <table id="datatable" class="table table-striped table-hover table-condensed">
                             <thead>
                             <tr>
                                 <th>Nombre</th>
@@ -62,7 +61,6 @@
                             </tr>
                             </thead>
 
-
                             <tbody>
                             @foreach($proveedores as $proveedor)
                                 <tr>
@@ -73,13 +71,13 @@
                                     <td>{{$proveedor->ubicacion}}</td>
                                     <td>{{$proveedor->otros}}</td>
                                     <td style="text-align: center">
-                                        <a href="{{route('proveedores.edit',$proveedor->id)}}" class="btn btn-warning"
+                                        <a href="{{route('proveedores.edit',$proveedor->id)}}" class="btn btn-primary"
                                            title="Editar Proveedor">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
                                         </a>
                                         <a href="#" onclick="eliminar_proveedor({{$proveedor->id}})"
                                            class="btn btn-danger" title="Eliminar Proveedor">
-                                            <i class="fa fa-university" aria-hidden="true"></i>
+                                            <i class="fa fa-times" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -107,11 +105,9 @@
             });
 
         });
-    </script>
-    <script>
+
         $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
-    </script>
-    <script>
+
         $('#flash-overlay-modal').modal();
 
         function eliminar_proveedor(id) {

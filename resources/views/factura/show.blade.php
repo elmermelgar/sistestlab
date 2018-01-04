@@ -70,7 +70,7 @@
                     </tbody>
                 </table>
                 <div class="col-sm-12">
-                    <div class="alignright"><h4>TOTAL USD: {{$factura->total?:number_format($total,2)}} </h4></div>
+                    <div class="alignright"><h4>TOTAL USD: {{number_format($total,2)?:$factura->total}} </h4></div>
                 </div>
                 <br><br>
                 <div class="col-sm-12">
@@ -150,7 +150,7 @@
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$payment->amount}}</td>
-                                    <td>@if($payment->Type==\App\Transaction::CASH)Efectivo
+                                    <td>@if($payment->type==\App\Transaction::CASH)Efectivo
                                         @else Débito
                                         @endif
                                     </td>

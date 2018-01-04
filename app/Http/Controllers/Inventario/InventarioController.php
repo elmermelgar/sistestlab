@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Inventario;
 
 use App\Activo;
 use App\Estado;
-use App\Existencia;
 use App\Inventario;
 use App\Services\InventarioService;
 use App\Sucursal;
@@ -57,8 +56,7 @@ class InventarioController extends Controller
      * Metodo para actualizar los datos del inventario.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  int $id1
-     * @param  int $id2
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)

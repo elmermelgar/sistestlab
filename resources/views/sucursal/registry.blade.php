@@ -22,8 +22,6 @@
         </ul>
     @endif
 
-    @permission('admin_caja')
-
     <div class="x_panel">
         <div class="x_title">
             <h3>Sucursal {{$sucursal->display_name}} </h3>
@@ -31,77 +29,12 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
-
-            <table class="table table-hover table-striped" id="datatable">
-                <thead>
-                <tr>
-                    <th data-field="stamp" data-sortable="true">Fecha</th>
-                    <th data-field="venta" data-sortable="true">Venta (USD)</th>
-                    <th data-field="hora" data-sortable="true">Hora</th>
-                    <th data-field="estado" data-sortable="true">Estado</th>
-                    <th data-field="efectivo" data-sortable="true">Efectivo</th>
-                    <th data-field="debito" data-sortable="true">Débito</th>
-                    <th data-field="credito" data-sortable="true">Deuda</th>
-                    <th data-field="costo" data-sortable="true">Costo</th>
-                    <th data-field="user" data-sortable="true">Usuario</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                @foreach($registros as $registro)
-                    <tr>
-                        <td rowspan="2">{{$registro['opening']->date}}</td>
-                        <td rowspan="2">{{number_format($registro['sale'],2)}}</td>
-                        <td>{{$registro['opening']->time}}</td>
-                        <td>
-                            @if($registro['opening']->state) Abierta
-                            @else Cerrada
-                            @endif
-                        </td>
-                        <td>{{$registro['opening']->cash}}</td>
-                        <td>{{$registro['opening']->debit}}</td>
-                        <td>{{$registro['opening']->debt}}</td>
-                        <td>{{$registro['opening']->cost}}</td>
-                        <td>{{$registro['opening']->account? $registro['opening']->account->name():'Sistema'}}</td>
-                    </tr>
-
-                    @if(isset($registro['closing']))
-                        <tr>
-                            <td>{{$registro['closing']->time}}</td>
-                            <td>
-                                @if($registro['closing']->state) Abierta
-                                @else Cerrada
-                                @endif
-                            </td>
-                            <td>{{$registro['closing']->cash}}</td>
-                            <td>{{$registro['closing']->debit}}</td>
-                            <td>{{$registro['closing']->debt}}</td>
-                            <td>{{$registro['closing']->cost}}</td>
-                            <td>{{$registro['closing']->account? $registro['closing']->account->name():'Sistema'}}</td>
-                        </tr>
-                    @else
-                        <tr>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                            <td>--</td>
-                        </tr>
-                    @endif
-                @endforeach
-                </tbody>
-
-            </table>
+            @include('sucursal.registry_detail')
             <div class="col-md-12" style="text-align: center">
                 {{ $registros->links() }}
             </div>
-
         </div>
     </div>
-
-    @endpermission
 
 @endsection
 
