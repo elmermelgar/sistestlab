@@ -9,5 +9,7 @@
         <li><a href="{{url('facturas/create/origen')}}">Nueva Factura
                 <br>(Centro de Origen)</a>
         </li>
+        <li><a href="{{url('presupuesto_rapido/edit')}}">Presupuesto Rápido</a>
+        </li>
     </ul>
 </li>

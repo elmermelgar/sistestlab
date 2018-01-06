@@ -163,7 +163,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -172,6 +171,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         JasperPHP\JasperPHPServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         //Notificaciones
         Jleon\LaravelPnotify\NotifyServiceProvider::class,
 
@@ -233,7 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Entrust' => Zizaco\Entrust\EntrustFacade::class,
         'Notify' => Jleon\LaravelPnotify\Notify::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
 

@@ -16,6 +16,15 @@
         </div>
     </div>
 
+    @if ($errors->any())
+        <ul class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            @endforeach
+            <li>{{ $error }}</li>
+        </ul>
+    @endif
+
     <!-- Carousel
     ================================================== -->
     <div id="carousel" class="carousel slide" data-ride="carousel">

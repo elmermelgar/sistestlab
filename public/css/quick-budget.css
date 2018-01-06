@@ -1,0 +1,37 @@
+h4, h5 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.quick-budget {
+    border-color: silver;
+}
+
+.quick-budget p {
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+.quick-budget .title {
+    border-bottom: solid;
+    padding-bottom: 10px;
+    border-color: silver;
+    margin-bottom: 10px
+}
+
+.quick-budget .title .col-xs-3 {
+    padding-left: 0;
+    padding-right: 0;
+    vertical-align: middle;
+}
+
+.quick-budget .title .col-xs-9 {
+    padding-left: 5px;
+}
+
+.quick-budget tfoot td {
+    padding-top: 10px !important;
+}
+
+.title img {
+    max-height: 100px;
+}

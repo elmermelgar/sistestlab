@@ -5,6 +5,23 @@
 @endsection
 
 @section('content')
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="{{ url('home')}}"><i class="fa fa-home"></i></a></li>
+            <li>Inventario</li>
+            <li>Existencias</li>
+        </ol>
+    </div>
+
+    @if ($errors->any())
+        <ul class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
     <div class="x_title">
         <h3 class="pull-left">Existencias de recursos
             {{--<a href="{{ route('activo.reactivo.edit') }}" title="Actualizar existencia" style="float: right">

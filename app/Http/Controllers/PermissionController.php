@@ -34,12 +34,12 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        if($permission=Permission::find($id)){
+        if ($permission = Permission::find($id)) {
             Notify::warning('Al modificarlo, la función de este permiso podría quedar fuera de contexto.',
                 'Se recomienda no modificar este permiso')->sticky();
-            return view('permission.edit',['permission'=>$permission]);
+            return view('permission.edit', ['permission' => $permission]);
         }
-        return response()->view('errors.404',[],404);
+        return response()->view('errors.404', [], 404);
     }
 
     /**
@@ -49,8 +49,8 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        if($permission=Permission::find($request->id)){
-            $permission->update($request->only(['display_name','description']));
+        if ($permission = Permission::find($request->id)) {
+            $permission->update($request->only(['display_name', 'description']));
         }
         return redirect('permisos');
     }

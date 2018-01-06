@@ -73,8 +73,9 @@ class RoleController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function delete(Request $request){
-        if($request->id&&$role=Role::find($request->id)){
+    public function delete(Request $request)
+    {
+        if ($request->id && $role = Role::find($request->id)) {
             $role->users()->sync([]); // Delete relationship data
             $role->perms()->sync([]); // Delete relationship data
             $role->forceDelete();

@@ -71,3 +71,9 @@ Route::group(['prefix' => 'search', 'middleware' => ['permission:facturar']], fu
     Route::get('patient', 'SearchController@searchPatient');
     Route::get('exam', 'SearchController@searchExam');
 });
+
+Route::group(['prefix' => 'presupuesto_rapido', 'middleware' => ['permission:presupuesto_rapido']], function () {
+    Route::get('show', 'QuickBudgetController@show')->name('presupuesto_rapido.show');
+    Route::get('edit', 'QuickBudgetController@edit')->name('presupuesto_rapido.edit');
+    Route::get('pdf', 'QuickBudgetController@pdf')->name('presupuesto_rapido.pdf');
+});

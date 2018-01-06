@@ -98,6 +98,11 @@ class PermissionSeeder extends Seeder
                 'name' => 'validar_examen',
                 'display_name' => 'Validar Examen',
                 'description' => 'Aprueba o deniega el resultado de un examen'
+            ],
+            [
+                'name' => 'presupuesto_rapido',
+                'display_name' => 'Presupuesto Rápido',
+                'description' => 'Crea e imprime presupuestos rápidos'
             ]
         ];
 
