@@ -99,8 +99,12 @@ class SucursalController extends Controller
     {
         if ($request->id && $sucursal = Sucursal::find($request->id)) {
             $sucursal->update($request->except(['id', '_token']));
+
         } else {
             $sucursal = Sucursal::create($request->except(['id', '_token']));
+        }
+        if ($request->hasFile('seal') && $request->file('seal')->isValid()) {
+            $this->sucursalService->storageSealSucursal($request->file('seal'), $sucursal);
         }
         Notify::success('Registro guardado correctamente');
         return redirect()->action('SucursalController@show', $sucursal->id);

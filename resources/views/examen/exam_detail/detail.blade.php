@@ -180,50 +180,72 @@
                     [<i class="fa fa-plus" aria-hidden="true"></i>] Nuevo Resultado
                 </a>
                 <div class="panel-body">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>Tipo</th>
-                            <th>Descripcion</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php $i = 0 ?>
-                        @foreach($grupos as $grupo)
-                            @foreach($details as $index => $detail)
-                                @if($grupo->id == $detail->grouping_id)
-                                    <tr>
-                                        <th scope="row"> <?php $i++ ?> {{ $i }}</th>
-                                        <td>{{ $detail->name_detail }}</td>
-                                        <td>{{ $detail->referenceType->display_name }}</td>
-                                        <td>{{ $detail->description }}</td>
-                                        <td>
-                                            <a href="{{url('examenes/'.$examen->id.'/edit_detail/'.$detail->id)}}"
-                                               class="btn btn-sm btn-warning">
-                                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                            </a>
+                    <?php $i = 0 ?>
+                    @foreach($grupos as $grupo)
+                            <div class="accordion" id="accordion{{ $grupo->id }}-2" role="tablist"
+                                 aria-multiselectable="true" >
+                                <div class="panel" >
 
-                                            <a href="{{url('examenes/'.$examen->id.'/delete_detail/'.$detail->id)}}"
-                                               class="btn btn-sm btn-danger">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </a>
-                                            @if($detail->referenceType->name == 'default')
-                                                <a href="{{url('examenes/'.$examen->id.'/reference_value/'.$detail->id)}}"
-                                                   class="btn btn-sm btn-success" title="Valores de Referencia">
-                                                    <i class="fa fa-sliders" aria-hidden="true"></i> Valores de
-                                                    Referencia
-                                                </a>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
+                                    <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse"
+                                       data-parent="#accordion{{ $grupo->id }}-2" href="#collapseOne{{ $grupo->id }}-2"
+                                       aria-expanded="false" aria-controls="collapseOne" style="background: #a1c0e4">
+                                        <h4 class="panel-title"><b>{{ $grupo->display_name }}</b></h4>
+
+                                    </a>
+                                    <div id="collapseOne{{ $grupo->id }}-2" class="panel-collapse collapse in"
+                                         role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr style="background: #a1c0e4">
+                                                    <th>#</th>
+                                                    <th>Nombre</th>
+                                                    <th>Tipo</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                @foreach($details as $index => $detail)
+                                                    @if($grupo->id == $detail->grouping_id)
+                                                        <tr>
+                                                            <th scope="row"> <?php $i++ ?> {{ $i }}</th>
+                                                            <td>{{ $detail->name_detail }}</td>
+                                                            <td>{{ $detail->referenceType->display_name }}</td>
+                                                            <td>{{ $detail->description }}</td>
+                                                            <td>
+                                                                <a href="{{url('examenes/'.$examen->id.'/edit_detail/'.$detail->id)}}"
+                                                                   class="btn btn-sm btn-warning">
+                                                                    <i class="fa fa-edit" aria-hidden="true"></i>
+                                                                </a>
+
+                                                                <a href="{{url('examenes/'.$examen->id.'/delete_detail/'.$detail->id)}}"
+                                                                   class="btn btn-sm btn-danger">
+                                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                </a>
+                                                                @if($detail->referenceType->name == 'default')
+                                                                    <a href="{{url('examenes/'.$examen->id.'/reference_value/'.$detail->id)}}"
+                                                                       class="btn btn-sm btn-success" title="Valores de Referencia">
+                                                                        <i class="fa fa-sliders" aria-hidden="true"></i> Valores de
+                                                                        Referencia
+                                                                    </a>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
                         @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
 

@@ -19,6 +19,7 @@ class CreateSucursalesTable extends Migration
             $table->string('display_name');
             $table->string('direccion');
             $table->string('telefono', 8)->nullable();
+            $table->string('seal')->nullable();
             $table->integer('imagen_id')->nullable();
             $table->foreign('imagen_id')->references('id')->on('imagenes');
             $table->timestamps();

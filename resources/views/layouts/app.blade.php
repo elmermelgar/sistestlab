@@ -78,11 +78,13 @@
                         <h3>General</h3>
                         <ul class="nav side-menu">
                             <li><a href="{{url('home')}}"><i class="fa fa-home"></i>Inicio</a></li>
-                            @include('menu.transacciones')
-                            @include('menu.boletas')
-                            @include('menu.facturas')
-                            {{--<li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>--}}
-                            @include('menu.laboratorio')
+                            @if(Auth::user()->hasRole('admin'))
+                                @include('menu.transacciones')
+                                @include('menu.boletas')
+                                @include('menu.facturas')
+                                {{--<li><a href="{{url('sucursal')}}"><i class="fa fa-institution"></i>Sucursal</a></li>--}}
+                                @include('menu.laboratorio')
+                            @endif
                         </ul>
                     </div>
                     <div class="menu_section">

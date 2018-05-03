@@ -12,11 +12,14 @@
         {{--<p>TEL: (503) {{ $sucursal->telefono}} - CORREO ELECTRÓNICO:{{ $sucursal->email}} </p>--}}
     {{--</div>--}}
     <div class="col-sm-12" id="logo_boleta"
-         style="margin-top: -3px; text-align: center; ">
-        <div class="col-sm-4"></div>
-        <div class="col-sm-4"><img class="img-responsive avatar-view" alt="Boleta" title="Testlab" style="max-height: 60px; margin: auto"
-                                   src="{{url('/storage/images/'. 'testlab.png')}}"></div>
-        <div class="col-sm-4"></div>
+         style="margin-top: -30px; text-align: center; ">
+
+        <div style="margin-left: 30%">
+            <img class="img-responsive avatar-view" alt="Boleta" title="Testlab" style="max-height: 80px; margin: auto"
+                                   src="{{public_path().'/storage/images/'.Auth::user()->account->sucursal->imagen->file_name}}">
+        </div>
+
+        <br><br><br>
 
     </div>
     <div class="col-sm-12" style="text-align: center"><h3 style="font-size: 14px" id="test">INFORME DE RESULTADOS DE LABORATORIO

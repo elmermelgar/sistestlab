@@ -20,11 +20,6 @@ class EstadoSeeder extends Seeder
                 'tipo' => 'activo',
             ],
             [
-                'name' => 'activo',
-                'display_name' => 'Activo',
-                'tipo' => 'examen',
-            ],
-            [
                 'name' => 'habilitado',
                 'display_name' => 'Habilitado',
                 'tipo' => 'examen',

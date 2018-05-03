@@ -140,9 +140,11 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="select2_estado form-control" name="estado_id" tabindex="-1">
                                 @foreach($estados as $estado)
+                                    @if($estado->tipo=='examen')
                                     <option value="{{$estado->id}}"
                                             @if($examen? $examen->estado_id==$estado->id:null) selected @endif
                                     >{{$estado->display_name}}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

@@ -76,9 +76,22 @@ class AntibioticosController extends Controller
         Notify::success('El antibiótico se guardo correctamente');
         return redirect()->action('AntibioticosController@index');
     }
+    /**
+     * Guarda los antibioticos agregados en el examen.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeantibiotico(Request $request)
+    {
+        $registro = Register_antibiotico::create($request->all());
+        Notify::success('Guardado correctamente', 'Exito!!');
+
+        return back();
+        }
 
     /**
-     * Display the specified resource.
+     * Elimina los antibioticos agregados a un examen.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -115,14 +128,14 @@ class AntibioticosController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina los antibioticos agregados a un examen.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Antibiotico::destroy($id);
+        Register_antibiotico::destroy($id);
         Notify::warning('Registro eliminado correctamente', 'Eliminado!!');
         return back();
     }

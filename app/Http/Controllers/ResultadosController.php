@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Barryvdh\DomPDF\PDF;
 use Jleon\LaravelPnotify\Notify;
 use Carbon\Carbon;
 use App\Services\InventarioService;
@@ -163,7 +164,7 @@ class ResultadosController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param  int $id_ex, $id_xp
      * @return \Illuminate\Http\Response
      */
     public function ticket($id_ex, $id_xp)
@@ -205,13 +206,50 @@ class ResultadosController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Función para imprimir la boleta.
      *
-     * @param  int $id
+     * @param  int $id_ex, $id_xp
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function print1($id_ex, $id_xp)
     {
-        //
+        $vistaurl = "boleta.index";
+        $sucursal = Auth::user()->account->sucursal;
+        $examen = Exam::find($id_ex);
+        $details = Exam_detail::all();
+        $proto_types = Protozoarios::all();
+        $proto_nin = Protozoarios::where('name', 'Ninguno')->first();
+        $sperm_types = Spermogram::all();
+        $antibioticos = Antibiotico::all();
+        $antibiotico_types = Antibiotico_type::all();
+        $sperm_nin = Spermogram::where('name', 'Ninguno')->first();
+        $registro_antibioticos = Register_antibiotico::where('examen_paciente_id', $id_xp)->get();
+        $examen_paciente = ExamenPaciente::find($id_xp);
+        $groupings = Grouping::where(['exam_id' => $id_ex])->get();
+
+
+
+//        $view= \View::make($vistaurl,compact('sucursal','examen','details','proto_types','proto_nin','sperm_types','sperm_nin','antibioticos','antibiotico_types','registro_antibioticos','examen_paciente','groupings'))->render();
+//        $pdf= \App::make('dompdf.wrapper');
+//        $pdf->loadHTML($view);
+//        $pdf = PDF::loadView('boleta.index', $sucursal,$examen,$details,$proto_types,$proto_nin,$sperm_types,$antibioticos,$antibiotico_types,$sperm_nin,$registro_antibioticos,$examen_paciente,$groupings);
+//        $pdf = \PDF::loadView('boleta.index', [
+//            'sucursal' => Auth::user()->account->sucursal,
+//            'examen' => Exam::find($id_ex),
+//            'details' => Exam_detail::all(),
+//            'proto_types' => Protozoarios::all(),
+//            'proto_nin' => Protozoarios::where('name', 'Ninguno')->first(),
+//            'sperm_types' => Spermogram::all(),
+//            'antibioticos' => Antibiotico::all(),
+//            'antibiotico_types' => Antibiotico_type::all(),
+//            'sperm_nin' => Spermogram::where('name', 'Ninguno')->first(),
+//            'registro_antibioticos' => Register_antibiotico::where('examen_paciente_id', $id_xp)->get(),
+//            'examen_paciente' => ExamenPaciente::find($id_xp),
+//            'groupings' => Grouping::where(['exam_id' => $id_ex])->get()
+//        ]);
+        $pdf = \PDF::loadView('boleta.intento',['examen_paciente' => $examen_paciente, 'examen' =>$examen,'groupings' =>$groupings, 'details' => $details, 'proto_types'=>$proto_types, 'registro_antibioticos'=>$registro_antibioticos, 'sperm_types'=>$sperm_types]);
+        return $pdf->stream('reporte.pdf');
+
+//        return $pdf->download('reporte');
     }
 }

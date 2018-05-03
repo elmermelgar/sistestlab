@@ -40,6 +40,19 @@
                              @else
                              {{url('storage/images/'.\App\Imagen::getDefaultImage()->file_name)}}
                              @endif">
+                        <hr>
+                        <div class="profile_img">
+                            <div id="crop-seal">
+                                <!-- Current avatar -->
+                                <img class="img-responsive seal-view" alt="Sello" title="Sello" style="max-height: 200px"
+                                     src="
+                            @if($sucursal->seal)
+                                     {{url('/storage/seals/'.$sucursal->seal)}}
+                                     @else
+                                     {{url('/storage/seals/'. 'seal.png')}}
+                                     @endif ">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-sm-7 col-xs-12">
@@ -65,7 +78,7 @@
                         <a class="btn btn-primary" href="{{url('sucursales/'.$sucursal->id.'/edit')}}">
                             <i class="fa fa-edit m-right-xs"></i> Editar Sucursal</a>
                         <a class="btn btn-info" href="{{url('sucursales/'.$sucursal->id.'/image')}}">
-                            <i class="fa fa-image m-right-xs"></i> Cambiar Imágen</a>
+                            <i class="fa fa-image m-right-xs"></i> Cambiar Logo</a>
                         @endpermission
                     </div>
 

@@ -22,7 +22,6 @@ class CreateAccountsTable extends Migration
             $table->char('phone_number', 8);
             $table->string('address')->nullable();
             $table->string('photo')->nullable();
-            $table->string('signature')->nullable();
             $table->string('seal')->nullable();
             $table->string('comment')->nullable();
             $table->foreign('sucursal_id')->references('id')->on('sucursales');

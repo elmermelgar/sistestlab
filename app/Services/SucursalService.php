@@ -4,8 +4,11 @@ namespace App\Services;
 
 
 use App\BoxRegistry;
+use App\Sucursal;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class SucursalService
 {
@@ -19,6 +22,13 @@ class SucursalService
      * Constante para el estado de caja abierta
      */
     const OPEN = 1;
+
+    /**
+     * Ruta donde se almacenan los sellos, relativo al directorio de almacenamiento publico
+     * /storage/app/public/
+     * @var string
+     */
+    private $sealPath = 'seals';
 
     /**
      * Verifica si la caja de una sucursal esta abierta
@@ -184,6 +194,21 @@ class SucursalService
             $closing->time = Carbon::now()->toTimeString();
         }
         return $closing;
+    }
+
+    /**
+     * Almacena la imagen del sello como un archivo imagen
+     * @param UploadedFile $file
+     * @param Sucursal $sucursal
+     */
+    public function storageSealSucursal(UploadedFile $file, Sucursal $sucursal)
+    {
+        $extension = $file->getClientOriginalExtension();
+        $filename = 'sello-sucursal-' . $sucursal->name . '-' . Carbon::now()->format('YmdHis') . '.' . $extension;
+        Storage::disk('public')->putFileAs($this->sealPath, $file, $filename);
+        $sucursal->seal ? Storage::disk('public')->delete($this->sealPath . '/' . $sucursal->seal) : null;
+        $sucursal->seal = $filename;
+        $sucursal->save();
     }
 
 }

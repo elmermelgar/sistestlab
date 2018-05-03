@@ -135,6 +135,14 @@
                                                        value="@if($result){{$result->observation}}@endif"
                                                        class="form-control"
                                                        placeholder="Observación">
+
+                                                    {{--@if($detail->referenceType->name == 'espermograma')--}}
+                                                        {{--@php(dump($result->out_range))--}}
+                                                        {{--<div class="col-md-3 col-sm-6 col-xs-12 form-group has-feedback">--}}
+                                                  <input type="hidden" id="out_range_{{$loop->iteration}}x"
+                                                                   name="out_range[]" value="0">
+                                                        {{--</div>--}}
+                                                    {{--@endif--}}
                                             @endif
                                         @endforeach
                                     @else
@@ -168,6 +176,14 @@
                                                        name="out_range[]" value="0">
                                             </div>
                                         @endif
+                                            @if($detail->referenceType->name == 'ninguno')
+                                                {{--@php(dump($result->out_range))--}}
+                                                <div>
+                                                    <input type="hidden" id="out_range_{{$loop->iteration}}x"
+                                                           name="out_range[]" value="0">
+                                                </div>
+                                            @endif
+
                                     @endif
 
                                 </div>

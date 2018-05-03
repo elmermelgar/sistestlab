@@ -106,7 +106,7 @@ class ExamController extends Controller
             $examen->profiles()->attach($profile);
 
             $group = new Grouping();
-            $group->name = 'sin_agrupamiento';
+            $group->name = 'default';
             $group->display_name = 'Sin Agrupamiento';
             $group->exam_id = $examen->id;
             $group->save();
