@@ -87,7 +87,7 @@ class ReportController extends Controller
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
             'subreport' => $subreport_compiled_file,
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -125,7 +125,7 @@ class ReportController extends Controller
             'customer_id' => $request->customer_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -167,7 +167,7 @@ class ReportController extends Controller
             'profile_id' => $request->profile_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -209,7 +209,7 @@ class ReportController extends Controller
             'profile_id' => $request->profile_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -245,7 +245,7 @@ class ReportController extends Controller
             'sucursal_id' => $request->sucursal_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -281,7 +281,7 @@ class ReportController extends Controller
             'sucursal_id' => $request->sucursal_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -317,7 +317,7 @@ class ReportController extends Controller
             'sucursal_id' => $request->sucursal_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -353,7 +353,7 @@ class ReportController extends Controller
             'sucursal_id' => $request->sucursal_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -389,7 +389,7 @@ class ReportController extends Controller
             'sucursal_id' => $request->sucursal_id,
             'fecha_inicio' => Carbon::createFromFormat('d/m/Y', $request->fecha_inicio)->toDateString(),
             'fecha_fin' => Carbon::createFromFormat('d/m/Y', $request->fecha_fin)->toDateString(),
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -421,7 +421,7 @@ class ReportController extends Controller
 
         $parameters = [
             'sucursal_id' => $request->sucursal_id,
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -453,7 +453,7 @@ class ReportController extends Controller
 
         $parameters = [
             'sucursal_id' => $request->sucursal_id,
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -480,7 +480,7 @@ class ReportController extends Controller
         $output_file = $this->report_path . $file_name;
 
         $parameters = [
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -513,7 +513,7 @@ class ReportController extends Controller
 
         $parameters = [
             'sucursal_id' => $request->sucursal_id,
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);
@@ -536,7 +536,7 @@ class ReportController extends Controller
 
         $parameters = [
             'factura_id' => $request->factura_id,
-            'LoggedInUsername' => '"' . \Auth::user()->name . '"',
+            'LoggedInUsername' => \Auth::user()->name,
         ];
 
         return $this->process($compiled_file, $output_file, $parameters, $file_name);

@@ -24,7 +24,7 @@ class CreateExamsTable extends Migration
             $table->decimal('material_directo', 8, 2)->default(0);
             $table->decimal('mano_obra', 8, 2)->default(0);
             $table->decimal('cif', 8, 2)->default(0);
-            $table->string('observation');
+            $table->string('observation', 500)->nullable();
             $table->timestamps();
             $table->foreign('sample_id')->references('id')->on('samples');
             $table->foreign('exam_category_id')->references('id')->on('exam_categories');

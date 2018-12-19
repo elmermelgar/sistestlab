@@ -42,10 +42,10 @@
                 {{csrf_field()}}
 
                 {{--<div class="col-md-3 col-sm-3 col-xs-12 profile_left">--}}
-                    {{--<div class="profile_img">--}}
-                        {{--<input type="hidden" id="id" name="sucursal_id" class="form-control" placeholder="ID"--}}
-                               {{--value="{{ $sucursal->id }}" >--}}
-                    {{--</div>--}}
+                {{--<div class="profile_img">--}}
+                {{--<input type="hidden" id="id" name="sucursal_id" class="form-control" placeholder="ID"--}}
+                {{--value="{{ $sucursal->id }}" >--}}
+                {{--</div>--}}
                 {{--</div>--}}
                 <div class="col-md-9 col-sm-9 col-xs-12">
                     <div class="form-group hidden">
@@ -81,8 +81,8 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="number" step="any"  id="precio" name="precio" class="form-control" placeholder="Precio"
-                                   value="{{$examen? $examen->precio:old('precio')}}" required >
+                            <input type="number" step="any" id="precio" name="precio" class="form-control" placeholder="Precio"
+                                   value="{{$examen? $examen->precio:old('precio')}}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -91,30 +91,32 @@
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             {{--<input id="observation" name="observation" class="form-control" placeholder="Descripción"--}}
-                                   {{--value="{{$examen? $examen->observation:old('observation')}}">--}}
-                            <textarea id="observation" name="observation" class="form-control" placeholder="Descripción">{{$examen? $examen->observation:old('observation')}}</textarea>
+                            {{--value="{{$examen? $examen->observation:old('observation')}}">--}}
+                            <textarea id="observation" name="observation" class="form-control" placeholder="Descripción"
+                                      maxlength="500">{{$examen? $examen->observation:old('observation')}}</textarea>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="material_directo" class="control-label col-md-3 col-sm-3 col-xs-12"> Material directo</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="number" step="any"  id="material_directo" name="material_directo" class="form-control" placeholder="Material directo"
-                                   value="{{$examen? $examen->material_directo:old('material_directo')}}" required>
+                            <input type="number" step="any" id="material_directo" name="material_directo" class="form-control"
+                                   placeholder="Material directo" required
+                                   value="{{$examen? $examen->material_directo:old('material_directo')}}">
                         </div>
                     </div>
 
                     <div class="form-group" id="div_nombre">
                         <label for="mano_obra" class="control-label col-md-3 col-sm-3 col-xs-12"> Mano de obra</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="number" step="any"  id="mano_obra" name="mano_obra" class="form-control" placeholder="Mano de obra"
+                            <input type="number" step="any" id="mano_obra" name="mano_obra" class="form-control" placeholder="Mano de obra"
                                    value="{{$examen? $examen->mano_obra:old('mano_obra')}}" required>
                         </div>
                     </div>
                     <div class="form-group" id="div_apellido">
                         <label for="cif" class="control-label col-md-3 col-sm-3 col-xs-12"> CIF</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="number" step="any"  id="cif" name="cif" class="form-control" placeholder="Costos Indirectos de fabricación"
+                            <input type="number" step="any" id="cif" name="cif" class="form-control" placeholder="Costos Indirectos de fabricación"
                                    value="{{$examen? $examen->cif:old('cif')}}" required>
                         </div>
                     </div>
@@ -124,17 +126,17 @@
                             <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select id="sample" name="sample_id" class="form-control" required >
+                            <select id="sample" name="sample_id" class="form-control" required>
                                 @foreach($samples as $sample)
-                                <option value="{{$sample->id}}"
-                                        @if($examen? $examen->sample_id==$sample->id:null) selected @endif>{{$sample->display_name}}
-                                </option>
+                                    <option value="{{$sample->id}}"
+                                            @if($examen? $examen->sample_id==$sample->id:null) selected @endif>{{$sample->display_name}}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" > Estado:
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado:
                         </label>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -150,7 +152,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" > Categoría:
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoría:
                         </label>
 
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -158,7 +160,7 @@
                                 @foreach($categories as $category)
                                     <option value="{{$category->id}}"
                                             @if($examen? $examen->exam_category_id==$category->id:null) selected @endif
-                                            >{{$category->name}}</option>
+                                    >{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
